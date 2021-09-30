@@ -11,7 +11,8 @@ def init_msg_log(params):
 	async def on_message(message):
 		try:
 			blocked = [
-				'dlscordnitro.info', 'discordnitro.info', 'dlscord-nitro.link', 'discord-airdrop.com'
+				'dlscord', 'discordnitro',
+				'discord-airdrop', 'discocrd-nitro'
 			]
 			excludedCategories = [
 				categories['system-corner']
@@ -37,12 +38,18 @@ def init_msg_log(params):
 						users['teabottest'],
 					]
 				if (author.id not in excludedIDs):
-					attachmentsUrls = ''
+					attachmentsUrls = '\n__Attachments__\n'
 					for attch in message.attachments:
-						attachmentsUrls += f'{attch.url}\n'			
+						attachmentsUrls += f'{attch.url}\n'
+					
+					embedsUrls = '\n__Embeds__\n'
+					for attch in message.embeds:
+						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+
 					channel = client.get_channel(textChannels['log-channel'])
 					msgContent = "--Sticker--" if (message.content == "") else message.content
 					msgContent += attachmentsUrls
+					msgContent += embedsUrls
 					await channel.send(f'DM/ {author} - {author.mention} : {msgContent}')
 		except Exception as ex:
 			print('----- on_message -----')
@@ -81,9 +88,13 @@ def init_msg_log(params):
 			]
 			logChannelActivity = client.get_channel(textChannels['log-channel'])
 
-			attachmentsUrls = ''
+			attachmentsUrls = '\n__Attachments__\n'
 			for attch in message.attachments:
 				attachmentsUrls += f'{attch.url}\n'
+
+			embedsUrls = '\n__Embeds__\n'
+			for attch in message.embeds:
+				embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 
 			messageAuthorId = message.author.id
 			if messageAuthorId not in excludedAuthors:
@@ -91,6 +102,7 @@ def init_msg_log(params):
 				msg += f'\n📅 {message.created_at} ➡ {message.edited_at}'
 				msg += f'\n"*{message.content}*"'
 				msg += attachmentsUrls
+				msg += embedsUrls
 				await logChannelActivity.send(msg)
 		except Exception as ex:
 			print('----- logDeletedMessage -----')
@@ -111,9 +123,13 @@ def init_msg_log(params):
 			if (before.content.lower() == after.content.lower()):
 				return
 
-			attachmentsUrls = ''
+			attachmentsUrls = '\n__Attachments__\n'
 			for attch in before.attachments:
 				attachmentsUrls += f'{attch.url}\n'
+
+			embedsUrls = '\n__Embeds__\n'
+			for attch in before.embeds:
+				embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 
 			messageAuthorId = before.author.id
 			if messageAuthorId not in excludedAuthors:
@@ -121,6 +137,7 @@ def init_msg_log(params):
 				msg += f'\n📅 {after.created_at} ➡ {after.edited_at}'
 				msg += f'\n"*{before.content}*" \nto\n"*{after.content}*"'
 				msg += attachmentsUrls
+				msg += embedsUrls
 				await logChannelActivity.send(msg)
 		except Exception as ex:
 			print('----- logEditedMessage -----')

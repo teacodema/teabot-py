@@ -19,8 +19,8 @@ def init_msg_activity(params):
 
 
 	######################## BULK MSG DELETION ########################
-	@slash.slash(name="clearall", description="Clear all messages", guild_ids=[guildId])
-	async def clearall(ctx):
+	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId])
+	async def purge(ctx):
 		try:
 
 			if not is_founders(ctx):
@@ -41,7 +41,7 @@ def init_msg_activity(params):
 			# time.sleep(2)
 			await deleteMsg(ctx, MAX_TO_DELETE)
 		except Exception as ex:
-			print('----- /clearall -----')
+			print('----- /purge -----')
 			print(ex)
 
 	async def deleteMsg(ctx, limit):
@@ -53,13 +53,25 @@ def init_msg_activity(params):
 			if (deletedMsgs > 0):
 				return await deleteMsg(ctx, limit)
 			else:
+				count = len(purgedMsgs)
+				purgedMsgs.reverse()
 				logMsgsChannel = client.get_channel(textChannels['log-msg'])
-				headerMsg = f"----------❌ **ClearAll() | {ctx.channel.mention}** ❌----------------------------------------"
+				headerMsg = f"----------❌ **purge({count}) | {ctx.channel.mention}** ❌----------------------------------------"
 				await logMsgsChannel.send(headerMsg)
 				for m in purgedMsgs:
+
+					attachmentsUrls = '\n__Attachments__\n'
+					for attch in m.attachments:
+						attachmentsUrls += f'{attch.url}\n'
+					embedsUrls = '\n__Embeds__\n'
+					for attch in m.embeds:
+						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+
 					msg = f'💢 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
 					msg += f'\n"*{m.content}*"'
+					msg += attachmentsUrls
+					msg += embedsUrls
 					msg += f'\n----------------------------------------------'
 					await logMsgsChannel.send(msg)
 				purgedMsgs = []
@@ -87,13 +99,24 @@ def init_msg_activity(params):
 				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', delete_after = 2)
 
 				count = len(deletedMsgs)
+				deletedMsgs.reverse()
 				logMsgsChannel = client.get_channel(textChannels['log-msg'])
 				headerMsg = f"----------❌ **Clear({count}) | {ctx.channel.mention}** ❌----------------------------------------"
 				await logMsgsChannel.send(headerMsg)
 				for m in deletedMsgs:
+
+					attachmentsUrls = '\n__Attachments__\n'
+					for attch in m.attachments:
+						attachmentsUrls += f'{attch.url}\n'
+					embedsUrls = '\n__Embeds__\n'
+					for attch in m.embeds:
+						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+
 					msg = f'💢 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
 					msg += f'\n"*{m.content}*"'
+					msg += attachmentsUrls
+					msg += embedsUrls
 					msg += f'\n----------------------------------------------'
 					await logMsgsChannel.send(msg)
 				
