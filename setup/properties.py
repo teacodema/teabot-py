@@ -27,6 +27,7 @@ categories = {
 	'staff-corner':				810187882153115648,
 	'moderators-corner':	888006050018627614,
 
+	'private-corner': 		891123068964077608,
 	'lab-corner': 				885273061941706802,
 	'system-corner': 			794057030180405270,
 }

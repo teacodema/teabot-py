@@ -17,6 +17,7 @@ def init_server_data(params):
 			excludedCategories = [
 				categories['staff-corner'],
 				categories['moderators-corner'],
+				categories['private-corner'],
 				categories['lab-corner'],
 				categories['system-corner'],
 			]
