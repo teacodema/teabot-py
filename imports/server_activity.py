@@ -102,10 +102,11 @@ async def welcomeMember(member):
 		
 		message += "\n\nFollow the steps to **know** the rules & **see** the hidden rooms :warning:"
 		message += "\nIf you're **new** to discord check this video https://teacode.ma/about :bangbang:"
+		message += "\nDon't forget to **invite** your friends who could be interested :speech_left:"
 
 
 		message += "\n\n**0┊Activate your membership**"
-		message += f"\n   **・**Read & React to the <#{textChannels['rules']}> to be a verified **@Members**."
+		message += f"\n   **・**Read & React to the <#{textChannels['rules']}> to be a verified __**@Members**__."
 
 		message += "\n\n**1┊Go to**"
 		message += f"\n   **・**<#{textChannels['get-roles']}> and react to get your skills roles."
@@ -113,7 +114,7 @@ async def welcomeMember(member):
 		message += f"\n   **・**<#{textChannels['introduce-yourself']}> if you want to Introduce yourself . (First name, age, school .... etc)."
 
 		message += "\n\n**2┊Need Help ?**"
-		message += f"\n   **・**Ask the **@Moderators**/**@Staff** guys here <#{textChannels['ask-staff']}> if you need help with the server."
+		message += f"\n   **・**Ask the __**@Moderators**__/__**@Staff**__ guys here <#{textChannels['ask-staff']}> if you need help with the server."
 
 		message += "\n\n**3┊Links**"
 		message += "\n   **・**Website : <https://teacode.ma>"
