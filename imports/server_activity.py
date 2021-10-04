@@ -36,25 +36,28 @@ def init_server_activity(params):
 	async def on_member_join(member):
 
 		try:
+			message = await welcomeMember(member)
 			if (member.bot == False):
-				message = await welcomeMember(member)
-				msg = 'Human'
+				memberType = 'Human'
 			else:
-				msg = 'Bot'
+				memberType = 'Bot'
 			channel = client.get_channel(textChannels['log-server'])
 			if (message == -1):
-				await channel.send(f'❗ DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({msg})**')
+				await channel.send(f'❗ DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({memberType})**')
 			else:
-				await channel.send(f'📨 DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({msg})**')
+				await channel.send(f'📨 DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({memberType})**')
 			await updateMembersCount(member, client, True)
 		except Exception as ex:
 			print('----- on_member_join -----')
 			print(ex)
 		try:
 			await validateMemeber(member, roles['new-members'], client, get)
-			time.sleep(30)
+			time.sleep(120)
 			await validateMemeber(member, roles['members'], client, get)
-			await validateMemeber(member, roles['skills'], client, get)
+			await validateMemeber(member, roles['techs'], client, get)
+			await validateMemeber(member, roles['tools'], client, get)
+			await validateMemeber(member, roles['jobs'], client, get)
+			await validateMemeber(member, roles['interests'], client, get)
 		except Exception as ex:
 			print('----- on_member_join -----')
 			print(ex)
@@ -73,7 +76,7 @@ def init_server_activity(params):
 	@slash.slash(name="welcome", guild_ids=[guildId])
 	async def welcome(ctx, member: discord.Member):
 		try:
-
+			logCount = True
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
 				return
@@ -82,15 +85,17 @@ def init_server_activity(params):
 			
 			message = await welcomeMember(member)
 			
-			channel = client.get_channel(textChannels['log-channel'])
+			channel = client.get_channel(textChannels['log-server'])
 			if (message == -1):
 				await channel.send(f'❗ DM/ Welcome Message --> Member: **{member.name}#{member.discriminator}**')
 			else:
 				await channel.send(f'📨 DM/ Welcome Message --> Member: **{member.name}#{member.discriminator}**')
+			
+			if logCount:
+				await updateMembersCount(member, client, True)
 		except Exception as ex:
 			print('----- /welcome -----')
 			print(ex)
-
 
 async def welcomeMember(member):
 
@@ -104,10 +109,9 @@ async def welcomeMember(member):
 		message += "\nIf you're **new** to discord check this video https://teacode.ma/about :bangbang:"
 		message += "\nDon't forget to **invite** your friends who could be interested :speech_left:"
 
-
 		message += "\n\n**0┊Activate your membership**"
 		message += f"\n   **・**Read & React to the <#{textChannels['rules']}> to be a verified __**@Members**__."
-
+		
 		message += "\n\n**1┊Go to**"
 		message += f"\n   **・**<#{textChannels['get-roles']}> and react to get your skills roles."
 		message += f"\n   **・**<#{textChannels['faqs']}> where you can find answers to common questions about the server."
@@ -155,9 +159,9 @@ async def updateMembersCount(member, client, join = True):
 
 		logServerActivity = client.get_channel(textChannels['log-server'])
 		if (join):
-			await logServerActivity.send(f':green_square: **{membersCount}** - {member.mention} | *{member.name}#{member.discriminator}* | **{member.display_name}** join **TeaCode**')
+			await logServerActivity.send(f':green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**')
 		else:
-			await logServerActivity.send(f':red_square: **{membersCount}** - {member.mention} | *{member.name}#{member.discriminator}* | **{member.display_name}** left **TeaCode**')
+			await logServerActivity.send(f':red_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) left **TeaCode**')
 	except Exception as ex:
 		print('----- updateMembersCount -----')
 		print(ex)
