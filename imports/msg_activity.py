@@ -44,9 +44,12 @@ def init_msg_activity(params):
 			print('----- /purge -----')
 			print(ex)
 
+	def isNotPinned(msg):
+		return not msg.pinned
+
 	async def deleteMsg(ctx, limit):
 		try:
-			deletedMsgs = await ctx.channel.purge(limit = limit)
+			deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned)
 			nonlocal purgedMsgs
 			purgedMsgs += deletedMsgs
 			deletedMsgs = len(deletedMsgs)
@@ -95,7 +98,7 @@ def init_msg_activity(params):
 				return
 			else:
 				await ctx.send('Clearing messages ...', delete_after = 2)
-				deletedMsgs = await ctx.channel.purge(limit = number + 1)
+				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
 				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', delete_after = 2)
 
 				count = len(deletedMsgs)
