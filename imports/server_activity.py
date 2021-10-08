@@ -48,8 +48,17 @@ def init_server_activity(params):
 				await channel.send(f'📨 DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({memberType})**')
 			await updateMembersCount(member, client, True)
 		except Exception as ex:
-			print('----- on_member_join -----')
+			print('----- on_member_join 1-----')
 			print(ex)
+	
+		try:
+			webhook = await channel.create_webhook(name=member.name)
+			await webhook.send(f'Hi I\'m {member.display_name}', username=member.name, avatar_url=member.avatar_url)
+			await webhook.delete()
+		except Exception as ex:
+			print('----- on_member_join 3-----')
+			print(ex)
+
 		try:
 			await validateMemeber(member, roles['new-members'], client, get)
 			time.sleep(120)
@@ -59,9 +68,9 @@ def init_server_activity(params):
 			await validateMemeber(member, roles['jobs'], client, get)
 			await validateMemeber(member, roles['interests'], client, get)
 		except Exception as ex:
-			print('----- on_member_join -----')
+			print('----- on_member_join 2-----')
 			print(ex)
-
+		
 
 	######################## REMOVE MEMBER ########################
 	@client.event
