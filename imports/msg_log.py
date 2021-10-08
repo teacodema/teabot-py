@@ -11,7 +11,7 @@ def init_msg_log(params):
 	async def on_message(message):
 		try:
 			blocked = [
-				'dlscord', 'discordnitro',
+				'dlscord', 'discordnitro', 'discordglfts',
 				'discord-airdrop', 'discocrd-nitro'
 			]
 			excludedCategories = [
