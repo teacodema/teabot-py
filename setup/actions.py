@@ -1,4 +1,6 @@
+from datetime import datetime
 from setup.properties import *
+
 
 def is_authorised(roleIds, authorizedRoles):
 	roleExists = [value for value in authorizedRoles if value in roleIds]
@@ -9,3 +11,20 @@ def is_founders(ctx):
 	authorizedRoles = [roles['founders']]
 
 	return is_authorised(roleIds, authorizedRoles)
+
+
+async def checkNewMemberRole(client, get):
+	try:
+		guild = client.get_guild(guildId)
+		role = get(guild.roles, id = roles['new-members'])
+		updated = []
+		for member in role.members:
+			diff = datetime.now() - member.joined_at
+			if diff.days >= newMembershipPeriode:
+				updated.append(member.mention)
+				await member.remove_roles(role)
+		return updated
+	except Exception as ex:
+		print('----- checkNewMemberRole -----')
+		print(ex)
+		return -1

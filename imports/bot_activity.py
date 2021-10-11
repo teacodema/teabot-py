@@ -6,6 +6,7 @@ def init_bot_activity(params):
 	client = params['client']
 	discord = params['discord']
 	slash = params['slash']
+	get = params['get']
 
 	states = ["online", "dnd", "idle", "offline"]
 	discord_states = [
