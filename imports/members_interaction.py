@@ -7,6 +7,7 @@ def init_members_interaction(params):
 	slash = params['slash']
 	discord = params['discord']
 
+	######################## SEND MSG TO CHANNEL ########################
 	@slash.slash(name = "msg_channel", guild_ids=[guildId])
 	async def msg_channel(ctx, message, channel: discord.TextChannel):
 		try:
@@ -22,10 +23,10 @@ def init_members_interaction(params):
 			print('----- /dm -----')
 			print(ex)
 
+	######################## SEND MSG TO MEMBER ########################
 	@slash.slash(name = "dm", description = "Send direct message to a member",guild_ids=[guildId])
 	async def dm(ctx, message, member: discord.Member = None, role: discord.Role = None):
 		try:
-			
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
 				return

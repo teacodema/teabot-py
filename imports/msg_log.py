@@ -5,8 +5,8 @@ from setup.actions import *
 def init_msg_log(params):
 	
 	client = params['client']
-	
 
+	######################## ON MESSAGE ########################
 	@client.event
 	async def on_message(message):
 		try:
@@ -56,7 +56,7 @@ def init_msg_log(params):
 			print(ex)
 
 
-	
+	######################## ON MESSAGE DELETE ########################
 	@client.event
 	async def on_message_delete(message):
 		try:
@@ -66,7 +66,7 @@ def init_msg_log(params):
 			print(ex)
 
 
-
+	######################## ON MESSAGE EDIT ########################
 	@client.event
 	async def on_message_edit(before, after):
 		try:

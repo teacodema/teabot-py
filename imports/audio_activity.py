@@ -14,7 +14,7 @@ def init_audio_activity(params):
 	ydl_opts = {'format': 'bestaudio/best'}
 	FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
-	# @client.command(pass_context=True)
+	######################## PLAY ########################
 	@slash.slash(name = "play", description = "Play a Youtube url", guild_ids = [guildId])
 	async def play(ctx, url):
 
@@ -58,7 +58,7 @@ def init_audio_activity(params):
 			print('----- /play -----')
 			print(ex)
 
-	# @client.command(pass_context=True)
+	######################## PAUSE ########################
 	@slash.slash(name = "pause", description = "Pause current playing audio", guild_ids = [guildId])
 	async def pause(ctx):
 		try:
@@ -72,7 +72,7 @@ def init_audio_activity(params):
 			print('----- /pause -----')
 			print(ex)
 			
-	# @client.command(pass_context=True)
+	######################## RESUME ########################
 	@slash.slash(name = "resume", description = "Resume current playing audio", guild_ids = [guildId])
 	async def resume(ctx):
 		try:
@@ -86,7 +86,7 @@ def init_audio_activity(params):
 			print('----- /resume -----')
 			print(ex)
 	
-	# @client.command(pass_context=True)
+	######################## STOP ########################
 	@slash.slash(name = "stop", description = "Stop current playing audio", guild_ids = [guildId])
 	async def stop(ctx):
 		try:
@@ -101,14 +101,3 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /stop -----')
 			print(ex)
-
-	# # @client.command(pass_context=True)
-	# @slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
-	# async def leave(ctx):
-	# 	try:
-	# 		await ctx.send('Leaving ...')
-	# 		voice = get(client.voice_clients, guild = ctx.guild)
-	# 		if voice != None:
-	# 			await voice.disconnect()
-	# 	except Exception as ex:
-	# 		print(ex)

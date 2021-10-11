@@ -15,25 +15,21 @@ def init_voice_activity(params):
 			await logStaffVoice(member, voice1, voice2, client, get)
 			await logModeratorsVoice(member, voice1, voice2, client, get)
 			await logAllVoice(member, voice1, voice2, client, get)
-
 			voice_state = member.guild.voice_client
 			if voice_state is not None and len(voice_state.channel.members) == 1:
 				await voice_state.disconnect()
-			
 		except Exception as ex:
 			print('----- on_voice_state_update -----')
 			print(ex)
 
 
-	######################## LOG VOICE #✍ | Help › Voice ########################
+	######################## LOG VOICE #Help › Voice ########################
 	async def showHelpChat(member, voice1, voice2, client, get):
 		try:
 			helpVoiceCategoryID = categories['help-voice']
 			logHelpChat = client.get_channel(textChannels['help-chat'])
-			
 			guild = client.get_guild(guildId)
 			role = get(guild.roles, id = roles['help-room'])
-
 			msg = getVoiceLogMessage(member, voice1, voice2)
 			
 			if (not voice1.channel and voice2.channel):
@@ -86,7 +82,7 @@ def init_voice_activity(params):
 			print(ex)
 
 
-	######################## LOG VOICE #📂 | Voice Channels ########################
+	######################## LOG VOICE #Voice Channels ########################
 	async def showVoiceChat(member, voice1, voice2, client, get):
 		try:
 			guild = client.get_guild(guildId)
@@ -116,13 +112,11 @@ def init_voice_activity(params):
 			print(ex)
 
 
-	######################## LOG VOICE #📂 | Voice Channels ########################
+	######################## LOG VOICE #Voice Channels ########################
 	async def logStaffVoice(member, voice1, voice2, client, get):
 		try:
 			logVoiceChat = client.get_channel(textChannels['staff-notes'])
-
 			msg = getVoiceLogMessage(member, voice1, voice2)
-			
 			StaffCornerCategoryID = categories['staff-corner']
 
 			if (not voice1.channel and voice2.channel):
@@ -142,9 +136,7 @@ def init_voice_activity(params):
 	async def logModeratorsVoice(member, voice1, voice2, client, get):
 		try:
 			logVoiceChat = client.get_channel(textChannels['moderators-notes'])
-
 			msg = getVoiceLogMessage(member, voice1, voice2)
-			
 			ModeratorsCornerCategoryID = categories['moderators-corner']
 
 			if (not voice1.channel and voice2.channel):

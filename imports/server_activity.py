@@ -1,6 +1,6 @@
-import time
 from setup.properties import *
 from setup.actions import *
+import time
 
 def init_server_activity(params):
 	
@@ -34,7 +34,6 @@ def init_server_activity(params):
 	######################## JOIN MEMBER ########################
 	@client.event
 	async def on_member_join(member):
-
 		try:
 			message = await welcomeMember(member)
 			if (member.bot == False):
@@ -81,7 +80,7 @@ def init_server_activity(params):
 			print('----- on_member_remove -----')
 			print(ex)
 
-
+	######################## WELCOME MEMBER CMD ########################
 	@slash.slash(name="welcome", guild_ids=[guildId])
 	async def welcome(ctx, member: discord.Member):
 		try:
@@ -106,8 +105,8 @@ def init_server_activity(params):
 			print('----- /welcome -----')
 			print(ex)
 
+######################## WELCOME MEMBER ########################
 async def welcomeMember(member):
-
 	try:
 		channel = await member.create_dm()
 
@@ -148,7 +147,7 @@ async def welcomeMember(member):
 		print(ex)
 		return -1
 
-######################## ON JOIN SERVER ########################
+######################## VALIDATE MEMBER ########################
 async def validateMemeber(member, roleId, client, get):
 	try:
 		guild = client.get_guild(guildId)
@@ -159,7 +158,7 @@ async def validateMemeber(member, roleId, client, get):
 		print(ex)
 
 
-######################## ON JOIN SERVER ########################
+######################## UPDATE MEMBERS COUNT ########################
 async def updateMembersCount(member, client, join = True):
 	try:
 		guild = client.get_guild(guildId)
@@ -174,4 +173,3 @@ async def updateMembersCount(member, client, join = True):
 	except Exception as ex:
 		print('----- updateMembersCount -----')
 		print(ex)
-

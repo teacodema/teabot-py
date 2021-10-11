@@ -8,7 +8,7 @@ def init_msg_activity(params):
 	slash = params['slash']
 	purgedMsgs = []
 
-	######################## BULK MSG DELETION ########################
+	######################## CLEAR ########################
 	@slash.slash(name="clear", description="Clear messages (0 .. 500)", guild_ids=[guildId])
 	async def clear(ctx, number: int):
 		try:
@@ -18,7 +18,7 @@ def init_msg_activity(params):
 			print(ex)
 
 
-	######################## BULK MSG DELETION ########################
+	######################## PURGE ########################
 	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId])
 	async def purge(ctx):
 		try:
@@ -83,7 +83,6 @@ def init_msg_activity(params):
 			print('----- deleteMsg -----')
 			print(ex)
 
-	######################## BULK MSG DELETION ########################
 	async def clearMsg(ctx, number):
 		try:
 

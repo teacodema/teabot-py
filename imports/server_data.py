@@ -9,11 +9,10 @@ def init_server_data(params):
 	slash = params['slash']
 	get = params['get']
 
-	######################## ROLE ASSIGNE ########################
+	######################## SERVER INFO ########################
 	@slash.slash(name="server-info", description = "Get server info/stats", guild_ids=[guildId])
 	async def server_info(ctx):
 		try:
-
 			excludedCategories = [
 				categories['staff-corner'],
 				categories['moderators-corner'],
@@ -34,9 +33,7 @@ def init_server_data(params):
 			created_at += f':{_created_at.minute}'
 
 			embed = discord.Embed(title=guild.name, description="", color=0x1da1f2)
-
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-
 			embed.set_thumbnail(url=guild.icon_url)
 			embed.add_field(name="Guild Name", value=guild.name, inline=True)
 			embed.add_field(name="Created", value=created_at, inline=True)
@@ -75,7 +72,6 @@ def init_server_data(params):
 			value += f'\nStage : {total_stage_channels}'
 
 			embed.add_field(name="Channels", value=value, inline=True)
-
 			# embed.add_field(name="large", value=guild.large, inline=True)
 			# embed.add_field(name="max mem", value=guild.max_members, inline=True)
 			# embed.add_field(name="me", value=guild.me, inline=True)
@@ -86,11 +82,10 @@ def init_server_data(params):
 			print('----- /server-info -----')
 			print(ex)
 
-	######################## ROLE ASSIGNE ########################
+	######################## ROLE INFO ########################
 	@slash.slash(name="role-info", description = "Get role info/stats", guild_ids=[guildId])
 	async def role_info(ctx, role: discord.Role = None):
 		try:
-
 			if role == None:
 				role = ctx.author.top_role
 			else:
@@ -100,7 +95,6 @@ def init_server_data(params):
 					return
 
 			embed = discord.Embed(name=f'Role : {ctx.author.display_name}', title=role.name, description="", color=role.color)
-			
 			# embed.set_thumbnail(url=member.avatar_url)
 			embed.add_field(name="Name", value=role.name, inline=True)
 			embed.add_field(name="Mentionable", value="Yes" if role.mentionable else "No", inline=True)
@@ -113,7 +107,7 @@ def init_server_data(params):
 			print('----- /role-info -----')
 			print(ex)
 
-	######################## ROLE ASSIGNE ########################
+	######################## MEMBER INFO ########################
 	@slash.slash(name="member-info", description = "Get member info/stats", guild_ids=[guildId])
 	async def member_info(ctx, member: discord.Member = None):
 		try:
@@ -128,8 +122,7 @@ def init_server_data(params):
 				if not is_founders(ctx):
 					await ctx.send('❌ You can only see your data')
 					member = ctx.author
-					time.sleep(3)
-
+					time.sleep(1)
 
 			_created_at = member.created_at
 			created_at = ''
@@ -148,9 +141,7 @@ def init_server_data(params):
 			joined_at += f':{_joined_at.minute}'
 
 			embed = discord.Embed(title=member.display_name, description="", color=member.top_role.color)
-
 			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar_url)
-
 			embed.set_thumbnail(url=member.avatar_url)
 			embed.add_field(name="User Name", value=member.name, inline=True)
 			embed.add_field(name="Nick Name", value=member.nick, inline=True)
@@ -160,9 +151,7 @@ def init_server_data(params):
 			embed.add_field(name="Top Role", value=f'{member.top_role.mention}', inline=True)
 			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
 			embed.set_footer(text=f"ID : {member.id}")
-
 			await ctx.send(embed=embed)
-
 		except Exception as ex:
 			print('----- /member-info -----')
 			print(ex)

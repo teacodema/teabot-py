@@ -3,12 +3,11 @@ from setup.actions import *
 
 def init_role_activity(params):
 	
-	
 	client = params['client']
 	discord = params['discord']
 	slash = params['slash']
 
-	######################## ROLE ASSIGNE ########################
+	######################## ROLE ADD ########################
 	@slash.slash(name="assign", description="Assign a role to a member", guild_ids=[guildId])
 	async def assign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
@@ -35,7 +34,7 @@ def init_role_activity(params):
 			print('----- /assign -----')
 			print(ex)
 
-
+	######################## ROLE REMOVE ########################
 	@slash.slash(name = "unassign", description="Remove a role from a member", guild_ids = [guildId])
 	async def unassign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
