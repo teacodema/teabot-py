@@ -156,7 +156,7 @@ def init_voice_activity(params):
 	######################## LOG ALL VOICE ########################
 	async def logAllVoice(member, voice1, voice2, client, get):
 		try:
-			logChannel = client.get_channel(textChannels['log-channel'])
+			logChannel = client.get_channel(textChannels['log-voice'])
 			msg = getVoiceLogMessage(member, voice1, voice2)
 
 			if (not voice1.channel and voice2.channel):
