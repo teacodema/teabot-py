@@ -50,13 +50,13 @@ def init_server_activity(params):
 			print('----- on_member_join 1-----')
 			print(ex)
 	
-		try:
-			webhook = await channel.create_webhook(name=member.name)
-			await webhook.send(f'Hi I\'m {member.display_name}', username=member.name, avatar_url=member.avatar_url)
-			await webhook.delete()
-		except Exception as ex:
-			print('----- on_member_join 3-----')
-			print(ex)
+		# try:
+		# 	webhook = await channel.create_webhook(name=member.name)
+		# 	await webhook.send(f'Hi I\'m {member.display_name}', username=member.name, avatar_url=member.avatar_url)
+		# 	await webhook.delete()
+		# except Exception as ex:
+		# 	print('----- on_member_join 3-----')
+		# 	print(ex)
 
 		try:
 			await validateMemeber(member, roles['new-members'], client, get)
