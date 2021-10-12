@@ -38,7 +38,7 @@ def init_audio_activity(params):
 					return
 				vc = user.voice.channel
 
-				await ctx.send(f':arrow_down: **Loading :** <{url}>')
+				await ctx.send(f':arrow_down: **Loading :** <{url}>', delete_after = 2)
 				await vc.connect()
 				voice = get(client.voice_clients, guild = ctx.guild)
 				if not voice.is_playing():
