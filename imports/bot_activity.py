@@ -7,6 +7,7 @@ def init_bot_activity(params):
 	discord = params['discord']
 	slash = params['slash']
 	get = params['get']
+	tasks = params['tasks']
 
 	states = ["online", "dnd", "idle", "offline"]
 	discord_states = [
@@ -22,6 +23,7 @@ def init_bot_activity(params):
 	async def on_ready():
 		try:
 			await startBot(client, discord)
+			start_loop()
 		except Exception as ex:
 			print('----- on_ready -----')
 			print(ex)
@@ -60,6 +62,24 @@ def init_bot_activity(params):
 			await ctx.send("Invalid activity type")
 			print('----- /activity -----')
 			print(ex)
+	
+	def start_loop():
+		@tasks.loop(hours=48.0, count=None, reconnect=True)
+		async def check_membership_loop():
+			try:
+				updatedMembers = await checkNewMemberRole(client, get)
+				logChannel = client.get_channel(textChannels['log-channel'])
+				msg = ' : '
+				if len(updatedMembers):
+					for member in updatedMembers:
+						msg += f'{member} , '
+
+				await logChannel.send(f'{len(updatedMembers)} updated members {msg}')
+			except Exception as ex:
+					print('----- /check_membership_loop -----')
+					print(ex)
+
+		check_membership_loop.start()
 
 
 ######################## BOT READY ########################
