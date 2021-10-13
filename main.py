@@ -1,4 +1,4 @@
-from keep_alive import keep_alive
+from setup.keep_alive import keep_alive
 import discord
 from discord_slash import SlashCommand
 import os
@@ -28,15 +28,17 @@ from imports.check_membership import *
 
 intents = discord.Intents.all()
 # intents = discord.Intents.default()
-intents.members = True
+# intents.members = True
 # client = discord.Client(intents=intents)
 # @client.command(pass_context=True)
+# client2 = discord.Client(intents=intents)
 client = commands.Bot(intents = intents, command_prefix = '$')
 slash = SlashCommand(client, sync_commands=True)
 # bot = commands.Bot('!')
 
 params = {
     'client': client,
+		# 'client2': client2,
     'discord': discord,
     'slash': slash,
     'get': get,

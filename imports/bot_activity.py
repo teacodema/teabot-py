@@ -4,6 +4,7 @@ from setup.actions import *
 def init_bot_activity(params):
 
 	client = params['client']
+	# client2 = params['client2']
 	discord = params['discord']
 	slash = params['slash']
 	get = params['get']
@@ -64,7 +65,7 @@ def init_bot_activity(params):
 			print(ex)
 	
 	def start_loop():
-		@tasks.loop(hours=48.0, count=None, reconnect=True)
+		@tasks.loop(hours=48, count=None, reconnect=True)
 		async def check_membership_loop():
 			try:
 				updatedMembers = await checkNewMemberRole(client, get)
@@ -78,8 +79,18 @@ def init_bot_activity(params):
 			except Exception as ex:
 					print('----- /check_membership_loop -----')
 					print(ex)
-
+					
 		check_membership_loop.start()
+		
+		@tasks.loop(hours=2, count=None, reconnect=None)
+		async def am_alive():
+			# user = client2.get_user(users['drissboumlik'])
+			# user = client.get_user(users['drissboumlik'])
+			# channel = user.dm_channel
+			channel = client.get_channel(textChannels['log-bot'])
+			await channel.send('🔌 am alive')
+
+		am_alive.start()
 
 
 ######################## BOT READY ########################
