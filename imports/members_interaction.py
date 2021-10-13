@@ -20,7 +20,7 @@ def init_members_interaction(params):
 			await ctx.send('Msg sent', delete_after = 2)
 		
 		except Exception as ex:
-			print('----- /dm -----')
+			print('----- /msg_channel -----')
 			print(ex)
 
 	######################## SEND MSG TO MEMBER ########################
