@@ -17,11 +17,14 @@ def init_msg_log(params):
 			excludedCategories = [
 				categories['system-corner']
 			]
+			spam = False
 			for b in blocked:
 				if (message.content.count(b) > 0 and message.channel.category_id not in excludedCategories):
 					print('spam message')
 					await message.delete()
-					return
+					spam = True
+			if spam:
+				return
 
 			if (str(message.channel.type) == 'private'):
 
@@ -31,6 +34,7 @@ def init_msg_log(params):
 				if author.id == users['drissboumlik']:
 					channel = author.dm_channel
 					await channel.send('am alive')
+					return
 
 				excludedIDs = [
 						users['drissboumlik'],
