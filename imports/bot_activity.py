@@ -65,7 +65,7 @@ def init_bot_activity(params):
 			print(ex)
 	
 	def start_loop():
-		@tasks.loop(hours=48, count=None, reconnect=True)
+		@tasks.loop(hours=48, count=None, reconnect=False)
 		async def check_membership_loop():
 			try:
 				updatedMembers = await checkNewMemberRole(client, get)
@@ -82,7 +82,7 @@ def init_bot_activity(params):
 					
 		check_membership_loop.start()
 		
-		@tasks.loop(hours=2, count=None, reconnect=None)
+		@tasks.loop(hours=2, count=None, reconnect=False)
 		async def am_alive():
 			# user = client2.get_user(users['drissboumlik'])
 			# user = client.get_user(users['drissboumlik'])
