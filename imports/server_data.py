@@ -112,10 +112,6 @@ def init_server_data(params):
 	async def member_info(ctx, member: discord.Member = None):
 		try:
 
-			roleIds = [role.id for role in ctx.author.roles]
-			authorizedRoles = [roles['founders']]
-			roleExists = [value for value in authorizedRoles if value in roleIds]
-
 			if member == None:
 				member = ctx.author
 			else:
