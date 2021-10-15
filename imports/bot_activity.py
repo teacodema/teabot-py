@@ -1,3 +1,5 @@
+import datetime
+import pytz
 from setup.properties import *
 from setup.actions import *
 
@@ -88,7 +90,9 @@ def init_bot_activity(params):
 			# user = client.get_user(users['drissboumlik'])
 			# channel = user.dm_channel
 			channel = client.get_channel(textChannels['log-bot'])
-			await channel.send('🔌 am alive')
+			timeZ_Ma = pytz.timezone('Africa/Casablanca')
+			dt_Ma = datetime.now(timeZ_Ma)
+			await channel.send(f':green_heart: am alive - {dt_Ma.strftime("%d %B %Y - %H:%M")}')
 
 		am_alive.start()
 
