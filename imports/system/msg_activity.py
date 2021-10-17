@@ -2,7 +2,7 @@ from setup.properties import *
 from setup.actions import *
 
 
-def init_msg_log(params):
+def init_msg_activity(params):
 	
 	client = params['client']
 
