@@ -70,12 +70,13 @@ def init_msg_activity(params):
 					for attch in m.embeds:
 						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 
-					msg = f'💢 by {m.author.mention} in {m.channel.mention}'
+					msg = '──────────────────────'
+					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
 					msg += f'\n"*{m.content}*"'
 					msg += attachmentsUrls
 					msg += embedsUrls
-					msg += f'\n----------------------------------------------'
+					msg += f'\n──────────────────────'
 					await logMsgsChannel.send(msg)
 				purgedMsgs = []
 				return
@@ -114,12 +115,13 @@ def init_msg_activity(params):
 					for attch in m.embeds:
 						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 
-					msg = f'💢 by {m.author.mention} in {m.channel.mention}'
+					msg = '──────────────────────'
+					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
 					msg += f'\n"*{m.content}*"'
 					msg += attachmentsUrls
 					msg += embedsUrls
-					msg += f'\n----------------------------------------------'
+					msg += f'\n──────────────────────'
 					await logMsgsChannel.send(msg)
 				
 		except Exception as ex:
