@@ -14,6 +14,7 @@ def init_server_data(params):
 	async def server_info(ctx):
 		try:
 			excludedCategories = [
+				categories['activities'],
 				categories['staff-corner'],
 				categories['moderators-corner'],
 				categories['private-corner'],
@@ -24,13 +25,7 @@ def init_server_data(params):
 
 			guild = client.get_guild(ctx.guild_id)
 
-			_created_at = guild.created_at
-			created_at = ''
-			created_at += f'{_created_at.date().strftime("%A")}'
-			created_at += f', {_created_at.date().strftime("%B")} {_created_at.day}'
-			created_at += f', {_created_at.year}'
-			created_at += f', {_created_at.hour}'
-			created_at += f':{_created_at.minute}'
+			created_at = guild.created_at.strftime("%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=guild.name, description="", color=0x1da1f2)
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
@@ -120,21 +115,8 @@ def init_server_data(params):
 					member = ctx.author
 					time.sleep(1)
 
-			_created_at = member.created_at
-			created_at = ''
-			created_at += f'{_created_at.date().strftime("%A")}'
-			created_at += f', {_created_at.date().strftime("%B")} {_created_at.day}'
-			created_at += f', {_created_at.year}'
-			created_at += f', {_created_at.hour}'
-			created_at += f':{_created_at.minute}'
-
-			_joined_at = member.joined_at
-			joined_at = ''
-			joined_at += f'{_joined_at.date().strftime("%A")}'
-			joined_at += f', {_joined_at.date().strftime("%B")} {_joined_at.day}'
-			joined_at += f', {_joined_at.year}'
-			joined_at += f', {_joined_at.hour}'
-			joined_at += f':{_joined_at.minute}'
+			created_at = member.created_at.strftime("%A, %B %d, %Y - %H:%M")
+			joined_at = member.joined_at.strftime("%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=member.display_name, description="", color=member.top_role.color)
 			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar_url)
