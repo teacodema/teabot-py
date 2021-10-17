@@ -16,7 +16,7 @@ def init_msg_log(params):
 
 			try:
 				content = message.content
-				if message.channel.category_id not in excludedCategories:
+				if str(message.channel.type) == 'text' and message.channel.category_id not in excludedCategories:
 					if content.count('@everyone') or content.count('@here'):
 						channel = message.channel
 						msg = 'Dont mention __everyone__ or __here__ please\nYour message will be deleted after 5 seconds'
@@ -37,10 +37,10 @@ def init_msg_log(params):
 					if spam:
 						return
 			except Exception as ex:
-					print('----- on_message -----')
+					print('----- on_message 2 -----')
 					print(ex)
 
-			if (str(message.channel.type) == 'private'):
+			if str(message.channel.type) == 'private':
 
 				author = message.author
 				
@@ -56,21 +56,24 @@ def init_msg_log(params):
 						users['teabottest'],
 					]
 				if (author.id not in excludedIDs):
-					attachmentsUrls = '\n__Attachments__\n'
-					for attch in message.attachments:
-						attachmentsUrls += f'{attch.url}\n'
+					msg = '──────────────────────'
+					msg = f'\nDM/ {author} - {author.mention} : {"--Sticker--" if (message.content == "") else message.content}'
+					if len(message.attachments):
+						attachmentsUrls = '\n__Attachments__\n'
+						for attch in message.attachments:
+							attachmentsUrls += f'{attch.url}\n'
+						msg += attachmentsUrls
 					
-					embedsUrls = '\n__Embeds__\n'
-					for attch in message.embeds:
-						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+					if len(message.embeds):
+						embedsUrls = '\n__Embeds__\n'
+						for attch in message.embeds:
+							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+						msg += embedsUrls
 
 					channel = client.get_channel(textChannels['log-channel'])
-					msgContent = "--Sticker--" if (message.content == "") else message.content
-					msgContent += attachmentsUrls
-					msgContent += embedsUrls
-					await channel.send(f'DM/ {author} - {author.mention} : {msgContent}')
+					await channel.send(msg)
 		except Exception as ex:
-			print('----- on_message -----')
+			print('----- on_message 1 -----')
 			print(ex)
 
 
