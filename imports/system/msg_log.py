@@ -30,7 +30,8 @@ def init_msg_activity(params):
 			channelId = ctx.channel.id
 			channelsToClear = [
 				textChannels['voice-chat'],
-				textChannels['help-chat']
+				textChannels['help-chat'],
+				textChannels['activities-notes']
 			]
 			if (channelId not in channelsToClear):
 				await ctx.send('❌ Wrong Target Channel', delete_after = 2)

@@ -20,7 +20,7 @@ def init_bot_activity(params):
 	# discord_types = [
 	# 	discord.ActivityType.watching, discord.ActivityType.listening, discord.ActivityType.playing
 	# ]
-	
+
 	######################## BOT READY ########################
 	@client.event
 	async def on_ready():
@@ -30,6 +30,7 @@ def init_bot_activity(params):
 		except Exception as ex:
 			print('----- on_ready -----')
 			print(ex)
+		
 
 	######################## BOT STATE ########################
 	# @slash.slash(name = "state", description = "Change current state. (online, dnd, idle)", guild_ids = [guildId])
