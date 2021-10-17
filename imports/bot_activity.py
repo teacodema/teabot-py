@@ -8,18 +8,18 @@ def init_bot_activity(params):
 	client = params['client']
 	# client2 = params['client2']
 	discord = params['discord']
-	slash = params['slash']
+	# slash = params['slash']
 	get = params['get']
 	tasks = params['tasks']
 
-	states = ["online", "dnd", "idle", "offline"]
-	discord_states = [
-		discord.Status.online, discord.Status.dnd, discord.Status.idle
-	]
-	types = ["watching", "listening", "playing"]
-	discord_types = [
-		discord.ActivityType.watching, discord.ActivityType.listening, discord.ActivityType.playing
-	]
+	# states = ["online", "dnd", "idle", "offline"]
+	# discord_states = [
+	# 	discord.Status.online, discord.Status.dnd, discord.Status.idle
+	# ]
+	# types = ["watching", "listening", "playing"]
+	# discord_types = [
+	# 	discord.ActivityType.watching, discord.ActivityType.listening, discord.ActivityType.playing
+	# ]
 	
 	######################## BOT READY ########################
 	@client.event
@@ -32,39 +32,39 @@ def init_bot_activity(params):
 			print(ex)
 
 	######################## BOT STATE ########################
-	@slash.slash(name = "state", description = "Change current state. (online, dnd, idle)", guild_ids = [guildId])
-	async def change_state(ctx, state = "online"):
-		try:
+	# @slash.slash(name = "state", description = "Change current state. (online, dnd, idle)", guild_ids = [guildId])
+	# async def change_state(ctx, state = "online"):
+	# 	try:
 
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
-				return
+	# 		if not is_founders(ctx):
+	# 			await ctx.send('❌ Missing Permissions', delete_after = 2)
+	# 			return
 			
-			await client.change_presence(status = discord_states[states.index(state)])
-			await ctx.send("State has been changed")
-		except Exception as ex:
-			# await client.change_presence(status = discord_states[0])
-			# await ctx.send("Invalid state")
-			print('----- /state -----')
-			print(ex)
+	# 		await client.change_presence(status = discord_states[states.index(state)])
+	# 		await ctx.send("State has been changed")
+	# 	except Exception as ex:
+	# 		# await client.change_presence(status = discord_states[0])
+	# 		# await ctx.send("Invalid state")
+	# 		print('----- /state -----')
+	# 		print(ex)
 
 	######################## BOT ACTIVITY ########################
-	@slash.slash(name = "activity", description = "Change current activity. type:(watching, playing, streaming, listening)", guild_ids = [guildId])
-	async def change_activity(ctx, type, value):
-		try:
+	# @slash.slash(name = "activity", description = "Change current activity. type:(watching, playing, streaming, listening)", guild_ids = [guildId])
+	# async def change_activity(ctx, type, value):
+	# 	try:
 			
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
-				return
+	# 		if not is_founders(ctx):
+	# 			await ctx.send('❌ Missing Permissions', delete_after = 2)
+	# 			return
 				
-			activity = discord.Activity(type = discord_types[types.index(type)], name = value)
-			await client.change_presence(activity = activity)
-			await ctx.send("Activity changed")
-		except Exception as ex:
-			await client.change_presence(activity = None)
-			await ctx.send("Invalid activity type")
-			print('----- /activity -----')
-			print(ex)
+	# 		activity = discord.Activity(type = discord_types[types.index(type)], name = value)
+	# 		await client.change_presence(activity = activity)
+	# 		await ctx.send("Activity changed")
+	# 	except Exception as ex:
+	# 		await client.change_presence(activity = None)
+	# 		await ctx.send("Invalid activity type")
+	# 		print('----- /activity -----')
+	# 		print(ex)
 	
 	def start_loop():
 		@tasks.loop(hours=48, count=None, reconnect=False)
@@ -72,12 +72,13 @@ def init_bot_activity(params):
 			try:
 				updatedMembers = await checkNewMemberRole(client, get)
 				logChannel = client.get_channel(textChannels['log-channel'])
-				msg = ' : '
-				if len(updatedMembers):
+				msg = ''
+				updatedMembersCount = len(updatedMembers)
+				if updatedMembersCount:
 					for member in updatedMembers:
 						msg += f'{member} , '
 
-				await logChannel.send(f'{len(updatedMembers)} updated members {msg}')
+				await logChannel.send(f'{updatedMembersCount} updated members.\n{msg}')
 			except Exception as ex:
 					print('----- /check_membership_loop -----')
 					print(ex)
