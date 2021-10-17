@@ -14,17 +14,20 @@ from discord.ext import commands, tasks
 
 from setup.properties import *
 from setup.actions import *
-from imports.bot_activity import *
-from imports.role_activity import *
-from imports.server_activity import *
-from imports.server_data import *
-from imports.msg_activity import *
-from imports.msg_log import *
-from imports.voice_activity import *
-from imports.audio_activity import *
-from imports.fun_activity import *
-from imports.members_interaction import *
-from imports.check_membership import *
+
+from imports.system.bot_activity import *
+from imports.system.role_activity import *
+from imports.system.server_activity import *
+from imports.system.msg_activity import *
+from imports.system.msg_log import *
+from imports.system.voice_activity import *
+from imports.system.members_interaction import *
+from imports.system.check_membership import *
+
+from imports.common.server_data import *
+
+from imports.member.audio_activity import *
+from imports.member.fun_activity import *
 
 intents = discord.Intents.all()
 # intents = discord.Intents.default()
