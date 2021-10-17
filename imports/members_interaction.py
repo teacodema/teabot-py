@@ -24,7 +24,7 @@ def init_members_interaction(params):
 			print(ex)
 
 	######################## SEND MSG TO MEMBER ########################
-	@slash.slash(name = "dm", description = "Send direct message to a member",guild_ids=[guildId])
+	@slash.slash(name = "dm", guild_ids=[guildId])
 	async def dm(ctx, message, member: discord.Member = None, role: discord.Role = None):
 		try:
 			if not is_founders(ctx):
