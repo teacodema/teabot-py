@@ -60,7 +60,7 @@ def init_msg_log(params):
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
 				logMsgsChannel = client.get_channel(textChannels['log-msg'])
-				headerMsg = f"----------❌ **purge({count}) | {ctx.channel.mention}** ❌----------------------------------------"
+				headerMsg = f"❌ **purge({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in purgedMsgs:
 
@@ -105,7 +105,7 @@ def init_msg_log(params):
 				count = len(deletedMsgs)
 				deletedMsgs.reverse()
 				logMsgsChannel = client.get_channel(textChannels['log-msg'])
-				headerMsg = f"----------❌ **Clear({count}) | {ctx.channel.mention}** ❌----------------------------------------"
+				headerMsg = f"❌ **clear({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in deletedMsgs:
 

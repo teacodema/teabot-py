@@ -72,6 +72,7 @@ def init_msg_activity(params):
 
 					channel = client.get_channel(textChannels['log-channel'])
 					await channel.send(msg)
+			await client.process_commands(message)
 		except Exception as ex:
 			print('----- on_message 1 -----')
 			print(ex)
