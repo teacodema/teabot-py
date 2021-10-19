@@ -9,10 +9,11 @@ def init_audio_activity(params):
 	get = params['get']
 	YoutubeDL = params['YoutubeDL']
 	FFmpegPCMAudio = params['FFmpegPCMAudio']
-	tasks = params['tasks']
 	playlist = []
 	currentTrackIndex = 0
-	skipCmdClicked = False
+	_ctxPlay = None,
+	voice = None
+	move_clicked = False
 
 
 	ydl_opts = {'noplaylist': True,
@@ -34,28 +35,28 @@ def init_audio_activity(params):
 			voice = get(client.voice_clients, guild = ctx.guild)
 
 			if (user.voice == None):
-				await ctx.send('You need to be connected to a voice channel')
+				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 			
 			vc = user.voice.channel
-			if url:
-				youtube_regex = (
-					r'(https?://)?(www\.)?'
-					'(youtube|youtu|youtube-nocookie)\.(com|be)/'
-					'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
-				youtube_regex_match = re.match(youtube_regex, url)
-				if not youtube_regex_match:
-					await ctx.send('You need to provide a valide youtube url')
-					return
-			else:
+			if not url:
 				if len(playlist) == 0:
 					await ctx.send('The playlist is empty ⚠')
 					return
 				if voice == None:
 					await resetPlayer(ctx, "✅ Connected + Track is queued + played", None, vc)
 				else:
-					await playTrack(ctx)
+					playTrack(ctx)
 				return
+			else:
+				youtube_regex = (
+					r'(https?://)?(www\.)?'
+					'(youtube|youtu|youtube-nocookie)\.(com|be)/'
+					'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+				youtube_regex_match = re.match(youtube_regex, url)
+				if not youtube_regex_match:
+					await ctx.send('❌ You need to provide a valide youtube url')
+					return
 
 			if (voice):
 				if (voice.is_connected()):
@@ -64,11 +65,14 @@ def init_audio_activity(params):
 						track = extrackUrlData(url)
 						playlist.append(track)
 					else:
-						await resetPlayer(ctx, "🎵 Track is queued + played", url)
+						await resetPlayer(ctx, "▶ Playing ...", url)
+						# await resetPlayer(ctx, "🎵 Track is queued + played", url)
 				else:
-					await resetPlayer(ctx, "🎵 Track is queued + played", url, vc)
+					await resetPlayer(ctx, "▶ Playing ...", url, vc)
+					# await resetPlayer(ctx, "🎵 Track is queued + played", url, vc)
 			else:
-				await resetPlayer(ctx, "✅ Connected + Track is queued + played", url, vc)
+				await resetPlayer(ctx, "▶ Playing ...", url, vc)
+				# await resetPlayer(ctx, "✅ Connected + Track is queued + played", url, vc)
 		except Exception as ex:
 			print('----- /play -----')
 			print(ex)
@@ -80,7 +84,7 @@ def init_audio_activity(params):
 		URL = info['formats'][0]['url']
 		title = info['title']
 		duration = info['duration']
-		return {"_url": URL, "url": url, "title": title, "duration": duration, "playNext": True}
+		return {"_url": URL, "url": url, "title": title, "duration": duration}
 
 	async def resetPlayer(ctx, msg, url=None, vc=None):
 		try:
@@ -95,57 +99,65 @@ def init_audio_activity(params):
 			currentTrackIndex = 0
 			if vc:
 				await vc.connect()
-			await playTrack(ctx)
+			playTrack(ctx)
 		except Exception as ex:
 			print('----- resetPlayer -----')
 			print(ex)
-		
-
-	async def playTrack(ctx):
+	
+	def playNext(err):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, skipCmdClicked
+			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, move_clicked
+			if move_clicked:
+				move_clicked = False
+				return
+			print('playNext herrrrre')
+			if len(playlist) == 0:
+				# await ctx.send('⚠ The playlist is empty')
+				return
+			voice = get(client.voice_clients, guild = _ctxPlay.guild)
+			if not voice or not voice.is_connected():
+				# await ctx.send('❌ The bot is not connected')
+				return
 
+			currentTrackIndex = currentTrackIndex + 1
+			if currentTrackIndex > len(playlist) - 1:
+				currentTrackIndex = 0
+			
+			voice.stop()
+			playTrack(_ctxPlay)
+		except Exception as ex:
+			print('----- playNext -----')
+			print(ex)
+
+	def playTrack(ctx):
+		try:
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay
+			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
-			await ctx.send(f'▶ **Playing ** __{track["title"]}__')
 			voice = get(client.voice_clients, guild = ctx.guild)
-			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS))
-
-			duration = track['duration']
-			print(f'task made {duration}')
-			@tasks.loop(seconds=duration, count=2, reconnect=None)
-			async def toNextTrack(duration):
-				try:
-					nonlocal currentTrackIndex, playlist, skipCmdClicked
-					if toNextTrack.current_loop != 0:
-						print(f'task done {duration}')
-						# print(f'skip: {skipCmdClicked}, index: {currentTrackIndex}')
-						print(f'playNext : {playlist[currentTrackIndex]["playNext"]}')
-						# if skipCmdClicked:
-						# 	skipCmdClicked = False
-						# 	return
-						if len(playlist) == 0:
-							# await ctx.send('⚠ The playlist is empty')
-							return
-						voice = get(client.voice_clients, guild = ctx.guild)
-						if not voice or not voice.is_connected():
-							# await ctx.send('❌ The bot is not connected')
-							return
-
-						if currentTrackIndex >= len(playlist) - 1:
-							currentTrackIndex = -1
-						currentTrackIndex = currentTrackIndex + 1
-						if playlist[currentTrackIndex]["playNext"] == False:
-							return
-						voice.stop()
-						await playTrack(ctx)
-				except Exception as ex:
-					print('----- toNextTrack_loop -----')
-					print(ex)
-			toNextTrack.start(duration)
+			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 		except Exception as ex:
 			print('----- playTrack -----')
 			print(ex)
 
+	######################## CURRENT ########################
+	@slash.slash(name = "current", description = "Shows current playing track", guild_ids = [guildId])
+	async def current(ctx):
+		try:
+			nonlocal currentTrackIndex, playlist
+			if len(playlist) == 0:
+				await ctx.send('⚠ The playlist is empty')
+				return
+			track = playlist[currentTrackIndex]
+			value = f"🎵・**{currentTrackIndex}** ─ {track['title']}"
+			guild = client.get_guild(ctx.guild_id)
+			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
+			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
+			await ctx.send(embed=embed)
+		except Exception as ex:
+			print('----- /current -----')
+			print(ex)
 
 
 	######################## PLAYLIST ########################
@@ -153,28 +165,50 @@ def init_audio_activity(params):
 	async def _playlist(ctx):
 		try:
 			nonlocal playlist
-			value = ""
-			# for track in playlist:
-			if len(playlist):
-				for i in range(len(playlist)):
-					track = playlist[i]
-					value += f"**{i+1}**・{track['title']}\n"
-				embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
-				embed.add_field(name="📋・Playlist", value=value, inline=True)
-				await ctx.send(embed=embed)
-			else:
+			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
+				return
+
+			value = ""
+			for i in range(len(playlist)):
+				track = playlist[i]
+				if (currentTrackIndex == i):
+					index = '🟢'
+				else:
+					index = i+1
+				value += f"**{index}**・{track['title']}\n"
+			guild = client.get_guild(ctx.guild_id)
+			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
+			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+			embed.add_field(name="📋│Playlist", value=value, inline=True)
+			await ctx.send(embed=embed)
 		except Exception as ex:
 			print('----- /playlist -----')
-			raise ex
 			print(ex)
+
+	######################## PLAYLIST ########################
+	@slash.slash(name = "flushlist", description = "Flushes the playlist", guild_ids = [guildId])
+	async def flushlist(ctx):
+		try:
+			nonlocal playlist
+			voice = get(client.voice_clients, guild = ctx.guild)
+			if voice and voice.is_connected() and voice.is_playing():
+				await ctx.send('⚠ A track is currently playing')
+				return
+			playlist = []
+			await ctx.send('⚠ Playlist is clear')
+		except Exception as ex:
+			print('----- /flushlist -----')
+			print(ex)
+
 
 	######################## NEXT ########################
 	@slash.slash(name = "next", description = "Play next track", guild_ids = [guildId])
 	async def next(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, skipCmdClicked
-			skipCmdClicked = True
+			nonlocal currentTrackIndex, playlist, ydl_opts, move_clicked
+
+			move_clicked = True
 			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
 				return
@@ -182,10 +216,10 @@ def init_audio_activity(params):
 			currentTrackIndex = currentTrackIndex + 1
 			if currentTrackIndex >= len(playlist):
 				currentTrackIndex = 0
-			playlist[currentTrackIndex]["playNext"] = False
+
 			voice = get(client.voice_clients, guild = ctx.guild)
 			voice.stop()
-			await playTrack(ctx)
+			playTrack(ctx)
 		except Exception as ex:
 			print('----- /next -----')
 			print(ex)
@@ -194,8 +228,9 @@ def init_audio_activity(params):
 	@slash.slash(name = "previous", description = "Play previous track", guild_ids = [guildId])
 	async def previous(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, skipCmdClicked
-			skipCmdClicked = True
+			nonlocal currentTrackIndex, playlist, ydl_opts, move_clicked
+
+			move_clicked = True
 			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
 				return
@@ -203,10 +238,10 @@ def init_audio_activity(params):
 			currentTrackIndex = currentTrackIndex - 1
 			if currentTrackIndex < 0:
 				currentTrackIndex = len(playlist) - 1
-			playlist[currentTrackIndex]["playNext"] = False
+
 			voice = get(client.voice_clients, guild = ctx.guild)
 			voice.stop()
-			await playTrack(ctx)
+			playTrack(ctx)
 		except Exception as ex:
 			print('----- /previous -----')
 			print(ex)
@@ -231,7 +266,7 @@ def init_audio_activity(params):
 		try:
 			voice = get(client.voice_clients, guild = ctx.guild)
 			if voice and voice.is_paused():
-				await ctx.send('▶ Resuming ...')
+				await ctx.send('⏯ Resuming ...')
 				voice.resume()
 			else:
 				await ctx.send('❌ The bot is already (or not) playing something before this')
@@ -259,9 +294,10 @@ def init_audio_activity(params):
 	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
 	async def leave(ctx):
 		try:
-			await ctx.send('Leaving ...')
+			await ctx.send('🚪 Leaving ...')
 			voice = get(client.voice_clients, guild = ctx.guild)
 			if voice != None:
 				await voice.disconnect()
 		except Exception as ex:
+			print('----- /leave -----')
 			print(ex)
