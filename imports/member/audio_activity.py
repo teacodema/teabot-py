@@ -110,7 +110,6 @@ def init_audio_activity(params):
 			if move_clicked:
 				move_clicked = False
 				return
-			print('playNext herrrrre')
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
 				return
@@ -149,7 +148,7 @@ def init_audio_activity(params):
 				await ctx.send('⚠ The playlist is empty')
 				return
 			track = playlist[currentTrackIndex]
-			value = f"🎵・**{currentTrackIndex}** ─ {track['title']}"
+			value = f"▶・**{currentTrackIndex+1}** ─ {track['title']}"
 			guild = client.get_guild(ctx.guild_id)
 			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
@@ -173,7 +172,7 @@ def init_audio_activity(params):
 			for i in range(len(playlist)):
 				track = playlist[i]
 				if (currentTrackIndex == i):
-					index = '🟢'
+					index = '▶'
 				else:
 					index = i+1
 				value += f"**{index}**・{track['title']}\n"
