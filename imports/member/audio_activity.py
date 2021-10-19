@@ -32,12 +32,12 @@ def init_audio_activity(params):
 			nonlocal currentTrackIndex, playlist, ydl_opts
 			user = ctx.author
 			voice = get(client.voice_clients, guild = ctx.guild)
-			vc = user.voice.channel
 
 			if (user.voice == None):
 				await ctx.send('You need to be connected to a voice channel')
 				return
 			
+			vc = user.voice.channel
 			if url:
 				youtube_regex = (
 					r'(https?://)?(www\.)?'
@@ -51,9 +51,10 @@ def init_audio_activity(params):
 				if len(playlist) == 0:
 					await ctx.send('The playlist is empty ⚠')
 					return
-				await playTrack(ctx)
 				if voice == None:
 					await resetPlayer(ctx, "✅ Connected + Track is queued + played", None, vc)
+				else:
+					await playTrack(ctx)
 				return
 
 			if (voice):
@@ -79,7 +80,7 @@ def init_audio_activity(params):
 		URL = info['formats'][0]['url']
 		title = info['title']
 		duration = info['duration']
-		return {"_url": URL, "url": url, "title": title, "duration": duration}
+		return {"_url": URL, "url": url, "title": title, "duration": duration, "playNext": True}
 
 	async def resetPlayer(ctx, msg, url=None, vc=None):
 		try:
@@ -117,10 +118,11 @@ def init_audio_activity(params):
 					nonlocal currentTrackIndex, playlist, skipCmdClicked
 					if toNextTrack.current_loop != 0:
 						print(f'task done {duration}')
-						print(f'skip: {skipCmdClicked}, index: {currentTrackIndex}')
-						if skipCmdClicked:
-							skipCmdClicked = False
-							return
+						# print(f'skip: {skipCmdClicked}, index: {currentTrackIndex}')
+						print(f'playNext : {playlist[currentTrackIndex]["playNext"]}')
+						# if skipCmdClicked:
+						# 	skipCmdClicked = False
+						# 	return
 						if len(playlist) == 0:
 							# await ctx.send('⚠ The playlist is empty')
 							return
@@ -132,6 +134,8 @@ def init_audio_activity(params):
 						if currentTrackIndex >= len(playlist) - 1:
 							currentTrackIndex = -1
 						currentTrackIndex = currentTrackIndex + 1
+						if playlist[currentTrackIndex]["playNext"] == False:
+							return
 						voice.stop()
 						await playTrack(ctx)
 				except Exception as ex:
@@ -178,6 +182,7 @@ def init_audio_activity(params):
 			currentTrackIndex = currentTrackIndex + 1
 			if currentTrackIndex >= len(playlist):
 				currentTrackIndex = 0
+			playlist[currentTrackIndex]["playNext"] = False
 			voice = get(client.voice_clients, guild = ctx.guild)
 			voice.stop()
 			await playTrack(ctx)
@@ -198,6 +203,7 @@ def init_audio_activity(params):
 			currentTrackIndex = currentTrackIndex - 1
 			if currentTrackIndex < 0:
 				currentTrackIndex = len(playlist) - 1
+			playlist[currentTrackIndex]["playNext"] = False
 			voice = get(client.voice_clients, guild = ctx.guild)
 			voice.stop()
 			await playTrack(ctx)
