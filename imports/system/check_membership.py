@@ -10,7 +10,7 @@ def init_check_membership(params):
 	get = params['get']
 
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
-	@slash.slash(name="check-membership", guild_ids=[guildId])
+	@slash.slash(name="check", guild_ids=[guildId])
 	async def check_membership(ctx):
 		try:
 			if not is_founders(ctx):
