@@ -150,7 +150,7 @@ def init_audio_activity(params):
 				await ctx.send('⚠ The playlist is empty')
 				return
 			track = playlist[currentTrackIndex]
-			value = f"▶・**{currentTrackIndex+1}** ─ {track['title']}"
+			value = f"**{currentTrackIndex+1}・**{track['title']}"
 			guild = client.get_guild(ctx.guild_id)
 			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
@@ -174,10 +174,10 @@ def init_audio_activity(params):
 			for i in range(len(playlist)):
 				track = playlist[i]
 				if (currentTrackIndex == i):
-					index = '▶'
+					index = '►'
 				else:
 					index = i+1
-				value += f"**{index}**・{track['title']}\n"
+				value += f"**{index}・**{track['title']}\n"
 			guild = client.get_guild(ctx.guild_id)
 			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
@@ -197,7 +197,7 @@ def init_audio_activity(params):
 				await ctx.send('⚠ A track is currently playing')
 				return
 			playlist = []
-			await ctx.send('⚠ Playlist is clear')
+			await ctx.send('🗑 Playlist is clear')
 		except Exception as ex:
 			print('----- /flushlist -----')
 			print(ex)
@@ -297,10 +297,12 @@ def init_audio_activity(params):
 	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
 	async def leave(ctx):
 		try:
-			await ctx.send('🚪 Leaving ...')
 			voice = get(client.voice_clients, guild = ctx.guild)
 			if voice != None:
 				await voice.disconnect()
+				await ctx.send('🚪 Leaving ...')
+			else:
+				await ctx.send('❌ Not connected ...')
 		except Exception as ex:
 			print('----- /leave -----')
 			print(ex)
