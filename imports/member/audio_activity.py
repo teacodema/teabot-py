@@ -13,7 +13,7 @@ def init_audio_activity(params):
 	currentTrackIndex = 0
 	_ctxPlay = None,
 	voice = None
-	move_clicked = False
+	btn_pressed = False
 
 
 	ydl_opts = {'noplaylist': True,
@@ -46,6 +46,7 @@ def init_audio_activity(params):
 				if voice == None:
 					await resetPlayer(ctx, "✅ Connected + Track is queued + played", None, vc)
 				else:
+					await ctx.send("▶ Playing ...")
 					playTrack(ctx)
 				return
 			else:
@@ -106,9 +107,10 @@ def init_audio_activity(params):
 	
 	def playNext(err):
 		try:
-			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, move_clicked
-			if move_clicked:
-				move_clicked = False
+			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
+			
+			if btn_pressed:
+				btn_pressed = False
 				return
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
@@ -191,7 +193,7 @@ def init_audio_activity(params):
 		try:
 			nonlocal playlist
 			voice = get(client.voice_clients, guild = ctx.guild)
-			if voice and voice.is_connected() and voice.is_playing():
+			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⚠ A track is currently playing')
 				return
 			playlist = []
@@ -205,9 +207,9 @@ def init_audio_activity(params):
 	@slash.slash(name = "next", description = "Play next track", guild_ids = [guildId])
 	async def next(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, move_clicked
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
-			move_clicked = True
+			btn_pressed = True
 			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
 				return
@@ -227,9 +229,9 @@ def init_audio_activity(params):
 	@slash.slash(name = "previous", description = "Play previous track", guild_ids = [guildId])
 	async def previous(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, move_clicked
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
-			move_clicked = True
+			btn_pressed = True
 			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
 				return
@@ -277,7 +279,9 @@ def init_audio_activity(params):
 	@slash.slash(name = "stop", description = "Stops the player", guild_ids = [guildId])
 	async def stop(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+
+			btn_pressed = True			
 			voice = get(client.voice_clients, guild = ctx.guild)
 			if voice:
 				if voice.is_playing() or voice.is_connected():
