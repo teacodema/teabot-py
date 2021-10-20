@@ -35,17 +35,19 @@ def init_server_activity(params):
 	@client.event
 	async def on_member_join(member):
 		try:
-			message = await welcomeMember(member)
 			if (member.bot == False):
 				memberType = 'Human'
 			else:
 				memberType = 'Bot'
-			channel = client.get_channel(textChannels['log-server'])
+			message = await welcomeMember(member)
 			if (message == -1):
-				await channel.send(f'❗ DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({memberType})**')
+				msg = f'❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
 			else:
-				await channel.send(f'📨 DM/ Welcome Message --> Member: **{member.name}#{member.discriminator} ({memberType})**')
-			await updateMembersCount(member, client, True)
+				msg = f'📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
+			membersCount = await updateMembersCount(member, client)
+			channel = client.get_channel(textChannels['log-server'])
+			msg += f'\n:green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
+			await channel.send(msg)
 		except Exception as ex:
 			print('----- on_member_join 1-----')
 			print(ex)
@@ -75,7 +77,10 @@ def init_server_activity(params):
 	@client.event
 	async def on_member_remove(member):
 		try:
-			await updateMembersCount(member, client, False)
+			membersCount = await updateMembersCount(member, client)
+			channel = client.get_channel(textChannels['log-server'])
+			msg = f':red_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) left **TeaCode**'
+			await channel.send(msg)
 		except Exception as ex:
 			print('----- on_member_remove -----')
 			print(ex)
@@ -84,23 +89,19 @@ def init_server_activity(params):
 	@slash.slash(name="welcome", guild_ids=[guildId])
 	async def welcome(ctx, member: discord.Member):
 		try:
-			logCount = True
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
 				return
-				
 			await ctx.send(f'Msg sent to {member.mention}', delete_after = 2)
-			
 			message = await welcomeMember(member)
-			
-			channel = client.get_channel(textChannels['log-server'])
 			if (message == -1):
-				await channel.send(f'❗ DM/ Welcome Message --> Member: **{member.name}#{member.discriminator}**')
+				msg = f'❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
 			else:
-				await channel.send(f'📨 DM/ Welcome Message --> Member: **{member.name}#{member.discriminator}**')
-			
-			if logCount:
-				await updateMembersCount(member, client, True)
+				msg = f'📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
+			membersCount = await updateMembersCount(member, client)
+			channel = client.get_channel(textChannels['log-server'])
+			msg += f'\n:green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
+			await channel.send(msg)
 		except Exception as ex:
 			print('----- /welcome -----')
 			print(ex)
@@ -108,8 +109,6 @@ def init_server_activity(params):
 ######################## WELCOME MEMBER ########################
 async def welcomeMember(member):
 	try:
-		channel = await member.create_dm()
-
 		message = f'Merhba {member.mention} bik m3ana f **TeaCode Community** :partying_face: :tada: '
 		message += "\nWhere We help/support **Moroccans** programming beginners :computer: in their learning journey :rocket:"
 		
@@ -132,14 +131,15 @@ async def welcomeMember(member):
 		message += "\n   **・**Website : <https://teacode.ma>"
 		message += "\n   **・**Discord : https://discord.gg/vKu2fkPqjY"
 		message += "\n   **・**Facebook : <https://teacode.ma/facebook>"
-		message += "\n   **・**Youtube : <https://teacode.ma/youtube>"
+		message += "\n   **・**YouTube : <https://teacode.ma/youtube>"
 		message += "\n   **・**Instagram : <https://teacode.ma/instagram>"
 		message += "\n   **・**Twitter : <https://teacode.ma/twitter>"
 
 		message += "\n\n**4┊How To Support us**"
-		message += "\n   **・**Paypal : <https://teacode.ma/paypal>"
+		message += "\n   **・**PayPal : <https://teacode.ma/paypal>"
 		message += "\n   **・**Patreon : <https://teacode.ma/patreon>"
 	
+		channel = await member.create_dm()
 		await channel.send(message)
 		return message
 	except Exception as ex:
@@ -159,17 +159,12 @@ async def validateMemeber(member, roleId, client, get):
 
 
 ######################## UPDATE MEMBERS COUNT ########################
-async def updateMembersCount(member, client, join = True):
+async def updateMembersCount(member, client):
 	try:
 		guild = client.get_guild(guildId)
 		memberList = guild.members
 		membersCount = len(memberList)
-
-		logServerActivity = client.get_channel(textChannels['log-server'])
-		if (join):
-			await logServerActivity.send(f':green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**')
-		else:
-			await logServerActivity.send(f':red_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) left **TeaCode**')
+		return membersCount
 	except Exception as ex:
 		print('----- updateMembersCount -----')
 		print(ex)
