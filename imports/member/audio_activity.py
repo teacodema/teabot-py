@@ -1,5 +1,6 @@
 from setup.properties import *
 import re
+import datetime
 
 def init_audio_activity(params):
 
@@ -19,6 +20,8 @@ def init_audio_activity(params):
 	ydl_opts = {'noplaylist': True,
         			'outtmpl': 'music',
 							'format': 'bestaudio/best',
+							'ignoreerrors': True,
+							'quiet': True,
 							'postprocessors': [{
 									'key': 'FFmpegExtractAudio',
 									'preferredcodec': 'mp3',
@@ -63,7 +66,7 @@ def init_audio_activity(params):
 				if (voice.is_connected()):
 					if (voice.is_playing()):
 						await ctx.send("⬆ Track is queued")
-						track = extrackUrlData(url)
+						track = extractUrlData(url)
 						playlist.append(track)
 					else:
 						await resetPlayer(ctx, "▶ Playing ...", url)
@@ -78,14 +81,27 @@ def init_audio_activity(params):
 			print('----- /play -----')
 			print(ex)
 
-	def extrackUrlData(url):
-		nonlocal ydl_opts
-		with YoutubeDL(ydl_opts) as ydl:
-			info = ydl.extract_info(url, download = False)
-		URL = info['formats'][0]['url']
-		title = info['title']
-		duration = info['duration']
-		return {"_url": URL, "url": url, "title": title, "duration": duration}
+	def extractUrlData(url):
+		try:
+			nonlocal ydl_opts
+			with YoutubeDL(ydl_opts) as ydl:
+				info = ydl.extract_info(url, download = False)
+			URL = info['formats'][0]['url']
+			title = info['title']
+			duration = info['duration']
+			thumbnail = info['thumbnail']
+			id = info['id']
+			track = {
+				"_url": URL, "url": url,
+				"id": id, "title": title,
+				"_duration": duration, "duration": datetime.timedelta(seconds=duration),
+				"thumbnail": thumbnail
+			}
+			return track
+		except Exception as ex:
+			print('----- extractUrlData -----')
+			print(ex)
+
 
 	async def resetPlayer(ctx, msg, url=None, vc=None):
 		try:
@@ -93,7 +109,7 @@ def init_audio_activity(params):
 			await ctx.send(msg)
 			if url:
 				# playlist = []
-				track = extrackUrlData(url)
+				track = extractUrlData(url)
 				playlist.append(track)
 			else:
 				track = playlist[currentTrackIndex]
@@ -109,6 +125,8 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
 			
+			print(err)
+
 			if btn_pressed:
 				btn_pressed = False
 				return
@@ -150,10 +168,12 @@ def init_audio_activity(params):
 				await ctx.send('⚠ The playlist is empty')
 				return
 			track = playlist[currentTrackIndex]
-			value = f"**{currentTrackIndex+1}・**{track['title']}"
+			value = f"**{currentTrackIndex+1}・**{track['title']} - {track['duration']}"
 			guild = client.get_guild(ctx.guild_id)
-			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
-			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+			embed = discord.Embed(color=0x1da1f2)
+			embed.set_thumbnail(url=track['thumbnail'])
+			embed.set_footer(text=f"Visit 👉 teacode.ma")
+			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
 			await ctx.send(embed=embed)
 		except Exception as ex:
@@ -177,10 +197,12 @@ def init_audio_activity(params):
 					index = '►'
 				else:
 					index = i+1
-				value += f"**{index}・**{track['title']}\n"
+				value += f"**{index}・**{track['title']} - {track['duration']}\n"
 			guild = client.get_guild(ctx.guild_id)
-			embed = discord.Embed(title='TeaBot', description="", color=0x1da1f2)
-			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+			embed = discord.Embed(color=0x1da1f2)
+			embed.set_thumbnail(url=guild.icon_url)
+			embed.set_footer(text=f"Visit 👉 teacode.ma")
+			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="📋│Playlist", value=value, inline=True)
 			await ctx.send(embed=embed)
 		except Exception as ex:
