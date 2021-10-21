@@ -1,6 +1,7 @@
 from setup.properties import *
 import re
 import datetime
+import random
 
 def init_audio_activity(params):
 
@@ -16,11 +17,12 @@ def init_audio_activity(params):
 	voice = None
 	btn_pressed = False
 
-
-	ydl_opts = {'noplaylist': True,
+	ydl_opts = {
+							'noplaylist': True,
+							'max-downloads': 1,
         			'outtmpl': 'music',
 							'format': 'bestaudio/best',
-							'ignoreerrors': True,
+							# 'ignoreerrors': True,
 							'quiet': True,
 							'postprocessors': [{
 									'key': 'FFmpegExtractAudio',
@@ -34,17 +36,22 @@ def init_audio_activity(params):
 	async def play(ctx, url=None):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
-			user = ctx.author
-			voice = get(client.voice_clients, guild = ctx.guild)
+			# user = ctx.author
 
-			if (user.voice == None):
+			# if (user.voice == None):
+			# 	await ctx.send('❌ You need to be connected to a voice channel')
+			# 	return
+			
+			# vc = user.voice.channel
+			vc = isUserConnected(ctx)
+			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			
-			vc = user.voice.channel
+
+			voice = get(client.voice_clients, guild = ctx.guild)
 			if not url:
 				if len(playlist) == 0:
-					await ctx.send('The playlist is empty ⚠')
+					await ctx.send('⚠ The playlist is empty')
 					return
 				if voice == None:
 					await resetPlayer(ctx, "▶ Playing ...", None, vc)
@@ -59,7 +66,7 @@ def init_audio_activity(params):
 					'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
 				youtube_regex_match = re.match(youtube_regex, url)
 				if not youtube_regex_match:
-					await ctx.send('❌ You need to provide a valide youtube url')
+					await ctx.send('❌ You need to provide a valide youtube video url')
 					return
 
 			if (voice):
@@ -91,7 +98,7 @@ def init_audio_activity(params):
 			track = {
 				"_url": URL, "url": url,
 				"id": id, "title": title,
-				"_duration": duration, "duration": datetime.timedelta(seconds=duration),
+				"_duration": duration, "duration": str(datetime.timedelta(seconds=duration)).lstrip("0:"),
 				"thumbnail": thumbnail
 			}
 			return track
@@ -100,10 +107,11 @@ def init_audio_activity(params):
 			print(ex)
 
 
-	async def resetPlayer(ctx, msg, url=None, vc=None):
+	async def resetPlayer(ctx, msg = None, url=None, vc=None):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
-			await ctx.send(msg)
+			if msg:
+				await ctx.send(msg)
 			if url:
 				# playlist = []
 				track = extractUrlData(url)
@@ -112,7 +120,9 @@ def init_audio_activity(params):
 			else:
 				currentTrackIndex = 0
 				track = playlist[currentTrackIndex]
-			if vc:
+
+			voice = get(client.voice_clients, guild = ctx.guild)
+			if vc and (not voice or not voice.is_connected()):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
@@ -152,6 +162,7 @@ def init_audio_activity(params):
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
 			voice = get(client.voice_clients, guild = ctx.guild)
+			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 		except Exception as ex:
 			print('----- playTrack -----')
@@ -195,10 +206,10 @@ def init_audio_activity(params):
 					index = '►'
 				else:
 					index = i+1
-				value += f"**{index}・**{track['title']} - {track['duration']}\n"
+				value += f"**{index}・**{track['title'][0:40]}... - {track['duration']}\n"
 			guild = client.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
-			embed.set_thumbnail(url=guild.icon_url)
+			# embed.set_thumbnail(url=guild.icon_url)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="📋│Playlist", value=value, inline=True)
@@ -208,7 +219,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## PLAYLIST ########################
-	@slash.slash(name = "flushlist", description = "Flushes the playlist", guild_ids = [guildId])
+	@slash.slash(name = "flush-list", description = "Flushes the playlist", guild_ids = [guildId])
 	async def flushlist(ctx):
 		try:
 			nonlocal playlist
@@ -223,6 +234,30 @@ def init_audio_activity(params):
 			print(ex)
 
 
+	######################## REPLAY ########################
+	@slash.slash(name = "replay", description = "Replay current track", guild_ids = [guildId])
+	async def replay(ctx):
+		try:
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+
+			btn_pressed = True
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
+			if len(playlist) == 0:
+				await ctx.send('⚠ The playlist is empty')
+				return
+			await ctx.send('▶ Replay ...')
+
+			voice = get(client.voice_clients, guild = ctx.guild)
+			if not voice or not voice.is_connected():
+				await vc.connect()
+			playTrack(ctx)
+		except Exception as ex:
+			print('----- /replay -----')
+			print(ex)
+
 	######################## NEXT ########################
 	@slash.slash(name = "next", description = "Play next track", guild_ids = [guildId])
 	async def next(ctx):
@@ -230,6 +265,10 @@ def init_audio_activity(params):
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
 			btn_pressed = True
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
 			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
 				return
@@ -239,7 +278,8 @@ def init_audio_activity(params):
 				currentTrackIndex = 0
 
 			voice = get(client.voice_clients, guild = ctx.guild)
-			voice.stop()
+			if not voice or not voice.is_connected():
+				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
 			print('----- /next -----')
@@ -252,6 +292,10 @@ def init_audio_activity(params):
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
 			btn_pressed = True
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
 			if len(playlist) == 0:
 				await ctx.send('⚠ The playlist is empty')
 				return
@@ -261,7 +305,8 @@ def init_audio_activity(params):
 				currentTrackIndex = len(playlist) - 1
 
 			voice = get(client.voice_clients, guild = ctx.guild)
-			voice.stop()
+			if not voice or not voice.is_connected():
+				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
 			print('----- /previous -----')
@@ -271,6 +316,10 @@ def init_audio_activity(params):
 	@slash.slash(name = "pause", description = "Pauses the player", guild_ids = [guildId])
 	async def pause(ctx):
 		try:
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
 			voice = get(client.voice_clients, guild = ctx.guild)
 			if voice and voice.is_playing():
 				await ctx.send('⏸ Pausing ...')
@@ -285,6 +334,10 @@ def init_audio_activity(params):
 	@slash.slash(name = "resume", description = "Resumes the player", guild_ids = [guildId])
 	async def resume(ctx):
 		try:
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
 			voice = get(client.voice_clients, guild = ctx.guild)
 			if voice and voice.is_paused():
 				await ctx.send('⏯ Resuming ...')
@@ -301,12 +354,15 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
-			btn_pressed = True			
+			btn_pressed = True
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
 			voice = get(client.voice_clients, guild = ctx.guild)
-			if voice:
-				if voice.is_playing() or voice.is_connected():
-					await ctx.send('⏹ Stopping ...')
-					voice.stop()
+			if voice and (voice.is_playing() or voice.is_paused()):
+				await ctx.send('⏹ Stopping ...')
+				voice.stop()
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
@@ -327,27 +383,32 @@ def init_audio_activity(params):
 			print('----- /leave -----')
 			print(ex)
 
-	# ######################## LAUNCH ########################
-	# @slash.slash(name = "hit-it", description = "Start the music", guild_ids = [guildId])
-	# async def hit_it(ctx):
-	# 	try:
-	# 		nonlocal playlist
-	# 		if len(playlist) == 0:
-	# 			initPlaylist()
-			
-	# 		print(len(playlist))
-	# 		voice = get(client.voice_clients, guild = ctx.guild)
-	# 		if voice == None:
-	# 			user = ctx.author
-	# 			vc = user.voice.channel
-	# 			await resetPlayer(ctx, "🎤 Starting ...", None, vc)
-	# 			print('reset')
-	# 			return
-	# 		await ctx.send('▶ Playing ...')
-	# 		playTrack(ctx)
-	# 	except Exception as ex:
-	# 		print('----- /hit-it -----')
-	# 		print(ex)
+
+	# ######################## REFRESH LIST ########################
+	@slash.slash(name = "refresh", description = "Refresh the playlist", guild_ids = [guildId])
+	async def refresh(ctx):
+		try:
+			nonlocal playlist
+			playlist = []
+			await ctx.send('📋 Playlist refreshed')
+			initPlaylist()
+		except Exception as ex:
+			print('----- /refresh -----')
+			print(ex)
+	
+	def isUserConnected(ctx):
+		try:
+			user = ctx.author
+			# voice = get(client.voice_clients, guild = ctx.guild)
+			if user.voice == None:
+				# await ctx.send('❌ You need to be connected to a voice channel')
+				return False
+			vc = user.voice.channel
+			return vc
+		except Exception as ex:
+			print('----- checkUserVoice -----')
+			print(ex)
+			return False
 	
 
 	def initPlaylist():
@@ -355,12 +416,25 @@ def init_audio_activity(params):
 			nonlocal playlist
 			defaultList = [
 				'https://www.youtube.com/watch?v=EM1cCc0Kphk',	#Zulishanti - Likwid (Sauniks Remix)
-				'https://www.youtube.com/watch?v=hq09XH3KCeY',	#Zubi - Sugar (feat. Anatu)
+				'https://www.youtube.com/watch?v=wOO_5Mv1JXQ',	#Zubi - Sugar (feat. Anatu)
 				'https://www.youtube.com/watch?v=bX4C8B2MEak',	#DIOR, Samo & ID - Положение | Так дайте пацанам посчитать потери
 				'https://www.youtube.com/watch?v=mbnjzSFuU8Y',	#Zeraphym - Lifeline
 				'https://www.youtube.com/watch?v=qAgPH1CWiAw',	#Attack on Titan 2 - 'Barricades' with Lyrics
 				'https://www.youtube.com/watch?v=HHgepB44oMk',	#X-Ray Dog - Prophet [HQ]
+				'https://www.youtube.com/watch?v=bLZHcnuqscU',	#Unknown Brain x Rival - Control (feat. Jex) [NCS Release]
+				'https://www.youtube.com/watch?v=yJg-Y5byMMw',	#Warriyo - Mortals (feat. Laura Brehm) [NCS Release]
+				'https://www.youtube.com/watch?v=BnSkt6V3qF0', 	#Ruelle - Madness
+				'https://www.youtube.com/watch?v=FA2w-PMKspo',	#Thirty Seconds To Mars - Walk On Water (Lyric Video)
+				'https://www.youtube.com/watch?v=VDvr08sCPOc',	#Remember The Name (Official Video) - Fort Minor
+				'https://www.youtube.com/watch?v=qaX5nR2GFaY', 	#Leon Machère & Kay One - Portofino 🌴☀️ ft. Tilly (Official Video)
+				'https://www.youtube.com/watch?v=8Hu8L7psTHQ', 	#GIMS - Miami Vice (Clip Officiel)
+				'https://www.youtube.com/watch?v=MTmUmU7LaHg',	#GIMS - Jasmine (Audio Officiel)
+				'https://www.youtube.com/watch?v=GpkHJlyV7TQ',	#Feint - My Sunset (Original Mix)
+
 			]
+			random.shuffle(defaultList)
+			defaultList = defaultList[0:3]
+
 			for track_url in defaultList:
 				track = extractUrlData(track_url)
 				playlist.append(track)
