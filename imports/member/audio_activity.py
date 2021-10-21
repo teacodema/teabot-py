@@ -47,7 +47,7 @@ def init_audio_activity(params):
 					await ctx.send('The playlist is empty ⚠')
 					return
 				if voice == None:
-					await resetPlayer(ctx, "✅ Connected + Track is queued + played", None, vc)
+					await resetPlayer(ctx, "▶ Playing ...", None, vc)
 				else:
 					await ctx.send("▶ Playing ...")
 					playTrack(ctx)
@@ -64,19 +64,16 @@ def init_audio_activity(params):
 
 			if (voice):
 				if (voice.is_connected()):
-					if (voice.is_playing()):
+					if (voice.is_playing() or voice.is_paused()):
 						await ctx.send("⬆ Track is queued")
 						track = extractUrlData(url)
 						playlist.append(track)
 					else:
 						await resetPlayer(ctx, "▶ Playing ...", url)
-						# await resetPlayer(ctx, "🎵 Track is queued + played", url)
 				else:
 					await resetPlayer(ctx, "▶ Playing ...", url, vc)
-					# await resetPlayer(ctx, "🎵 Track is queued + played", url, vc)
 			else:
 				await resetPlayer(ctx, "▶ Playing ...", url, vc)
-				# await resetPlayer(ctx, "✅ Connected + Track is queued + played", url, vc)
 		except Exception as ex:
 			print('----- /play -----')
 			print(ex)
@@ -111,9 +108,10 @@ def init_audio_activity(params):
 				# playlist = []
 				track = extractUrlData(url)
 				playlist.append(track)
+				currentTrackIndex = len(playlist) - 1 #0
 			else:
+				currentTrackIndex = 0
 				track = playlist[currentTrackIndex]
-			currentTrackIndex = 0
 			if vc:
 				await vc.connect()
 			playTrack(ctx)
@@ -172,7 +170,7 @@ def init_audio_activity(params):
 			guild = client.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			embed.set_thumbnail(url=track['thumbnail'])
-			embed.set_footer(text=f"Visit 👉 teacode.ma")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
 			await ctx.send(embed=embed)
@@ -201,7 +199,7 @@ def init_audio_activity(params):
 			guild = client.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			embed.set_thumbnail(url=guild.icon_url)
-			embed.set_footer(text=f"Visit 👉 teacode.ma")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="📋│Playlist", value=value, inline=True)
 			await ctx.send(embed=embed)
@@ -328,3 +326,46 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /leave -----')
 			print(ex)
+
+	# ######################## LAUNCH ########################
+	# @slash.slash(name = "hit-it", description = "Start the music", guild_ids = [guildId])
+	# async def hit_it(ctx):
+	# 	try:
+	# 		nonlocal playlist
+	# 		if len(playlist) == 0:
+	# 			initPlaylist()
+			
+	# 		print(len(playlist))
+	# 		voice = get(client.voice_clients, guild = ctx.guild)
+	# 		if voice == None:
+	# 			user = ctx.author
+	# 			vc = user.voice.channel
+	# 			await resetPlayer(ctx, "🎤 Starting ...", None, vc)
+	# 			print('reset')
+	# 			return
+	# 		await ctx.send('▶ Playing ...')
+	# 		playTrack(ctx)
+	# 	except Exception as ex:
+	# 		print('----- /hit-it -----')
+	# 		print(ex)
+	
+
+	def initPlaylist():
+		try:
+			nonlocal playlist
+			defaultList = [
+				'https://www.youtube.com/watch?v=EM1cCc0Kphk',	#Zulishanti - Likwid (Sauniks Remix)
+				'https://www.youtube.com/watch?v=hq09XH3KCeY',	#Zubi - Sugar (feat. Anatu)
+				'https://www.youtube.com/watch?v=bX4C8B2MEak',	#DIOR, Samo & ID - Положение | Так дайте пацанам посчитать потери
+				'https://www.youtube.com/watch?v=mbnjzSFuU8Y',	#Zeraphym - Lifeline
+				'https://www.youtube.com/watch?v=qAgPH1CWiAw',	#Attack on Titan 2 - 'Barricades' with Lyrics
+				'https://www.youtube.com/watch?v=HHgepB44oMk',	#X-Ray Dog - Prophet [HQ]
+			]
+			for track_url in defaultList:
+				track = extractUrlData(track_url)
+				playlist.append(track)
+		except Exception as ex:
+			print('----- initPlaylist -----')
+			print(ex)
+				
+	initPlaylist()
