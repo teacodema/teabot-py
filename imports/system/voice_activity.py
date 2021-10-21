@@ -16,9 +16,9 @@ def init_voice_activity(params):
 			await logStaffVoice(member, voice1, voice2, client, get)
 			await logModeratorsVoice(member, voice1, voice2, client, get)
 			await logAllVoice(member, voice1, voice2, client, get)
-			voice_state = member.guild.voice_client
-			if voice_state is not None and len(voice_state.channel.members) == 1:
-				await voice_state.disconnect()
+			# voice_state = member.guild.voice_client
+			# if voice_state is not None and len(voice_state.channel.members) == 1:
+			# 	await voice_state.disconnect()
 		except Exception as ex:
 			print('----- on_voice_state_update -----')
 			print(ex)
