@@ -142,7 +142,7 @@ def init_voice_activity(params):
 			if (voice1.channel):
 				msg = f'❌ **{member.mention}** left **{voice1.channel.name}**'
 			if (voice2.channel):
-				msg = f'🖐 **{member.mention}** joined **{voice2.channel.name}**'
+				msg = f'👋 **{member.mention}** joined **{voice2.channel.name}**'
 			return msg
 		except Exception as ex:
 			print('----- getVoiceLogMessage -----')
