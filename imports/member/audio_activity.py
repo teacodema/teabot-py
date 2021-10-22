@@ -19,10 +19,13 @@ def init_audio_activity(params):
 
 	ydl_opts = {
 							'noplaylist': True,
+			        'nocheckcertificate': True,
 							'max-downloads': 1,
         			'outtmpl': 'music',
 							'format': 'bestaudio/best',
+			        'audioformat': 'mp3',
 							# 'ignoreerrors': True,
+							'no_warnings': True,
 							'quiet': True,
 							'postprocessors': [{
 									'key': 'FFmpegExtractAudio',
@@ -389,6 +392,10 @@ def init_audio_activity(params):
 	async def refresh(ctx):
 		try:
 			nonlocal playlist
+			voice = get(client.voice_clients, guild = ctx.guild)
+			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
+				await ctx.send('⚠ A track is currently playing')
+				return
 			playlist = []
 			await ctx.send('📋 Playlist refreshed')
 			initPlaylist()
