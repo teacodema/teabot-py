@@ -9,14 +9,16 @@ def init_members_interaction(params):
 
 	######################## SEND MSG TO CHANNEL ########################
 	@slash.slash(name = "msg_channel", guild_ids=[guildId])
-	async def msg_channel(ctx, message, channel: discord.TextChannel):
+	async def msg_channel(ctx, msg, channel: discord.TextChannel):
 		try:
 			
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
 				return
-
-			await channel.send(message)
+			
+			msg = msg.replace("\\n", "\n")
+			msg = msg.replace("\\t", "	")
+			await channel.send(msg)
 			await ctx.send('Msg sent', delete_after = 2)
 		
 		except Exception as ex:
@@ -25,28 +27,30 @@ def init_members_interaction(params):
 
 	######################## SEND MSG TO MEMBER ########################
 	@slash.slash(name = "dm", guild_ids=[guildId])
-	async def dm(ctx, message, member: discord.Member = None, role: discord.Role = None):
+	async def dm(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
 				return
 
+			msg = msg.replace("\\n", "\n")
+			msg = msg.replace("\\t", "	")
 			await ctx.send("Sending direct message...", delete_after = 2)
 
 			notifyMe = 'DM/'
 			if role == None:
 				if member == None: 
 					member = ctx.author
-				await send_msg(ctx, message, member)
-				notifyMe += f'\n{message} --> Member: **{member.name}#{member.discriminator}**'
+				await send_msg(ctx, msg, member)
+				notifyMe += f'\n{msg} ➜ Member: **{member.name}#{member.discriminator}**'
 			else:
 				if member != None:
-					await send_msg(ctx, message, member)
-					notifyMe += f'\n{message} --> Member: **{member.name}#{member.discriminator}**'
+					await send_msg(ctx, msg, member)
+					notifyMe += f'\n{msg} ➜ Member: **{member.name}#{member.discriminator}**'
 				members = role.members
 				for member in members:
-					await send_msg(ctx, message, member)
-				notifyMe += f'\n{message} --> Role: **{role.name}**'
+					await send_msg(ctx, msg, member)
+				notifyMe += f'\n{msg} ➜ Role: **{role.name}**'
 			
 			channel = client.get_channel(textChannels['log-channel'])
 			await channel.send(notifyMe)
