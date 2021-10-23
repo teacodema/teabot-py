@@ -5,7 +5,7 @@ from setup.actions import *
 
 def init_bot_activity(params):
 
-	client = params['client']
+	bot = params['bot']
 	# client2 = params['client2']
 	discord = params['discord']
 	# slash = params['slash']
@@ -22,10 +22,10 @@ def init_bot_activity(params):
 	# ]
 
 	######################## BOT READY ########################
-	@client.event
+	@bot.event
 	async def on_ready():
 		try:
-			await startBot(client, discord)
+			await startBot(bot, discord)
 			start_loop()
 		except Exception as ex:
 			print('----- on_ready -----')
@@ -71,8 +71,8 @@ def init_bot_activity(params):
 		@tasks.loop(hours=48, count=None, reconnect=False)
 		async def check_membership_loop():
 			try:
-				updatedMembers = await checkNewMemberRole(client, get)
-				logChannel = client.get_channel(textChannels['log-channel'])
+				updatedMembers = await checkNewMemberRole(bot, get)
+				logChannel = bot.get_channel(textChannels['log-channel'])
 				msg = ''
 				updatedMembersCount = len(updatedMembers)
 				if updatedMembersCount:
@@ -91,7 +91,7 @@ def init_bot_activity(params):
 			# user = client2.get_user(users['drissboumlik'])
 			# user = client.get_user(users['drissboumlik'])
 			# channel = user.dm_channel
-			channel = client.get_channel(textChannels['log-bot'])
+			channel = bot.get_channel(textChannels['log-bot'])
 			timeZ_Ma = pytz.timezone('Africa/Casablanca')
 			dt_Ma = datetime.now(timeZ_Ma)
 			await channel.send(f':green_heart: am alive - {dt_Ma.strftime("%d %B %Y - %H:%M")}')
@@ -100,15 +100,15 @@ def init_bot_activity(params):
 
 
 ######################## BOT READY ########################
-async def startBot(client, discord):
+async def startBot(bot, discord):
 	try:
-		print("We have logged in as {0.user}".format(client))
+		print("We have logged in as {0.user}".format(bot))
 		status = discord.Status.online
 		# activity = discord.Activity(type=discord.ActivityType.watching, name="teacode.ma")
 		# activity = discord.Game(name="https://teacode.ma", type=3)
 		activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
 		# class discord.CustomActivity(name, *, emoji=None, **extra)
-		await client.change_presence(status=status, activity=activity)
+		await bot.change_presence(status=status, activity=activity)
 	except Exception as ex:
 		print('----- startBot -----')
 		print(ex)

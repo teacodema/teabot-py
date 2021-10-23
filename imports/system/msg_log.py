@@ -4,7 +4,7 @@ from setup.actions import *
 
 def init_msg_log(params):
 	
-	client = params['client']
+	bot = params['bot']
 	slash = params['slash']
 	purgedMsgs = []
 
@@ -59,7 +59,7 @@ def init_msg_log(params):
 			else:
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
-				logMsgsChannel = client.get_channel(textChannels['log-msg'])
+				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
 				headerMsg = f"❌ **purge({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in purgedMsgs:
@@ -104,7 +104,7 @@ def init_msg_log(params):
 
 				count = len(deletedMsgs)
 				deletedMsgs.reverse()
-				logMsgsChannel = client.get_channel(textChannels['log-msg'])
+				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
 				headerMsg = f"❌ **clear({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in deletedMsgs:

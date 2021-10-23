@@ -5,7 +5,7 @@ import random
 
 def init_audio_activity(params):
 
-	client = params['client']
+	bot = params['bot']
 	slash = params['slash']
 	discord = params['discord']
 	get = params['get']
@@ -51,7 +51,7 @@ def init_audio_activity(params):
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if not url:
 				if len(playlist) == 0:
 					await ctx.send('⚠ The playlist is empty')
@@ -124,7 +124,7 @@ def init_audio_activity(params):
 				currentTrackIndex = 0
 				track = playlist[currentTrackIndex]
 
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if vc and (not voice or not voice.is_connected()):
 				await vc.connect()
 			playTrack(ctx)
@@ -144,7 +144,7 @@ def init_audio_activity(params):
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
 				return
-			voice = get(client.voice_clients, guild = _ctxPlay.guild)
+			voice = get(bot.voice_clients, guild = _ctxPlay.guild)
 			if not voice or not voice.is_connected():
 				# await ctx.send('❌ The bot is not connected')
 				return
@@ -164,7 +164,7 @@ def init_audio_activity(params):
 			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 		except Exception as ex:
@@ -181,7 +181,7 @@ def init_audio_activity(params):
 				return
 			track = playlist[currentTrackIndex]
 			value = f"**{currentTrackIndex+1}・**{track['title']} - {track['duration']}"
-			guild = client.get_guild(ctx.guild_id)
+			guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			embed.set_thumbnail(url=track['thumbnail'])
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
@@ -210,7 +210,7 @@ def init_audio_activity(params):
 				else:
 					index = i+1
 				value += f"**{index}・**{track['title'][0:40]}... - {track['duration']}\n"
-			guild = client.get_guild(ctx.guild_id)
+			guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			# embed.set_thumbnail(url=guild.icon_url)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
@@ -226,7 +226,7 @@ def init_audio_activity(params):
 	async def flushlist(ctx):
 		try:
 			nonlocal playlist
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⚠ A track is currently playing')
 				return
@@ -253,7 +253,7 @@ def init_audio_activity(params):
 				return
 			await ctx.send('▶ Replay ...')
 
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if not voice or not voice.is_connected():
 				await vc.connect()
 			playTrack(ctx)
@@ -280,7 +280,7 @@ def init_audio_activity(params):
 			if currentTrackIndex >= len(playlist):
 				currentTrackIndex = 0
 
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if not voice or not voice.is_connected():
 				await vc.connect()
 			playTrack(ctx)
@@ -307,7 +307,7 @@ def init_audio_activity(params):
 			if currentTrackIndex < 0:
 				currentTrackIndex = len(playlist) - 1
 
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if not voice or not voice.is_connected():
 				await vc.connect()
 			playTrack(ctx)
@@ -323,7 +323,7 @@ def init_audio_activity(params):
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice and voice.is_playing():
 				await ctx.send('⏸ Pausing ...')
 				voice.pause()
@@ -341,7 +341,7 @@ def init_audio_activity(params):
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice and voice.is_paused():
 				await ctx.send('⏯ Resuming ...')
 				voice.resume()
@@ -362,7 +362,7 @@ def init_audio_activity(params):
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⏹ Stopping ...')
 				voice.stop()
@@ -376,7 +376,7 @@ def init_audio_activity(params):
 	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
 	async def leave(ctx):
 		try:
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice != None:
 				await voice.disconnect()
 				await ctx.send('🚪 Leaving ...')
@@ -392,7 +392,7 @@ def init_audio_activity(params):
 	async def refresh(ctx):
 		try:
 			nonlocal playlist
-			voice = get(client.voice_clients, guild = ctx.guild)
+			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⚠ A track is currently playing')
 				return

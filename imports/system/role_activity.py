@@ -3,11 +3,12 @@ from setup.actions import *
 
 def init_role_activity(params):
 	
-	client = params['client']
+	bot = params['bot']
 	discord = params['discord']
 	slash = params['slash']
 
 	######################## ROLE ADD ########################
+	# @bot.command(name="assign", pass_context=True)
 	@slash.slash(name="assign", description="Assign a role to a member", guild_ids=[guildId])
 	async def assign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
@@ -21,20 +22,21 @@ def init_role_activity(params):
 				msg = f'{role2.mention} got a new role : {role.mention}'
 				members = role2.members
 				for memberTo in members:
-					await toggleRole(client, ctx, memberTo, role, True)
+					await toggleRole(bot, ctx, memberTo, role, True)
 			else:
 				if (not member):
 					member = ctx.author
-				await toggleRole(client, ctx, member, role, True)
+				await toggleRole(bot, ctx, member, role, True)
 				msg = f'{member.mention} got a new role : {role.mention}'
 
-			channel = client.get_channel(textChannels['log-channel'])
+			channel = bot.get_channel(textChannels['log-channel'])
 			await channel.send(msg)
 		except Exception as ex:
 			print('----- /assign -----')
 			print(ex)
 
 	######################## ROLE REMOVE ########################
+	# @bot.command(name="unassign", pass_context=True)
 	@slash.slash(name = "unassign", description="Remove a role from a member", guild_ids = [guildId])
 	async def unassign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
@@ -48,14 +50,14 @@ def init_role_activity(params):
 				msg = f'{role2.mention} lost a role : {role.mention}'
 				members = role2.members
 				for memberTo in members:
-					await toggleRole(client, ctx, memberTo, role, False)
+					await toggleRole(bot, ctx, memberTo, role, False)
 			else:
 				if (not member):
 					member = ctx.author
-				await toggleRole(client, ctx, member, role, False)
+				await toggleRole(bot, ctx, member, role, False)
 				msg = f'{member.mention} lost a role : {role.mention}'
 			
-			channel = client.get_channel(textChannels['log-channel'])
+			channel = bot.get_channel(textChannels['log-channel'])
 			await channel.send(msg)
 		except Exception as ex:
 			print('----- /unassign -----')
@@ -64,7 +66,7 @@ def init_role_activity(params):
 
 
 ######################## TOGGLE ROLE ########################
-async def toggleRole(client, ctx, member, role, assign = True):
+async def toggleRole(bot, ctx, member, role, assign = True):
 	try:
 		if (assign):
 			await member.add_roles(role)

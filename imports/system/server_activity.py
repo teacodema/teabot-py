@@ -5,11 +5,11 @@ import time
 def init_server_activity(params):
 	
 	discord = params['discord']
-	client = params['client']
+	bot = params['bot']
 	slash = params['slash']
 	get = params['get']
 
-	@client.event
+	@bot.event
 	async def on_member_update(before, after):
 		try:
 			if (after.id == users['drissboumlik']):
@@ -32,7 +32,7 @@ def init_server_activity(params):
 			print(ex)	
 
 	######################## JOIN MEMBER ########################
-	@client.event
+	@bot.event
 	async def on_member_join(member):
 		try:
 			if (member.bot == False):
@@ -44,8 +44,8 @@ def init_server_activity(params):
 				msg = f'❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
 			else:
 				msg = f'📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
-			membersCount = await updateMembersCount(member, client)
-			channel = client.get_channel(textChannels['log-server'])
+			membersCount = await updateMembersCount(member, bot)
+			channel = bot.get_channel(textChannels['log-server'])
 			msg += f'\n:green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
@@ -61,24 +61,24 @@ def init_server_activity(params):
 		# 	print(ex)
 
 		try:
-			await validateMemeber(member, roles['new-members'], client, get)
+			await validateMemeber(member, roles['new-members'], bot, get)
 			time.sleep(120)
-			await validateMemeber(member, roles['members'], client, get)
-			await validateMemeber(member, roles['techs'], client, get)
-			await validateMemeber(member, roles['tools'], client, get)
-			await validateMemeber(member, roles['jobs'], client, get)
-			await validateMemeber(member, roles['interests'], client, get)
+			await validateMemeber(member, roles['members'], bot, get)
+			await validateMemeber(member, roles['techs'], bot, get)
+			await validateMemeber(member, roles['tools'], bot, get)
+			await validateMemeber(member, roles['jobs'], bot, get)
+			await validateMemeber(member, roles['interests'], bot, get)
 		except Exception as ex:
 			print('----- on_member_join 2-----')
 			print(ex)
 		
 
 	######################## REMOVE MEMBER ########################
-	@client.event
+	@bot.event
 	async def on_member_remove(member):
 		try:
-			membersCount = await updateMembersCount(member, client)
-			channel = client.get_channel(textChannels['log-server'])
+			membersCount = await updateMembersCount(member, bot)
+			channel = bot.get_channel(textChannels['log-server'])
 			msg = f':red_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) left **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
@@ -86,6 +86,7 @@ def init_server_activity(params):
 			print(ex)
 
 	######################## WELCOME MEMBER CMD ########################
+	# @bot.command(name="welcome", pass_context=True)
 	@slash.slash(name="welcome", guild_ids=[guildId])
 	async def welcome(ctx, member: discord.Member):
 		try:
@@ -98,8 +99,8 @@ def init_server_activity(params):
 				msg = f'❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
 			else:
 				msg = f'📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
-			membersCount = await updateMembersCount(member, client)
-			channel = client.get_channel(textChannels['log-server'])
+			membersCount = await updateMembersCount(member, bot)
+			channel = bot.get_channel(textChannels['log-server'])
 			msg += f'\n:green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
@@ -148,9 +149,9 @@ async def welcomeMember(member):
 		return -1
 
 ######################## VALIDATE MEMBER ########################
-async def validateMemeber(member, roleId, client, get):
+async def validateMemeber(member, roleId, bot, get):
 	try:
-		guild = client.get_guild(guildId)
+		guild = bot.get_guild(guildId)
 		role = get(guild.roles, id = roleId)
 		await member.add_roles(role)
 	except Exception as ex:
@@ -159,9 +160,9 @@ async def validateMemeber(member, roleId, client, get):
 
 
 ######################## UPDATE MEMBERS COUNT ########################
-async def updateMembersCount(member, client):
+async def updateMembersCount(member, bot):
 	try:
-		guild = client.get_guild(guildId)
+		guild = bot.get_guild(guildId)
 		memberList = guild.members
 		membersCount = len(memberList)
 		return membersCount

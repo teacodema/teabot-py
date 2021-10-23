@@ -3,28 +3,28 @@ from setup.actions import *
 
 def init_voice_activity(params):
 	
-	client = params['client']
+	bot = params['bot']
 	get = params['get']
 
 	######################## VOICE ########################
-	@client.event
+	@bot.event
 	async def on_voice_state_update(member, voice1, voice2):
 		try:
-			await showVoiceChat(member, voice1, voice2, client, get)
-			await showHelpChat(member, voice1, voice2, client, get)
-			await logActivity(member, voice1, voice2, client, get)
-			await logStaffVoice(member, voice1, voice2, client, get)
-			await logModeratorsVoice(member, voice1, voice2, client, get)
-			await logAllVoice(member, voice1, voice2, client, get)
-			# voice_state = member.guild.voice_client
-			# if voice_state is not None and len(voice_state.channel.members) == 1:
-			# 	await voice_state.disconnect()
+			await showVoiceChat(member, voice1, voice2, bot, get)
+			await showHelpChat(member, voice1, voice2, bot, get)
+			await logActivity(member, voice1, voice2, bot, get)
+			await logStaffVoice(member, voice1, voice2, bot, get)
+			await logModeratorsVoice(member, voice1, voice2, bot, get)
+			await logAllVoice(member, voice1, voice2, bot, get)
+			voice_state = member.guild.voice_client
+			if voice_state and len(voice_state.channel.members) == 1:
+				await voice_state.disconnect()
 		except Exception as ex:
 			print('----- on_voice_state_update -----')
 			print(ex)
 
 	######################## LOG VOICE #Voice Channels ########################
-	async def logActivity(member, voice1, voice2, client, get):
+	async def logActivity(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'activities-notes', 'activities')
 		except Exception as ex:
@@ -33,7 +33,7 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Help › Voice ########################
-	async def showHelpChat(member, voice1, voice2, client, get):
+	async def showHelpChat(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
 			helpVoiceCategoryID = categories['help-voice']
@@ -70,7 +70,7 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Voice Channels ########################
-	async def showVoiceChat(member, voice1, voice2, client, get):
+	async def showVoiceChat(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'voice-chat', 'voice-channels', 'voice-room')
 		except Exception as ex:
@@ -79,7 +79,7 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Voice Channels ########################
-	async def logStaffVoice(member, voice1, voice2, client, get):
+	async def logStaffVoice(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'staff-notes', 'staff-corner')
 		except Exception as ex:
@@ -87,7 +87,7 @@ def init_voice_activity(params):
 			print(ex)
 
 
-	async def logModeratorsVoice(member, voice1, voice2, client, get):
+	async def logModeratorsVoice(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
 		except Exception as ex:
@@ -96,9 +96,9 @@ def init_voice_activity(params):
 
 
 	######################## LOG ALL VOICE ########################
-	async def logAllVoice(member, voice1, voice2, client, get):
+	async def logAllVoice(member, voice1, voice2, bot, get):
 		try:
-			logChannel = client.get_channel(textChannels['log-voice'])
+			logChannel = bot.get_channel(textChannels['log-voice'])
 			msg = getVoiceLogMessage(member, voice1, voice2)
 
 			if (not voice1.channel and voice2.channel):
@@ -114,9 +114,9 @@ def init_voice_activity(params):
 	
 	
 	async def logVoice(member, voice1, voice2, channelID, categoryID, roleID = None):
-		guild = client.get_guild(guildId)
+		guild = bot.get_guild(guildId)
 		categoryID = categories[categoryID]
-		logChannel = client.get_channel(textChannels[channelID])
+		logChannel = bot.get_channel(textChannels[channelID])
 		role = None
 		if roleID:
 			role = get(guild.roles, id = roles[roleID])

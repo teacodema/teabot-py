@@ -13,9 +13,9 @@ def is_founders(ctx):
 	return is_authorised(roleIds, authorizedRoles)
 
 
-async def checkNewMemberRole(client, get):
+async def checkNewMemberRole(bot, get):
 	try:
-		guild = client.get_guild(guildId)
+		guild = bot.get_guild(guildId)
 		role = get(guild.roles, id = roles['new-members'])
 		updated = []
 		for member in role.members:

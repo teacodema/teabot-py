@@ -4,10 +4,10 @@ from setup.actions import *
 
 def init_msg_activity(params):
 	
-	client = params['client']
+	bot = params['bot']
 
 	######################## ON MESSAGE ########################
-	@client.event
+	@bot.event
 	async def on_message(message):
 		try:
 			excludedCategories = [
@@ -70,36 +70,36 @@ def init_msg_activity(params):
 							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 						msg += embedsUrls
 
-					channel = client.get_channel(textChannels['log-channel'])
+					channel = bot.get_channel(textChannels['log-channel'])
 					await channel.send(msg)
-			await client.process_commands(message)
+			await bot.process_commands(message)
 		except Exception as ex:
 			print('----- on_message 1 -----')
 			print(ex)
 
 
 	######################## ON MESSAGE DELETE ########################
-	@client.event
+	@bot.event
 	async def on_message_delete(message):
 		try:
-			await logDeletedMessage(message, client)
+			await logDeletedMessage(message, bot)
 		except Exception as ex:
 			print('----- on_message_delete -----')
 			print(ex)
 
 
 	######################## ON MESSAGE EDIT ########################
-	@client.event
+	@bot.event
 	async def on_message_edit(before, after):
 		try:
-			await logEditedMessage(before, after, client)
+			await logEditedMessage(before, after, bot)
 		except Exception as ex:
 			print('----- on_message_edit -----')
 			print(ex)
 
 
 	######################## LOG MESSAGE ########################
-	async def logDeletedMessage(message, client):
+	async def logDeletedMessage(message, bot):
 		try:
 			excludedAuthors = [
 				# users['drissboumlik']
@@ -128,14 +128,14 @@ def init_msg_activity(params):
 						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 					msg += embedsUrls
 
-				logChannelActivity = client.get_channel(textChannels['log-channel'])
+				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:
 			print('----- logDeletedMessage -----')
 			print(ex)
 
 
-	async def logEditedMessage(before, after, client):
+	async def logEditedMessage(before, after, bot):
 		try:
 			excludedAuthors = [
 				# users['drissboumlik']
@@ -167,7 +167,7 @@ def init_msg_activity(params):
 						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
 					msg += embedsUrls
 					
-				logChannelActivity = client.get_channel(textChannels['log-channel'])
+				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:
 			print('----- logEditedMessage -----')

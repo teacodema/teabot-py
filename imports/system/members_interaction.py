@@ -3,7 +3,7 @@ from setup.actions import *
 
 def init_members_interaction(params):
 
-	client = params['client']
+	bot = params['bot']
 	slash = params['slash']
 	discord = params['discord']
 
@@ -42,17 +42,17 @@ def init_members_interaction(params):
 				if member == None: 
 					member = ctx.author
 				await send_msg(ctx, msg, member)
-				notifyMe += f'\n{msg} ➜ Member: **{member.name}#{member.discriminator}**'
+				notifyMe += f'\n{msg} ➜ Member: **{member.mention}**'
 			else:
 				if member != None:
 					await send_msg(ctx, msg, member)
-					notifyMe += f'\n{msg} ➜ Member: **{member.name}#{member.discriminator}**'
+					notifyMe += f'\n{msg} ➜ Member: **{member.mention}**'
 				members = role.members
 				for member in members:
 					await send_msg(ctx, msg, member)
-				notifyMe += f'\n{msg} ➜ Role: **{role.name}**'
+				notifyMe += f'\n{msg} ➜ Role: **{role.mention}**'
 			
-			channel = client.get_channel(textChannels['log-channel'])
+			channel = bot.get_channel(textChannels['log-channel'])
 			await channel.send(notifyMe)
 
 		except Exception as ex:

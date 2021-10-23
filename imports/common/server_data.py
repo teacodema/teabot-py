@@ -4,7 +4,7 @@ import time
 
 def init_server_data(params):
 
-	client = params['client']
+	bot = params['bot']
 	discord = params['discord']
 	slash = params['slash']
 	get = params['get']
@@ -23,7 +23,7 @@ def init_server_data(params):
 			]
 			isNotAllowed = not is_founders(ctx)
 
-			guild = client.get_guild(ctx.guild_id)
+			guild = bot.get_guild(ctx.guild_id)
 
 			created_at = guild.created_at.strftime("%A, %B %d, %Y - %H:%M")
 

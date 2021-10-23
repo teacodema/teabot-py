@@ -5,11 +5,12 @@ from setup.actions import *
 
 def init_check_membership(params):
 
-	client = params['client']
+	bot = params['bot']
 	slash = params['slash']
 	get = params['get']
 
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
+	# @bot.command(name="check", pass_context=True)
 	@slash.slash(name="check", guild_ids=[guildId])
 	async def check_membership(ctx):
 		try:
@@ -17,8 +18,8 @@ def init_check_membership(params):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
 				return
 			await ctx.send('Updating ...', delete_after = 2)
-			updatedMembers = await checkNewMemberRole(client, get)
-			logChannel = client.get_channel(textChannels['log-channel'])
+			updatedMembers = await checkNewMemberRole(bot, get)
+			logChannel = bot.get_channel(textChannels['log-channel'])
 			msg = ''
 			updatedMembersCount = len(updatedMembers)
 			if updatedMembersCount:

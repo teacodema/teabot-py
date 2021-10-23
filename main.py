@@ -35,12 +35,12 @@ intents = discord.Intents.all()
 # client = discord.Client(intents=intents)
 # @client.command(pass_context=True)
 # client2 = discord.Client(intents=intents)
-client = commands.Bot(intents = intents, command_prefix = '$')
-slash = SlashCommand(client, sync_commands=True)
+bot = commands.Bot(intents = intents, command_prefix = '$')
+slash = SlashCommand(bot, sync_commands=True)
 # bot = commands.Bot('!')
 
 params = {
-    'client': client,
+    'bot': bot,
 		# 'client2': client2,
     'discord': discord,
     'slash': slash,
@@ -65,4 +65,4 @@ init_check_membership(params)
 
 
 keep_alive()
-client.run(os.getenv("TOKEN"))
+bot.run(os.getenv("TOKEN"))
