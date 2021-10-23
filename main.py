@@ -35,7 +35,7 @@ intents = discord.Intents.all()
 # client = discord.Client(intents=intents)
 # @client.command(pass_context=True)
 # client2 = discord.Client(intents=intents)
-bot = commands.Bot(intents = intents, command_prefix = '$')
+bot = commands.Bot(intents = intents, command_prefix = 'tc_')
 slash = SlashCommand(bot, sync_commands=True)
 # bot = commands.Bot('!')
 
