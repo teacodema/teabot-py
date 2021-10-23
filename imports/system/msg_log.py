@@ -7,9 +7,15 @@ def init_msg_log(params):
 	bot = params['bot']
 	slash = params['slash']
 	purgedMsgs = []
+	create_permission = params['create_permission']
+	SlashCommandPermissionType = params['SlashCommandPermissionType']
 
 	######################## CLEAR ########################
-	@slash.slash(name="clear", description="Clear messages (0 .. 500)", guild_ids=[guildId])
+	@slash.slash(name="clear", description="Clear messages (0 .. 500)", guild_ids=[guildId],
+		permissions={ guildId: [ 
+				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['moderators'], SlashCommandPermissionType.ROLE, True)
+			] })
 	async def clear(ctx, number: int):
 		try:
 			await clearMsg(ctx, number)
@@ -19,7 +25,10 @@ def init_msg_log(params):
 
 
 	######################## PURGE ########################
-	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId])
+	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
+		permissions={ guildId: [ 
+				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False)
+			] })
 	async def purge(ctx):
 		try:
 

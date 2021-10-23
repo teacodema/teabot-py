@@ -1,6 +1,8 @@
 from setup.keep_alive import keep_alive
 import discord
 from discord_slash import SlashCommand
+from discord_slash.utils.manage_commands import create_permission
+from discord_slash.model import SlashCommandPermissionType
 import os
 from discord.utils import get
 from discord import FFmpegPCMAudio
@@ -48,7 +50,9 @@ params = {
 		'tasks': tasks,
     # 'bot': bot,
     'YoutubeDL': YoutubeDL,
-    'FFmpegPCMAudio': FFmpegPCMAudio
+    'FFmpegPCMAudio': FFmpegPCMAudio,
+		'create_permission': create_permission,
+		'SlashCommandPermissionType': SlashCommandPermissionType
 }
 
 init_bot_activity(params)
