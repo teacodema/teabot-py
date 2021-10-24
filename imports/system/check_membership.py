@@ -16,7 +16,8 @@ def init_check_membership(params):
 	@slash.slash(name="check", guild_ids=[guildId],
 		permissions={ guildId: [ 
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False)
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
 			]})
 	async def check_membership(ctx):
 		try:

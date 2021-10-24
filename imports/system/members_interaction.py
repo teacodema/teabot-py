@@ -13,7 +13,8 @@ def init_members_interaction(params):
 	@slash.slash(name = "msg-channel", guild_ids=[guildId],
 		permissions={ guildId: [
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False)
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
 			]})
 	async def msg_channel(ctx, msg, channel: discord.TextChannel):
 		try:
@@ -35,7 +36,8 @@ def init_members_interaction(params):
 	@slash.slash(name = "dm", guild_ids=[guildId],
 		permissions={ guildId: [ 
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False)
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
 			]})
 	async def dm(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:

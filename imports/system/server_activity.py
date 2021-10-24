@@ -94,7 +94,8 @@ def init_server_activity(params):
 	@slash.slash(name="welcome", guild_ids=[guildId],
 		permissions={ guildId: [ 
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False)
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
 			]})
 	async def welcome(ctx, member: discord.Member):
 		try:
