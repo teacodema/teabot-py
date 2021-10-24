@@ -65,11 +65,13 @@ def init_server_activity(params):
 		try:
 			await validateMemeber(member, roles['new-members'], bot, get)
 			time.sleep(120)
-			await validateMemeber(member, roles['members'], bot, get)
-			await validateMemeber(member, roles['techs'], bot, get)
-			await validateMemeber(member, roles['tools'], bot, get)
-			await validateMemeber(member, roles['jobs'], bot, get)
-			await validateMemeber(member, roles['interests'], bot, get)
+			_roles = [
+				roles['members'],
+				roles['techs'], roles['tools'],
+				roles['jobs'], roles['interests'],
+			]
+			for rold_id in _roles:
+				await validateMemeber(member, rold_id, bot, get)
 		except Exception as ex:
 			print('----- on_member_join 2-----')
 			print(ex)
@@ -90,7 +92,10 @@ def init_server_activity(params):
 	######################## WELCOME MEMBER CMD ########################
 	# @bot.command(name="welcome", pass_context=True)
 	@slash.slash(name="welcome", guild_ids=[guildId],
-		permissions={ guildId: [ create_permission(roles['members'], SlashCommandPermissionType.ROLE, False)] })
+		permissions={ guildId: [ 
+				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False)
+			]})
 	async def welcome(ctx, member: discord.Member):
 		try:
 			if not is_founders(ctx):

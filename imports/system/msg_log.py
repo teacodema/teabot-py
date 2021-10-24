@@ -14,6 +14,7 @@ def init_msg_log(params):
 	@slash.slash(name="clear", description="Clear messages (0 .. 500)", guild_ids=[guildId],
 		permissions={ guildId: [ 
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
 				create_permission(roles['moderators'], SlashCommandPermissionType.ROLE, True)
 			] })
 	async def clear(ctx, number: int):
@@ -27,7 +28,8 @@ def init_msg_log(params):
 	######################## PURGE ########################
 	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
 		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False)
+				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
+				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False)
 			] })
 	async def purge(ctx):
 		try:
