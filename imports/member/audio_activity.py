@@ -32,7 +32,9 @@ def init_audio_activity(params):
 									'preferredcodec': 'mp3',
 									'preferredquality': '128',
 							}]}
-	FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+	FFMPEG_OPTIONS = {
+		'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+		'options': '-vn'}
 
 	######################## PLAY ########################
 	@slash.slash(name = "play", description = "Play a Youtube url", guild_ids = [guildId])
@@ -202,40 +204,10 @@ def init_audio_activity(params):
 				await ctx.send('⚠ The playlist is empty')
 				return
 
-			value = ""
-			for i in range(len(playlist)):
-				track = playlist[i]
-				if (currentTrackIndex == i):
-					index = '►'
-				else:
-					index = i+1
-				value += f"**{index}・**{track['title'][0:40]}... - {track['duration']}\n"
-			guild = bot.get_guild(ctx.guild_id)
-			embed = discord.Embed(color=0x1da1f2)
-			# embed.set_thumbnail(url=guild.icon_url)
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-			embed.add_field(name="📋│Playlist", value=value, inline=True)
-			await ctx.send(embed=embed)
+			await displayPlaylist(ctx)
 		except Exception as ex:
 			print('----- /playlist -----')
 			print(ex)
-
-	######################## PLAYLIST ########################
-	@slash.slash(name = "flush-list", description = "Flushes the playlist", guild_ids = [guildId])
-	async def flushlist(ctx):
-		try:
-			nonlocal playlist
-			voice = get(bot.voice_clients, guild = ctx.guild)
-			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
-				await ctx.send('⚠ A track is currently playing')
-				return
-			playlist = []
-			await ctx.send('🗑 Playlist is clear')
-		except Exception as ex:
-			print('----- /flushlist -----')
-			print(ex)
-
 
 	######################## REPLAY ########################
 	@slash.slash(name = "replay", description = "Replay current track", guild_ids = [guildId])
@@ -387,9 +359,9 @@ def init_audio_activity(params):
 			print(ex)
 
 
-	# ######################## REFRESH LIST ########################
-	@slash.slash(name = "refresh", description = "Refresh the playlist", guild_ids = [guildId])
-	async def refresh(ctx):
+	# ######################## RESET LIST ########################
+	@slash.slash(name = "reset-playlist", description = "Flushes the playlist (pass 1 to Fill with default)", guild_ids = [guildId])
+	async def reset_playlist(ctx, number: int = 0):
 		try:
 			nonlocal playlist
 			voice = get(bot.voice_clients, guild = ctx.guild)
@@ -397,8 +369,12 @@ def init_audio_activity(params):
 				await ctx.send('⚠ A track is currently playing')
 				return
 			playlist = []
-			await ctx.send('📋 Playlist refreshed')
-			initPlaylist()
+			if number == 1:
+				await ctx.send('📋 Playlist refilled')
+				initPlaylist()
+				await displayPlaylist(ctx)
+			else:
+				await ctx.send('🗑 Playlist is clear')
 		except Exception as ex:
 			print('----- /refresh -----')
 			print(ex)
@@ -417,6 +393,27 @@ def init_audio_activity(params):
 			print(ex)
 			return False
 	
+	async def displayPlaylist(ctx):
+		try:
+			nonlocal playlist, currentTrackIndex
+			value = ""
+			for i in range(len(playlist)):
+				track = playlist[i]
+				if (currentTrackIndex == i):
+					index = '►'
+				else:
+					index = i+1
+				value += f"**{index}・**{track['title'][0:40]}... - {track['duration']}\n"
+			guild = bot.get_guild(ctx.guild_id)
+			embed = discord.Embed(color=0x1da1f2)
+			# embed.set_thumbnail(url=guild.icon_url)
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+			embed.add_field(name="📋│Playlist", value=value, inline=True)
+			await ctx.send(embed=embed)
+		except Exception as ex:
+			print('----- displayPlaylist -----')
+			print(ex)
 
 	def initPlaylist():
 		try:
