@@ -76,20 +76,20 @@ def init_msg_log(params):
 				headerMsg = f"❌ **purge({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in purgedMsgs:
-
-					attachmentsUrls = '\n__Attachments__\n'
-					for attch in m.attachments:
-						attachmentsUrls += f'{attch.url}\n'
-					embedsUrls = '\n__Embeds__\n'
-					for attch in m.embeds:
-						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-
 					msg = '──────────────────────'
 					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
-					msg += f'\n"*{m.content}*"'
-					msg += attachmentsUrls
-					msg += embedsUrls
+					msg += f'\n__Content__\n{m.content}'
+					if len(m.attachments):
+						attachmentsUrls = '\n__Attachments__\n'
+						for attch in m.attachments:
+							attachmentsUrls += f'{attch.url}\n'
+						msg += attachmentsUrls
+					if len(m.embeds):
+						embedsUrls = '\n__Embeds__\n'
+						for attch in m.embeds:
+							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+						msg += embedsUrls
 					msg += f'\n──────────────────────'
 					await logMsgsChannel.send(msg)
 				purgedMsgs = []
@@ -121,20 +121,20 @@ def init_msg_log(params):
 				headerMsg = f"❌ **clear({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in deletedMsgs:
-
-					attachmentsUrls = '\n__Attachments__\n'
-					for attch in m.attachments:
-						attachmentsUrls += f'{attch.url}\n'
-					embedsUrls = '\n__Embeds__\n'
-					for attch in m.embeds:
-						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-
 					msg = '──────────────────────'
 					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
-					msg += f'\n"*{m.content}*"'
-					msg += attachmentsUrls
-					msg += embedsUrls
+					msg += f'\n__Content__\n{m.content}'
+					if len(m.attachments):
+						attachmentsUrls = '\n__Attachments__\n'
+						for attch in m.attachments:
+							attachmentsUrls += f'{attch.url}\n'
+						msg += attachmentsUrls
+					if len(m.embeds):
+						embedsUrls = '\n__Embeds__\n'
+						for attch in m.embeds:
+							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+						msg += embedsUrls
 					msg += f'\n──────────────────────'
 					await logMsgsChannel.send(msg)
 				

@@ -57,7 +57,8 @@ def init_msg_activity(params):
 					]
 				if (author.id not in excludedIDs):
 					msg = '──────────────────────'
-					msg = f'\nDM/ {author} - {author.mention} : {"--Sticker--" if (message.content == "") else message.content}'
+					msg = f'\nDM/ {author} - {author.mention}'
+					msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
 					if len(message.attachments):
 						attachmentsUrls = '\n__Attachments__\n'
 						for attch in message.attachments:
@@ -114,7 +115,7 @@ def init_msg_activity(params):
 				msg = '──────────────────────'
 				msg += f'\n💢 by {message.author.mention} in {message.channel.mention}'
 				msg += f'\n{message.created_at} ► {message.edited_at}'
-				msg += f'\n"*{message.content}*"'
+				msg += f'\n__Content__\n{message.content}'
 
 				if len(message.attachments):
 					attachmentsUrls = '\n__Attachments__\n'
@@ -153,7 +154,7 @@ def init_msg_activity(params):
 				msg = '──────────────────────'
 				msg += f'\n✏ by {before.author.mention} in {before.channel.mention}'
 				msg += f'\n{after.created_at} ► {after.edited_at}'
-				msg += f'\n"*{before.content}*" \n▼\n"*{after.content}*"'
+				msg += f'\n__Content__\n{before.content}\n▼\n{after.content}'
 
 				if len(before.attachments):
 					attachmentsUrls = '\n__Attachments__\n'
