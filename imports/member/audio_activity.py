@@ -59,7 +59,7 @@ def init_audio_activity(params):
 					await ctx.send('⚠ The playlist is empty')
 					return
 				if voice == None:
-					await resetPlayer(ctx, "▶ Playing ...", None, vc)
+					await Player(ctx, "▶ Playing ...", None, vc)
 				else:
 					await ctx.send("▶ Playing ...")
 					playTrack(ctx)
@@ -81,11 +81,11 @@ def init_audio_activity(params):
 						track = extractUrlData(url)
 						playlist.append(track)
 					else:
-						await resetPlayer(ctx, "▶ Playing ...", url)
+						await Player(ctx, "▶ Playing ...", url)
 				else:
-					await resetPlayer(ctx, "▶ Playing ...", url, vc)
+					await Player(ctx, "▶ Playing ...", url, vc)
 			else:
-				await resetPlayer(ctx, "▶ Playing ...", url, vc)
+				await Player(ctx, "▶ Playing ...", url, vc)
 		except Exception as ex:
 			print('----- /play -----')
 			print(ex)
@@ -112,7 +112,7 @@ def init_audio_activity(params):
 			print(ex)
 
 
-	async def resetPlayer(ctx, msg = None, url=None, vc=None):
+	async def Player(ctx, msg = None, url=None, vc=None):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
 			if msg:
@@ -131,7 +131,7 @@ def init_audio_activity(params):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
-			print('----- resetPlayer -----')
+			print('----- Player -----')
 			print(ex)
 	
 	def playNext(err):
@@ -358,10 +358,9 @@ def init_audio_activity(params):
 			print('----- /leave -----')
 			print(ex)
 
-
-	# ######################## RESET LIST ########################
-	@slash.slash(name = "reset-playlist", description = "Flushes the playlist (pass 1 to Fill with default)", guild_ids = [guildId])
-	async def reset_playlist(ctx, number: int = 0):
+	######################## CLEAR PLAYLIST ########################
+	@slash.slash(name = "clear-list", description = "Flushes the playlist", guild_ids = [guildId])
+	async def clear_list(ctx):
 		try:
 			nonlocal playlist
 			voice = get(bot.voice_clients, guild = ctx.guild)
@@ -369,12 +368,24 @@ def init_audio_activity(params):
 				await ctx.send('⚠ A track is currently playing')
 				return
 			playlist = []
-			if number == 1:
-				await ctx.send('📋 Playlist refilled')
-				initPlaylist()
-				await displayPlaylist(ctx)
-			else:
-				await ctx.send('🗑 Playlist is clear')
+			await ctx.send('🗑 Playlist is clear')
+		except Exception as ex:
+			print('----- /flushlist -----')
+			print(ex)
+
+	######################## REFRESH LIST ########################
+	@slash.slash(name = "refresh", description = "Refill the playlist with some with tracks", guild_ids = [guildId])
+	async def refresh(ctx):
+		try:
+			nonlocal playlist
+			voice = get(bot.voice_clients, guild = ctx.guild)
+			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
+				await ctx.send('⚠ A track is currently playing')
+				return
+			playlist = []
+			await ctx.send('📋 Processing ... just a moment')
+			initPlaylist()
+			await displayPlaylist(ctx)
 		except Exception as ex:
 			print('----- /refresh -----')
 			print(ex)
@@ -403,6 +414,12 @@ def init_audio_activity(params):
 					index = '►'
 				else:
 					index = i+1
+				# track_title = track['title'][0:40]
+				# track_title = track_title.replace("[", "\(")
+				# track_title = track_title.replace("]", "\)")
+				# track_url = track['url']
+				# track_url = track_url.replace("(", "\(")
+				# track_url = track_url.replace(")", "\)")
 				value += f"**{index}・**{track['title'][0:40]}... - {track['duration']}\n"
 			guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
