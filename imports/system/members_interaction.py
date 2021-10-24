@@ -10,7 +10,7 @@ def init_members_interaction(params):
 	SlashCommandPermissionType = params['SlashCommandPermissionType']
 
 	######################## SEND MSG TO CHANNEL ########################
-	@slash.slash(name = "msg-channel", guild_ids=[guildId],
+	@slash.slash(name = "mc", guild_ids=[guildId],
 		permissions={ guildId: [
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
 				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
@@ -33,13 +33,13 @@ def init_members_interaction(params):
 			print(ex)
 
 	######################## SEND MSG TO MEMBER ########################
-	@slash.slash(name = "dm", guild_ids=[guildId],
+	@slash.slash(name = "mm", guild_ids=[guildId],
 		permissions={ guildId: [ 
 				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
 				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
 				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
 			]})
-	async def dm(ctx, msg, member: discord.Member = None, role: discord.Role = None):
+	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', delete_after = 2)
