@@ -70,7 +70,8 @@ def init_server_data(params):
 			# embed.add_field(name="large", value=guild.large, inline=True)
 			# embed.add_field(name="max mem", value=guild.max_members, inline=True)
 			# embed.add_field(name="me", value=guild.me, inline=True)
-			embed.set_footer(text=f"ID : {guild.id}")
+			# embed.set_footer(text=f"ID : {guild.id}")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			await ctx.send(embed=embed)
 
 		except Exception as ex:
@@ -94,7 +95,8 @@ def init_server_data(params):
 			embed.add_field(name="Name", value=role.name, inline=True)
 			embed.add_field(name="Mentionable", value="Yes" if role.mentionable else "No", inline=True)
 			embed.add_field(name="Members", value=len(role.members), inline=True)
-			embed.set_footer(text=f"ID : {role.id}")
+			# embed.set_footer(text=f"ID : {role.id}")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
 
 			await ctx.send(embed=embed)
 
@@ -128,7 +130,8 @@ def init_server_data(params):
 			embed.add_field(name="Registred", value=created_at, inline=True)
 			embed.add_field(name="Top Role", value=f'{member.top_role.mention}', inline=True)
 			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
-			embed.set_footer(text=f"ID : {member.id}")
+			# embed.set_footer(text=f"ID : {member.id}")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			await ctx.send(embed=embed)
 		except Exception as ex:
 			print('----- /member-info -----')
