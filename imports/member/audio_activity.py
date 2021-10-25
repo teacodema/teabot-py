@@ -155,7 +155,7 @@ def init_audio_activity(params):
 			if currentTrackIndex > len(playlist) - 1:
 				currentTrackIndex = 0
 			
-			voice.stop()
+			# voice.stop()
 			playTrack(_ctxPlay)
 		except Exception as ex:
 			print('----- playNext -----')
@@ -163,7 +163,8 @@ def init_audio_activity(params):
 
 	def playTrack(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
+			btn_pressed = True
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
 			voice = get(bot.voice_clients, guild = ctx.guild)
@@ -374,7 +375,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## REFRESH LIST ########################
-	@slash.slash(name = "refresh", description = "Refill the playlist with some with tracks", guild_ids = [guildId])
+	@slash.slash(name = "refresh", description = "Refill the playlist with some tracks", guild_ids = [guildId])
 	async def refresh(ctx):
 		try:
 			nonlocal playlist
