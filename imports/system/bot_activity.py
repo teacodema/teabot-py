@@ -94,7 +94,7 @@ def init_bot_activity(params):
 			channel = bot.get_channel(textChannels['log-bot'])
 			timeZ_Ma = pytz.timezone('Africa/Casablanca')
 			dt_Ma = datetime.now(timeZ_Ma)
-			await channel.send(f':green_heart: am alive - {dt_Ma.strftime("%d %B %Y - %H:%M")}')
+			await channel.send(f'<:teacode_bordred:844450911941165086> am alive - {dt_Ma.strftime("%d %B %Y - %H:%M")}')
 
 		am_alive.start()
 
