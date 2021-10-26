@@ -6,17 +6,12 @@ def init_role_activity(params):
 	bot = params['bot']
 	discord = params['discord']
 	slash = params['slash']
-	create_permission = params['create_permission']
-	SlashCommandPermissionType = params['SlashCommandPermissionType']
+	
 
 	######################## ROLE ADD ########################
 	# @bot.command(name="assign", pass_context=True)
 	@slash.slash(name="assign", description="Assign role", guild_ids=[guildId],
-		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			]})
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def assign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
 
@@ -45,11 +40,7 @@ def init_role_activity(params):
 	######################## ROLE REMOVE ########################
 	# @bot.command(name="unassign", pass_context=True)
 	@slash.slash(name = "unassign", description="Remove role from member", guild_ids = [guildId],
-		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			]})
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def unassign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
 

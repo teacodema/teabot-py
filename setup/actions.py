@@ -1,16 +1,29 @@
 from datetime import datetime
 from setup.properties import *
+from discord_slash.utils.manage_commands import create_permission
+from discord_slash.model import SlashCommandPermissionType
 
-
-def is_authorised(roleIds, authorizedRoles):
+def is_authorised(ctx, authorizedRolesIds):
+	roleIds = [role.id for role in ctx.author.roles]
+	authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
 	roleExists = [value for value in authorizedRoles if value in roleIds]
 	return len(roleExists) > 0
 
 def is_founders(ctx):
-	roleIds = [role.id for role in ctx.author.roles]
-	authorizedRoles = [roles['founders']]
+	return is_authorised(ctx, {'founders'})
 
-	return is_authorised(roleIds, authorizedRoles)
+def slash_permissions(authorizedRolesIds, unAuthorizedRolesIds):
+	permissions = []
+
+	authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
+	for r in authorizedRoles:
+		permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, True))
+
+	unAuthorizedRoles = list({key: roles[key] for key in unAuthorizedRolesIds}.values())
+	for r in unAuthorizedRoles:
+		permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, False))
+
+	return permissions
 
 
 async def checkNewMemberRole(bot, get):

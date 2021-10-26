@@ -7,20 +7,45 @@ def init_msg_log(params):
 	bot = params['bot']
 	slash = params['slash']
 	purgedMsgs = []
-	create_permission = params['create_permission']
-	SlashCommandPermissionType = params['SlashCommandPermissionType']
 
 	######################## CLEAR ########################
 	@slash.slash(name="clear", description="Clear messages (0 .. 500)", guild_ids=[guildId],
-		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['moderators'], SlashCommandPermissionType.ROLE, True),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			] })
+		permissions={ guildId: slash_permissions({'founders', 'moderators'}, {'members', 'everyone'}) })
 	async def clear(ctx, number: int):
 		try:
-			await clearMsg(ctx, number)
+			if not is_authorised(ctx, {'founders', 'moderators'}):
+				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				return
+			if (number > 500):
+				await ctx.send('You cannot delete more than 500 messages', delete_after = 2)
+				return
+			else:
+				await ctx.send('Clearing messages ...', delete_after = 2)
+				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
+				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', delete_after = 2)
+
+				count = len(deletedMsgs)
+				deletedMsgs.reverse()
+				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
+				headerMsg = f"❌ **clear({count}) | {ctx.channel.mention}** ──────────"
+				await logMsgsChannel.send(headerMsg)
+				for m in deletedMsgs:
+					msg = '──────────────────────'
+					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
+					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
+					msg += f'\n__Content__\n{m.content}'
+					if len(m.attachments):
+						attachmentsUrls = '\n__Attachments__\n'
+						for attch in m.attachments:
+							attachmentsUrls += f'{attch.url}\n'
+						msg += attachmentsUrls
+					if len(m.embeds):
+						embedsUrls = '\n__Embeds__\n'
+						for attch in m.embeds:
+							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+						msg += embedsUrls
+					msg += f'\n──────────────────────'
+					await logMsgsChannel.send(msg)
 		except Exception as ex:
 			print('----- /clear -----')
 			print(ex)
@@ -28,11 +53,7 @@ def init_msg_log(params):
 
 	######################## PURGE ########################
 	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
-		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			] })
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def purge(ctx):
 		try:
 
@@ -97,48 +118,3 @@ def init_msg_log(params):
 		except Exception as ex:
 			print('----- deleteMsg -----')
 			print(ex)
-
-	async def clearMsg(ctx, number):
-		try:
-
-			roleIds = [role.id for role in ctx.author.roles]
-			authorizedRoles = [roles['founders'], roles['moderators']]
-			if not is_authorised(roleIds, authorizedRoles):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
-				return
-			
-			if (number > 500):
-				await ctx.send('You cannot delete more than 500 messages', delete_after = 2)
-				return
-			else:
-				await ctx.send('Clearing messages ...', delete_after = 2)
-				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
-				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', delete_after = 2)
-
-				count = len(deletedMsgs)
-				deletedMsgs.reverse()
-				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
-				headerMsg = f"❌ **clear({count}) | {ctx.channel.mention}** ──────────"
-				await logMsgsChannel.send(headerMsg)
-				for m in deletedMsgs:
-					msg = '──────────────────────'
-					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
-					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
-					msg += f'\n__Content__\n{m.content}'
-					if len(m.attachments):
-						attachmentsUrls = '\n__Attachments__\n'
-						for attch in m.attachments:
-							attachmentsUrls += f'{attch.url}\n'
-						msg += attachmentsUrls
-					if len(m.embeds):
-						embedsUrls = '\n__Embeds__\n'
-						for attch in m.embeds:
-							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-						msg += embedsUrls
-					msg += f'\n──────────────────────'
-					await logMsgsChannel.send(msg)
-				
-		except Exception as ex:
-			print('----- clearMsg -----')
-			print(ex)
-

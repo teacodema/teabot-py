@@ -10,7 +10,8 @@ def init_server_data(params):
 	get = params['get']
 
 	######################## SERVER INFO ########################
-	@slash.slash(name="server-info", description = "Get server info/stats", guild_ids=[guildId])
+	@slash.slash(name="server-info", guild_ids=[guildId],
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def server_info(ctx):
 		try:
 			excludedCategories = [

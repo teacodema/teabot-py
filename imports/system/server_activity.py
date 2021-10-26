@@ -8,8 +8,7 @@ def init_server_activity(params):
 	bot = params['bot']
 	slash = params['slash']
 	get = params['get']
-	create_permission = params['create_permission']
-	SlashCommandPermissionType = params['SlashCommandPermissionType']
+	
 
 	@bot.event
 	async def on_member_update(before, after):
@@ -92,11 +91,7 @@ def init_server_activity(params):
 	######################## WELCOME MEMBER CMD ########################
 	# @bot.command(name="welcome", pass_context=True)
 	@slash.slash(name="welcome", guild_ids=[guildId],
-		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			]})
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def welcome(ctx, member: discord.Member):
 		try:
 			if not is_founders(ctx):

@@ -6,16 +6,10 @@ def init_members_interaction(params):
 	bot = params['bot']
 	slash = params['slash']
 	discord = params['discord']
-	create_permission = params['create_permission']
-	SlashCommandPermissionType = params['SlashCommandPermissionType']
 
 	######################## SEND MSG TO CHANNEL ########################
 	@slash.slash(name = "mc", guild_ids=[guildId],
-		permissions={ guildId: [
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			]})
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def msg_channel(ctx, msg, channel: discord.TextChannel):
 		try:
 			
@@ -34,11 +28,7 @@ def init_members_interaction(params):
 
 	######################## SEND MSG TO MEMBER ########################
 	@slash.slash(name = "mm", guild_ids=[guildId],
-		permissions={ guildId: [ 
-				create_permission(roles['members'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['everyone'], SlashCommandPermissionType.ROLE, False),
-				create_permission(roles['founders'], SlashCommandPermissionType.ROLE, True)
-			]})
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
 			if not is_founders(ctx):
