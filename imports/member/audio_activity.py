@@ -437,22 +437,12 @@ def init_audio_activity(params):
 		try:
 			nonlocal playlist
 			defaultList = [
-				'https://www.youtube.com/watch?v=EM1cCc0Kphk',	#Zulishanti - Likwid (Sauniks Remix)
-				'https://www.youtube.com/watch?v=wOO_5Mv1JXQ',	#Zubi - Sugar (feat. Anatu)
-				'https://www.youtube.com/watch?v=bX4C8B2MEak',	#DIOR, Samo & ID - Положение | Так дайте пацанам посчитать потери
-				'https://www.youtube.com/watch?v=mbnjzSFuU8Y',	#Zeraphym - Lifeline
-				'https://www.youtube.com/watch?v=qAgPH1CWiAw',	#Attack on Titan 2 - 'Barricades' with Lyrics
-				'https://www.youtube.com/watch?v=HHgepB44oMk',	#X-Ray Dog - Prophet [HQ]
-				'https://www.youtube.com/watch?v=bLZHcnuqscU',	#Unknown Brain x Rival - Control (feat. Jex) [NCS Release]
-				'https://www.youtube.com/watch?v=yJg-Y5byMMw',	#Warriyo - Mortals (feat. Laura Brehm) [NCS Release]
-				'https://www.youtube.com/watch?v=BnSkt6V3qF0', 	#Ruelle - Madness
-				'https://www.youtube.com/watch?v=FA2w-PMKspo',	#Thirty Seconds To Mars - Walk On Water (Lyric Video)
-				'https://www.youtube.com/watch?v=VDvr08sCPOc',	#Remember The Name (Official Video) - Fort Minor
-				'https://www.youtube.com/watch?v=qaX5nR2GFaY', 	#Leon Machère & Kay One - Portofino 🌴☀️ ft. Tilly (Official Video)
-				'https://www.youtube.com/watch?v=8Hu8L7psTHQ', 	#GIMS - Miami Vice (Clip Officiel)
-				'https://www.youtube.com/watch?v=MTmUmU7LaHg',	#GIMS - Jasmine (Audio Officiel)
-				'https://www.youtube.com/watch?v=GpkHJlyV7TQ',	#Feint - My Sunset (Original Mix)
-
+				'https://www.youtube.com/watch?v=5XiqmLYwsN8', #Beautiful recitation By Abbadi Houssem Eddine I Surah Yusuf
+				'https://www.youtube.com/watch?v=cvV_CQo_xIk', #سورة يس الرحمن الملك الواقعة الصافات بصوت القارئ إسلام صبحي رابط بدون اعلانات
+				'https://www.youtube.com/watch?v=KzG21buIJPg', #Surah Al Baqarah - Sheikh Mansour As Salimi الشيخ منصور السالمي
+				'https://www.youtube.com/watch?v=S4ERCYFR28U', #سورة الملك - تبارك - كامله تلاوة هادئة قبل النوم💚تريح الاعصاب😴القرآن الكريم راحة لقلبك Surat Al Mulk
+				'https://www.youtube.com/watch?v=hwB938b9ifw', #Beautiful 10 Hours of Quran Recitation by Hazaa Al Belushi
+				'https://www.youtube.com/watch?v=9CN-31h_wK4'  #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
 			]
 			random.shuffle(defaultList)
 			defaultList = defaultList[0:3]
