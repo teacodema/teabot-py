@@ -27,12 +27,12 @@ def init_msg_log(params):
 				count = len(deletedMsgs)
 				deletedMsgs.reverse()
 				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
-				headerMsg = f"❌ **clear({count}) | {ctx.channel.mention}** ──────────"
+				headerMsg = f"🗑 **clear({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in deletedMsgs:
 					msg = '──────────────────────'
-					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
-					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
+					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
+					msg += f'\n📅 {m.created_at} ➜ {m.edited_at}'
 					msg += f'\n__Content__\n{m.content}'
 					if len(m.attachments):
 						attachmentsUrls = '\n__Attachments__\n'
@@ -94,12 +94,12 @@ def init_msg_log(params):
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
 				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
-				headerMsg = f"❌ **purge({count}) | {ctx.channel.mention}** ──────────"
+				headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
 				for m in purgedMsgs:
 					msg = '──────────────────────'
-					msg += f'\n💢 by {m.author.mention} in {m.channel.mention}'
-					msg += f'\n📅 {m.created_at} ➡ {m.edited_at}'
+					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
+					msg += f'\n📅 {m.created_at} ➜ {m.edited_at}'
 					msg += f'\n__Content__\n{m.content}'
 					if len(m.attachments):
 						attachmentsUrls = '\n__Attachments__\n'
