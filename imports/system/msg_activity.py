@@ -41,15 +41,12 @@ def init_msg_activity(params):
 					print(ex)
 
 			if str(message.channel.type) == 'private':
-
 				author = message.author
-				
 				# Testing
 				if author.id == users['drissboumlik']:
 					channel = author.dm_channel
 					await channel.send('am alive')
 					return
-
 				excludedIDs = [
 						users['drissboumlik'],
 						users['teabot'],
@@ -73,6 +70,10 @@ def init_msg_activity(params):
 
 					channel = bot.get_channel(textChannels['log-channel'])
 					await channel.send(msg)
+			# else:
+			# 	author = message.author
+			# 	if author.id == users['drissboumlik']:
+			# 		print(message.content)
 			await bot.process_commands(message)
 		except Exception as ex:
 			print('----- on_message 1 -----')
@@ -83,38 +84,19 @@ def init_msg_activity(params):
 	@bot.event
 	async def on_message_delete(message):
 		try:
-			await logDeletedMessage(message, bot)
-		except Exception as ex:
-			print('----- on_message_delete -----')
-			print(ex)
-
-
-	######################## ON MESSAGE EDIT ########################
-	@bot.event
-	async def on_message_edit(before, after):
-		try:
-			await logEditedMessage(before, after, bot)
-		except Exception as ex:
-			print('----- on_message_edit -----')
-			print(ex)
-
-
-	######################## LOG MESSAGE ########################
-	async def logDeletedMessage(message, bot):
-		try:
 			excludedAuthors = [
 				# users['drissboumlik']
 				# users['teacode'],
 				# users['cartouche'],
-				users['teabot'],
-				users['YAGPDB'],
+				# users['teabot'],
+				# users['YAGPDB'],
 			]
 			
 			messageAuthorId = message.author.id
 			if messageAuthorId not in excludedAuthors:
 				msg = '──────────────────────'
-				msg += f'\n💢 by {message.author.mention} in {message.channel.mention}'
-				msg += f'\n{message.created_at} ► {message.edited_at}'
+				msg += f'\n🗑 by {message.author.mention} in {message.channel.mention}'
+				msg += f'\n{message.created_at} ➜ {message.edited_at}'
 				msg += f'\n__Content__\n{message.content}'
 
 				if len(message.attachments):
@@ -132,18 +114,20 @@ def init_msg_activity(params):
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:
-			print('----- logDeletedMessage -----')
+			print('----- on_message_delete -----')
 			print(ex)
 
 
-	async def logEditedMessage(before, after, bot):
+	######################## ON MESSAGE EDIT ########################
+	@bot.event
+	async def on_message_edit(before, after):
 		try:
 			excludedAuthors = [
 				# users['drissboumlik']
 				# users['teacode'],
 				# users['cartouche'],
-				users['teabot'],
-				users['YAGPDB'],
+				# users['teabot'],
+				# users['YAGPDB'],
 			]
 
 			if (before.content.lower() == after.content.lower()):
@@ -153,7 +137,7 @@ def init_msg_activity(params):
 			if messageAuthorId not in excludedAuthors:
 				msg = '──────────────────────'
 				msg += f'\n✏ by {before.author.mention} in {before.channel.mention}'
-				msg += f'\n{after.created_at} ► {after.edited_at}'
+				msg += f'\n{after.created_at} ➜ {after.edited_at}'
 				msg += f'\n__Content__\n{before.content}\n▼\n{after.content}'
 
 				if len(before.attachments):
@@ -171,5 +155,5 @@ def init_msg_activity(params):
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:
-			print('----- logEditedMessage -----')
+			print('----- on_message_edit -----')
 			print(ex)
