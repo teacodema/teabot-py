@@ -421,7 +421,13 @@ def init_audio_activity(params):
 				# track_url = track['url']
 				# track_url = track_url.replace("(", "\(")
 				# track_url = track_url.replace(")", "\)")
-				value += f"**{index}・**{track['title'][0:40]}... - {track['duration']}\n"
+				title = track['title'][0:40]
+				ar_regex = (r'[ا-ي]+')
+				ar_regex_match = re.match(ar_regex, title)
+				if ar_regex_match:
+					value += f"{track['duration']} - ...{title}**・{index}**\n"
+				else:
+					value += f"**{index}・**{title}... - {track['duration']}\n"
 			guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			# embed.set_thumbnail(url=guild.icon_url)
