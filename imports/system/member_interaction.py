@@ -1,11 +1,48 @@
 from setup.properties import *
 from setup.actions import *
 
-def init_members_interaction(params):
+def init_member_interaction(params):
 
 	bot = params['bot']
 	slash = params['slash']
 	discord = params['discord']
+
+
+	######################## REPLY TO MSG ########################
+	@slash.slash(name = "em", guild_ids=[guildId],
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
+	async def edit_message(ctx, content, msg_id, channel: discord.TextChannel):
+		try:
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				return
+			msg = await channel.fetch_message(int(msg_id))
+			content = content.replace("\\n", "\n")
+			content = content.replace("\\t", "	")
+			await msg.edit(content=content)
+			await ctx.send('Edit done', delete_after = 2)
+		except Exception as ex:
+			print('----- /edit_message -----')
+			print(ex)
+
+
+	######################## REPLY TO MSG ########################
+	@slash.slash(name = "rc", guild_ids=[guildId],
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
+	async def reply_channel(ctx, reply, msg_id, channel: discord.TextChannel):
+		try:
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				return
+			msg = await channel.fetch_message(int(msg_id))
+			reply = reply.replace("\\n", "\n")
+			reply = reply.replace("\\t", "	")
+			await msg.reply(reply)
+			await ctx.send('Reply sent', delete_after = 2)
+		except Exception as ex:
+			print('----- /reply_channel -----')
+			print(ex)
+
 
 	######################## SEND MSG TO CHANNEL ########################
 	@slash.slash(name = "mc", guild_ids=[guildId],
