@@ -50,11 +50,11 @@ def init_msg_activity(params):
 				excludedIDs = [
 						users['drissboumlik'],
 						users['teabot'],
-						users['teabottest'],
 					]
 				if (author.id not in excludedIDs):
 					msg = '──────────────────────'
-					msg = f'\nDM/ {author} - {author.mention}'
+					msg = f'\nDM/ 🡷'
+					msg+= f'\n__From__\n{author} - {author.mention}'
 					msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
 					if len(message.attachments):
 						attachmentsUrls = '\n__Attachments__\n'
@@ -87,9 +87,7 @@ def init_msg_activity(params):
 			excludedAuthors = [
 				# users['drissboumlik']
 				# users['teacode'],
-				# users['cartouche'],
 				# users['teabot'],
-				# users['YAGPDB'],
 			]
 			
 			messageAuthorId = message.author.id
@@ -125,9 +123,7 @@ def init_msg_activity(params):
 			excludedAuthors = [
 				# users['drissboumlik']
 				# users['teacode'],
-				# users['cartouche'],
 				# users['teabot'],
-				# users['YAGPDB'],
 			]
 
 			if (before.content.lower() == after.content.lower()):

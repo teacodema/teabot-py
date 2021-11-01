@@ -9,12 +9,12 @@ def init_member_interaction(params):
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "em", guild_ids=[guildId],
+	@slash.slash(name = "emc", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def edit_message(ctx, content, msg_id, channel: discord.TextChannel):
+	async def edit_msg_channel(ctx, content, msg_id, channel: discord.TextChannel):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			content = content.replace("\\n", "\n")
@@ -22,7 +22,7 @@ def init_member_interaction(params):
 			await msg.edit(content=content)
 			await ctx.send('Edit done', hidden=True)
 		except Exception as ex:
-			print('----- /edit_message -----')
+			print('----- /edit_msg_channel -----')
 			print(ex)
 
 
@@ -32,7 +32,7 @@ def init_member_interaction(params):
 	async def reply_channel(ctx, reply, msg_id, channel: discord.TextChannel):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			reply = reply.replace("\\n", "\n")
@@ -51,7 +51,7 @@ def init_member_interaction(params):
 		try:
 			
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			
 			msg = msg.replace("\\n", "\n")
@@ -69,27 +69,29 @@ def init_member_interaction(params):
 	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 
 			msg = msg.replace("\\n", "\n")
 			msg = msg.replace("\\t", "	")
 			await ctx.send("Sending direct message...", hidden=True)
 
-			notifyMe = 'DM/'
+			notifyMe = f'DM/ 🡵'
+			notifyMe+= f'\n__To__'
 			if role == None:
 				if member == None: 
 					member = ctx.author
 				await send_msg(ctx, msg, member)
-				notifyMe += f'\n{msg} ➜ Member: **{member.mention}**'
+				notifyMe += f'\nMember: **{member.mention}**'
 			else:
 				if member != None:
 					await send_msg(ctx, msg, member)
-					notifyMe += f'\n{msg} ➜ Member: **{member.mention}**'
+					notifyMe += f'\nMember: **{member.mention}**'
 				members = role.members
 				for member in members:
 					await send_msg(ctx, msg, member)
-				notifyMe += f'\n{msg} ➜ Role: **{role.mention}**'
+				notifyMe += f'\nRole: **{role.mention}**'
+			notifyMe += f'\n__Content__\n{msg}'
 			
 			channel = bot.get_channel(textChannels['log-channel'])
 			await channel.send(notifyMe)
