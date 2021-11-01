@@ -41,13 +41,7 @@ def init_audio_activity(params):
 	async def play(ctx, url=None):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
-			# user = ctx.author
 
-			# if (user.voice == None):
-			# 	await ctx.send('❌ You need to be connected to a voice channel')
-			# 	return
-			
-			# vc = user.voice.channel
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -184,7 +178,7 @@ def init_audio_activity(params):
 				return
 			track = playlist[currentTrackIndex]
 			value = f"**{currentTrackIndex+1}・**{track['title']} - {track['duration']}"
-			guild = bot.get_guild(ctx.guild_id)
+			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			embed.set_thumbnail(url=track['thumbnail'])
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
