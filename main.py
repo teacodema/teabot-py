@@ -23,8 +23,9 @@ from imports.system.server_activity import *
 from imports.system.msg_activity import *
 from imports.system.msg_log import *
 from imports.system.voice_activity import *
-from imports.system.members_interaction import *
+from imports.system.member_interaction import *
 from imports.system.check_membership import *
+from imports.system.role_reaction import *
 
 from imports.common.server_data import *
 
@@ -64,8 +65,9 @@ init_msg_log(params)
 init_voice_activity(params)
 init_audio_activity(params)
 init_fun_activity(params)
-init_members_interaction(params)
+init_member_interaction(params)
 init_check_membership(params)
+init_role_reaction(params)
 
 
 keep_alive()
