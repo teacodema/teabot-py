@@ -12,17 +12,17 @@ def init_fun_activity(params):
 	@slash.slash(name = "janken", description = "Rock Paper Scissors", guild_ids=[guildId])
 	async def janken(ctx, member1: discord.Member = None, member2: discord.Member = None):
 		try:
-			whereToPlay = [
-				textChannels['general'],
-				textChannels['voice-chat']
-			]
+			# whereToPlay = [
+			# 	textChannels['general'],
+			# 	textChannels['voice-chat']
+			# ]
 
-			if (ctx.channel.id not in whereToPlay):
-				msg = 'You can only play in these channels:'
-				for c in whereToPlay:
-					msg += f' <#{c}>'
-				await ctx.send(msg)
-				return
+			# if (ctx.channel.id not in whereToPlay):
+			# 	msg = 'You can only play in these channels:'
+			# 	for c in whereToPlay:
+			# 		msg += f' <#{c}>'
+			# 	await ctx.send(msg)
+			# 	return
 
 			choices = [':page_facing_up:', ':scissors:', ':rock:']
 
