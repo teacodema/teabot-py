@@ -62,15 +62,15 @@ def init_server_activity(params):
 		# 	print(ex)
 
 		try:
-			await validateMemeber(member, roles['new-members'], bot, get)
-			time.sleep(120)
 			_roles = [
-				roles['members'],
+				roles['new-members'],
 				roles['techs'], roles['tools'],
 				roles['jobs'], roles['interests'],
 			]
 			for rold_id in _roles:
 				await validateMemeber(member, rold_id, bot, get)
+			time.sleep(120)
+			await validateMemeber(member, roles['members'], bot, get)
 		except Exception as ex:
 			print('----- on_member_join 2-----')
 			print(ex)
