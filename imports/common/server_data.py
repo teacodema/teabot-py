@@ -88,7 +88,7 @@ def init_server_data(params):
 			else:
 				roleIds = [role.id for role in ctx.author.roles]
 				if not is_founders(ctx) and (role.id not in roleIds):
-					await ctx.send('❌ You can only see data of roles you have', hidden=True)
+					await ctx.send('❌ You can only see data of roles you have')
 					return
 
 			embed = discord.Embed(name=f'Role : {ctx.author.display_name}', title=role.name, description="", color=role.color)
@@ -114,7 +114,7 @@ def init_server_data(params):
 				member = ctx.author
 			else:
 				if not is_founders(ctx):
-					await ctx.send('❌ You can only see your data', hidden=True)
+					await ctx.send('❌ You can only see your data')
 					member = ctx.author
 					time.sleep(1)
 

@@ -18,7 +18,7 @@ def init_check_membership(params):
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
-			await ctx.send('Updating ...', delete_after = 2)
+			await ctx.send('Updating ...', hidden=True)
 			updatedMembers = await checkNewMemberRole(bot, get)
 			logChannel = bot.get_channel(textChannels['log-channel'])
 			msg = ''

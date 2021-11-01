@@ -14,7 +14,7 @@ def init_msg_log(params):
 	async def clear(ctx, number: int):
 		try:
 			if not is_authorised(ctx, {'founders', 'moderators'}):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			if (number > 500):
 				await ctx.send('You cannot delete more than 500 messages', hidden=True)
@@ -58,7 +58,7 @@ def init_msg_log(params):
 		try:
 
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			
 			channelId = ctx.channel.id

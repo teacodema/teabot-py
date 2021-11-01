@@ -16,7 +16,7 @@ def init_role_activity(params):
 		try:
 
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 
 			await ctx.send('Assigning Role...', hidden=True)
@@ -45,7 +45,7 @@ def init_role_activity(params):
 		try:
 
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			
 			await ctx.send('Unassigning Role...', hidden=True)

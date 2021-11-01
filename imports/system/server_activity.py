@@ -95,7 +95,7 @@ def init_server_activity(params):
 	async def welcome(ctx, member: discord.Member):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', hidden=True)
+				await ctx.send('❌ Missing Permissions')
 				return
 			await ctx.send(f'Msg sent to {member.mention}', hidden=True)
 			message = await welcomeMember(member)
