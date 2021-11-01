@@ -3,7 +3,7 @@ reactions = {
 		'<:teacode_bordred:844450911941165086>': '🌱│Members'
 	},
 	'904481592532164658': {
-		'⚽': 'Html/Css',
+		'⚽': 'Html / Css',
 		'🏀': 'Less',
 		'🏈': 'Sass',
 		'⚾': 'Tailwind Css',
@@ -66,7 +66,7 @@ reactions = {
 	'904492639393566780': {
 		'🏚': 'SQL',
 		'🏘': 'NoSQL',
-		'🏪': 'PL/SQL',
+		'🏪': 'PL / SQL',
 		'🏣': 'Transact-SQL',
 		'⛩': 'GraphQL',
 		'🏰': 'MySQL',
@@ -119,7 +119,7 @@ reactions = {
 		'🍒': 'DataGrip',
 		'🍀': 'Android Studio',
 		'🌺': 'Visual Studio',
-		'🌷': 'VsCode',
+		'🌷': 'VSCode',
 		'🌱': 'Atom',
 		'🍓': 'Sublime Text',
 		'🌻': 'Brackets',
@@ -145,7 +145,7 @@ reactions = {
 		'🍇': 'Software Engineer',
 		'🍐': 'Web Developer',
 		'🍓': 'Web Designer',
-		'🍈': 'Fullstack Developer',
+		'🍈': 'FullStack Developer',
 		'🥑': 'Frontend Developer',
 		'🍅': 'Backend Developer',
 		'🫐': 'Mobile Developer',
