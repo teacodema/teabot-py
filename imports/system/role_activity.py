@@ -16,10 +16,10 @@ def init_role_activity(params):
 		try:
 
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 
-			await ctx.send('Assigning Role', delete_after = 2)
+			await ctx.send('Assigning Role...', hidden=True)
 			if (role2 != None and member == None):
 				msg = f'{role2.mention} got a new role : {role.mention}'
 				members = role2.members
@@ -45,10 +45,10 @@ def init_role_activity(params):
 		try:
 
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			
-			await ctx.send('Unassigning Role', delete_after = 2)
+			await ctx.send('Unassigning Role...', hidden=True)
 			if (role2 != None and member == None):
 				msg = f'{role2.mention} lost a role : {role.mention}'
 				members = role2.members

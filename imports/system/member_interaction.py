@@ -14,13 +14,13 @@ def init_member_interaction(params):
 	async def edit_message(ctx, content, msg_id, channel: discord.TextChannel):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			content = content.replace("\\n", "\n")
 			content = content.replace("\\t", "	")
 			await msg.edit(content=content)
-			await ctx.send('Edit done', delete_after = 2)
+			await ctx.send('Edit done', hidden=True)
 		except Exception as ex:
 			print('----- /edit_message -----')
 			print(ex)
@@ -32,13 +32,13 @@ def init_member_interaction(params):
 	async def reply_channel(ctx, reply, msg_id, channel: discord.TextChannel):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			reply = reply.replace("\\n", "\n")
 			reply = reply.replace("\\t", "	")
 			await msg.reply(reply)
-			await ctx.send('Reply sent', delete_after = 2)
+			await ctx.send('Reply sent', hidden=True)
 		except Exception as ex:
 			print('----- /reply_channel -----')
 			print(ex)
@@ -51,13 +51,13 @@ def init_member_interaction(params):
 		try:
 			
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			
 			msg = msg.replace("\\n", "\n")
 			msg = msg.replace("\\t", "	")
 			await channel.send(msg)
-			await ctx.send('Msg sent', delete_after = 2)
+			await ctx.send('Msg sent', hidden=True)
 		
 		except Exception as ex:
 			print('----- /msg_channel -----')
@@ -69,12 +69,12 @@ def init_member_interaction(params):
 	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 
 			msg = msg.replace("\\n", "\n")
 			msg = msg.replace("\\t", "	")
-			await ctx.send("Sending direct message...", delete_after = 2)
+			await ctx.send("Sending direct message...", hidden=True)
 
 			notifyMe = 'DM/'
 			if role == None:

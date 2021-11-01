@@ -42,7 +42,7 @@ def init_role_reaction(params):
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def role_react(ctx, msg_id):
 		try:
-			await ctx.send('Reactions are setting up ....', delete_after = 2)
+			await ctx.send('Reactions are setting up ....', hidden=True)
 			msg = await ctx.channel.fetch_message(msg_id)
 			for e in reactions[msg_id]:
 				# print(e, reactions[msg_id][e])

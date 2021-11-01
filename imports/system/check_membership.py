@@ -16,7 +16,7 @@ def init_check_membership(params):
 	async def check_membership(ctx):
 		try:
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			await ctx.send('Updating ...', delete_after = 2)
 			updatedMembers = await checkNewMemberRole(bot, get)

@@ -14,15 +14,15 @@ def init_msg_log(params):
 	async def clear(ctx, number: int):
 		try:
 			if not is_authorised(ctx, {'founders', 'moderators'}):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			if (number > 500):
-				await ctx.send('You cannot delete more than 500 messages', delete_after = 2)
+				await ctx.send('You cannot delete more than 500 messages', hidden=True)
 				return
 			else:
-				await ctx.send('Clearing messages ...', delete_after = 2)
+				await ctx.send('Clearing messages ...', hidden=True)
 				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
-				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', delete_after = 2)
+				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', hidden=True)
 
 				count = len(deletedMsgs)
 				deletedMsgs.reverse()
@@ -58,7 +58,7 @@ def init_msg_log(params):
 		try:
 
 			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions', delete_after = 2)
+				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			
 			channelId = ctx.channel.id
@@ -68,11 +68,11 @@ def init_msg_log(params):
 				textChannels['activities-notes']
 			]
 			if (channelId not in channelsToClear):
-				await ctx.send('❌ Wrong Target Channel', delete_after = 2)
+				await ctx.send('❌ Wrong Target Channel', hidden=True)
 				return
 
 			MAX_TO_DELETE = 500
-			await ctx.send('Clearing everything ...', delete_after = 2)
+			await ctx.send('Clearing everything ...', hidden=True)
 			# time.sleep(2)
 			await deleteMsg(ctx, MAX_TO_DELETE)
 		except Exception as ex:
