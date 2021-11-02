@@ -1,4 +1,4 @@
-from database.player import *
+# from database.player import *
 from setup.properties import *
 import re
 import datetime
@@ -43,10 +43,10 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
 
-			if player_params['current_played'] == 'quran':
-				await ctx.send('⚠ Quran is currently played')
-				return
-			player_params['current_played'] = 'audio'
+			# if player_params['current_played'] == 'quran':
+			# 	await ctx.send('⚠ Quran is currently played')
+			# 	return
+			# player_params['current_played'] = 'audio'
 
 			vc = isUserConnected(ctx)
 			if vc == False:
@@ -186,7 +186,13 @@ def init_audio_activity(params):
 				await ctx.send('⚠ The playlist is empty')
 				return
 			track = playlist[currentTrackIndex]
-			value = f"**{currentTrackIndex+1}・**{track['title']} - {track['duration']}"
+			title = track['title'][0:40]
+			ar_regex = (r'[a-zA-Z]+')
+			ar_regex_match = not re.match(ar_regex, title)
+			if ar_regex_match:
+				value = f"{track['duration']} - ...{title}**・{currentTrackIndex+1}**"
+			else:
+				value = f"**{currentTrackIndex+1}・**{title}... - {track['duration']}"
 			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			embed.set_thumbnail(url=track['thumbnail'])
@@ -219,9 +225,9 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 			
-			if player_params['current_played'] == 'quran':
-				await ctx.send('⚠ Quran is currently played')
-				return
+			# if player_params['current_played'] == 'quran':
+			# 	await ctx.send('⚠ Quran is currently played')
+			# 	return
 
 			btn_pressed = True
 			vc = isUserConnected(ctx)
@@ -247,9 +253,9 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 			
-			if player_params['current_played'] == 'quran':
-				await ctx.send('⚠ Quran is currently played')
-				return
+			# if player_params['current_played'] == 'quran':
+			# 	await ctx.send('⚠ Quran is currently played')
+			# 	return
 				
 			btn_pressed = True
 			vc = isUserConnected(ctx)
@@ -278,9 +284,9 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 			
-			if player_params['current_played'] == 'quran':
-				await ctx.send('⚠ Quran is currently played')
-				return
+			# if player_params['current_played'] == 'quran':
+			# 	await ctx.send('⚠ Quran is currently played')
+			# 	return
 				
 			btn_pressed = True
 			vc = isUserConnected(ctx)
@@ -345,7 +351,7 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
-			player_params['current_played'] = None
+			# player_params['current_played'] = None
 			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
@@ -365,7 +371,7 @@ def init_audio_activity(params):
 	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
 	async def leave(ctx):
 		try:
-			player_params['current_played'] = None
+			# player_params['current_played'] = None
 			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice != None:
 				await voice.disconnect()
@@ -439,13 +445,13 @@ def init_audio_activity(params):
 				# track_url = track_url.replace("(", "\(")
 				# track_url = track_url.replace(")", "\)")
 				title = track['title'][0:40]
-				ar_regex = (r'[ا-ي]+')
-				ar_regex_match = re.match(ar_regex, title)
+				ar_regex = (r'[a-zA-Z]+')
+				ar_regex_match = not re.match(ar_regex, title)
 				if ar_regex_match:
 					value += f"{track['duration']} - ...{title}**・{index}**\n"
 				else:
 					value += f"**{index}・**{title}... - {track['duration']}\n"
-			guild = bot.get_guild(ctx.guild_id)
+			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			# embed.set_thumbnail(url=guild.icon_url)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
