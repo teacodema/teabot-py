@@ -29,12 +29,12 @@ def init_fun_activity(params):
 			if (member1 == None and member2 == None):
 				member = ctx.author
 				ch = random.choice(choices)
-				await ctx.send(f'{member.mention} {ch}')
+				await ctx.send(f'__{member.display_name}__ {ch}')
 				return
 			else:
-				if (member1 == None):
+				if member1 == None:
 					member1 = ctx.author
-				elif (member2 == None):
+				elif member2 == None:
 					member2 = ctx.author
 
 			if (member1 == member2):
@@ -44,23 +44,23 @@ def init_fun_activity(params):
 			ch1 = random.choice(choices)
 			ch2 = random.choice(choices)
 
-			msg = f'{member1.mention} {ch1} vs {ch2} {member2.mention}'
+			msg = f'__{member1.display_name}__ {ch1} **VS** {ch2} __{member2.display_name}__'
 			result = ''
 
 			index1 = choices.index(ch1)
 			index2 = choices.index(ch2)
 
 			if (index1 == 0 and index2 == 2):
-				result = f'**{member1.mention}** is the **WINNER**'
+				result = f'{member1.mention} is the **WINNER** 🎉 🎊'
 			elif (index2 == 0 and index1 == 2):
-				result = f'**{member2.mention}** is the **WINNER**'
+				result = f'{member2.mention} is the **WINNER** 🎉 🎊'
 			elif (index1 == index2):
 				result = "it's a **TIE**"
 			else:
-				if (index1 > index2):
-					result = f'**{member1.mention}** is the **WINNER**'
+				if index1 > index2:
+					result = f'{member1.mention} is the **WINNER** 🎉 🎊'
 				else:
-					result = f'**{member2.mention}** is the **WINNER**'
+					result = f'{member2.mention} is the **WINNER** 🎉 🎊'
 
 			await ctx.send(f'{msg} | {result}')
 		except Exception as ex:
