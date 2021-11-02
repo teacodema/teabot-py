@@ -5,9 +5,10 @@ from discord_slash.utils.manage_commands import create_permission
 from discord_slash.model import SlashCommandPermissionType
 import os
 from discord.utils import get
-from discord import FFmpegPCMAudio
+from discord import FFmpegPCMAudio, PCMVolumeTransformer
 from youtube_dl import YoutubeDL
 from discord.ext import commands, tasks
+import asyncio
 # import time
 # import datetime
 # from threading import Timer
@@ -31,6 +32,7 @@ from imports.common.server_data import *
 
 from imports.member.audio_activity import *
 from imports.member.fun_activity import *
+from imports.member.quran import *
 
 intents = discord.Intents.all()
 # intents = discord.Intents.default()
@@ -43,17 +45,18 @@ slash = SlashCommand(bot, sync_commands=True)
 # bot = commands.Bot('!')
 
 params = {
-    'bot': bot,
-		# 'client2': client2,
-    'discord': discord,
-    'slash': slash,
-    'get': get,
-		'tasks': tasks,
-    # 'bot': bot,
-    'YoutubeDL': YoutubeDL,
-    'FFmpegPCMAudio': FFmpegPCMAudio,
-		'create_permission': create_permission,
-		'SlashCommandPermissionType': SlashCommandPermissionType
+	'bot': bot,
+	# 'client2': client2,
+	'discord': discord,
+	'slash': slash,
+	'get': get,
+	'tasks': tasks,
+	'YoutubeDL': YoutubeDL,
+	'FFmpegPCMAudio': FFmpegPCMAudio,
+	'create_permission': create_permission,
+	'SlashCommandPermissionType': SlashCommandPermissionType,
+	'PCMVolumeTransformer': PCMVolumeTransformer,
+	'asyncio': asyncio,
 }
 
 init_bot_activity(params)
@@ -68,6 +71,7 @@ init_fun_activity(params)
 init_member_interaction(params)
 init_check_membership(params)
 init_role_reaction(params)
+init_quran(params)
 
 
 keep_alive()

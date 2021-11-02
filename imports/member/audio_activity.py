@@ -1,3 +1,4 @@
+from database.player import *
 from setup.properties import *
 import re
 import datetime
@@ -42,6 +43,11 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
 
+			if player_params['current_played'] == 'quran':
+				await ctx.send('⚠ Quran is currently played')
+				return
+			player_params['current_played'] = 'audio'
+
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -54,6 +60,9 @@ def init_audio_activity(params):
 					return
 				if voice == None:
 					await Player(ctx, "▶ Playing ...", None, vc)
+				elif voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
+					await ctx.send('⚠ A track is currently playing')
+					return
 				else:
 					await ctx.send("▶ Playing ...")
 					playTrack(ctx)
@@ -209,6 +218,10 @@ def init_audio_activity(params):
 	async def replay(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			
+			if player_params['current_played'] == 'quran':
+				await ctx.send('⚠ Quran is currently played')
+				return
 
 			btn_pressed = True
 			vc = isUserConnected(ctx)
@@ -233,7 +246,11 @@ def init_audio_activity(params):
 	async def next(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
-
+			
+			if player_params['current_played'] == 'quran':
+				await ctx.send('⚠ Quran is currently played')
+				return
+				
 			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
@@ -260,7 +277,11 @@ def init_audio_activity(params):
 	async def previous(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
-
+			
+			if player_params['current_played'] == 'quran':
+				await ctx.send('⚠ Quran is currently played')
+				return
+				
 			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
@@ -324,6 +345,7 @@ def init_audio_activity(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
 
+			player_params['current_played'] = None
 			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
@@ -343,6 +365,7 @@ def init_audio_activity(params):
 	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
 	async def leave(ctx):
 		try:
+			player_params['current_played'] = None
 			voice = get(bot.voice_clients, guild = ctx.guild)
 			if voice != None:
 				await voice.disconnect()
