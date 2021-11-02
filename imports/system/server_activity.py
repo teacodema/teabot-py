@@ -121,18 +121,18 @@ async def welcomeMember(member):
 		message += "\nIf you're **new** to discord check this video https://teacode.ma/about :bangbang:"
 		message += "\nDon't forget to **invite** your friends who could be interested :speech_left:"
 
-		message += "\n\n**0┊Activate your membership**"
+		message += "\n\n__**0┊Activate your membership**__"
 		message += f"\n   **・**Read & React to the <#{textChannels['rules']}> to be a verified __**@Members**__."
 		
-		message += "\n\n**1┊Go to**"
+		message += "\n\n__**1┊Go to**__"
 		message += f"\n   **・**<#{textChannels['get-roles']}> and react to get your skills roles."
 		message += f"\n   **・**<#{textChannels['faqs']}> where you can find answers to common questions about the server."
 		message += f"\n   **・**<#{textChannels['introduce-yourself']}> if you want to Introduce yourself . (First name, age, school .... etc)."
 
-		message += "\n\n**2┊Need Help ?**"
+		message += "\n\n__**2┊Need Help ?**__"
 		message += f"\n   **・**Ask the __**@Moderators**__/__**@Staff**__ guys here <#{textChannels['ask-staff']}> if you need help with the server."
 
-		message += "\n\n**3┊Links**"
+		message += "\n\n__**3┊Links**__"
 		message += "\n   **・**Website : <https://teacode.ma>"
 		message += "\n   **・**Discord : https://discord.gg/vKu2fkPqjY"
 		message += "\n   **・**Facebook : <https://teacode.ma/facebook>"
@@ -140,7 +140,7 @@ async def welcomeMember(member):
 		message += "\n   **・**Instagram : <https://teacode.ma/instagram>"
 		message += "\n   **・**Twitter : <https://teacode.ma/twitter>"
 
-		message += "\n\n**4┊How To Support us**"
+		message += "\n\n__**4┊How To Support us**__"
 		message += "\n   **・**PayPal : <https://teacode.ma/paypal>"
 		message += "\n   **・**Patreon : <https://teacode.ma/patreon>"
 	
