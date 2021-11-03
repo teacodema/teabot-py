@@ -1,7 +1,6 @@
 from setup.properties import *
 from setup.actions import *
-# import schedule
-# import time
+
 
 def init_check_membership(params):
 
@@ -10,7 +9,6 @@ def init_check_membership(params):
 	get = params['get']
 	
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
-	# @bot.command(name="check", pass_context=True)
 	@slash.slash(name="check", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def check_membership(ctx):
