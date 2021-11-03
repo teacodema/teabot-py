@@ -38,7 +38,7 @@ def init_audio_activity(params):
 		'options': '-vn'}
 
 	######################## PLAY ########################
-	@slash.slash(name = "play", description = "Play a Youtube url", guild_ids = [guildId])
+	@slash.slash(name = "play", description = "Play a YouTube url", guild_ids = [guildId])
 	async def play(ctx, url=None):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
@@ -56,7 +56,7 @@ def init_audio_activity(params):
 			voice = get(bot.voice_clients, guild = ctx.guild)
 			if not url:
 				if len(playlist) == 0:
-					await ctx.send('⚠ The playlist is empty')
+					await ctx.send('⚠ The queue is empty')
 					return
 				if voice == None:
 					await Player(ctx, "▶ Playing ...", None, vc)
@@ -178,12 +178,12 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## CURRENT ########################
-	@slash.slash(name = "current", description = "Shows current playing track", guild_ids = [guildId])
-	async def current(ctx):
+	@slash.slash(name = "current-track", description = "Show current playing track", guild_ids = [guildId])
+	async def current_track(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist
 			if len(playlist) == 0:
-				await ctx.send('⚠ The playlist is empty')
+				await ctx.send('⚠ The queue is empty')
 				return
 			track = playlist[currentTrackIndex]
 			title = track['title'][0:40]
@@ -201,22 +201,22 @@ def init_audio_activity(params):
 			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
 			await ctx.send(embed=embed)
 		except Exception as ex:
-			print('----- /current -----')
+			print('----- /current_track -----')
 			print(ex)
 
 
 	######################## PLAYLIST ########################
-	@slash.slash(name = "playlist", description = "Shows the playlist", guild_ids = [guildId])
-	async def _playlist(ctx):
+	@slash.slash(name = "queue", description = "Show the queue", guild_ids = [guildId])
+	async def queue(ctx):
 		try:
 			nonlocal playlist
 			if len(playlist) == 0:
-				await ctx.send('⚠ The playlist is empty')
+				await ctx.send('⚠ The queue is empty')
 				return
 
 			await displayPlaylist(ctx)
 		except Exception as ex:
-			print('----- /playlist -----')
+			print('----- /queue -----')
 			print(ex)
 
 	######################## REPLAY ########################
@@ -235,7 +235,7 @@ def init_audio_activity(params):
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 			if len(playlist) == 0:
-				await ctx.send('⚠ The playlist is empty')
+				await ctx.send('⚠ The queue is empty')
 				return
 			await ctx.send('▶ Replay ...')
 
@@ -263,7 +263,7 @@ def init_audio_activity(params):
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 			if len(playlist) == 0:
-				await ctx.send('⚠ The playlist is empty')
+				await ctx.send('⚠ The queue is empty')
 				return
 			await ctx.send('⏭ Next ...')
 			currentTrackIndex = currentTrackIndex + 1
@@ -294,7 +294,7 @@ def init_audio_activity(params):
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 			if len(playlist) == 0:
-				await ctx.send('⚠ The playlist is empty')
+				await ctx.send('⚠ The queue is empty')
 				return
 			await ctx.send('⏮ Previous ...')
 			currentTrackIndex = currentTrackIndex - 1
@@ -310,7 +310,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## PAUSE ########################
-	@slash.slash(name = "pause", description = "Pauses the player", guild_ids = [guildId])
+	@slash.slash(name = "pause", description = "Pause the player", guild_ids = [guildId])
 	async def pause(ctx):
 		try:
 			vc = isUserConnected(ctx)
@@ -328,7 +328,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## RESUME ########################
-	@slash.slash(name = "resume", description = "Resumes the player", guild_ids = [guildId])
+	@slash.slash(name = "resume", description = "Resume the player", guild_ids = [guildId])
 	async def resume(ctx):
 		try:
 			vc = isUserConnected(ctx)
@@ -346,7 +346,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## STOP ########################
-	@slash.slash(name = "stop", description = "Stops the player", guild_ids = [guildId])
+	@slash.slash(name = "stop", description = "Stop the player", guild_ids = [guildId])
 	async def stop(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -383,8 +383,8 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## CLEAR PLAYLIST ########################
-	@slash.slash(name = "clear-list", description = "Flushes the playlist", guild_ids = [guildId])
-	async def clear_list(ctx):
+	@slash.slash(name = "clear-queue", description = "Flushes the queue", guild_ids = [guildId])
+	async def clear_queue(ctx):
 		try:
 			nonlocal playlist
 			voice = get(bot.voice_clients, guild = ctx.guild)
@@ -392,13 +392,13 @@ def init_audio_activity(params):
 				await ctx.send('⚠ A track is currently playing')
 				return
 			playlist = []
-			await ctx.send('🗑 Playlist is clear')
+			await ctx.send('🗑 Queue is clear')
 		except Exception as ex:
-			print('----- /flushlist -----')
+			print('----- /clear_queue -----')
 			print(ex)
 
 	######################## REFRESH LIST ########################
-	@slash.slash(name = "refresh", description = "Refill the playlist with some tracks", guild_ids = [guildId])
+	@slash.slash(name = "refresh", description = "Refill the queue with some tracks", guild_ids = [guildId])
 	async def refresh(ctx):
 		try:
 			nonlocal playlist
