@@ -40,14 +40,32 @@ def init_role_reaction(params):
 
 	@slash.slash(name = "rr", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def role_react(ctx, msg_id):
+	async def role_react(ctx, msg_id=None):
 		try:
-			await ctx.send('Reactions are setting up ....', hidden=True)
-			msg = await ctx.channel.fetch_message(msg_id)
-			for e in reactions[msg_id]:
-				# print(e, reactions[msg_id][e])
-				# print('----------')
-				await msg.add_reaction(e)
+			if msg_id:
+				await ctx.send('Reactions are setting up ....', hidden=True)
+				msg = await ctx.channel.fetch_message(msg_id)
+				for e in reactions[msg_id]:
+					await msg.add_reaction(e)
+				await ctx.send('Done Reacting.', hidden=True)
+				return
+
+			await ctx.send('Updating members roles ....', hidden=True)
+			guild = bot.get_guild(guildId)
+			channel = bot.get_channel(textChannels['get-roles'])
+			for msg_id in reactions:
+				try:
+					msg = await channel.fetch_message(int(msg_id))
+					for r in msg.reactions:
+						roleName = reactions[str(msg_id)][str(r.emoji)]
+						role = get(guild.roles, name = roleName)
+						async for u in r.users():
+							if u.id != users['teabot']:
+								await u.add_roles(role)
+				except Exception as ex:
+					print(ex)
+					pass
+			await ctx.send('Done Updating members roles.', hidden=True)
 		except Exception as ex:
 			print('----------/role_react--------')
 			print(ex)
