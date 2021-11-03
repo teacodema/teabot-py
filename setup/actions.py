@@ -33,7 +33,6 @@ def get_attachments(message):
 		return attachmentsUrls
 	return ''
 
-
 def get_embeds(message):
 	if len(message.embeds):
 		embedsUrls = '\n__Embeds__\n'
