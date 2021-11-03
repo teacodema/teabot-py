@@ -115,7 +115,7 @@ def init_server_activity(params):
 async def welcomeMember(member):
 	try:
 		message = f'Merhba {member.mention} bik m3ana f **TeaCode Community** :partying_face: :tada: '
-		message += "\nWhere We help/support **Moroccans** programming beginners :computer: in their learning journey :rocket:"
+		message += "\nWhere We help/support **Moroccans** :flag_ma: programming beginners :computer: in their learning journey :rocket:"
 		
 		message += "\n\nFollow the steps to **know** the rules & **see** the hidden rooms :warning:"
 		message += "\nIf you're **new** to discord check this video https://teacode.ma/about :bangbang:"
