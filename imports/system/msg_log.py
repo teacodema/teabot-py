@@ -9,7 +9,7 @@ def init_msg_log(params):
 	purgedMsgs = []
 
 	######################## CLEAR ########################
-	@slash.slash(name="clear", description="Clear messages (0 .. 500)", guild_ids=[guildId],
+	@slash.slash(name="clear", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders', 'moderators'}, {'members', 'everyone'}) })
 	async def clear(ctx, number: int):
 		try:
@@ -21,11 +21,11 @@ def init_msg_log(params):
 				return
 			else:
 				await ctx.send('Clearing messages ...', hidden=True)
-				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
-				await ctx.send(f'{len(deletedMsgs) - 1} message(s) cleared', hidden=True)
+				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned, oldest_first=True)
+				await ctx.send(f'{len(deletedMsgs)} message(s) cleared', hidden=True)
 
 				count = len(deletedMsgs)
-				deletedMsgs.reverse()
+				# deletedMsgs.reverse()
 				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
 				headerMsg = f"🗑 **clear({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
@@ -34,16 +34,8 @@ def init_msg_log(params):
 					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➜ {m.edited_at}'
 					msg += f'\n__Content__\n{m.content}'
-					if len(m.attachments):
-						attachmentsUrls = '\n__Attachments__\n'
-						for attch in m.attachments:
-							attachmentsUrls += f'{attch.url}\n'
-						msg += attachmentsUrls
-					if len(m.embeds):
-						embedsUrls = '\n__Embeds__\n'
-						for attch in m.embeds:
-							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-						msg += embedsUrls
+					msg += get_attachments(m)
+					msg += get_embeds(m)
 					msg += f'\n──────────────────────'
 					await logMsgsChannel.send(msg)
 		except Exception as ex:
@@ -56,11 +48,13 @@ def init_msg_log(params):
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def purge(ctx):
 		try:
-
+			nonlocal purgedMsgs
+			
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions')
 				return
 			
+			purgedMsgs = []
 			channelId = ctx.channel.id
 			channelsToClear = [
 				textChannels['voice-chat'],
@@ -75,6 +69,7 @@ def init_msg_log(params):
 			await ctx.send('Clearing everything ...', hidden=True)
 			# time.sleep(2)
 			await deleteMsg(ctx, MAX_TO_DELETE)
+			await ctx.send(f'{len(purgedMsgs)} message(s) cleared', hidden=True)
 		except Exception as ex:
 			print('----- /purge -----')
 			print(ex)
@@ -84,15 +79,15 @@ def init_msg_log(params):
 
 	async def deleteMsg(ctx, limit):
 		try:
-			deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned)
 			nonlocal purgedMsgs
+			deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned, oldest_first=True)
 			purgedMsgs += deletedMsgs
 			deletedMsgs = len(deletedMsgs)
 			if (deletedMsgs > 0):
 				return await deleteMsg(ctx, limit)
 			else:
 				count = len(purgedMsgs)
-				purgedMsgs.reverse()
+				# purgedMsgs.reverse()
 				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
 				headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
@@ -101,20 +96,11 @@ def init_msg_log(params):
 					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
 					msg += f'\n📅 {m.created_at} ➜ {m.edited_at}'
 					msg += f'\n__Content__\n{m.content}'
-					if len(m.attachments):
-						attachmentsUrls = '\n__Attachments__\n'
-						for attch in m.attachments:
-							attachmentsUrls += f'{attch.url}\n'
-						msg += attachmentsUrls
-					if len(m.embeds):
-						embedsUrls = '\n__Embeds__\n'
-						for attch in m.embeds:
-							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-						msg += embedsUrls
+					msg += get_attachments(m)
+					msg += get_embeds(m)
 					msg += f'\n──────────────────────'
 					await logMsgsChannel.send(msg)
-				purgedMsgs = []
-				return
+				return len(purgedMsgs)
 		except Exception as ex:
 			print('----- deleteMsg -----')
 			print(ex)

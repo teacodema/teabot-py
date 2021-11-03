@@ -56,17 +56,8 @@ def init_msg_activity(params):
 					msg = f'\nDM/ 🡷'
 					msg+= f'\n__From__\n{author} - {author.mention}'
 					msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
-					if len(message.attachments):
-						attachmentsUrls = '\n__Attachments__\n'
-						for attch in message.attachments:
-							attachmentsUrls += f'{attch.url}\n'
-						msg += attachmentsUrls
-					
-					if len(message.embeds):
-						embedsUrls = '\n__Embeds__\n'
-						for attch in message.embeds:
-							embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-						msg += embedsUrls
+					msg += get_attachments(message)
+					msg += get_embeds(message)
 
 					channel = bot.get_channel(textChannels['log-channel'])
 					await channel.send(msg)
@@ -96,18 +87,8 @@ def init_msg_activity(params):
 				msg += f'\n🗑 by {message.author.mention} in {message.channel.mention}'
 				msg += f'\n{message.created_at} ➜ {message.edited_at}'
 				msg += f'\n__Content__\n{message.content}'
-
-				if len(message.attachments):
-					attachmentsUrls = '\n__Attachments__\n'
-					for attch in message.attachments:
-						attachmentsUrls += f'{attch.url}\n'
-					msg += attachmentsUrls
-
-				if len(message.embeds):
-					embedsUrls = '\n__Embeds__\n'
-					for attch in message.embeds:
-						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-					msg += embedsUrls
+				msg += get_attachments(message)
+				msg += get_embeds(message)
 
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
@@ -135,19 +116,9 @@ def init_msg_activity(params):
 				msg += f'\n✏ by {before.author.mention} in {before.channel.mention}'
 				msg += f'\n{after.created_at} ➜ {after.edited_at}'
 				msg += f'\n__Content__\n{before.content}\n▼\n{after.content}'
+				msg += get_attachments(before)
+				msg += get_embeds(before)
 
-				if len(before.attachments):
-					attachmentsUrls = '\n__Attachments__\n'
-					for attch in before.attachments:
-						attachmentsUrls += f'{attch.url}\n'
-					msg += attachmentsUrls
-
-				if len(before.embeds):
-					embedsUrls = '\n__Embeds__\n'
-					for attch in before.embeds:
-						embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
-					msg += embedsUrls
-					
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:

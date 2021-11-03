@@ -25,6 +25,22 @@ def slash_permissions(authorizedRolesIds, unAuthorizedRolesIds):
 
 	return permissions
 
+def get_attachments(message):
+	if len(message.attachments):
+		attachmentsUrls = '\n__Attachments__\n'
+		for attch in message.attachments:
+			attachmentsUrls += f'{attch.url}\n'
+		return attachmentsUrls
+	return ''
+
+
+def get_embeds(message):
+	if len(message.embeds):
+		embedsUrls = '\n__Embeds__\n'
+		for attch in message.embeds:
+			embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+		return embedsUrls
+	return ''
 
 async def checkNewMemberRole(bot, get):
 	try:
