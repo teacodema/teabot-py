@@ -14,9 +14,14 @@ def init_role_reaction(params):
 		try:
 			guild = bot.get_guild(guildId)
 			member = payload.member
+
+			log = bot.get_channel(textChannels['log-channel'])
+			url = f'https://discord.com/channels/694956824356585654/{payload.channel_id}/{payload.message_id}'
+			await log.send(f'{member.mention} +reaction by {payload.emoji} \n{url}')
+
 			if member.bot == True:
 				return
-			roleName = reactions[str(payload.message_id)][str(payload.emoji)]
+			roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
 			role = get(guild.roles, name = roleName)
 			await member.add_roles(role)
 		except Exception as ex:
@@ -29,9 +34,14 @@ def init_role_reaction(params):
 		try:
 			guild = bot.get_guild(guildId)
 			member = await guild.fetch_member(payload.user_id)
+
+			log = bot.get_channel(textChannels['log-channel'])
+			url = f'https://discord.com/channels/694956824356585654/{payload.channel_id}/{payload.message_id}'
+			await log.send(f'{member.mention} -reaction by {payload.emoji} \n{url}')
+
 			if member.bot == True:
 				return
-			roleName = reactions[str(payload.message_id)][str(payload.emoji)]
+			roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
 			role = get(guild.roles, name = roleName)
 			await member.remove_roles(role)
 		except Exception as ex:
@@ -52,19 +62,25 @@ def init_role_reaction(params):
 
 			await ctx.send('Updating members roles ....', hidden=True)
 			guild = bot.get_guild(guildId)
-			channel = bot.get_channel(textChannels['get-roles'])
-			for msg_id in reactions:
-				try:
-					msg = await channel.fetch_message(int(msg_id))
-					for r in msg.reactions:
-						roleName = reactions[str(msg_id)][str(r.emoji)]
-						role = get(guild.roles, name = roleName)
-						async for u in r.users():
-							if u.id != users['teabot']:
-								await u.add_roles(role)
-				except Exception as ex:
-					print(ex)
-					pass
+			for channel_id in reactions:
+				channel = bot.get_channel(int(channel_id))
+				for msg_id in reactions[str(channel_id)]:
+					try:
+						msg = await channel.fetch_message(int(msg_id))
+						for r in msg.reactions:
+							roleName = reactions[str(channel_id)][str(msg_id)][str(r.emoji)]
+							role = get(guild.roles, name = roleName)
+							async for u in r.users():
+								try:
+									if u.id != users['teabot']:
+										member = await guild.fetch_member(u.id)
+										await member.add_roles(role)
+								except Exception as ex:
+									print(ex)
+									pass
+					except Exception as ex:
+						print(ex)
+						pass
 			await ctx.send('Done Updating members roles.', hidden=True)
 		except Exception as ex:
 			print('----------/role_react--------')
