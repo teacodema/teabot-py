@@ -438,12 +438,6 @@ def init_audio_activity(params):
 					index = '►'
 				else:
 					index = i+1
-				# track_title = track['title'][0:40]
-				# track_title = track_title.replace("[", "\(")
-				# track_title = track_title.replace("]", "\)")
-				# track_url = track['url']
-				# track_url = track_url.replace("(", "\(")
-				# track_url = track_url.replace(")", "\)")
 				title = track['title'][0:40]
 				ar_regex = (r'[a-zA-Z]+')
 				ar_regex_match = not re.match(ar_regex, title)
