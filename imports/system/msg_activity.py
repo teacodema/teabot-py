@@ -1,6 +1,6 @@
 from setup.properties import *
 from setup.actions import *
-
+import pytz
 
 def init_msg_activity(params):
 	
@@ -85,7 +85,13 @@ def init_msg_activity(params):
 			if messageAuthorId not in excludedAuthors:
 				msg = '──────────────────────'
 				msg += f'\n🗑 by {message.author.mention} in {message.channel.mention}'
-				msg += f'\n{message.created_at} ➜ {message.edited_at}'
+				
+				timeZ_Ma = pytz.timezone('Africa/Casablanca')
+				created_at = message.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+				edited_at = None
+				if message.edited_at:
+					edited_at =  message.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+				msg += f'\n{created_at} ➜ {edited_at}'
 				msg += f'\n__Content__\n{message.content}'
 				msg += get_attachments(message)
 				msg += get_embeds(message)
@@ -114,7 +120,13 @@ def init_msg_activity(params):
 			if messageAuthorId not in excludedAuthors:
 				msg = '──────────────────────'
 				msg += f'\n✏ by {before.author.mention} in {before.channel.mention}'
-				msg += f'\n{after.created_at} ➜ {after.edited_at}'
+				
+				timeZ_Ma = pytz.timezone('Africa/Casablanca')
+				created_at = after.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+				edited_at = None
+				if after.edited_at:
+					edited_at =  after.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+				msg += f'\n{created_at} ➜ {edited_at}'
 				msg += f'\n__Content__\n{before.content}\n▼\n{after.content}'
 				msg += get_attachments(before)
 				msg += get_embeds(before)

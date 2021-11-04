@@ -1,6 +1,6 @@
 from setup.properties import *
 from setup.actions import *
-
+import pytz
 
 def init_msg_log(params):
 	
@@ -32,7 +32,13 @@ def init_msg_log(params):
 				for m in deletedMsgs:
 					msg = '──────────────────────'
 					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
-					msg += f'\n📅 {m.created_at} ➜ {m.edited_at}'
+					
+					timeZ_Ma = pytz.timezone('Africa/Casablanca')
+					created_at = m.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+					edited_at = None
+					if m.edited_at:
+						edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+					msg += f'\n📅 {created_at} ➜ {edited_at}'
 					msg += f'\n__Content__\n{m.content}'
 					msg += get_attachments(m)
 					msg += get_embeds(m)
@@ -94,7 +100,13 @@ def init_msg_log(params):
 				for m in purgedMsgs:
 					msg = '──────────────────────'
 					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
-					msg += f'\n📅 {m.created_at} ➜ {m.edited_at}'
+					
+					timeZ_Ma = pytz.timezone('Africa/Casablanca')
+					created_at = m.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+					edited_at = None
+					if m.edited_at:
+						edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")	
+					msg += f'\n📅 {created_at} ➜ {edited_at}'
 					msg += f'\n__Content__\n{m.content}'
 					msg += get_attachments(m)
 					msg += get_embeds(m)
