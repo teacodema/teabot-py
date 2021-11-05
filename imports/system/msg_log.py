@@ -21,11 +21,11 @@ def init_msg_log(params):
 				return
 			else:
 				await ctx.send('Clearing messages ...', hidden=True)
-				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned, oldest_first=True)
+				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
 				await ctx.send(f'{len(deletedMsgs)} message(s) cleared', hidden=True)
 
 				count = len(deletedMsgs)
-				# deletedMsgs.reverse()
+				deletedMsgs.reverse()
 				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
 				headerMsg = f"🗑 **clear({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
@@ -86,14 +86,14 @@ def init_msg_log(params):
 	async def deleteMsg(ctx, limit):
 		try:
 			nonlocal purgedMsgs
-			deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned, oldest_first=True)
+			deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned)
 			purgedMsgs += deletedMsgs
 			deletedMsgs = len(deletedMsgs)
 			if (deletedMsgs > 0):
 				return await deleteMsg(ctx, limit)
 			else:
 				count = len(purgedMsgs)
-				# purgedMsgs.reverse()
+				purgedMsgs.reverse()
 				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
 				headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
 				await logMsgsChannel.send(headerMsg)
