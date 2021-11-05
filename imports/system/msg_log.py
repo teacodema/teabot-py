@@ -21,7 +21,7 @@ def init_msg_log(params):
 				return
 			else:
 				await ctx.send('Clearing messages ...', hidden=True)
-				deletedMsgs = await ctx.channel.purge(limit = number + 1, check = isNotPinned)
+				deletedMsgs = await ctx.channel.purge(limit = number, check = isNotPinned)
 				await ctx.send(f'{len(deletedMsgs)} message(s) cleared', hidden=True)
 
 				count = len(deletedMsgs)
