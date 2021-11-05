@@ -76,7 +76,7 @@ def init_member_interaction(params):
 			msg = msg.replace("\\t", "	")
 			await ctx.send("Sending direct message...", hidden=True)
 
-			notifyMe = f'DM/ 🡵'
+			notifyMe = f'DM/ =▷'
 			notifyMe+= f'\n__To__'
 			if role == None:
 				if member == None: 

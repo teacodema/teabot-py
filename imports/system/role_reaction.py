@@ -17,7 +17,7 @@ def init_role_reaction(params):
 
 			log = bot.get_channel(textChannels['log-channel'])
 			url = f'https://discord.com/channels/694956824356585654/{payload.channel_id}/{payload.message_id}'
-			await log.send(f'{member.mention} +reaction by {payload.emoji} \n{url}')
+			await log.send(f'{member.mention} Added {payload.emoji} \n{url}')
 
 			if member.bot == True:
 				return
@@ -37,7 +37,7 @@ def init_role_reaction(params):
 
 			log = bot.get_channel(textChannels['log-channel'])
 			url = f'https://discord.com/channels/694956824356585654/{payload.channel_id}/{payload.message_id}'
-			await log.send(f'{member.mention} -reaction by {payload.emoji} \n{url}')
+			await log.send(f'{member.mention} Removed {payload.emoji} \n{url}')
 
 			if member.bot == True:
 				return

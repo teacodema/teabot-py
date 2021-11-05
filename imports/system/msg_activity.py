@@ -53,7 +53,7 @@ def init_msg_activity(params):
 					]
 				if (author.id not in excludedIDs):
 					msg = '──────────────────────'
-					msg = f'\nDM/ 🡷'
+					msg = f'\nDM/ ◁='
 					msg+= f'\n__From__\n{author} - {author.mention}'
 					msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
 					msg += get_attachments(message)
