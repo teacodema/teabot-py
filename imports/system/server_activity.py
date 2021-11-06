@@ -67,10 +67,15 @@ def init_server_activity(params):
 				roles['techs'], roles['tools'],
 				roles['jobs'], roles['interests'],
 			]
-			for rold_id in _roles:
-				await validateMemeber(member, rold_id, bot, get)
-			time.sleep(120)
-			await validateMemeber(member, roles['members'], bot, get)
+			roles_list = []
+			guild = bot.get_guild(guildId)
+			for role_id in _roles:	
+				role = get(guild.roles, id = role_id)
+				roles_list.append(role)
+			await member.add_roles(*roles_list)
+			# time.sleep(5)
+			# role = get(guild.roles, id = roles['members'])
+			# await member.add_roles(role)
 		except Exception as ex:
 			print('----- on_member_join 2-----')
 			print(ex)
@@ -151,16 +156,6 @@ async def welcomeMember(member):
 		print('----- welcomeMember -----')
 		print(ex)
 		return -1
-
-######################## VALIDATE MEMBER ########################
-async def validateMemeber(member, roleId, bot, get):
-	try:
-		guild = bot.get_guild(guildId)
-		role = get(guild.roles, id = roleId)
-		await member.add_roles(role)
-	except Exception as ex:
-		print('----- validateMemeber -----')
-		print(ex)
 
 
 ######################## UPDATE MEMBERS COUNT ########################
