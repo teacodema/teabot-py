@@ -9,9 +9,9 @@ def init_check_membership(params):
 	get = params['get']
 	
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
-	@slash.slash(name="check", guild_ids=[guildId],
+	@slash.slash(name="unm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def check_membership(ctx):
+	async def update_new_members(ctx):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', hidden=True)
@@ -27,5 +27,5 @@ def init_check_membership(params):
 
 			await logChannel.send(f'{updatedMembersCount} updated members.\n{msg}')
 		except Exception as ex:
-			print('----- /checkMembership -----')
+			print('----- /update_new_members -----')
 			print(ex)
