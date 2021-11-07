@@ -88,9 +88,6 @@ def init_bot_activity(params):
 		
 		@tasks.loop(hours=2, count=None, reconnect=False)
 		async def am_alive():
-			# user = client2.get_user(users['drissboumlik'])
-			# user = client.get_user(users['drissboumlik'])
-			# channel = user.dm_channel
 			channel = bot.get_channel(textChannels['log-bot'])
 			timeZ_Ma = pytz.timezone('Africa/Casablanca')
 			dt_Ma = datetime.now(timeZ_Ma)
