@@ -19,7 +19,7 @@ def init_msg_activity(params):
 				if str(message.channel.type) == 'text' and message.channel.category_id not in excludedCategories:
 					if content.count('@everyone') or content.count('@here'):
 						channel = message.channel
-						msg = 'Dont mention __everyone__ or __here__ please\nYour message will be deleted after 5 seconds'
+						msg = 'Dont mention __everyone__ or __here__ please\n*Your message will be deleted after 5 seconds !!*'
 						await channel.send(msg, delete_after = 10)
 						await message.delete(delay=10)
 						return
