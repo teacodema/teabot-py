@@ -28,7 +28,7 @@ def init_voice_activity(params):
 		try:
 			await logVoice(member, voice1, voice2, 'activities-notes', 'activities')
 		except Exception as ex:
-			print('----- showVoiceChat -----')
+			print('----- logActivity -----')
 			print(ex)
 
 
