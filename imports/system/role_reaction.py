@@ -62,6 +62,7 @@ def init_role_reaction(params):
 
 			await ctx.send('Updating members roles ....', hidden=True)
 			guild = bot.get_guild(guildId)
+			roles_assigned = 0
 			for channel_id in reactions:
 				channel = bot.get_channel(int(channel_id))
 				for msg_id in reactions[str(channel_id)]:
@@ -74,14 +75,16 @@ def init_role_reaction(params):
 								try:
 									if u.id != users['teabot']:
 										member = await guild.fetch_member(u.id)
-										await member.add_roles(role)
+										if role not in member.roles:
+											await member.add_roles(role)
+											roles_assigned += 1
 								except Exception as ex:
 									print(ex)
 									pass
 					except Exception as ex:
 						print(ex)
 						pass
-			await ctx.send('Done Updating members roles.', hidden=True)
+			await ctx.send(f'Done Updating members roles / {roles_assigned} updated.', hidden=True)
 		except Exception as ex:
 			print('----------/role_react--------')
 			print(ex)
