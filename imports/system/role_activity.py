@@ -9,8 +9,7 @@ def init_role_activity(params):
 	
 
 	######################## ROLE ADD ########################
-	# @bot.command(name="assign", pass_context=True)
-	@slash.slash(name="assign", guild_ids=[guildId],
+	@slash.slash(name="ar", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def assign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
@@ -38,8 +37,7 @@ def init_role_activity(params):
 			print(ex)
 
 	######################## ROLE REMOVE ########################
-	# @bot.command(name="unassign", pass_context=True)
-	@slash.slash(name = "unassign", guild_ids = [guildId],
+	@slash.slash(name = "ur", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def unassign(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None):
 		try:
