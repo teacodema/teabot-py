@@ -86,8 +86,7 @@ def init_server_data(params):
 			if role == None:
 				role = ctx.author.top_role
 			else:
-				roleIds = [role.id for role in ctx.author.roles]
-				if not is_founders(ctx) and (role.id not in roleIds):
+				if not is_founders(ctx) and role not in ctx.author.roles:
 					await ctx.send('❌ You can only see data of roles you have')
 					return
 
