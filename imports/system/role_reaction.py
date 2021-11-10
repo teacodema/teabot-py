@@ -55,7 +55,7 @@ def init_role_reaction(params):
 			if msg_id:
 				await ctx.send('Reactions are setting up ....', hidden=True)
 				msg = await ctx.channel.fetch_message(msg_id)
-				for e in reactions[msg_id]:
+				for e in reactions[str(ctx.channel.id)][msg_id]:
 					await msg.add_reaction(e)
 				await ctx.send('Done Reacting.', hidden=True)
 				return
