@@ -199,6 +199,8 @@ reactions = {
 			'🧀': 'Robotics',
 			'🍲': 'E-Commerce',
 			'🍪': 'Developpement',
+			'🍙': 'Game Developement',
+			'🌰': 'Mobile Developement',
 			'🍚': 'Data Science',
 			'🍘': 'Computer Sciences'
 		},
