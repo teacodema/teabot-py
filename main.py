@@ -21,14 +21,13 @@ from setup.actions import *
 from imports.system.bot_activity import *
 from imports.system.role_activity import *
 from imports.system.server_activity import *
+from imports.system.server_data import *
 from imports.system.msg_activity import *
 from imports.system.msg_log import *
 from imports.system.voice_activity import *
 from imports.system.member_interaction import *
 from imports.system.check_membership import *
 from imports.system.role_reaction import *
-
-from imports.common.server_data import *
 
 from imports.member.audio_activity import *
 from imports.member.fun_activity import *
