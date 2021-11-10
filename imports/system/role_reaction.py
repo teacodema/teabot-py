@@ -1,4 +1,3 @@
-import emoji
 from database.reactions import * 
 from setup.properties import *
 from setup.actions import *
