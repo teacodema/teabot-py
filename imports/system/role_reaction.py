@@ -47,10 +47,35 @@ def init_role_reaction(params):
 			print('----------on_raw_reaction_remove--------')
 			print(ex)
 
+
+	@slash.slash(name = "br", guild_ids = [guildId],
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
+	async def bot_react(ctx, msg_id, emojis):
+		try:
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions')
+				return
+
+			await ctx.send('Bot Reacting ....', hidden=True)
+			msg = await ctx.channel.fetch_message(msg_id)
+			emojis = emojis.split('\\t')
+			for e in emojis:
+				await msg.add_reaction(e)
+
+		except Exception as ex:
+				print('----------/bot_react--------')
+				print(ex)
+
+
 	@slash.slash(name = "rr", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def role_react(ctx, msg_id=None):
 		try:
+
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions')
+				return
+
 			if msg_id:
 				await ctx.send('Reactions are setting up ....', hidden=True)
 				msg = await ctx.channel.fetch_message(msg_id)
