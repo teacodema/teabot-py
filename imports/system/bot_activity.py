@@ -1,5 +1,4 @@
-import datetime
-import pytz
+import datetime, pytz
 from setup.properties import *
 from setup.actions import *
 
