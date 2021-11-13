@@ -86,8 +86,10 @@ def init_server_data(params):
 			if role == None:
 				role = ctx.author.top_role
 			else:
-				if not is_founders(ctx) and role not in ctx.author.roles:
-					await ctx.send('❌ You can only see data of roles you have')
+				guild = bot.get_guild(guildId)
+				_role = get(guild.roles, id = 799370946372698113) # 🍃│Helpers
+				if not is_founders(ctx) and role not in ctx.author.roles and role.position > _role.position:
+					await ctx.send('❌ You cannot see this data')
 					return
 
 			embed = discord.Embed(name=f'Role : {ctx.author.display_name}', title=role.name, description="", color=role.color)
