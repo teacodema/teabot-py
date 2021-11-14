@@ -8,51 +8,13 @@ def init_msg_log(params):
 	slash = params['slash']
 	purgedMsgs = []
 
-	######################## CLEAR ########################
-	@slash.slash(name="clear", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders', 'moderators'}, {'members', 'everyone'}) })
-	async def clear(ctx, number: int):
-		try:
-			if not is_authorised(ctx, {'founders', 'moderators'}):
-				await ctx.send('❌ Missing Permissions')
-				return
-			if (number > 500):
-				await ctx.send('You cannot delete more than 500 messages', hidden=True)
-				return
-			else:
-				await ctx.send('Clearing messages ...', hidden=True)
-				deletedMsgs = await ctx.channel.purge(limit = number, check = isNotPinned)
-				await ctx.send(f'{len(deletedMsgs)} message(s) cleared', hidden=True)
 
-				count = len(deletedMsgs)
-				deletedMsgs.reverse()
-				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
-				headerMsg = f"🗑 **clear({count}) | {ctx.channel.mention}** ──────────"
-				await logMsgsChannel.send(headerMsg)
-				for m in deletedMsgs:
-					msg = '──────────────────────'
-					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
-					
-					timeZ_Ma = pytz.timezone('Africa/Casablanca')
-					created_at = m.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
-					edited_at = None
-					if m.edited_at:
-						edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
-					msg += f'\n📅 {created_at} ➜ {edited_at}'
-					msg += f'\n__Content__\n{m.content}'
-					msg += get_attachments(m)
-					msg += get_embeds(m)
-					msg += f'\n──────────────────────'
-					await logMsgsChannel.send(msg)
-		except Exception as ex:
-			print('----- /clear -----')
-			print(ex)
 
 
 	######################## PURGE ########################
 	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def purge(ctx):
+	async def purge(ctx, limit: int=None):
 		try:
 			nonlocal purgedMsgs
 			
@@ -61,14 +23,26 @@ def init_msg_log(params):
 				return
 			
 			purgedMsgs = []
-			channelId = ctx.channel.id
 			channelsToClear = [
 				textChannels['voice-chat'],
 				textChannels['help-chat'],
 				textChannels['activities-notes']
 			]
-			if (channelId not in channelsToClear):
+			if not limit and ctx.channel.id not in channelsToClear:
 				await ctx.send('❌ Wrong Target Channel', hidden=True)
+				return
+
+			if limit:
+				if limit > 500:
+					await ctx.send('You cannot delete more than 500 messages', hidden=True)
+					return
+				else:
+					await ctx.send('Clearing messages ...', hidden=True)
+					deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned)
+					await ctx.send(f'{len(deletedMsgs)} message(s) cleared', hidden=True)
+					count = len(deletedMsgs)
+					deletedMsgs.reverse()
+					await logPurgedMessages(ctx, count, deletedMsgs)
 				return
 
 			MAX_TO_DELETE = 500
@@ -94,25 +68,28 @@ def init_msg_log(params):
 			else:
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
-				logMsgsChannel = bot.get_channel(textChannels['log-msg'])
-				headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
-				await logMsgsChannel.send(headerMsg)
-				for m in purgedMsgs:
-					msg = '──────────────────────'
-					msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
-					
-					timeZ_Ma = pytz.timezone('Africa/Casablanca')
-					created_at = m.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
-					edited_at = None
-					if m.edited_at:
-						edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")	
-					msg += f'\n📅 {created_at} ➜ {edited_at}'
-					msg += f'\n__Content__\n{m.content}'
-					msg += get_attachments(m)
-					msg += get_embeds(m)
-					msg += f'\n──────────────────────'
-					await logMsgsChannel.send(msg)
+				await logPurgedMessages(ctx, count, purgedMsgs)
 				return len(purgedMsgs)
 		except Exception as ex:
 			print('----- deleteMsg -----')
 			print(ex)
+
+	async def logPurgedMessages(ctx, count, _purgedMsgs):
+		logMsgsChannel = bot.get_channel(textChannels['log-msg'])
+		headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
+		await logMsgsChannel.send(headerMsg)
+		for m in _purgedMsgs:
+			msg = '──────────────────────'
+			msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
+			
+			timeZ_Ma = pytz.timezone('Africa/Casablanca')
+			created_at = m.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+			edited_at = None
+			if m.edited_at:
+				edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")	
+			msg += f'\n📅 {created_at} ➜ {edited_at}'
+			msg += f'\n__Content__\n{m.content}'
+			msg += get_attachments(m)
+			msg += get_embeds(m)
+			msg += f'\n──────────────────────'
+			await logMsgsChannel.send(msg)
