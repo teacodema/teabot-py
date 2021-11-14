@@ -68,7 +68,7 @@ def init_server_activity(params):
 			await member.add_roles(*roles_list)
 			# time.sleep(5)
 
-			@tasks.loop(minutes=10, count=2, reconnect=True)
+			@tasks.loop(minutes=1, count=2, reconnect=True)
 			async def give_role_member():
 				if give_role_member.current_loop != 0:
 					role = get(guild.roles, id = roles['members'])
@@ -129,12 +129,12 @@ def init_server_activity(params):
 					print('----- /welcome 2-----')
 					print(ex)
 
-			message = f'Merhba {member.mention} bik m3ana f **TeaCode Community** :partying_face: :tada: '
+			message = f'Merhba bik m3ana {member.mention} f **TeaCode Community** :partying_face:\t:tada: '
 			message += "\nWhere We help/support **Moroccans** :flag_ma: programming beginners :computer: in their learning journey :rocket:"
 
 			message += "\n\nFollow the steps to **know** the rules & **see** the hidden rooms :warning:"
-			message += "\nIf you're **new** to discord check this video https://teacode.ma/about :bangbang:"
-			message += "\nDon't forget to **invite** your friends who could be interested :speech_left:"
+			message += "\nIf you're **new** to discord check this video <https://teacode.ma/about>"
+			message += "\nDon't forget to **invite** your friends who could be interested https://discord.gg/vKu2fkPqjY :speech_left:"
 
 			message += "\n\n__**0┊Activate your membership**__"
 			message += f"\n   **・**Read & React to the <#{textChannels['rules']}> to be a verified __**@Members**__."
@@ -144,20 +144,7 @@ def init_server_activity(params):
 			message += f"\n   **・**<#{textChannels['faqs']}> where you can find answers to common questions about the server."
 			message += f"\n   **・**<#{textChannels['introduce-yourself']}> if you want to Introduce yourself . (First name, age, school .... etc)."
 
-			message += "\n\n__**2┊Need Help ?**__"
-			message += f"\n   **・**Ask the __**@Moderators**__/__**@Staff**__ guys here <#{textChannels['ask-staff']}> if you need help with the server."
-
-			message += "\n\n__**3┊Links**__"
-			message += "\n   **・**Website : <https://teacode.ma>"
-			message += "\n   **・**Discord : https://discord.gg/vKu2fkPqjY"
-			message += "\n   **・**Facebook : <https://teacode.ma/facebook>"
-			message += "\n   **・**YouTube : <https://teacode.ma/youtube>"
-			message += "\n   **・**Instagram : <https://teacode.ma/instagram>"
-			message += "\n   **・**Twitter : <https://teacode.ma/twitter>"
-
-			message += "\n\n__**4┊How To Support us**__"
-			message += "\n   **・**PayPal : <https://teacode.ma/paypal>"
-			message += "\n   **・**Patreon : <https://teacode.ma/patreon>"
+			message += f"\n\nAsk here <#{textChannels['ask-staff']}> if you need help with the server."
 
 			channel = await member.create_dm()
 			await channel.send(message)
