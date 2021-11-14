@@ -11,11 +11,13 @@ def init_voice_activity(params):
 	async def on_voice_state_update(member, voice1, voice2):
 		try:
 			await showVoiceChat(member, voice1, voice2, bot, get)
-			await showHelpChat(member, voice1, voice2, bot, get)
+			await showHelpVoice(member, voice1, voice2, bot, get)
 			await logActivity(member, voice1, voice2, bot, get)
 			await logStaffVoice(member, voice1, voice2, bot, get)
 			await logModeratorsVoice(member, voice1, voice2, bot, get)
 			await logAllVoice(member, voice1, voice2, bot, get)
+			
+			await showLTVoice(member, voice1, voice2, bot, get)
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
 			# 	await voice_state.disconnect()
@@ -33,7 +35,7 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Help › Voice ########################
-	async def showHelpChat(member, voice1, voice2, bot, get):
+	async def showHelpVoice(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
 			helpVoiceCategoryID = categories['help-voice']
@@ -41,10 +43,10 @@ def init_voice_activity(params):
 				channels = voice2.channel.category.voice_channels
 				noEmptyChannel = True
 				for ch in channels:
-					if (len(ch.members) == 0):
+					if len(ch.members) == 0:
 						noEmptyChannel = False
 						break
-				if(noEmptyChannel):
+				if noEmptyChannel:
 					vc = channels[0]
 					vc_name = vc.name
 					index = len(channels) + 1
@@ -55,9 +57,9 @@ def init_voice_activity(params):
 				helpRoom1 = channels.pop(0)
 				emptyChannels = [] # Store empty channels
 				for ch in channels:
-					if (len(ch.members) == 0):
+					if len(ch.members) == 0:
 						emptyChannels.append(ch)
-				if (len(helpRoom1.members) != 0):
+				if len(helpRoom1.members) != 0:
 					helpRoom2 = emptyChannels.pop(0)
 				try:
 					for ch in emptyChannels:
@@ -65,7 +67,7 @@ def init_voice_activity(params):
 				except Exception as ex:
 					print(ex)
 		except Exception as ex:
-			print('----- showHelpChat -----')
+			print('----- showHelpVoice -----')
 			print(ex)
 
 
@@ -139,10 +141,10 @@ def init_voice_activity(params):
 	
 	def getVoiceLogMessage(member, voice1, voice2):
 		try:
-			if (voice1.channel):
+			if voice1.channel:
 				icon = '<:userleft:902612227662684170>'
 				msg = f'{icon} {member.mention} left __**{voice1.channel.name}**__'
-			if (voice2.channel):
+			if voice2.channel:
 				icon = '<:userjoin:902613054544560149>'
 				msg = f'{icon} {member.mention} joined __**{voice2.channel.name}**__'
 			return msg
@@ -150,3 +152,40 @@ def init_voice_activity(params):
 			print('----- getVoiceLogMessage -----')
 			print(ex)
 			return ""
+
+
+	######################## LOG VOICE #Help › Voice ########################
+	async def showLTVoice(member, voice1, voice2, bot, get):
+		try:
+			# await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
+			helpVoiceCategoryID = 909513881842515990 # Learn Together
+			if (voice2.channel and voice2.channel.category_id == helpVoiceCategoryID):
+				channels = voice2.channel.category.voice_channels
+				noEmptyChannel = True
+				for ch in channels:
+					if len(ch.members) == 0:
+						noEmptyChannel = False
+						break
+				if noEmptyChannel:
+					vc = channels[0]
+					vc_name = vc.name
+					index = len(channels) + 1
+					await voice2.channel.clone(name=f'{vc_name} #{index}')		
+			# DELETE CHANNEL IF EMPTY AND LEAVE FIRST ONE
+			if (voice1.channel and voice1.channel.category_id == helpVoiceCategoryID):
+				channels = voice1.channel.category.voice_channels
+				helpRoom1 = channels.pop(0)
+				emptyChannels = [] # Store empty channels
+				for ch in channels:
+					if len(ch.members) == 0:
+						emptyChannels.append(ch)
+				if len(helpRoom1.members) != 0:
+					helpRoom2 = emptyChannels.pop(0)
+				try:
+					for ch in emptyChannels:
+						await ch.delete()
+				except Exception as ex:
+					print(ex)
+		except Exception as ex:
+			print('----- showHelpVoice -----')
+			print(ex)
