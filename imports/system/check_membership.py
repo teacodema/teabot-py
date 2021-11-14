@@ -18,14 +18,12 @@ def init_check_membership(params):
 				return
 			await ctx.send('Updating ...', hidden=True)
 			updatedMembers = await checkNewMemberRole(bot, get)
-			logChannel = bot.get_channel(textChannels['log-channel'])
 			msg = ''
 			updatedMembersCount = len(updatedMembers)
 			if updatedMembersCount:
 				for member in updatedMembers:
 					msg += f'{member} , '
-
-			await logChannel.send(f'{updatedMembersCount} updated members.\n{msg}')
+			await ctx.send(f'{updatedMembersCount} updated members.\n{msg}', hidden=True)
 		except Exception as ex:
 			print('----- /update_new_members -----')
 			print(ex)
