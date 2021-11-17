@@ -67,7 +67,7 @@ def init_bot_activity(params):
 	# 		print(ex)
 	
 	def start_loop():
-		@tasks.loop(hours=48, count=None, reconnect=False)
+		@tasks.loop(hours=24, count=None, reconnect=False)
 		async def check_membership_loop():
 			try:
 				updatedMembers = await checkNewMemberRole(bot, get)
@@ -85,7 +85,7 @@ def init_bot_activity(params):
 					
 		check_membership_loop.start()
 		
-		@tasks.loop(hours=2, count=None, reconnect=False)
+		@tasks.loop(hours=1, count=None, reconnect=False)
 		async def am_alive():
 			channel = bot.get_channel(textChannels['log-bot'])
 			timeZ_Ma = pytz.timezone('Africa/Casablanca')
