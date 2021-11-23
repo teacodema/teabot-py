@@ -93,7 +93,7 @@ def init_server_activity(params):
 			print(ex)
 
 	######################## WELCOME MEMBER CMD ########################
-	@slash.slash(name="welcome", guild_ids=[guildId],
+	@slash.slash(name="w", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def welcome(ctx, member: discord.Member, use_webhook: int=0):
 		try:
