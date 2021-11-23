@@ -10,7 +10,7 @@ def init_server_data(params):
 	get = params['get']
 
 	######################## SERVER INFO ########################
-	@slash.slash(name="server-info", guild_ids=[guildId],
+	@slash.slash(name="si", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def server_info(ctx):
 		try:
@@ -111,7 +111,7 @@ def init_server_data(params):
 	async def member_info(ctx, member: discord.Member = None):
 		try:
 
-			if member == None:
+			if member == None or member == ctx.author:
 				member = ctx.author
 			else:
 				if not is_founders(ctx):
