@@ -431,26 +431,29 @@ def init_audio_activity(params):
 	async def displayPlaylist(ctx):
 		try:
 			nonlocal playlist, currentTrackIndex
-			value = ""
-			for i in range(len(playlist)):
-				track = playlist[i]
-				if (currentTrackIndex == i):
-					index = '►'
-				else:
-					index = i+1
-				title = track['title'][0:40]
-				ar_regex = (r'[a-zA-Z]+')
-				ar_regex_match = not re.match(ar_regex, title)
-				if ar_regex_match:
-					value += f"{track['duration']} - ...{title}**・{index}**\n"
-				else:
-					value += f"**{index}・**{title}... - {track['duration']}\n"
 			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=0x1da1f2)
 			# embed.set_thumbnail(url=guild.icon_url)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-			embed.add_field(name="📋│Playlist", value=value, inline=True)
+			embed.add_field(name="📋│Playlist", value=f'{len(playlist)} songs', inline=False)
+			
+			for i in range(len(playlist)):
+				value = ""
+				track = playlist[i]
+				if (currentTrackIndex == i):
+					index = '▷ Now Playing' #'►'
+				else:
+					index = f'✧ Song {i+1}'
+				title = track['title'][0:40]
+				ar_regex = (r'[a-zA-Z]+')
+				ar_regex_match = not re.match(ar_regex, title)
+				if ar_regex_match:
+					value += f"{track['duration']} - ...{title}\n"
+				else:
+					value += f"{title}... - {track['duration']}\n"
+				embed.add_field(name=f'{index}', value=value, inline=False)
+
 			await ctx.send(embed=embed)
 		except Exception as ex:
 			print('----- displayPlaylist -----')
@@ -465,7 +468,7 @@ def init_audio_activity(params):
 				'https://www.youtube.com/watch?v=KzG21buIJPg', #Surah Al Baqarah - Sheikh Mansour As Salimi الشيخ منصور السالمي
 				'https://www.youtube.com/watch?v=S4ERCYFR28U', #سورة الملك - تبارك - كامله تلاوة هادئة قبل النوم💚تريح الاعصاب😴القرآن الكريم راحة لقلبك Surat Al Mulk
 				'https://www.youtube.com/watch?v=hwB938b9ifw', #Beautiful 10 Hours of Quran Recitation by Hazaa Al Belushi
-				'https://www.youtube.com/watch?v=9CN-31h_wK4'  #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
+				'https://www.youtube.com/watch?v=9CN-31h_wK4'	 #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
 			]
 			random.shuffle(defaultList)
 			defaultList = defaultList[0:3]
