@@ -11,7 +11,7 @@ def init_member_interaction(params):
 	######################## REPLY TO MSG ########################
 	@slash.slash(name = "emc", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def edit_msg_channel(ctx, content, msg_id, channel: discord.TextChannel):
+	async def edit_msg_channel(ctx, content, msg_id, channel: discord.TextChannel, pin: int=0):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions')
@@ -20,6 +20,8 @@ def init_member_interaction(params):
 			content = content.replace("\\n", "\n")
 			content = content.replace("\\t", "	")
 			await msg.edit(content=content)
+			if pin:
+				await msg.pin()
 			await ctx.send('Edit done', hidden=True)
 		except Exception as ex:
 			print('----- /edit_msg_channel -----')
@@ -47,7 +49,7 @@ def init_member_interaction(params):
 	######################## SEND MSG TO CHANNEL ########################
 	@slash.slash(name = "mc", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def msg_channel(ctx, msg, channel: discord.TextChannel):
+	async def msg_channel(ctx, msg, channel: discord.TextChannel, pin: int=0):
 		try:
 			
 			if not is_founders(ctx):
@@ -56,7 +58,9 @@ def init_member_interaction(params):
 			
 			msg = msg.replace("\\n", "\n")
 			msg = msg.replace("\\t", "	")
-			await channel.send(msg)
+			msg = await channel.send(msg)
+			if pin:
+				await msg.pin()
 			await ctx.send('Msg sent', hidden=True)
 		
 		except Exception as ex:
