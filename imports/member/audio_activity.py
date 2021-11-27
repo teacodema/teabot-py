@@ -468,7 +468,8 @@ def init_audio_activity(params):
 				'https://www.youtube.com/watch?v=KzG21buIJPg', #Surah Al Baqarah - Sheikh Mansour As Salimi الشيخ منصور السالمي
 				'https://www.youtube.com/watch?v=S4ERCYFR28U', #سورة الملك - تبارك - كامله تلاوة هادئة قبل النوم💚تريح الاعصاب😴القرآن الكريم راحة لقلبك Surat Al Mulk
 				'https://www.youtube.com/watch?v=hwB938b9ifw', #Beautiful 10 Hours of Quran Recitation by Hazaa Al Belushi
-				'https://www.youtube.com/watch?v=9CN-31h_wK4'	 #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
+				'https://www.youtube.com/watch?v=9CN-31h_wK4', #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
+				'https://www.youtube.com/watch?v=4TK0UrGlLyo', #Sherif Mostafa | the most Beautiful recitation
 			]
 			random.shuffle(defaultList)
 			defaultList = defaultList[0:3]
