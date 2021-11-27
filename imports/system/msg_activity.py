@@ -95,6 +95,7 @@ def init_msg_activity(params):
 				msg += f'\n__Content__\n{message.content}'
 				msg += get_attachments(message)
 				msg += get_embeds(message)
+				msg += '\n──────────────────────'
 
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
@@ -130,6 +131,8 @@ def init_msg_activity(params):
 				msg += f'\n__Content__\n{before.content}\n▼\n{after.content}'
 				msg += get_attachments(before)
 				msg += get_embeds(before)
+				msg += f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
+				msg += '\n──────────────────────'
 
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
