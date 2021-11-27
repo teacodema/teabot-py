@@ -15,7 +15,7 @@ def init_role_reaction(params):
 			member = payload.member
 
 			log = bot.get_channel(textChannels['log-channel'])
-			url = f'https://discord.com/channels/694956824356585654/{payload.channel_id}/{payload.message_id}'
+			url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 			await log.send(f'{member.mention} Added {payload.emoji} \n{url}')
 
 			if member.bot == True:
@@ -35,7 +35,7 @@ def init_role_reaction(params):
 			member = await guild.fetch_member(payload.user_id)
 
 			log = bot.get_channel(textChannels['log-channel'])
-			url = f'https://discord.com/channels/694956824356585654/{payload.channel_id}/{payload.message_id}'
+			url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 			await log.send(f'{member.mention} Removed {payload.emoji} \n{url}')
 
 			if member.bot == True:
@@ -48,28 +48,9 @@ def init_role_reaction(params):
 			print(ex)
 
 
-	@slash.slash(name = "br", guild_ids = [guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def bot_react(ctx, msg_id, emojis):
-		try:
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
-				return
-
-			await ctx.send('Bot Reacting ....', hidden=True)
-			msg = await ctx.channel.fetch_message(msg_id)
-			emojis = emojis.split('\\t')
-			for e in emojis:
-				await msg.add_reaction(e)
-
-		except Exception as ex:
-				print('----------/bot_react--------')
-				print(ex)
-
-
 	@slash.slash(name = "rr", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def role_react(ctx, msg_id=None):
+	async def role_react(ctx, msg_id=None, emojis=None):
 		try:
 
 			if not is_founders(ctx):
@@ -77,12 +58,20 @@ def init_role_reaction(params):
 				return
 
 			if msg_id:
-				await ctx.send('Reactions are setting up ....', hidden=True)
-				msg = await ctx.channel.fetch_message(msg_id)
-				for e in reactions[str(ctx.channel.id)][msg_id]:
-					await msg.add_reaction(e)
-				await ctx.send('Done Reacting.', hidden=True)
-				return
+				if emojis:
+					await ctx.send('Bot Reacting ....', hidden=True)
+					msg = await ctx.channel.fetch_message(msg_id)
+					emojis = emojis.split('\\t')
+					for e in emojis:
+						await msg.add_reaction(e)
+					return
+				else:
+					await ctx.send('Reactions are setting up ....', hidden=True)
+					msg = await ctx.channel.fetch_message(msg_id)
+					for e in reactions[str(ctx.channel.id)][msg_id]:
+						await msg.add_reaction(e)
+					await ctx.send('Done Reacting.', hidden=True)
+					return
 
 			await ctx.send('Updating members roles ....', hidden=True)
 			guild = bot.get_guild(guildId)
