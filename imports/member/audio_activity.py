@@ -481,4 +481,4 @@ def init_audio_activity(params):
 			print('----- initPlaylist -----')
 			print(ex)
 				
-	initPlaylist()
+	# initPlaylist()
