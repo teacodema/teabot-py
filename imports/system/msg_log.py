@@ -25,8 +25,7 @@ def init_msg_log(params):
 			purgedMsgs = []
 			channelsToClear = [
 				textChannels['voice-chat'],
-				textChannels['help-chat'],
-				textChannels['activities-notes']
+				textChannels['help-chat']
 			]
 			if not limit and ctx.channel.id not in channelsToClear:
 				await ctx.send('❌ Wrong Target Channel', hidden=True)
@@ -49,7 +48,6 @@ def init_msg_log(params):
 			await ctx.send('Clearing everything ...', hidden=True)
 			# time.sleep(2)
 			await deleteMsg(ctx, MAX_TO_DELETE)
-			await ctx.send(f'{len(purgedMsgs)} message(s) cleared', hidden=True)
 		except Exception as ex:
 			print('----- /purge -----')
 			print(ex)
@@ -68,6 +66,7 @@ def init_msg_log(params):
 			else:
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
+				await ctx.send(f'{len(purgedMsgs)} message(s) cleared', hidden=True)
 				await logPurgedMessages(ctx, count, purgedMsgs)
 				return len(purgedMsgs)
 		except Exception as ex:
