@@ -23,6 +23,7 @@ def init_role_reaction(params):
 			roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
 			role = get(guild.roles, name = roleName)
 			await member.add_roles(role)
+			await log.send(f'{member.mention} got a role {role.mention}')
 		except Exception as ex:
 			print('----------on_raw_reaction_add--------')
 			print(ex)
@@ -43,6 +44,7 @@ def init_role_reaction(params):
 			roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
 			role = get(guild.roles, name = roleName)
 			await member.remove_roles(role)
+			await log.send(f'{member.mention} lost a role {role.mention}')
 		except Exception as ex:
 			print('----------on_raw_reaction_remove--------')
 			print(ex)
@@ -76,6 +78,7 @@ def init_role_reaction(params):
 			await ctx.send('Updating members roles ....', hidden=True)
 			guild = bot.get_guild(guildId)
 			roles_assigned = 0
+			_msg = ''
 			for channel_id in reactions:
 				channel = bot.get_channel(int(channel_id))
 				for msg_id in reactions[str(channel_id)]:
@@ -90,6 +93,7 @@ def init_role_reaction(params):
 										member = await guild.fetch_member(u.id)
 										if role not in member.roles:
 											await member.add_roles(role)
+											_msg += f'{member.mention} got {role.mention}\n'
 											roles_assigned += 1
 								except Exception as ex:
 									print(ex)
@@ -97,7 +101,7 @@ def init_role_reaction(params):
 					except Exception as ex:
 						print(ex)
 						pass
-			await ctx.send(f'Done Updating members roles / {roles_assigned} updated.', hidden=True)
+			await ctx.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', hidden=True)
 		except Exception as ex:
 			print('----------/role_react--------')
 			print(ex)
