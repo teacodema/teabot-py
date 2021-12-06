@@ -9,7 +9,6 @@ textChannels = {
 	
 	'general': 						694956824356585657,
 	'voice-chat': 				795629763363864606,
-	'activities-notes':		899102137001316352,
 	'help-chat': 					802892768011223045,
 	
 	'testing':						885234699860049960,
@@ -28,7 +27,6 @@ voiceChannels = {}
 categories = {
 	'voice-channels':			796115044374413332,
 	'help-voice': 				867877610134700062,
-	'activities':					899100998935650345,
 
 	'staff-corner':				810187882153115648,
 	'moderators-corner':	888006050018627614,

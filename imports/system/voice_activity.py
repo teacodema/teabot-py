@@ -12,7 +12,6 @@ def init_voice_activity(params):
 		try:
 			await showVoiceChat(member, voice1, voice2, bot, get)
 			await showHelpVoice(member, voice1, voice2, bot, get)
-			await logActivity(member, voice1, voice2, bot, get)
 			await logStaffVoice(member, voice1, voice2, bot, get)
 			await logModeratorsVoice(member, voice1, voice2, bot, get)
 			await logAllVoice(member, voice1, voice2, bot, get)
@@ -23,14 +22,6 @@ def init_voice_activity(params):
 			# 	await voice_state.disconnect()
 		except Exception as ex:
 			print('----- on_voice_state_update -----')
-			print(ex)
-
-	######################## LOG VOICE #Voice Channels ########################
-	async def logActivity(member, voice1, voice2, bot, get):
-		try:
-			await logVoice(member, voice1, voice2, 'activities-notes', 'activities')
-		except Exception as ex:
-			print('----- logActivity -----')
 			print(ex)
 
 
