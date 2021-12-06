@@ -70,7 +70,7 @@ def init_server_activity(params):
 
 			@tasks.loop(minutes=1, count=2, reconnect=True)
 			async def give_role_member():
-				if give_role_member.current_loop != 0:
+				if give_role_member.current_loop == 0:
 					role = get(guild.roles, id = roles['members'])
 					await member.add_roles(role)
 			give_role_member.start()
@@ -101,7 +101,7 @@ def init_server_activity(params):
 				await ctx.send('❌ Missing Permissions')
 				return
 			await ctx.send(f'Msg sent to {member.mention}', hidden=True)
-			message = await welcomeMember(member, )
+			message = await welcomeMember(member, use_webhook)
 
 			if (message == -1):
 				msg = f'❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
