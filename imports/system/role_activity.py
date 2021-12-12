@@ -32,7 +32,7 @@ def init_role_activity(params):
 
 			await ctx.send(msg, hidden=True)
 		except Exception as ex:
-			print('----- /toggle_role -----')
+			print('----- /toggle_role() -----')
 			print(ex)
 
 
@@ -58,13 +58,14 @@ def init_role_activity(params):
 					msg += f'{m.mention}, '
 					await toggleRole(ctx, m, role, assign)
 				except Exception as ex:
+					print('----- /toggle_role_members()/toggle member -----')
 					print(ex)
 					pass
 
 			msg += f'\n{"got" if assign else "lost"} a role : {role.mention}'
 			await ctx.send(msg, hidden=True)
 		except Exception as ex:
-			print('----- /toggle_role_members -----')
+			print('----- /toggle_role_members() -----')
 			print(ex)
 
 
@@ -76,5 +77,5 @@ def init_role_activity(params):
 			else:
 				await member.remove_roles(role)
 		except Exception as ex:
-			print('----- toggleRole -----')
+			print('----- toggleRole() -----')
 			print(ex)

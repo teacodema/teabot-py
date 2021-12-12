@@ -64,5 +64,5 @@ def init_fun_activity(params):
 
 			await ctx.send(f'{msg} | {result}')
 		except Exception as ex:
-			print('----- /janken -----')
+			print('----- /janken() -----')
 			print(ex)

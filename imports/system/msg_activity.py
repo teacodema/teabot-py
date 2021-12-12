@@ -37,7 +37,7 @@ def init_msg_activity(params):
 					if spam:
 						return
 			except Exception as ex:
-					print('----- on_message 2 -----')
+					print('----- on_message(evt)/everyone|spam -----')
 					print(ex)
 
 			if str(message.channel.type) == 'private':
@@ -67,7 +67,7 @@ def init_msg_activity(params):
 			# 		print(message.content)
 			await bot.process_commands(message)
 		except Exception as ex:
-			print('----- on_message 1 -----')
+			print('----- on_message(evt) -----')
 			print(ex)
 
 
@@ -100,7 +100,7 @@ def init_msg_activity(params):
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:
-			print('----- on_message_delete -----')
+			print('----- on_message_delete(evt) -----')
 			print(ex)
 
 
@@ -137,5 +137,5 @@ def init_msg_activity(params):
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				await logChannelActivity.send(msg)
 		except Exception as ex:
-			print('----- on_message_edit -----')
+			print('----- on_message_edit(evt) -----')
 			print(ex)

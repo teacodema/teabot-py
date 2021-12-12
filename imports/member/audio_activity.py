@@ -90,7 +90,7 @@ def init_audio_activity(params):
 			else:
 				await Player(ctx, "▶ Playing ...", url, vc)
 		except Exception as ex:
-			print('----- /play -----')
+			print('----- /play() -----')
 			print(ex)
 
 	def extractUrlData(url):
@@ -111,7 +111,7 @@ def init_audio_activity(params):
 			}
 			return track
 		except Exception as ex:
-			print('----- extractUrlData -----')
+			print('----- extractUrlData() -----')
 			print(ex)
 
 
@@ -134,7 +134,7 @@ def init_audio_activity(params):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
-			print('----- Player -----')
+			print('----- Player() -----')
 			print(ex)
 	
 	def playNext(err):
@@ -161,7 +161,7 @@ def init_audio_activity(params):
 			# voice.stop()
 			playTrack(_ctxPlay)
 		except Exception as ex:
-			print('----- playNext -----')
+			print('----- playNext() -----')
 			print(ex)
 
 	def playTrack(ctx):
@@ -174,7 +174,7 @@ def init_audio_activity(params):
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 		except Exception as ex:
-			print('----- playTrack -----')
+			print('----- playTrack() -----')
 			print(ex)
 
 	######################## CURRENT ########################
@@ -201,7 +201,7 @@ def init_audio_activity(params):
 			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
 			await ctx.send(embed=embed)
 		except Exception as ex:
-			print('----- /current_track -----')
+			print('----- /current_track() -----')
 			print(ex)
 
 
@@ -216,7 +216,7 @@ def init_audio_activity(params):
 
 			await displayPlaylist(ctx)
 		except Exception as ex:
-			print('----- /queue -----')
+			print('----- /queue() -----')
 			print(ex)
 
 	######################## REPLAY ########################
@@ -244,7 +244,7 @@ def init_audio_activity(params):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
-			print('----- /replay -----')
+			print('----- /replay() -----')
 			print(ex)
 
 	######################## NEXT ########################
@@ -275,7 +275,7 @@ def init_audio_activity(params):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
-			print('----- /next -----')
+			print('----- /next() -----')
 			print(ex)
 
 	######################## PREVIOUS ########################
@@ -306,7 +306,7 @@ def init_audio_activity(params):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
-			print('----- /previous -----')
+			print('----- /previous() -----')
 			print(ex)
 
 	######################## PAUSE ########################
@@ -324,7 +324,7 @@ def init_audio_activity(params):
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
-			print('----- /pause -----')
+			print('----- /pause() -----')
 			print(ex)
 
 	######################## RESUME ########################
@@ -342,7 +342,7 @@ def init_audio_activity(params):
 			else:
 				await ctx.send('❌ The bot is already (or not) playing something before this')
 		except Exception as ex:
-			print('----- /resume -----')
+			print('----- /resume() -----')
 			print(ex)
 
 	######################## STOP ########################
@@ -364,7 +364,7 @@ def init_audio_activity(params):
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
-			print('----- /stop -----')
+			print('----- /stop() -----')
 			print(ex)
 
 	######################## LEAVE ########################
@@ -379,7 +379,7 @@ def init_audio_activity(params):
 			else:
 				await ctx.send('❌ Not connected ...')
 		except Exception as ex:
-			print('----- /leave -----')
+			print('----- /leave() -----')
 			print(ex)
 
 	######################## CLEAR PLAYLIST ########################
@@ -394,7 +394,7 @@ def init_audio_activity(params):
 			playlist = []
 			await ctx.send('🗑 Queue is clear')
 		except Exception as ex:
-			print('----- /clear_queue -----')
+			print('----- /clear_queue() -----')
 			print(ex)
 
 	######################## REFRESH LIST ########################
@@ -411,7 +411,7 @@ def init_audio_activity(params):
 			initPlaylist()
 			await displayPlaylist(ctx)
 		except Exception as ex:
-			print('----- /refresh -----')
+			print('----- /refresh() -----')
 			print(ex)
 	
 	def isUserConnected(ctx):
@@ -424,7 +424,7 @@ def init_audio_activity(params):
 			vc = user.voice.channel
 			return vc
 		except Exception as ex:
-			print('----- checkUserVoice -----')
+			print('----- isUserConnected() -----')
 			print(ex)
 			return False
 	
@@ -456,7 +456,7 @@ def init_audio_activity(params):
 
 			await ctx.send(embed=embed)
 		except Exception as ex:
-			print('----- displayPlaylist -----')
+			print('----- displayPlaylist() -----')
 			print(ex)
 
 	def initPlaylist():
@@ -470,6 +470,7 @@ def init_audio_activity(params):
 				'https://www.youtube.com/watch?v=hwB938b9ifw', #Beautiful 10 Hours of Quran Recitation by Hazaa Al Belushi
 				'https://www.youtube.com/watch?v=9CN-31h_wK4', #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
 				'https://www.youtube.com/watch?v=4TK0UrGlLyo', #Sherif Mostafa | the most Beautiful recitation
+				'https://www.youtube.com/watch?v=Z7tSBYN9p-A', #صدقني !! صوته ينسيك الدنيا لجماله 🤩 صوت عذب اسمع وارح قلبك || سورة طه - كاملة القارئ شريف مصطفى
 			]
 			random.shuffle(defaultList)
 			defaultList = defaultList[0:3]
@@ -478,7 +479,7 @@ def init_audio_activity(params):
 				track = extractUrlData(track_url)
 				playlist.append(track)
 		except Exception as ex:
-			print('----- initPlaylist -----')
+			print('----- initPlaylist() -----')
 			print(ex)
 				
 	# initPlaylist()

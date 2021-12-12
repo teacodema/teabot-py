@@ -25,7 +25,7 @@ def init_role_reaction(params):
 			await member.add_roles(role)
 			await log.send(f'{member.mention} got a role {role.mention}')
 		except Exception as ex:
-			print('----------on_raw_reaction_add--------')
+			print('---------- on_raw_reaction_add(evt) --------')
 			print(ex)
 
 
@@ -46,7 +46,7 @@ def init_role_reaction(params):
 			await member.remove_roles(role)
 			await log.send(f'{member.mention} lost a role {role.mention}')
 		except Exception as ex:
-			print('----------on_raw_reaction_remove--------')
+			print('---------- on_raw_reaction_remove(evt) --------')
 			print(ex)
 
 
@@ -96,12 +96,14 @@ def init_role_reaction(params):
 											_msg += f'{member.mention} got {role.mention}\n'
 											roles_assigned += 1
 								except Exception as ex:
+									print('---------- /role_react()/add role user --------')
 									print(ex)
 									pass
 					except Exception as ex:
+						print('---------- /role_react()/msg reactions --------')
 						print(ex)
 						pass
 			await ctx.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', hidden=True)
 		except Exception as ex:
-			print('----------/role_react--------')
+			print('---------- /role_react() --------')
 			print(ex)

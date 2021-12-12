@@ -25,5 +25,5 @@ def init_check_membership(params):
 					msg += f'{member} , '
 			await ctx.send(f'{updatedMembersCount} updated members.\n{msg}', hidden=True)
 		except Exception as ex:
-			print('----- /update_new_members -----')
+			print('----- /update_new_members() -----')
 			print(ex)

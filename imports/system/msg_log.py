@@ -49,7 +49,7 @@ def init_msg_log(params):
 			# time.sleep(2)
 			await deleteMsg(ctx, MAX_TO_DELETE)
 		except Exception as ex:
-			print('----- /purge -----')
+			print('----- /purge() -----')
 			print(ex)
 
 	def isNotPinned(msg):
@@ -70,7 +70,7 @@ def init_msg_log(params):
 				await logPurgedMessages(ctx, count, purgedMsgs)
 				return len(purgedMsgs)
 		except Exception as ex:
-			print('----- deleteMsg -----')
+			print('----- deleteMsg() -----')
 			print(ex)
 
 	async def logPurgedMessages(ctx, count, _purgedMsgs):

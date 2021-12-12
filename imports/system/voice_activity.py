@@ -21,7 +21,7 @@ def init_voice_activity(params):
 			# if voice_state and len(voice_state.channel.members) == 1:
 			# 	await voice_state.disconnect()
 		except Exception as ex:
-			print('----- on_voice_state_update -----')
+			print('----- on_voice_state_update(evt) -----')
 			print(ex)
 
 
@@ -58,7 +58,7 @@ def init_voice_activity(params):
 				except Exception as ex:
 					print(ex)
 		except Exception as ex:
-			print('----- showHelpVoice -----')
+			print('----- showHelpVoice() -----')
 			print(ex)
 
 
@@ -67,7 +67,7 @@ def init_voice_activity(params):
 		try:
 			await logVoice(member, voice1, voice2, 'voice-chat', 'voice-channels', 'voice-room')
 		except Exception as ex:
-			print('----- showVoiceChat -----')
+			print('----- showVoiceChat() -----')
 			print(ex)
 
 
@@ -76,7 +76,7 @@ def init_voice_activity(params):
 		try:
 			await logVoice(member, voice1, voice2, 'staff-notes', 'staff-corner')
 		except Exception as ex:
-			print('----- logStaffVoice -----')
+			print('----- logStaffVoice() -----')
 			print(ex)
 
 
@@ -84,7 +84,7 @@ def init_voice_activity(params):
 		try:
 			await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
 		except Exception as ex:
-			print('----- logStaffVoice -----')
+			print('----- logModeratorsVoice() -----')
 			print(ex)
 
 
@@ -102,32 +102,36 @@ def init_voice_activity(params):
 				await logChannel.send(msg)
 
 		except Exception as ex:
-			print('----- logAllVoice -----')
+			print('----- logAllVoice() -----')
 			print(ex)
 	
 	
 	async def logVoice(member, voice1, voice2, channelID, categoryID, roleID = None):
-		guild = bot.get_guild(guildId)
-		categoryID = categories[categoryID]
-		logChannel = bot.get_channel(textChannels[channelID])
-		role = None
-		if roleID:
-			role = get(guild.roles, id = roles[roleID])
-		msg = getVoiceLogMessage(member, voice1, voice2)
-		if (not voice1.channel and voice2.channel):
-			if (voice2.channel.category_id == categoryID):
-				await logChannel.send(msg)
-				if (role): await member.add_roles(role)
-		elif (voice1.channel and not voice2.channel):
-			if (voice1.channel.category_id == categoryID):
-				await logChannel.send(msg)
-				if (role): await member.remove_roles(role)
-		elif (voice1.channel.id != voice2.channel.id):
-			if (voice2.channel.category_id == categoryID):
-				await logChannel.send(msg)
-				if (role): await member.add_roles(role)
-			else:
-				if (role): await member.remove_roles(role)
+		try:
+			guild = bot.get_guild(guildId)
+			categoryID = categories[categoryID]
+			logChannel = bot.get_channel(textChannels[channelID])
+			role = None
+			if roleID:
+				role = get(guild.roles, id = roles[roleID])
+			msg = getVoiceLogMessage(member, voice1, voice2)
+			if (not voice1.channel and voice2.channel):
+				if (voice2.channel.category_id == categoryID):
+					await logChannel.send(msg)
+					if (role): await member.add_roles(role)
+			elif (voice1.channel and not voice2.channel):
+				if (voice1.channel.category_id == categoryID):
+					await logChannel.send(msg)
+					if (role): await member.remove_roles(role)
+			elif (voice1.channel.id != voice2.channel.id):
+				if (voice2.channel.category_id == categoryID):
+					await logChannel.send(msg)
+					if (role): await member.add_roles(role)
+				else:
+					if (role): await member.remove_roles(role)
+		except Exception as ex:
+			print('----- logVoice() -----')
+			print(ex)
 
 	
 	def getVoiceLogMessage(member, voice1, voice2):
@@ -140,7 +144,7 @@ def init_voice_activity(params):
 				msg = f'{icon} {member.mention} joined __**{voice2.channel.name}**__'
 			return msg
 		except Exception as ex:
-			print('----- getVoiceLogMessage -----')
+			print('----- getVoiceLogMessage() -----')
 			print(ex)
 			return ""
 
@@ -178,5 +182,5 @@ def init_voice_activity(params):
 				except Exception as ex:
 					print(ex)
 		except Exception as ex:
-			print('----- showHelpVoice -----')
+			print('----- showLTVoice() -----')
 			print(ex)

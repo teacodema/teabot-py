@@ -27,7 +27,7 @@ def init_bot_activity(params):
 			await startBot(bot, discord)
 			start_loop()
 		except Exception as ex:
-			print('----- on_ready -----')
+			print('----- on_ready(evt) -----')
 			print(ex)
 		
 
@@ -80,8 +80,8 @@ def init_bot_activity(params):
 
 				await logChannel.send(f'{updatedMembersCount} updated members.\n{msg}')
 			except Exception as ex:
-					print('----- /check_membership_loop -----')
-					print(ex)
+				print('----- /check_membership_loop() -----')
+				print(ex)
 					
 		check_membership_loop.start()
 		
@@ -106,7 +106,7 @@ async def startBot(bot, discord):
 		# class discord.CustomActivity(name, *, emoji=None, **extra)
 		await bot.change_presence(status=status, activity=activity)
 	except Exception as ex:
-		print('----- startBot -----')
+		print('----- startBot() -----')
 		print(ex)
 
 

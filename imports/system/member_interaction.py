@@ -24,7 +24,7 @@ def init_member_interaction(params):
 				await msg.pin()
 			await ctx.send('Edit done', hidden=True)
 		except Exception as ex:
-			print('----- /edit_msg_channel -----')
+			print('----- /edit_msg_channel() -----')
 			print(ex)
 
 
@@ -42,7 +42,7 @@ def init_member_interaction(params):
 			await msg.reply(reply)
 			await ctx.send('Reply sent', hidden=True)
 		except Exception as ex:
-			print('----- /reply_channel -----')
+			print('----- /reply_channel() -----')
 			print(ex)
 
 
@@ -64,7 +64,7 @@ def init_member_interaction(params):
 			await ctx.send('Msg sent', hidden=True)
 		
 		except Exception as ex:
-			print('----- /msg_channel -----')
+			print('----- /msg_channel() -----')
 			print(ex)
 
 	######################## SEND MSG TO MEMBER ########################
@@ -101,7 +101,7 @@ def init_member_interaction(params):
 			await channel.send(notifyMe)
 
 		except Exception as ex:
-			print('----- /dm -----')
+			print('----- /msg_member() -----')
 			print(ex)
 
 
@@ -112,6 +112,6 @@ async def send_msg(ctx, message, member):
 			channel = await member.create_dm()
 		await channel.send(message)
 	except Exception as ex:
-		print('----- send_msg -----')
+		print('----- send_msg() -----')
 		print(ex)
 

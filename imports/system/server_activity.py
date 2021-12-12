@@ -30,7 +30,7 @@ def init_server_activity(params):
 							await after.edit(nick = "STOP THAT")
 						
 		except Exception as ex:
-			print('----- on_member_update -----')
+			print('----- on_member_update(evt) -----')
 			print(ex)	
 
 	######################## JOIN MEMBER ########################
@@ -51,7 +51,7 @@ def init_server_activity(params):
 			msg += f'\n:green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
-			print('----- on_member_join 1-----')
+			print('----- on_member_join(evet)/DM -----')
 			print(ex)
 
 		try:
@@ -76,7 +76,7 @@ def init_server_activity(params):
 			give_role_member.start()
 
 		except Exception as ex:
-			print('----- on_member_join 2-----')
+			print('----- on_member_join(evt) -----')
 			print(ex)
 		
 
@@ -89,7 +89,7 @@ def init_server_activity(params):
 			msg = f':red_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) left **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
-			print('----- on_member_remove -----')
+			print('----- on_member_remove(evt) -----')
 			print(ex)
 
 	######################## WELCOME MEMBER CMD ########################
@@ -112,7 +112,7 @@ def init_server_activity(params):
 			msg += f'\n:green_square: **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
-			print('----- /welcome -----')
+			print('----- /welcome() -----')
 			print(ex)
 
 	######################## WELCOME MEMBER ########################
@@ -123,10 +123,10 @@ def init_server_activity(params):
 				try:
 					channel = bot.get_channel(textChannels['log-server'])
 					webhook = await channel.create_webhook(name=member.name)
-					await webhook.send(f'Hi I\'m {member.display_name}', username=member.name, avatar_url=member.avatar_url)
+					await webhook.send(f'Hi I\'m {member.display_name}/{member.mention}', username=member.name, avatar_url=member.avatar_url)
 					await webhook.delete()
 				except Exception as ex:
-					print('----- /welcome 2-----')
+					print('----- /welcomeMember()/webhook-----')
 					print(ex)
 
 			message = f'Merhba bik m3ana {member.mention} f **TeaCode Community** :partying_face:\t:tada: '
@@ -150,7 +150,7 @@ def init_server_activity(params):
 			await channel.send(message)
 			return message
 		except Exception as ex:
-			print('----- welcomeMember -----')
+			print('----- welcomeMember() -----')
 			print(ex)
 			return -1
 
@@ -163,5 +163,5 @@ def init_server_activity(params):
 			membersCount = len(memberList)
 			return membersCount
 		except Exception as ex:
-			print('----- updateMembersCount -----')
+			print('----- updateMembersCount() -----')
 			print(ex)

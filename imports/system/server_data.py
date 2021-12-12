@@ -36,10 +36,10 @@ def init_server_data(params):
 			embed.add_field(name="Members", value=len(guild.members), inline=True)
 			# embed.add_field(name="Channels", value=len(guild.channels), inline=True)
 			
-			if (isNotAllowed):
-				total_categories = len(guild.categories) - len(excludedCategories)
-			else:
-				total_categories = len(guild.categories)
+			# if (isNotAllowed):
+			# 	total_categories = len(guild.categories) - len(excludedCategories)
+			# else:
+			total_categories = len(guild.categories)
 			
 			embed.add_field(name="Categories", value=total_categories, inline=True)
 			# embed.add_field(name="Text Channels", value=len(guild.text_channels), inline=True)
@@ -50,16 +50,16 @@ def init_server_data(params):
 			total_voice_channels = len(guild.voice_channels)
 			total_stage_channels = len(guild.stage_channels)
 
-			if (isNotAllowed):
-				total_channels = 0
-				for catId in excludedCategories:
-					category = get(guild.categories, id = catId)
-					total_text_channels -= len(category.text_channels)
-					total_voice_channels -= len(category.voice_channels)
-					total_stage_channels -= len(category.stage_channels)
-					total_channels = total_text_channels + total_voice_channels + total_stage_channels
-			else:
-				total_channels = total_text_channels + total_voice_channels + total_stage_channels
+			# if (isNotAllowed):
+			# 	total_channels = 0
+			# 	for catId in excludedCategories:
+			# 		category = get(guild.categories, id = catId)
+			# 		total_text_channels -= len(category.text_channels)
+			# 		total_voice_channels -= len(category.voice_channels)
+			# 		total_stage_channels -= len(category.stage_channels)
+			# 		total_channels = total_text_channels + total_voice_channels + total_stage_channels
+			# else:
+			total_channels = total_text_channels + total_voice_channels + total_stage_channels
 
 			value = f'Total : {total_channels}'
 			value += f'\nText : {total_text_channels}'
@@ -75,7 +75,7 @@ def init_server_data(params):
 			await ctx.send(embed=embed)
 
 		except Exception as ex:
-			print('----- /server-info -----')
+			print('----- /server-info() -----')
 			print(ex)
 
 	######################## ROLE INFO ########################
@@ -102,7 +102,7 @@ def init_server_data(params):
 			await ctx.send(embed=embed)
 
 		except Exception as ex:
-			print('----- /role-info -----')
+			print('----- /role-info() -----')
 			print(ex)
 
 	######################## MEMBER INFO ########################
@@ -135,6 +135,6 @@ def init_server_data(params):
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			await ctx.send(embed=embed)
 		except Exception as ex:
-			print('----- /member-info -----')
+			print('----- /member-info() -----')
 			print(ex)
 
