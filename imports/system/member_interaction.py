@@ -85,15 +85,22 @@ def init_member_interaction(params):
 			if role == None:
 				if member == None: 
 					member = ctx.author
-				await send_msg(ctx, msg, member)
+				_sentMsg = await send_msg(ctx, msg, member)
+				notifyMe += f'\nmessage ID : {_sentMsg.id}'
+				notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
 				notifyMe += f'\nMember: **{member.mention}**'
 			else:
 				if member != None:
-					await send_msg(ctx, msg, member)
+					_sentMsg = await send_msg(ctx, msg, member)
+					notifyMe += f'\nmessage ID : {_sentMsg.id}'
+					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
 					notifyMe += f'\nMember: **{member.mention}**'
 				members = role.members
 				for member in members:
-					await send_msg(ctx, msg, member)
+					_sentMsg = await send_msg(ctx, msg, member)
+					notifyMe += f'\nmessage ID : {_sentMsg.id}'
+					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+
 				notifyMe += f'\nRole: **{role.mention}**'
 			notifyMe += f'\n__Content__\n{msg}'
 			
@@ -103,15 +110,34 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /msg_member() -----')
 			print(ex)
+			raise ex
+
+	######################## DELETE A DM MEMBER ########################
+	@slash.slash(name = "rm", guild_ids=[guildId],
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
+	async def remove_msg_member(ctx, msg_id, channel_id):
+		try:
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions')
+				return
+			await ctx.send("Deleting direct message...", hidden=True)
+			_ch = await bot.fetch_channel(channel_id)
+			msg = await _ch.fetch_message(msg_id)
+			await msg.delete()
+		except Exception as ex:
+			print('----- /remove_msg_member() -----')
+			print(ex)
 
 
-async def send_msg(ctx, message, member):
-	try:
-		channel = member.dm_channel
-		if channel == None:
-			channel = await member.create_dm()
-		await channel.send(message)
-	except Exception as ex:
-		print('----- send_msg() -----')
-		print(ex)
+
+	async def send_msg(ctx, message, member):
+		try:
+			channel = member.dm_channel
+			if channel == None:
+				channel = await member.create_dm()
+			return await channel.send(message)
+		except Exception as ex:
+			print('----- send_msg() -----')
+			print(ex)
+			raise ex
 
