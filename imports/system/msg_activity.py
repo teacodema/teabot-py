@@ -37,8 +37,8 @@ def init_msg_activity(params):
 					if spam:
 						return
 			except Exception as ex:
-					print('----- on_message(evt)/everyone|spam -----')
-					print(ex)
+				print('----- on_message(evt)/everyone|spam -----')
+				print(ex)
 
 			if str(message.channel.type) == 'private':
 				author = message.author
@@ -53,12 +53,11 @@ def init_msg_activity(params):
 					]
 				if (author.id not in excludedIDs):
 					msg = '──────────────────────'
-					msg = f'\nDM/ ◁='
-					msg+= f'\n__From__\n{author} - {author.mention}'
+					msg += f'\nDM/ ◁='
+					msg += f'\n__From__\n{author} - {author.mention}'
 					msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
 					msg += get_attachments(message)
 					msg += get_embeds(message)
-
 					channel = bot.get_channel(textChannels['log-channel'])
 					await channel.send(msg)
 			# else:
