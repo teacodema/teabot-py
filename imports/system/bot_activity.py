@@ -71,7 +71,7 @@ def init_bot_activity(params):
 		async def check_membership_loop():
 			try:
 				updatedMembers = await checkNewMemberRole(bot, get)
-				logChannel = bot.get_channel(textChannels['log-channel'])
+				logChannel = bot.get_channel(textChannels['log-bot'])
 				msg = ''
 				updatedMembersCount = len(updatedMembers)
 				if updatedMembersCount:
@@ -82,9 +82,6 @@ def init_bot_activity(params):
 			except Exception as ex:
 				print('----- /check_membership_loop() -----')
 				print(ex)
-					
-		check_membership_loop.start()
-		
 		@tasks.loop(hours=1, count=None, reconnect=False)
 		async def am_alive():
 			channel = bot.get_channel(textChannels['log-bot'])
@@ -92,7 +89,8 @@ def init_bot_activity(params):
 			dt_Ma = datetime.now(timeZ_Ma)
 			await channel.send(f'<:teacode_bordred:844450911941165086> am alive - {dt_Ma.strftime("%d %B %Y - %H:%M")}')
 
-		am_alive.start()
+		am_alive.start()	
+		check_membership_loop.start()
 
 
 ######################## BOT READY ########################
