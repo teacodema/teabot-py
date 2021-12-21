@@ -130,21 +130,10 @@ def init_server_activity(params):
 					print(ex)
 
 			message = f'Merhba bik m3ana {member.mention} f **TeaCode Community** :partying_face:\t:tada: '
-			message += "\nWhere We help/support **Moroccans** :flag_ma: programming beginners :computer: in their learning journey :rocket:"
-
-			message += "\n\nFollow the steps to **know** the rules & **see** the hidden rooms :warning:"
-			message += "\nIf you're **new** to discord check this video <https://teacode.ma/about>"
-			message += "\nDon't forget to **invite** your friends who could be interested https://discord.gg/vKu2fkPqjY :speech_left:"
-
-			message += "\n\n__**0┊Activate your membership**__"
-			message += f"\n   **・**Read & React to the <#{textChannels['rules']}> to be a verified __**@Members**__."
-
-			message += "\n\n__**1┊Go to**__"
-			message += f"\n   **・**<#{textChannels['get-roles']}> and react to get your skills roles."
-			message += f"\n   **・**<#{textChannels['faqs']}> where you can find answers to common questions about the server."
-			message += f"\n   **・**<#{textChannels['introduce-yourself']}> if you want to Introduce yourself . (First name, age, school .... etc)."
+			message += f"\nHna ghadi tl9a chno tehtaj bach takhod fikra 3la server <#{textChannels['first-steps']}>"
 
 			message += f"\n\nAsk here <#{textChannels['ask-staff']}> if you need help with the server."
+			message += "\nDon't forget to **invite** your friends who could be interested https://discord.gg/vKu2fkPqjY"
 
 			channel = await member.create_dm()
 			await channel.send(message)
