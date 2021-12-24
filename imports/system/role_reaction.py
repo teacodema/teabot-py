@@ -63,7 +63,7 @@ def init_role_reaction(params):
 				if emojis:
 					await ctx.send('Bot Reacting ....', hidden=True)
 					msg = await ctx.channel.fetch_message(msg_id)
-					emojis = emojis.split('\\t')
+					emojis = emojis.split(',')
 					for e in emojis:
 						await msg.add_reaction(e)
 					return
