@@ -97,9 +97,14 @@ def init_member_interaction(params):
 					notifyMe += f'\nMember: **{member.mention}**'
 				members = role.members
 				for member in members:
-					_sentMsg = await send_msg(ctx, msg, member)
-					notifyMe += f'\nmessage ID : {_sentMsg.id}'
-					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+					try:
+						_sentMsg = await send_msg(ctx, msg, member)
+						notifyMe += f'\nmessage ID : {_sentMsg.id}'
+						notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+					except Exception as ex:
+						print('----- /msg_member()/send_msg/role -----')
+						print(ex)
+						pass
 
 				notifyMe += f'\nRole: **{role.mention}**'
 			notifyMe += f'\n__Content__\n{msg}'
@@ -110,20 +115,21 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /msg_member() -----')
 			print(ex)
-			raise ex
 
-	######################## DELETE A DM MEMBER ########################
+	######################## DELETE A MSG ########################
 	@slash.slash(name = "rm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def remove_msg_member(ctx, msg_id, channel_id):
+	async def remove_msg_member(ctx, msg_ids, channel_id):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions')
 				return
 			await ctx.send("Deleting direct message...", hidden=True)
+			msg_ids = msg_ids.split(',')
 			_ch = await bot.fetch_channel(channel_id)
-			msg = await _ch.fetch_message(msg_id)
-			await msg.delete()
+			for msg_id in msg_ids:
+				msg = await _ch.fetch_message(msg_id)
+				await msg.delete()
 		except Exception as ex:
 			print('----- /remove_msg_member() -----')
 			print(ex)
