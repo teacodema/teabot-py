@@ -48,7 +48,7 @@ def init_role_activity(params):
 			
 			await ctx.send('Updating Role...', hidden=True)
 			guild = bot.get_guild(guildId)
-			members = members.split('\\t')
+			members = members.split(',')
 			msg = ''
 			for m in members:
 				try:
