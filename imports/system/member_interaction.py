@@ -17,8 +17,7 @@ def init_member_interaction(params):
 				await ctx.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
-			content = content.replace("\\n", "\n")
-			content = content.replace("\\t", "	")
+			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.edit(content=content)
 			if pin:
 				await msg.pin()
@@ -37,8 +36,7 @@ def init_member_interaction(params):
 				await ctx.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
-			reply = reply.replace("\\n", "\n")
-			reply = reply.replace("\\t", "	")
+			reply = replace_str(reply, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.reply(reply)
 			await ctx.send('Reply sent', hidden=True)
 		except Exception as ex:
@@ -55,9 +53,8 @@ def init_member_interaction(params):
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions')
 				return
-			
-			msg = msg.replace("\\n", "\n")
-			msg = msg.replace("\\t", "	")
+
+			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = await channel.send(msg)
 			if pin:
 				await msg.pin()
@@ -76,9 +73,8 @@ def init_member_interaction(params):
 				await ctx.send('❌ Missing Permissions')
 				return
 
-			msg = msg.replace("\\n", "\n")
-			msg = msg.replace("\\t", "	")
 			await ctx.send("Sending direct message...", hidden=True)
+			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
 			notifyMe = f'DM/ =▷'
 			notifyMe+= f'\n__To__'
@@ -134,8 +130,6 @@ def init_member_interaction(params):
 			print('----- /remove_msg_member() -----')
 			print(ex)
 
-
-
 	async def send_msg(ctx, message, member):
 		try:
 			channel = member.dm_channel
@@ -145,5 +139,12 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- send_msg() -----')
 			print(ex)
-			raise ex
 
+	def replace_str(str, dict_chars):
+		try:
+			for key in dict_chars:
+				str = str.replace(key, dict_chars[key])
+			return str
+		except Exception as ex:
+			print('----- replace_str() -----')
+			print(ex)
