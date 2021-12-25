@@ -74,4 +74,4 @@ init_role_reaction(params)
 
 
 keep_alive()
-bot.run(os.getenv("TOKEN"))
+bot.run(os.getenv("token"))
