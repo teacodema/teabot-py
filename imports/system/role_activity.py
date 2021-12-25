@@ -4,6 +4,7 @@ from setup.actions import *
 def init_role_activity(params):
 	
 	bot = params['bot']
+	get = params['get']
 	discord = params['discord']
 	slash = params['slash']
 	
@@ -39,7 +40,7 @@ def init_role_activity(params):
 	######################## ROLE TO MEMBERS ########################
 	@slash.slash(name="trm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def toggle_role_members(ctx, role: discord.Role, members, assign: int = 1):
+	async def toggle_role_members(ctx, roles, members, assign: int = 1):
 		try:
 			
 			if not is_founders(ctx):
@@ -48,21 +49,32 @@ def init_role_activity(params):
 			
 			await ctx.send('Updating Role...', hidden=True)
 			guild = bot.get_guild(guildId)
+
+			msg_r = ''
+			roles = roles.split(',')
+			roles_list = []
+			for role_id in roles:
+				role_id = role_id.replace('<@&', '')
+				role_id = role_id.replace('>', '')
+				role = get(guild.roles, id = int(role_id))
+				msg_r += f'{role.mention}, '
+				roles_list.append(role)
+
+			msg_m = ''
 			members = members.split(',')
-			msg = ''
 			for m in members:
 				try:
 					m = m.replace('<@!', '')
 					m = m.replace('>', '')
 					m = await guild.fetch_member(m)
-					msg += f'{m.mention}, '
-					await toggleRole(ctx, m, role, assign)
+					msg_m += f'{m.mention}, '
+					await toggleRole(ctx, m, roles_list, assign)
 				except Exception as ex:
 					print('----- /toggle_role_members()/toggle member -----')
 					print(ex)
 					pass
 
-			msg += f'\n{"got" if assign else "lost"} a role : {role.mention}'
+			msg = f'{msg_m} {"got" if assign else "lost"} roles : {msg_r}'
 			await ctx.send(msg, hidden=True)
 		except Exception as ex:
 			print('----- /toggle_role_members() -----')
@@ -70,12 +82,12 @@ def init_role_activity(params):
 
 
 	######################## TOGGLE ROLE ########################
-	async def toggleRole(ctx, member, role, assign = True):
+	async def toggleRole(ctx, member, roles, assign = True):
 		try:
 			if assign:
-				await member.add_roles(role)
+				await member.add_roles(*roles)
 			else:
-				await member.remove_roles(role)
+				await member.remove_roles(*roles)
 		except Exception as ex:
 			print('----- toggleRole() -----')
 			print(ex)
