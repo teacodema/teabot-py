@@ -24,11 +24,11 @@ def init_role_activity(params):
 				msg = f'{role2.mention} {"got" if assign else "lost"} a role : {role.mention}'
 				members = role2.members
 				for memberTo in members:
-					await toggleRole(ctx, memberTo, role, assign)
+					await toggleRole(ctx, memberTo, [role], assign)
 			else:
 				if (not member):
 					member = ctx.author
-				await toggleRole(ctx, member, role, assign)
+				await toggleRole(ctx, member, [role], assign)
 				msg = f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}'
 
 			await ctx.send(msg, hidden=True)
