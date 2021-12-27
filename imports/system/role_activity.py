@@ -35,6 +35,7 @@ def init_role_activity(params):
 		except Exception as ex:
 			print('----- /toggle_role() -----')
 			print(ex)
+			await log_exception(ex, '/toggle_role', ctx)
 
 
 	######################## ROLE TO MEMBERS ########################
@@ -79,6 +80,7 @@ def init_role_activity(params):
 		except Exception as ex:
 			print('----- /toggle_role_members() -----')
 			print(ex)
+			await log_exception(ex, '/toggle_role_members', ctx)
 
 
 	######################## TOGGLE ROLE ########################
@@ -91,3 +93,4 @@ def init_role_activity(params):
 		except Exception as ex:
 			print('----- toggleRole() -----')
 			print(ex)
+			await log_exception(ex, 'toggleRole()', ctx)

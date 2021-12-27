@@ -23,6 +23,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- on_voice_state_update(evt) -----')
 			print(ex)
+			await log_exception(ex, 'on_voice_state_update(evt)', None, bot)
 
 
 	######################## LOG VOICE #Help › Voice ########################
@@ -60,6 +61,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- showHelpVoice() -----')
 			print(ex)
+			await log_exception(ex, 'showHelpVoice()', None, bot)
 
 
 	######################## LOG VOICE #Voice Channels ########################
@@ -69,6 +71,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- showVoiceChat() -----')
 			print(ex)
+			await log_exception(ex, 'showVoiceChat()', None, bot)
 
 
 	######################## LOG VOICE #Voice Channels ########################
@@ -78,6 +81,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- logStaffVoice() -----')
 			print(ex)
+			await log_exception(ex, 'logStaffVoice()', None, bot)
 
 
 	async def logModeratorsVoice(member, voice1, voice2, bot, get):
@@ -86,6 +90,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- logModeratorsVoice() -----')
 			print(ex)
+			await log_exception(ex, 'logModeratorsVoice()', None, bot)
 
 
 	######################## LOG ALL VOICE ########################
@@ -104,6 +109,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- logAllVoice() -----')
 			print(ex)
+			await log_exception(ex, 'logAllVoice()', None, bot)
 	
 	
 	async def logVoice(member, voice1, voice2, channelID, categoryID, roleID = None):
@@ -132,6 +138,7 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- logVoice() -----')
 			print(ex)
+			await log_exception(ex, 'logVoice()', None, bot)
 
 	
 	def getVoiceLogMessage(member, voice1, voice2):
@@ -184,3 +191,4 @@ def init_voice_activity(params):
 		except Exception as ex:
 			print('----- showLTVoice() -----')
 			print(ex)
+			await log_exception(ex, 'showLTVoice()', None, bot)

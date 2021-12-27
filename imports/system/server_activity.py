@@ -31,7 +31,8 @@ def init_server_activity(params):
 						
 		except Exception as ex:
 			print('----- on_member_update(evt) -----')
-			print(ex)	
+			print(ex)
+			await log_exception(ex, 'on_member_update(evt)', None, bot)
 
 	######################## JOIN MEMBER ########################
 	@bot.event
@@ -41,8 +42,9 @@ def init_server_activity(params):
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg)
 		except Exception as ex:
-			print('----- on_member_join(evet)/DM -----')
+			print('----- on_member_join(evet) -----')
 			print(ex)
+			await log_exception(ex, 'on_member_join(evet)', None, bot)
 		
 
 	######################## REMOVE MEMBER ########################
@@ -56,6 +58,7 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- on_member_remove(evt) -----')
 			print(ex)
+			await log_exception(ex, 'on_member_remove(evt)', None, bot)
 
 	######################## WELCOME MEMBER CMD ########################
 	@slash.slash(name="w", guild_ids=[guildId],
@@ -73,6 +76,7 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- /welcome() -----')
 			print(ex)
+			await log_exception(ex, '/welcome', ctx)
 
 	######################## WELCOME MEMBER ########################
 	async def welcomeMember(member, use_webhook = 0, assign_role = 0, send_dm = 0):
@@ -101,6 +105,7 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- welcomeMember() -----')
 			print(ex)
+			await log_exception(ex, 'welcomeMember()', None, bot)
 			return 0
 
 	async def send_dm_welcome(member):
@@ -117,6 +122,7 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- send_dm_welcome() -----')
 			print(ex)
+			await log_exception(ex, 'send_dm_welcome()', None, bot)
 			return 0
 				
 	async def make_webhook(member, channel):
@@ -128,6 +134,7 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- make_webhook() -----')
 			print(ex)
+			await log_exception(ex, 'make_webhook()', None, bot)
 			return 0
 
 	######################## UPDATE MEMBERS COUNT ########################
@@ -140,6 +147,7 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- updateMembersCount() -----')
 			print(ex)
+			await log_exception(ex, 'updateMembersCount()', None, bot)
 
 	async def assign_init_roles(member):
 		try:
@@ -165,4 +173,5 @@ def init_server_activity(params):
 		except Exception as ex:
 			print('----- assign_init_roles() -----')
 			print(ex)
+			await log_exception(ex, 'assign_init_roles()', None, bot)
 			return 0

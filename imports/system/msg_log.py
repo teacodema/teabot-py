@@ -8,9 +8,6 @@ def init_msg_log(params):
 	slash = params['slash']
 	purgedMsgs = []
 
-
-
-
 	######################## PURGE ########################
 	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
@@ -51,6 +48,7 @@ def init_msg_log(params):
 		except Exception as ex:
 			print('----- /purge() -----')
 			print(ex)
+			await log_exception(ex, '/purge', ctx)
 
 	def isNotPinned(msg):
 		return not msg.pinned
@@ -72,6 +70,7 @@ def init_msg_log(params):
 		except Exception as ex:
 			print('----- deleteMsg() -----')
 			print(ex)
+			await log_exception(ex, 'deleteMsg()', ctx)
 
 	async def logPurgedMessages(ctx, count, _purgedMsgs):
 		logMsgsChannel = bot.get_channel(textChannels['log-msg'])

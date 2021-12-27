@@ -3,6 +3,14 @@ from setup.properties import *
 from discord_slash.utils.manage_commands import create_permission
 from discord_slash.model import SlashCommandPermissionType
 
+async def log_exception(ex, action, ctx=None, bot=None, hidden = True):
+	msg = f'{action}\n{str(ex)}'
+	if ctx:
+		await ctx.send(msg, hidden = hidden)
+	elif bot:
+		logBot = bot.get_channel(textChannels['log-bot'])
+		await logBot.send(msg)
+
 def is_authorised(ctx, authorizedRolesIds):
 	roleIds = [role.id for role in ctx.author.roles]
 	authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())

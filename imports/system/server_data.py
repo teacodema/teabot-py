@@ -77,6 +77,7 @@ def init_server_data(params):
 		except Exception as ex:
 			print('----- /server-info() -----')
 			print(ex)
+			await log_exception(ex, '/server-info', ctx)
 
 	######################## ROLE INFO ########################
 	@slash.slash(name="role-info", description = "Get role info/stats", guild_ids=[guildId])
@@ -104,6 +105,7 @@ def init_server_data(params):
 		except Exception as ex:
 			print('----- /role-info() -----')
 			print(ex)
+			await log_exception(ex, '/role-info', ctx)
 
 	######################## MEMBER INFO ########################
 	@slash.slash(name="member-info", description = "Get member info/stats", guild_ids=[guildId])
@@ -137,4 +139,5 @@ def init_server_data(params):
 		except Exception as ex:
 			print('----- /member-info() -----')
 			print(ex)
+			await log_exception(ex, '/member-info', ctx)
 

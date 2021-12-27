@@ -92,6 +92,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /play() -----')
 			print(ex)
+			await log_exception(ex, '/play', ctx)
 
 	def extractUrlData(url):
 		try:
@@ -136,6 +137,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- Player() -----')
 			print(ex)
+			await log_exception(ex, 'Player()', ctx)
 	
 	def playNext(err):
 		try:
@@ -203,6 +205,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /current_track() -----')
 			print(ex)
+			await log_exception(ex, '/current_track', ctx)
 
 
 	######################## PLAYLIST ########################
@@ -218,6 +221,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /queue() -----')
 			print(ex)
+			await log_exception(ex, '/queue', ctx)
 
 	######################## REPLAY ########################
 	@slash.slash(name = "replay", description = "Replay current track", guild_ids = [guildId])
@@ -246,6 +250,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /replay() -----')
 			print(ex)
+			await log_exception(ex, '/replay', ctx)
 
 	######################## NEXT ########################
 	@slash.slash(name = "next", description = "Play next track", guild_ids = [guildId])
@@ -277,6 +282,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /next() -----')
 			print(ex)
+			await log_exception(ex, '/next', ctx)
 
 	######################## PREVIOUS ########################
 	@slash.slash(name = "previous", description = "Play previous track", guild_ids = [guildId])
@@ -308,6 +314,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /previous() -----')
 			print(ex)
+			await log_exception(ex, '/previous', ctx)
 
 	######################## PAUSE ########################
 	@slash.slash(name = "pause", description = "Pause the player", guild_ids = [guildId])
@@ -326,6 +333,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /pause() -----')
 			print(ex)
+			await log_exception(ex, '/pause', ctx)
 
 	######################## RESUME ########################
 	@slash.slash(name = "resume", description = "Resume the player", guild_ids = [guildId])
@@ -344,6 +352,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /resume() -----')
 			print(ex)
+			await log_exception(ex, '/resume', ctx)
 
 	######################## STOP ########################
 	@slash.slash(name = "stop", description = "Stop the player", guild_ids = [guildId])
@@ -366,6 +375,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /stop() -----')
 			print(ex)
+			await log_exception(ex, '/stop', ctx)
 
 	######################## LEAVE ########################
 	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
@@ -381,6 +391,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /leave() -----')
 			print(ex)
+			await log_exception(ex, '/leave', ctx)
 
 	######################## CLEAR PLAYLIST ########################
 	@slash.slash(name = "clear-queue", description = "Flushes the queue", guild_ids = [guildId])
@@ -396,6 +407,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /clear_queue() -----')
 			print(ex)
+			await log_exception(ex, '/clear-queue', ctx)
 
 	######################## REFRESH LIST ########################
 	@slash.slash(name = "refresh", description = "Refill the queue with some tracks", guild_ids = [guildId])
@@ -413,6 +425,7 @@ def init_audio_activity(params):
 		except Exception as ex:
 			print('----- /refresh() -----')
 			print(ex)
+			await log_exception(ex, '/refresh', ctx)
 	
 	def isUserConnected(ctx):
 		try:

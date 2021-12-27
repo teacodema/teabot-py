@@ -66,3 +66,4 @@ def init_fun_activity(params):
 		except Exception as ex:
 			print('----- /janken() -----')
 			print(ex)
+			await log_exception(ex, '/janken', ctx)

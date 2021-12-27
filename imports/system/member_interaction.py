@@ -25,6 +25,7 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /edit_msg_channel() -----')
 			print(ex)
+			await log_exception(ex, '/edit_msg_channel', ctx)
 
 
 	######################## REPLY TO MSG ########################
@@ -42,6 +43,7 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /reply_channel() -----')
 			print(ex)
+			await log_exception(ex, '/reply_channel', ctx)
 
 
 	######################## SEND MSG TO CHANNEL ########################
@@ -63,6 +65,7 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /msg_channel() -----')
 			print(ex)
+			await log_exception(ex, '/msg_channel', ctx)
 
 	######################## SEND MSG TO MEMBER ########################
 	@slash.slash(name = "mm", guild_ids=[guildId],
@@ -111,6 +114,7 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /msg_member() -----')
 			print(ex)
+			await log_exception(ex, '/msg_member', ctx)
 
 	######################## DELETE A MSG ########################
 	@slash.slash(name = "rm", guild_ids=[guildId],
@@ -129,6 +133,7 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /remove_msg_member() -----')
 			print(ex)
+			await log_exception(ex, '/remove_msg_member', ctx)
 
 	async def send_msg(ctx, message, member):
 		try:
@@ -139,6 +144,7 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- send_msg() -----')
 			print(ex)
+			await log_exception(ex, 'send_msg()', ctx)
 
 	def replace_str(str, dict_chars):
 		try:

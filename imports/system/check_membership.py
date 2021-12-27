@@ -27,3 +27,4 @@ def init_check_membership(params):
 		except Exception as ex:
 			print('----- /update_new_members() -----')
 			print(ex)
+			await log_exception(ex, '/update_new_members', ctx)

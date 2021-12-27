@@ -29,7 +29,7 @@ def init_bot_activity(params):
 		except Exception as ex:
 			print('----- on_ready(evt) -----')
 			print(ex)
-		
+			await log_exception(ex, 'on_ready(evt)', None, bot)
 
 	######################## BOT STATE ########################
 	# @slash.slash(name = "state", description = "Change current state. (online, dnd, idle)", guild_ids = [guildId])
@@ -72,16 +72,17 @@ def init_bot_activity(params):
 			try:
 				if check_membership_loop.current_loop != 0:
 					updatedMembers = await checkNewMemberRole(bot, get)
-					logChannel = bot.get_channel(textChannels['log-bot'])
+					logBot = bot.get_channel(textChannels['log-bot'])
 					msg = ''
 					updatedMembersCount = len(updatedMembers)
 					if updatedMembersCount:
 						for member in updatedMembers:
 							msg += f'{member} , '
-					await logChannel.send(f'{updatedMembersCount} updated members.\n{msg}')
+					await logBot.send(f'{updatedMembersCount} updated members.\n{msg}')
 			except Exception as ex:
 				print('----- /check_membership_loop() -----')
 				print(ex)
+				await log_exception(ex, '/check_membership_loop', None, bot)
 		@tasks.loop(hours=1, count=None, reconnect=False)
 		async def am_alive():
 			channel = bot.get_channel(textChannels['log-bot'])
@@ -106,5 +107,6 @@ async def startBot(bot, discord):
 	except Exception as ex:
 		print('----- startBot() -----')
 		print(ex)
+		await log_exception(ex, 'startBot()', None, bot)
 
 

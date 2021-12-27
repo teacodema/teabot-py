@@ -27,6 +27,7 @@ def init_role_reaction(params):
 		except Exception as ex:
 			print('---------- on_raw_reaction_add(evt) --------')
 			print(ex)
+			await log_exception(ex, 'on_raw_reaction_add(evt)', None, bot)
 
 
 	@bot.event
@@ -48,6 +49,7 @@ def init_role_reaction(params):
 		except Exception as ex:
 			print('---------- on_raw_reaction_remove(evt) --------')
 			print(ex)
+			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot)
 
 
 	@slash.slash(name = "rr", guild_ids = [guildId],
@@ -107,3 +109,4 @@ def init_role_reaction(params):
 		except Exception as ex:
 			print('---------- /role_react() --------')
 			print(ex)
+			await log_exception(ex, '/role_react', ctx)
