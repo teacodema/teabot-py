@@ -9,26 +9,31 @@ def init_msg_activity(params):
 	######################## ON MESSAGE ########################
 	@bot.event
 	async def on_message(message):
-		excludedCategories = [
-			categories['system-corner']
-		]
-		if message.channel.category_id not in excludedCategories:
-			try:
-				if await prohibited_mentions(message):
-					return
-				if await check_spam(message):
-					return
-			except Exception as ex:
-				print('----- on_message(evt)/everyone|spam -----')
-				print(ex)
-				await log_exception(ex, 'on_message(evt)/everyone|spam', None, bot)
-			try:
-				await log_member_dms(message)
-				await bot.process_commands(message)
-			except Exception as ex:
-				print('----- on_message(evt) -----')
-				print(ex)
-				await log_exception(ex, 'on_message(evt)/log_dms', None, bot)
+		try:
+			excludedCategories = [
+				categories['system-corner']
+			]
+			if message.channel.category_id not in excludedCategories:
+				try:
+					if await prohibited_mentions(message):
+						return
+					if await check_spam(message):
+						return
+				except Exception as ex:
+					print('----- on_message(evt)/everyone|spam -----')
+					print(ex)
+					await log_exception(ex, 'on_message(evt)/everyone|spam', None, bot)
+				try:
+					await log_member_dms(message)
+					await bot.process_commands(message)
+				except Exception as ex:
+					print('----- on_message(evt)/log_dms -----')
+					print(ex)
+					await log_exception(ex, 'on_message(evt)/log_dms', None, bot)
+		except Exception as ex:
+			print('----- on_message(evt) -----')
+			print(ex)
+			await log_exception(ex, 'on_message(evt)', None, bot)
 
 	async def log_member_dms(message):
 		if str(message.channel.type) == 'private':
