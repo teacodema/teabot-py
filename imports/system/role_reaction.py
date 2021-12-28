@@ -20,10 +20,15 @@ def init_role_reaction(params):
 
 			if member.bot == True:
 				return
-			roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
-			role = get(guild.roles, name = roleName)
-			await member.add_roles(role)
-			await log.send(f'{member.mention} got a role {role.mention}')
+			roleName = None
+			if str(payload.channel_id) in reactions:
+				if str(payload.message_id) in reactions[str(payload.channel_id)]:
+					if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
+						roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
+			if roleName:
+				role = get(guild.roles, name = roleName)
+				await member.add_roles(role)
+				await log.send(f'{member.mention} got a role {role.mention}')
 		except Exception as ex:
 			print('---------- on_raw_reaction_add(evt) --------')
 			print(ex)
@@ -42,10 +47,15 @@ def init_role_reaction(params):
 
 			if member.bot == True:
 				return
-			roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
-			role = get(guild.roles, name = roleName)
-			await member.remove_roles(role)
-			await log.send(f'{member.mention} lost a role {role.mention}')
+			roleName = None
+			if str(payload.channel_id) in reactions:
+				if str(payload.message_id) in reactions[str(payload.channel_id)]:
+					if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
+						roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
+			if roleName:
+				role = get(guild.roles, name = roleName)
+				await member.remove_roles(role)
+				await log.send(f'{member.mention} lost a role {role.mention}')
 		except Exception as ex:
 			print('---------- on_raw_reaction_remove(evt) --------')
 			print(ex)
