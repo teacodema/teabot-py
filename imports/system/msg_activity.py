@@ -10,6 +10,15 @@ def init_msg_activity(params):
 	@bot.event
 	async def on_message(message):
 		try:
+			try:
+				if str(message.channel.type) == 'private':
+					await log_member_dms(message)
+					return
+			except Exception as ex:
+				print('----- on_message(evt)/log_dms -----')
+				print(ex)
+				await log_exception(ex, 'on_message(evt)/log_dms', None, bot)
+					
 			excludedCategories = [
 				categories['system-corner']
 			]
@@ -23,39 +32,33 @@ def init_msg_activity(params):
 					print('----- on_message(evt)/everyone|spam -----')
 					print(ex)
 					await log_exception(ex, 'on_message(evt)/everyone|spam', None, bot)
-				try:
-					await log_member_dms(message)
-					await bot.process_commands(message)
-				except Exception as ex:
-					print('----- on_message(evt)/log_dms -----')
-					print(ex)
-					await log_exception(ex, 'on_message(evt)/log_dms', None, bot)
+				
+				await bot.process_commands(message)
 		except Exception as ex:
 			print('----- on_message(evt) -----')
 			print(ex)
 			await log_exception(ex, 'on_message(evt)', None, bot)
 
 	async def log_member_dms(message):
-		if str(message.channel.type) == 'private':
-			author = message.author
-			# Testing
-			if author.id == users['drissboumlik']:
-				channel = author.dm_channel
-				await channel.send('am alive')
-				return
-			excludedIDs = [
-					users['drissboumlik'],
-					users['teabot'],
-				]
-			if (author.id not in excludedIDs):
-				msg = '──────────────────────'
-				msg += f'\nDM/ ◁='
-				msg += f'\n__From__\n{author} - {author.mention}'
-				msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
-				msg += get_attachments(message)
-				msg += get_embeds(message)
-				channel = bot.get_channel(textChannels['log-channel'])
-				await channel.send(msg)
+		author = message.author
+		# Testing
+		if author.id == users['drissboumlik']:
+			channel = author.dm_channel
+			await channel.send('am alive')
+			return
+		excludedIDs = [
+				users['drissboumlik'],
+				users['teabot'],
+			]
+		if (author.id not in excludedIDs):
+			msg = '──────────────────────'
+			msg += f'\nDM/ ◁='
+			msg += f'\n__From__\n{author} - {author.mention}'
+			msg += f'\n__Content__\n{"--Sticker--" if (message.content == "") else message.content}'
+			msg += get_attachments(message)
+			msg += get_embeds(message)
+			channel = bot.get_channel(textChannels['log-channel'])
+			await channel.send(msg)
 
 	async def prohibited_mentions(message):
 		content = message.content
