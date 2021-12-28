@@ -11,6 +11,7 @@ async def log_exception(ex, action, ctx=None, bot=None, hidden = True):
 		logBot = bot.get_channel(textChannels['log-bot'])
 		await logBot.send(msg)
 
+
 def is_authorised(ctx, authorizedRolesIds):
 	roleIds = [role.id for role in ctx.author.roles]
 	authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
