@@ -7,7 +7,44 @@ def init_check_membership(params):
 	bot = params['bot']
 	slash = params['slash']
 	get = params['get']
+
 	
+	######################## CHECK UNASSIGNED MEMBERS ########################
+	@slash.slash(name="cnm", guild_ids=[guildId],
+		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
+	async def check_new_members(ctx):
+		try:
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions', hidden=True)
+				return
+			await ctx.send('Checking ...', hidden=True)
+			guild = bot.get_guild(guildId)
+			def count_roles(member):
+				return len(member.roles) <= 1
+			users = list(filter(count_roles, guild.members))
+
+			_roles = [
+				roles['new-members'], roles['members'],
+				roles['techs'], roles['tools'],
+				roles['jobs'], roles['interests'],
+			]
+			roles_list = []
+			for role_id in _roles:	
+				role = get(guild.roles, id = role_id)
+				roles_list.append(role)
+
+			msg = ''
+			for u in users:
+				await u.add_roles(*roles_list)
+				msg += f'{u.mention} , '
+			await ctx.send(f'{len(users)} checked members.\n{msg}', hidden=True)
+
+		except Exception as ex:
+			print('----- /check_new_members() -----')
+			print(ex)
+			await log_exception(ex, '/check_new_members', ctx)
+
+
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
 	@slash.slash(name="unm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
