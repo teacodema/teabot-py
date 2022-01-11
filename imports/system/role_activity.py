@@ -39,7 +39,7 @@ def init_role_activity(params):
 
 
 	######################## ROLE TO MEMBERS ########################
-	@slash.slash(name="trm", guild_ids=[guildId],
+	@slash.slash(name="trm", description=',', guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def toggle_role_members(ctx, roles, members, assign: int = 1):
 		try:

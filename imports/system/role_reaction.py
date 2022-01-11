@@ -62,7 +62,7 @@ def init_role_reaction(params):
 			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot)
 
 
-	@slash.slash(name = "rr", guild_ids = [guildId],
+	@slash.slash(name = "rr", description=',', guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def role_react(ctx, msg_id=None, emojis=None):
 		try:
