@@ -88,6 +88,8 @@ def init_msg_activity(params):
 	@bot.event
 	async def on_message_delete(message):
 		try:
+			if str(message.channel.type) == 'private':
+				return
 			excludedCategories = [
 				categories['system-corner']
 			]
