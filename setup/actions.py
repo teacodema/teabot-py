@@ -10,7 +10,7 @@ async def log_exception(ex, action, ctx=None, bot=None, hidden=True, msg=None):
 		if ctx:
 			await ctx.send(msg, hidden = hidden)
 		elif bot:
-			logBot = bot.get_channel(textChannels['log-bot'])
+			logBot = bot.get_channel(textChannels['log-channel'])
 			await logBot.send(msg)
 	except Exception as ex:
 		print('----- log_exception -----')
