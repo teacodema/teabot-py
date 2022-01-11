@@ -9,7 +9,7 @@ def init_member_interaction(params):
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "emc", guild_ids=[guildId],
+	@slash.slash(name = "emc", description="\\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def edit_msg_channel(ctx, content, msg_id, channel: discord.TextChannel, pin: int=0):
 		try:
@@ -29,7 +29,7 @@ def init_member_interaction(params):
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "rc", guild_ids=[guildId],
+	@slash.slash(name = "rc", description="\\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def reply_channel(ctx, reply, msg_id, channel: discord.TextChannel):
 		try:
@@ -47,7 +47,7 @@ def init_member_interaction(params):
 
 
 	######################## SEND MSG TO CHANNEL ########################
-	@slash.slash(name = "mc", guild_ids=[guildId],
+	@slash.slash(name = "mc", description="\\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def msg_channel(ctx, msg, channel: discord.TextChannel, pin: int=0):
 		try:
@@ -68,7 +68,7 @@ def init_member_interaction(params):
 			await log_exception(ex, '/msg_channel', ctx)
 
 	######################## SEND MSG TO MEMBER ########################
-	@slash.slash(name = "mm", guild_ids=[guildId],
+	@slash.slash(name = "mm", description="\\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
@@ -85,21 +85,31 @@ def init_member_interaction(params):
 				if member == None: 
 					member = ctx.author
 				_sentMsg = await send_msg(ctx, msg, member)
-				notifyMe += f'\nmessage ID : {_sentMsg.id}'
-				notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-				notifyMe += f'\nMember: **{member.mention}**'
+				if _sentMsg:
+					notifyMe += f'\nmessage ID : {_sentMsg.id}'
+					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+					notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
+				else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
+				notifyMe += '\n--------------'
 			else:
 				if member != None:
 					_sentMsg = await send_msg(ctx, msg, member)
-					notifyMe += f'\nmessage ID : {_sentMsg.id}'
-					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-					notifyMe += f'\nMember: **{member.mention}**'
+					if _sentMsg:
+						notifyMe += f'\nmessage ID : {_sentMsg.id}'
+						notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+						notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
+					else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
+					notifyMe += '\n--------------'
 				members = role.members
 				for member in members:
 					try:
 						_sentMsg = await send_msg(ctx, msg, member)
-						notifyMe += f'\nmessage ID : {_sentMsg.id}'
-						notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+						if _sentMsg:
+							notifyMe += f'\nmessage ID : {_sentMsg.id}'
+							notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+							notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
+						else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
+						notifyMe += '\n--------------'
 					except Exception as ex:
 						print('----- /msg_member()/send_msg/role -----')
 						print(ex)
@@ -117,7 +127,7 @@ def init_member_interaction(params):
 			await log_exception(ex, '/msg_member', ctx)
 
 	######################## DELETE A MSG ########################
-	@slash.slash(name = "rm", guild_ids=[guildId],
+	@slash.slash(name = "rm", description=",", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def remove_msg_member(ctx, msg_ids, channel_id):
 		try:
@@ -144,7 +154,9 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- send_msg() -----')
 			print(ex)
-			await log_exception(ex, 'send_msg()', ctx)
+			msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
+			await log_exception(ex, 'send_msg()', ctx, None, True, msg)
+			return None
 
 	def replace_str(str, dict_chars):
 		try:
