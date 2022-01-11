@@ -79,47 +79,46 @@ def init_member_interaction(params):
 			await ctx.send("Sending direct message...", hidden=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
-			notifyMe = f'DM/ =▷'
-			notifyMe+= f'\n__To__'
-			if role == None:
-				if member == None: 
-					member = ctx.author
-				_sentMsg = await send_msg(ctx, msg, member)
-				if _sentMsg:
-					notifyMe += f'\nmessage ID : {_sentMsg.id}'
-					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-					notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
-				else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
-				notifyMe += '\n--------------'
-			else:
-				if member != None:
-					_sentMsg = await send_msg(ctx, msg, member)
-					if _sentMsg:
-						notifyMe += f'\nmessage ID : {_sentMsg.id}'
-						notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-						notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
-					else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
-					notifyMe += '\n--------------'
+			channel = bot.get_channel(textChannels['log-channel'])
+			notifyMe = '──────────────────────'
+			notifyMe += f'\nDM/ =▷'
+			notifyMe += f'\n__To__'
+			if member == None: 
+				member = ctx.author
+			_sentMsg = await send_msg(ctx, msg, member)
+			if _sentMsg:
+				notifyMe += f'\nmessage ID : {_sentMsg.id}'
+				notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+				notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
+			else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
+			notifyMe += '\n--------------'
+			await channel.send(notifyMe)
+			
+			notifyMe = '──────────────────────'
+			if role:
 				members = role.members
 				for member in members:
 					try:
 						_sentMsg = await send_msg(ctx, msg, member)
+						notifyMe = '──────────────────────'
 						if _sentMsg:
 							notifyMe += f'\nmessage ID : {_sentMsg.id}'
 							notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
 							notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
 						else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
 						notifyMe += '\n--------------'
+						await channel.send(notifyMe)
 					except Exception as ex:
 						print('----- /msg_member()/send_msg/role -----')
 						print(ex)
 						pass
 
 				notifyMe += f'\nRole: **{role.mention}**'
-			notifyMe += f'\n__Content__\n{msg}'
-			
-			channel = bot.get_channel(textChannels['log-channel'])
+				notifyMe = '──────────────────────'
+
+			notifyMe += f'\n__Content__\n'
 			await channel.send(notifyMe)
+			await channel.send(msg)
 
 		except Exception as ex:
 			print('----- /msg_member() -----')
