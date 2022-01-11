@@ -38,7 +38,7 @@ def init_server_activity(params):
 	@bot.event
 	async def on_member_join(member):
 		try:
-			msg = await welcomeMember(member, 1, 1, 1)
+			msg = await welcomeMember(member, 1, 1, 0)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg)
 		except Exception as ex:
@@ -63,14 +63,14 @@ def init_server_activity(params):
 	######################## WELCOME MEMBER CMD ########################
 	@slash.slash(name="w", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def welcome(ctx, member: discord.Member, use_webhook: int=0, assign_role: int=0, send_dm: int=0):
+	async def welcome(ctx, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions')
 				return
 				
 			await ctx.send(f'Welcoming {member.mention}', hidden=True)
-			msg = await welcomeMember(member, use_webhook, assign_role, send_dm)
+			msg = await welcomeMember(member, assign_role, send_dm, use_webhook)
 			channel = bot.get_channel(textChannels['log-server'])			
 			await channel.send(msg)
 		except Exception as ex:
@@ -79,7 +79,7 @@ def init_server_activity(params):
 			await log_exception(ex, '/welcome', ctx)
 
 	######################## WELCOME MEMBER ########################
-	async def welcomeMember(member, use_webhook = 0, assign_role = 0, send_dm = 0):
+	async def welcomeMember(member, assign_role = 0, send_dm = 0, use_webhook = 0):
 		try:
 			channel = bot.get_channel(textChannels['log-server'])
 			msg = ''
