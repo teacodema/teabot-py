@@ -127,6 +127,8 @@ def init_msg_activity(params):
 	@bot.event
 	async def on_message_edit(before, after):
 		try:
+			if str(before.channel.type) == 'private':
+				return
 			excludedCategories = [
 				categories['system-corner']
 			]
