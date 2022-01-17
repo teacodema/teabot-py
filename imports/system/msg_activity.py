@@ -56,8 +56,8 @@ def init_msg_activity(params):
 			msg += f'\n__From__\n{author} - {author.mention}'
 			msg += f'\n__Content__\n'
 			await channel.send(msg)
-			msg = f'{"--Sticker--" if (message.content == "") else message.content}'
-			await channel.send(msg)
+			msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
+			await channel.send(msg_content)
 			msg = get_attachments(message)
 			if msg: await channel.send(msg)
 			msg = get_embeds(message)
@@ -110,7 +110,8 @@ def init_msg_activity(params):
 				msg += f'\n{created_at} ➜ {edited_at}'
 				msg += f'\n__Content__\n'
 				await logChannelActivity.send(msg)
-				await logChannelActivity.send(message.content)
+				msg_content = f'{"--Sticker | Empty--" if (message.content == "") else message.content}'
+				await logChannelActivity.send(msg_content)
 				msg = get_attachments(message)
 				if msg: await logChannelActivity.send(msg)
 				msg = get_embeds(message)
@@ -147,10 +148,12 @@ def init_msg_activity(params):
 				msg += f'\n{created_at} ➜ {edited_at}'
 				msg += f'\n__Content__\n'
 				await logChannelActivity.send(msg)
-				await logChannelActivity.send(before.content)
+				msg_content = f'{"--Sticker | Empty--" if (before.content == "") else before.content}'
+				await logChannelActivity.send(msg_content)
 				msg = '\n──▼▼▼▼▼──\n'
 				await logChannelActivity.send(msg)
-				await logChannelActivity.send(after.content)
+				msg_content = f'{"--Sticker | Empty--" if (after.content == "") else after.content}'
+				await logChannelActivity.send(msg_content)
 				msg = get_attachments(before)
 				if msg: await logChannelActivity.send(msg)
 				msg = get_embeds(before)

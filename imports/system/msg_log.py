@@ -86,7 +86,8 @@ def init_msg_log(params):
 			if m.edited_at:
 				edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")	
 			msg += f'\n📅 {created_at} ➜ {edited_at}'
-			msg += f'\n__Content__\n{m.content}'
+			msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
+			msg += f'\n__Content__\n{msg_content}'
 			msg += get_attachments(m)
 			msg += get_embeds(m)
 			msg += f'\n──────────────────────'
