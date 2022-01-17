@@ -10,10 +10,9 @@ def init_msg_activity(params):
 	@bot.event
 	async def on_message(message):
 		try:
-			
 			if str(message.channel.type) == 'private':
 				try:
-						await log_member_dms(message)
+					await log_member_dms(message)
 				except Exception as ex:
 					print('----- on_message(evt)/log_dms -----')
 					print(ex)
