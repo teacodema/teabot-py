@@ -12,7 +12,7 @@ def init_server_data(params):
 	######################## SERVER INFO ########################
 	@slash.slash(name="si", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def server_info(ctx):
+	async def server_info(ctx, hidden: int = 0):
 		try:
 			excludedCategories = [
 				categories['staff-corner'],
@@ -72,7 +72,7 @@ def init_server_data(params):
 			# embed.add_field(name="me", value=guild.me, inline=True)
 			# embed.set_footer(text=f"ID : {guild.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await ctx.send(embed=embed)
+			await ctx.send(embed=embed, hidden=bool(hidden))
 
 		except Exception as ex:
 			print('----- /server-info() -----')
@@ -81,7 +81,7 @@ def init_server_data(params):
 
 	######################## ROLE INFO ########################
 	@slash.slash(name="role-info", description = "Get role info/stats", guild_ids=[guildId])
-	async def role_info(ctx, role: discord.Role = None):
+	async def role_info(ctx, role: discord.Role = None, hidden: int = 0):
 		try:
 			if role == None:
 				role = ctx.author.top_role
@@ -100,7 +100,7 @@ def init_server_data(params):
 			# embed.set_footer(text=f"ID : {role.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 
-			await ctx.send(embed=embed)
+			await ctx.send(embed=embed, hidden=bool(hidden))
 
 		except Exception as ex:
 			print('----- /role-info() -----')
@@ -109,7 +109,7 @@ def init_server_data(params):
 
 	######################## MEMBER INFO ########################
 	@slash.slash(name="member-info", description = "Get member info/stats", guild_ids=[guildId])
-	async def member_info(ctx, member: discord.Member = None):
+	async def member_info(ctx, member: discord.Member = None, hidden : int = 0):
 		try:
 
 			if member == None or member == ctx.author:
@@ -135,7 +135,7 @@ def init_server_data(params):
 			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await ctx.send(embed=embed)
+			await ctx.send(embed=embed, hidden=bool(hidden))
 		except Exception as ex:
 			print('----- /member-info() -----')
 			print(ex)
