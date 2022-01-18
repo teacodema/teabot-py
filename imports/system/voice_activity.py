@@ -16,7 +16,7 @@ def init_voice_activity(params):
 			await logModeratorsVoice(member, voice1, voice2, bot, get)
 			await logAllVoice(member, voice1, voice2, bot, get)
 			
-			await showLTVoice(member, voice1, voice2, bot, get)
+			# await showLTVoice(member, voice1, voice2, bot, get)
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
 			# 	await voice_state.disconnect()
@@ -30,34 +30,7 @@ def init_voice_activity(params):
 	async def showHelpVoice(member, voice1, voice2, bot, get):
 		try:
 			await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
-			helpVoiceCategoryID = categories['help-voice']
-			if (voice2.channel and voice2.channel.category_id == helpVoiceCategoryID):
-				channels = voice2.channel.category.voice_channels
-				noEmptyChannel = True
-				for ch in channels:
-					if len(ch.members) == 0:
-						noEmptyChannel = False
-						break
-				if noEmptyChannel:
-					vc = channels[0]
-					vc_name = vc.name
-					index = len(channels) + 1
-					await voice2.channel.clone(name=f'{vc_name} #{index}')		
-			# DELETE CHANNEL IF EMPTY AND LEAVE FIRST ONE
-			if (voice1.channel and voice1.channel.category_id == helpVoiceCategoryID):
-				channels = voice1.channel.category.voice_channels
-				helpRoom1 = channels.pop(0)
-				emptyChannels = [] # Store empty channels
-				for ch in channels:
-					if len(ch.members) == 0:
-						emptyChannels.append(ch)
-				if len(helpRoom1.members) != 0:
-					helpRoom2 = emptyChannels.pop(0)
-				try:
-					for ch in emptyChannels:
-						await ch.delete()
-				except Exception as ex:
-					print(ex)
+			# await duplicateVC(categories['help-voice'], voice1, voice2, bot)
 		except Exception as ex:
 			print('----- showHelpVoice() -----')
 			print(ex)
@@ -160,35 +133,38 @@ def init_voice_activity(params):
 	async def showLTVoice(member, voice1, voice2, bot, get):
 		try:
 			# await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
-			helpVoiceCategoryID = 909513881842515990 # Learn Together
-			if (voice2.channel and voice2.channel.category_id == helpVoiceCategoryID):
-				channels = voice2.channel.category.voice_channels
-				noEmptyChannel = True
-				for ch in channels:
-					if len(ch.members) == 0:
-						noEmptyChannel = False
-						break
-				if noEmptyChannel:
-					vc = channels[0]
-					vc_name = vc.name
-					index = len(channels) + 1
-					await voice2.channel.clone(name=f'{vc_name} #{index}')		
-			# DELETE CHANNEL IF EMPTY AND LEAVE FIRST ONE
-			if (voice1.channel and voice1.channel.category_id == helpVoiceCategoryID):
-				channels = voice1.channel.category.voice_channels
-				helpRoom1 = channels.pop(0)
-				emptyChannels = [] # Store empty channels
-				for ch in channels:
-					if len(ch.members) == 0:
-						emptyChannels.append(ch)
-				if len(helpRoom1.members) != 0:
-					helpRoom2 = emptyChannels.pop(0)
-				try:
-					for ch in emptyChannels:
-						await ch.delete()
-				except Exception as ex:
-					print(ex)
+			await duplicateVC(909513881842515990, voice1, voice2, bot) # Learn Together
 		except Exception as ex:
 			print('----- showLTVoice() -----')
 			print(ex)
 			await log_exception(ex, 'showLTVoice()', None, bot)
+
+
+	async def duplicateVC(categoryID, voice1, voice2, bot):
+		if (voice2.channel and voice2.channel.category_id == categoryID):
+			channels = voice2.channel.category.voice_channels
+			noEmptyChannel = True
+			for ch in channels:
+				if len(ch.members) == 0:
+					noEmptyChannel = False
+					break
+			if noEmptyChannel:
+				vc = channels[0]
+				vc_name = vc.name
+				index = len(channels) + 1
+				await voice2.channel.clone(name=f'{vc_name} #{index}')		
+		# DELETE CHANNEL IF EMPTY AND LEAVE FIRST ONE
+		if (voice1.channel and voice1.channel.category_id == categoryID):
+			channels = voice1.channel.category.voice_channels
+			helpRoom1 = channels.pop(0)
+			emptyChannels = [] # Store empty channels
+			for ch in channels:
+				if len(ch.members) == 0:
+					emptyChannels.append(ch)
+			if len(helpRoom1.members) != 0:
+				helpRoom2 = emptyChannels.pop(0)
+			try:
+				for ch in emptyChannels:
+					await ch.delete()
+			except Exception as ex:
+				print(ex)
