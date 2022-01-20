@@ -69,7 +69,7 @@ init_audio_activity(params)
 init_fun_activity(params)
 init_member_interaction(params)
 init_check_membership(params)
-init_role_reaction(params)
+init_bot_reaction(params)
 # init_quran(params)
 
 

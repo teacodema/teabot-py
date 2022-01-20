@@ -2,9 +2,10 @@ from database.reactions import *
 from setup.properties import *
 from setup.actions import *
 
-def init_role_reaction(params):
+def init_bot_reaction(params):
 
 	bot = params['bot']
+	discord = params['discord']
 	slash = params['slash']
 	get = params['get']
 
@@ -64,27 +65,32 @@ def init_role_reaction(params):
 
 	@slash.slash(name = "rr", description=',', guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def role_react(ctx, msg_id=None, emojis=None):
+	async def bot_react(ctx, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
 		try:
 
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions')
 				return
-
+	
 			if msg_id:
 				if emojis:
 					await ctx.send('Bot Reacting ....', hidden=True)
 					msg = await ctx.channel.fetch_message(msg_id)
 					emojis = emojis.split(',')
 					for e in emojis:
-						await msg.add_reaction(e)
+						if remove: 
+							if member: await msg.remove_reaction(e, member)
+							else: await msg.clear_reaction(e)
+						else: await msg.add_reaction(e)
 					return
 				else:
 					await ctx.send('Reactions are setting up ....', hidden=True)
-					msg = await ctx.channel.fetch_message(msg_id)
-					for e in reactions[str(ctx.channel.id)][msg_id]:
-						await msg.add_reaction(e)
-					await ctx.send('Done Reacting.', hidden=True)
+					if str(ctx.channel.id) in reactions and str(msg_id) in reactions[str(ctx.channel.id)]:
+						msg = await ctx.channel.fetch_message(msg_id)
+						for e in reactions[str(ctx.channel.id)][msg_id]:
+							await msg.add_reaction(e)
+						await ctx.send('Done Reacting.', hidden=True)
+					else: await ctx.send('Could not find channel/message.', hidden=True)
 					return
 
 			await ctx.send('Updating members roles ....', hidden=True)
@@ -108,15 +114,16 @@ def init_role_reaction(params):
 											_msg += f'{member.mention} got {role.mention}\n'
 											roles_assigned += 1
 								except Exception as ex:
-									print('---------- /role_react()/add role user --------')
+									print('---------- /bot_react()/add role user --------')
 									print(ex)
+									# await msg.remove_reaction(r.emoji, u)
 									pass
 					except Exception as ex:
-						print('---------- /role_react()/msg reactions --------')
+						print('---------- /bot_react()/msg reactions --------')
 						print(ex)
 						pass
 			await ctx.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', hidden=True)
 		except Exception as ex:
-			print('---------- /role_react() --------')
+			print('---------- /bot_react() --------')
 			print(ex)
-			await log_exception(ex, '/role_react', ctx)
+			await log_exception(ex, '/bot_react', ctx)
