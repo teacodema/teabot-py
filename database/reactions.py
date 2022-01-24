@@ -4,6 +4,15 @@ reactions = {
 			'<:teacode_bordred:844450911941165086>': '🌱│Members'
 		},
 	},
+	'885234699860049960': { #testing
+		'934482102462869505': {
+			'☕': '☕│Hangout',
+			'💭': '💭│Communication',
+			'🎥': '🎥│Workshops',
+			'🧠': '🧠│Coding Challenges',
+			'📂': '📂│Mock Interview',
+		},
+	},
 	'802521765586010132': { #get-roles channel
 		'904481592532164658': {
 			'⚽': 'Html / Css',
@@ -19,6 +28,10 @@ reactions = {
 			'⛳': 'ReactJs',
 			'🥋': 'EmberJs',
 			'🥊': 'Svelte',
+			'🏑': 'JSON',
+			'🥌': 'XML',
+			'🥏': 'YAML',
+			'🎳': 'AXON',
 		},
 		'904484461826154546': {
 			'🪛': 'Git',
@@ -35,6 +48,9 @@ reactions = {
 			'🛵': 'Kubernetes',
 			'🏍️': 'Jenkins',
 			'🛺': 'Ansible',
+			'🚗': 'SonarQube',
+			'🚄': 'Selenium',
+			'🚛': 'Gradle',
 		},
 		'904488442254225428': {
 			'🪟': 'Windows',
@@ -44,6 +60,14 @@ reactions = {
 			'🔥': 'Cmder',
 			'🌊': 'Bash',
 			'🌤️': 'iTerm2',
+			'🌀': 'AWS - Amazon Web Services',
+			'⚡': 'Microsoft Azure',
+			'💧': 'Google Cloud',
+			'☂️': 'Alibaba Cloud',
+			'❄️': 'IBM Cloud',
+			'🌙': 'Oracle Cloud',
+			'☀️': 'Salesforce',
+			'☁️': 'SAP',
 		},
 		'904490216847458365': {
 			'🐇': 'NodeJs',
