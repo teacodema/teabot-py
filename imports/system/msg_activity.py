@@ -76,7 +76,7 @@ def init_msg_activity(params):
 	async def check_spam(message):
 		blocked = [
 			'dlscord', 'discordnitro', 'discordglfts',
-			'discord-airdrop', 'discocrd-nitro'
+			'discord-airdrop', 'discocrd-nitro', 'discode'
 		]
 		spam = False
 		channel = bot.get_channel(textChannels['log-channel'])
