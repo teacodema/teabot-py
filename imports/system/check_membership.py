@@ -12,7 +12,7 @@ def init_check_membership(params):
 	######################## CHECK UNASSIGNED MEMBERS ########################
 	@slash.slash(name="cnm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def check_new_members(ctx):
+	async def check_new_members(ctx, do:int=0):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', hidden=True)
@@ -35,9 +35,10 @@ def init_check_membership(params):
 
 			msg = ''
 			for u in users:
-				await u.add_roles(*roles_list)
+				if do: await u.add_roles(*roles_list)
 				msg += f'{u.mention} , '
-			await ctx.send(f'{len(users)} checked members.\n{msg}', hidden=True)
+			if do: await ctx.send(f'{len(users)} checked members.\n{msg}', hidden=True)
+			else: await ctx.send(f'{len(users)} can be checked members.\n{msg}', hidden=True)
 
 		except Exception as ex:
 			print('----- /check_new_members() -----')
@@ -48,19 +49,20 @@ def init_check_membership(params):
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
 	@slash.slash(name="unm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def update_new_members(ctx):
+	async def update_new_members(ctx, do:int=0):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', hidden=True)
 				return
 			await ctx.send('Updating ...', hidden=True)
-			updatedMembers = await checkNewMemberRole(bot, get)
+			updatedMembers = await checkNewMemberRole(bot, get, do)
 			msg = ''
 			updatedMembersCount = len(updatedMembers)
 			if updatedMembersCount:
 				for member in updatedMembers:
 					msg += f'{member} , '
-			await ctx.send(f'{updatedMembersCount} updated members.\n{msg}', hidden=True)
+			if do: await ctx.send(f'{updatedMembersCount} updated members.\n{msg}', hidden=True)
+			else: await ctx.send(f'{updatedMembersCount} can be updated members.\n{msg}', hidden=True)
 		except Exception as ex:
 			print('----- /update_new_members() -----')
 			print(ex)

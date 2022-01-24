@@ -55,7 +55,7 @@ def get_embeds(message):
 		return embedsUrls
 	return ''
 
-async def checkNewMemberRole(bot, get):
+async def checkNewMemberRole(bot, get, do:int=0):
 	try:
 		guild = bot.get_guild(guildId)
 		role = get(guild.roles, id = roles['new-members'])
@@ -64,7 +64,7 @@ async def checkNewMemberRole(bot, get):
 			diff = datetime.now() - member.joined_at
 			if diff.days >= newMembershipPeriode:
 				updated.append(member.mention)
-				await member.remove_roles(role)
+				if do: await member.remove_roles(role)
 		return updated
 	except Exception as ex:
 		print('----- checkNewMemberRole -----')
