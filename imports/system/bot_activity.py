@@ -86,9 +86,7 @@ def init_bot_activity(params):
 		@tasks.loop(hours=1, count=None, reconnect=False)
 		async def am_alive():
 			channel = bot.get_channel(textChannels['log-bot'])
-			timeZ_Ma = pytz.timezone('Africa/Casablanca')
-			dt_Ma = datetime.now(timeZ_Ma)
-			await channel.send(f'<:teacode_bordred:844450911941165086> am alive - {dt_Ma.strftime("%d %B %Y - %H:%M")}')
+			await channel.send(f'<:teacode_bordred:844450911941165086> am alive - {getTimeUtcPlusOne(datetime.now())}')
 
 		am_alive.start()	
 		check_membership_loop.start()

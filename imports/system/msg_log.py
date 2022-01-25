@@ -1,6 +1,5 @@
 from setup.properties import *
 from setup.actions import *
-import pytz
 
 def init_msg_log(params):
 	
@@ -80,11 +79,10 @@ def init_msg_log(params):
 			msg = '──────────────────────'
 			msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
 			
-			timeZ_Ma = pytz.timezone('Africa/Casablanca')
-			created_at = m.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+			created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 			edited_at = None
 			if m.edited_at:
-				edited_at =  m.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")	
+				edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
 			msg += f'\n📅 {created_at} ➜ {edited_at}'
 			msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
 			msg += f'\n__Content__\n{msg_content}'

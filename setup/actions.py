@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 from setup.properties import *
 from discord_slash.utils.manage_commands import create_permission
 from discord_slash.model import SlashCommandPermissionType
@@ -70,3 +71,8 @@ async def checkNewMemberRole(bot, get, do:int=0):
 		print('----- checkNewMemberRole -----')
 		print(ex)
 		return -1
+
+def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
+	timeZ_Ma = pytz.timezone('Africa/Casablanca')
+	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)
+	return dt_Ma

@@ -25,7 +25,7 @@ def init_server_data(params):
 
 			guild = bot.get_guild(ctx.guild_id)
 
-			created_at = guild.created_at.strftime("%A, %B %d, %Y - %H:%M")
+			created_at = getTimeUtcPlusOne(guild.created_at, "%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=guild.name, description="", color=0x1da1f2)
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
@@ -118,10 +118,9 @@ def init_server_data(params):
 				if not is_founders(ctx):
 					await ctx.send('❌ You can only see your data')
 					member = ctx.author
-					time.sleep(1)
 
-			created_at = member.created_at.strftime("%A, %B %d, %Y - %H:%M")
-			joined_at = member.joined_at.strftime("%A, %B %d, %Y - %H:%M")
+			created_at = getTimeUtcPlusOne(member.created_at, "%A, %B %d, %Y - %H:%M")
+			joined_at = getTimeUtcPlusOne(member.joined_at, "%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=member.display_name, description="", color=member.top_role.color)
 			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar_url)

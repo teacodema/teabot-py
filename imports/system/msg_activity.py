@@ -1,6 +1,5 @@
 from setup.properties import *
 from setup.actions import *
-import pytz
 
 def init_msg_activity(params):
 	
@@ -102,11 +101,10 @@ def init_msg_activity(params):
 				logChannelActivity = bot.get_channel(textChannels['log-channel'])
 				msg = '──────────────────────'
 				msg += f'\n🗑 by {message.author.mention} in {message.channel.mention}'
-				timeZ_Ma = pytz.timezone('Africa/Casablanca')
-				created_at = message.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+				created_at = getTimeUtcPlusOne(message.created_at, "%d %B %Y - %H:%M")
 				edited_at = None
 				if message.edited_at:
-					edited_at =  message.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+					edited_at = getTimeUtcPlusOne(message.edited_at, "%d %B %Y - %H:%M")
 				msg += f'\n{created_at} ➜ {edited_at}'
 				msg += f'\n__Content__\n'
 				await logChannelActivity.send(msg)
@@ -140,11 +138,10 @@ def init_msg_activity(params):
 				msg = '──────────────────────'
 				msg += f'\n✏ by {before.author.mention} in {before.channel.mention}'
 				
-				timeZ_Ma = pytz.timezone('Africa/Casablanca')
-				created_at = after.created_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+				created_at = getTimeUtcPlusOne(after.created_at, "%d %B %Y - %H:%M")
 				edited_at = None
 				if after.edited_at:
-					edited_at =  after.edited_at.astimezone(timeZ_Ma).strftime("%d %B %Y - %H:%M")
+					edited_at = getTimeUtcPlusOne(after.edited_at, "%d %B %Y - %H:%M")
 				msg += f'\n{created_at} ➜ {edited_at}'
 				msg += f'\n__Content__\n'
 				await logChannelActivity.send(msg)
