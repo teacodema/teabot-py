@@ -12,7 +12,7 @@ def init_check_membership(params):
 	######################## CHECK UNASSIGNED MEMBERS ########################
 	@slash.slash(name="cnm", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def check_new_members(ctx, do:int=0):
+	async def check_new_members(ctx,  nr:int=1, do:int=0):
 		try:
 			if not is_founders(ctx):
 				await ctx.send('❌ Missing Permissions', hidden=True)
@@ -20,7 +20,7 @@ def init_check_membership(params):
 			await ctx.send('Checking ...', hidden=True)
 			guild = bot.get_guild(guildId)
 			def count_roles(member):
-				return len(member.roles) <= 1
+				return len(member.roles) <= nr
 			users = list(filter(count_roles, guild.members))
 
 			_roles = [
