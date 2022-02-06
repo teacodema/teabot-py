@@ -141,8 +141,12 @@ def init_member_interaction(params):
 			msg_ids = msg_ids.split(',')
 			_ch = await bot.fetch_channel(channel_id)
 			for msg_id in msg_ids:
-				msg = await _ch.fetch_message(msg_id)
-				await msg.delete()
+				try:
+					msg = await _ch.fetch_message(msg_id)
+					await msg.delete()
+				except Exception as ex:
+					print(msg_id)
+					pass
 		except Exception as ex:
 			print('----- /remove_msg_member() -----')
 			print(ex)
