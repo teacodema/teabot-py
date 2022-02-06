@@ -12,11 +12,9 @@ def init_voice_activity(params):
 		try:
 			await showVoiceChat(member, voice1, voice2, bot, get)
 			await showHelpVoice(member, voice1, voice2, bot, get)
-			await logStaffVoice(member, voice1, voice2, bot, get)
-			await logModeratorsVoice(member, voice1, voice2, bot, get)
+			# await logModeratorsVoice(member, voice1, voice2, bot, get)
 			await logAllVoice(member, voice1, voice2, bot, get)
 			
-			# await showLTVoice(member, voice1, voice2, bot, get)
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
 			# 	await voice_state.disconnect()
@@ -47,23 +45,13 @@ def init_voice_activity(params):
 			await log_exception(ex, 'showVoiceChat()', None, bot)
 
 
-	######################## LOG VOICE #Voice Channels ########################
-	async def logStaffVoice(member, voice1, voice2, bot, get):
-		try:
-			await logVoice(member, voice1, voice2, 'staff-notes', 'staff-corner')
-		except Exception as ex:
-			print('----- logStaffVoice() -----')
-			print(ex)
-			await log_exception(ex, 'logStaffVoice()', None, bot)
-
-
-	async def logModeratorsVoice(member, voice1, voice2, bot, get):
-		try:
-			await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
-		except Exception as ex:
-			print('----- logModeratorsVoice() -----')
-			print(ex)
-			await log_exception(ex, 'logModeratorsVoice()', None, bot)
+	# async def logModeratorsVoice(member, voice1, voice2, bot, get):
+	# 	try:
+	# 		await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
+	# 	except Exception as ex:
+	# 		print('----- logModeratorsVoice() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, 'logModeratorsVoice()', None, bot)
 
 
 	######################## LOG ALL VOICE ########################
@@ -127,17 +115,6 @@ def init_voice_activity(params):
 			print('----- getVoiceLogMessage() -----')
 			print(ex)
 			return ""
-
-
-	######################## LOG VOICE #Help › Voice ########################
-	async def showLTVoice(member, voice1, voice2, bot, get):
-		try:
-			# await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
-			await duplicateVC(909513881842515990, voice1, voice2, bot) # Learn Together
-		except Exception as ex:
-			print('----- showLTVoice() -----')
-			print(ex)
-			await log_exception(ex, 'showLTVoice()', None, bot)
 
 
 	async def duplicateVC(categoryID, voice1, voice2, bot):
