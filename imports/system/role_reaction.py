@@ -9,6 +9,32 @@ def init_bot_reaction(params):
 	slash = params['slash']
 	get = params['get']
 
+	async def log_reacted_msg(payload, log, member, adding=True):
+
+		url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
+		operation = f'{"Added" if adding else "Removed"}'
+		await log.send(f'{url}\n{member.mention} {operation} {payload.emoji}')
+
+		if payload.channel_id == textChannels['get-roles']:
+			return
+
+		_ch = bot.get_channel(payload.channel_id)
+		m = await _ch.fetch_message(payload.message_id)
+		if m:
+			msg = f'\n✉ by {m.author.mention} in {m.channel.mention}'
+			created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
+			edited_at = None
+			if m.edited_at:
+				edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
+			msg += f'\n📅 {created_at} ➜ {edited_at}'
+			msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
+			msg += f'\n__Content__\n{msg_content}'
+			msg += get_attachments(m)
+			msg += get_embeds(m)
+			msg += f'\n──────────────────────'
+			await log.send(f'{msg}')
+
+
 	@bot.event
 	async def on_raw_reaction_add(payload):
 		try:
@@ -16,8 +42,7 @@ def init_bot_reaction(params):
 			member = payload.member
 
 			log = bot.get_channel(textChannels['log-channel'])
-			url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
-			await log.send(f'{url}\n{member.mention} Added {payload.emoji}')
+			await log_reacted_msg(payload, log, member)
 
 			if member.bot == True:
 				return
@@ -43,8 +68,7 @@ def init_bot_reaction(params):
 			member = await guild.fetch_member(payload.user_id)
 
 			log = bot.get_channel(textChannels['log-channel'])
-			url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
-			await log.send(f'{url}\n{member.mention} Removed {payload.emoji}')
+			await log_reacted_msg(payload, log, member, False)
 
 			if member.bot == True:
 				return
