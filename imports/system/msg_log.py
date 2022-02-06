@@ -72,9 +72,9 @@ def init_msg_log(params):
 			await log_exception(ex, 'deleteMsg()', ctx)
 
 	async def logPurgedMessages(ctx, count, _purgedMsgs):
-		logMsgsChannel = bot.get_channel(textChannels['log-msg'])
+		log = bot.get_channel(textChannels['log-msg'])
 		headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
-		await logMsgsChannel.send(headerMsg)
+		await log.send(headerMsg)
 		for m in _purgedMsgs:
 			msg = '──────────────────────'
 			msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
@@ -89,4 +89,4 @@ def init_msg_log(params):
 			msg += get_attachments(m)
 			msg += get_embeds(m)
 			msg += f'\n──────────────────────'
-			await logMsgsChannel.send(msg)
+			await log.send(msg)

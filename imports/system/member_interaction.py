@@ -95,7 +95,7 @@ def init_member_interaction(params):
 				for m in members:
 					try:
 						_sentMsg = await send_msg(ctx, msg, m)
-						notifyMe = '──────────────────────'
+						notifyMe = '─────────────────'
 						if _sentMsg:
 							notifyMe += f'\nmessage ID : {_sentMsg.id}'
 							notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
@@ -111,7 +111,7 @@ def init_member_interaction(params):
 				await channel.send(notifyMe)
 			if member:
 				_sentMsg = await send_msg(ctx, msg, member)
-				notifyMe = '──────────────────────'
+				notifyMe = '─────────────────'
 				if _sentMsg:
 					notifyMe += f'\nmessage ID : {_sentMsg.id}'
 					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'

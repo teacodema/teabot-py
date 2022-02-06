@@ -21,18 +21,25 @@ def init_bot_reaction(params):
 		_ch = bot.get_channel(payload.channel_id)
 		m = await _ch.fetch_message(payload.message_id)
 		if m:
-			msg = f'\n✉ by {m.author.mention} in {m.channel.mention}'
+			msgs = []
+			msg = f'\n✉ by {m.author.display_name} in {m.channel.mention}'
 			created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 			edited_at = None
 			if m.edited_at:
 				edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
 			msg += f'\n📅 {created_at} ➜ {edited_at}'
+			msg += f'\n__Content__\n'
+			msgs.append(msg) # await log.send(f'{msg}')
 			msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
-			msg += f'\n__Content__\n{msg_content}'
-			msg += get_attachments(m)
-			msg += get_embeds(m)
-			msg += f'\n──────────────────────'
-			await log.send(f'{msg}')
+			msgs.append(msg_content) # await log.send(f'{msg_content}')
+			msg = get_attachments(m)
+			if msg: msgs.append(msg) #await log.send(msg)
+			msg = get_embeds(m)
+			if msg: msgs.append(msg) #await log.send(msg)
+			# msg = f'\n──────────────────────'
+			# await log.send(f'{msg}')
+			for msg in msgs:
+				await log.send(msg)
 
 
 	@bot.event
