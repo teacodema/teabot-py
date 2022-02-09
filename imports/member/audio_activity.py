@@ -484,6 +484,7 @@ def init_audio_activity(params):
 				'https://www.youtube.com/watch?v=9CN-31h_wK4', #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
 				'https://www.youtube.com/watch?v=4TK0UrGlLyo', #Sherif Mostafa | the most Beautiful recitation
 				'https://www.youtube.com/watch?v=Z7tSBYN9p-A', #صدقني !! صوته ينسيك الدنيا لجماله 🤩 صوت عذب اسمع وارح قلبك || سورة طه - كاملة القارئ شريف مصطفى
+				'https://www.youtube.com/watch?v=Axu2l8yX-aQ', #أحمد خضر سورة طه
 			]
 			random.shuffle(defaultList)
 			defaultList = defaultList[0:3]

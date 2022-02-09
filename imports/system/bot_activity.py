@@ -86,7 +86,7 @@ def init_bot_activity(params):
 		@tasks.loop(hours=1, count=None, reconnect=False)
 		async def am_alive():
 			channel = bot.get_channel(textChannels['log-bot'])
-			await channel.send(f'<:teacode_bordred:844450911941165086> am alive - {getTimeUtcPlusOne(datetime.now())}')
+			await channel.send(f'Am alive - {getTimeUtcPlusOne(datetime.now())} <:teacode_bordred:844450911941165086>')
 
 		am_alive.start()	
 		check_membership_loop.start()
