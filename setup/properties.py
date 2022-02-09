@@ -26,10 +26,11 @@ textChannels = {
 voiceChannels = {}
 
 categories = {
+	'information':				803248107647008808,
+	
 	'voice-channels':			796115044374413332,
 	'help-voice': 				867877610134700062,
 
-	'staff-corner':				810187882153115648,
 	'moderators-corner':	888006050018627614,
 
 	'private-corner': 		891123068964077608,
