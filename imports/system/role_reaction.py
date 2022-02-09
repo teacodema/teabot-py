@@ -15,10 +15,11 @@ def init_bot_reaction(params):
 		operation = f'{"Added" if adding else "Removed"}'
 		await log.send(f'{url}\n{member.mention} {operation} {payload.emoji}')
 
-		if payload.channel_id == textChannels['get-roles']:
+		_ch = bot.get_channel(payload.channel_id)
+
+		if _ch.category_id == categories['information']:
 			return
 
-		_ch = bot.get_channel(payload.channel_id)
 		m = await _ch.fetch_message(payload.message_id)
 		if m:
 			msgs = []
