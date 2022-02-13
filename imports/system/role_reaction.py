@@ -46,6 +46,13 @@ def init_bot_reaction(params):
 	@bot.event
 	async def on_raw_reaction_add(payload):
 		try:
+			excludedCategories = [
+				categories['system-corner']
+			]
+			channel = bot.get_channel(payload.channel_id)
+			if channel.category_id in excludedCategories:
+				return
+				
 			guild = bot.get_guild(guildId)
 			member = payload.member
 
@@ -72,6 +79,13 @@ def init_bot_reaction(params):
 	@bot.event
 	async def on_raw_reaction_remove(payload):
 		try:
+			excludedCategories = [
+				categories['system-corner']
+			]
+			channel = bot.get_channel(payload.channel_id)
+			if channel.category_id in excludedCategories:
+				return
+				
 			guild = bot.get_guild(guildId)
 			member = await guild.fetch_member(payload.user_id)
 
