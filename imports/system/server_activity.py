@@ -83,24 +83,23 @@ def init_server_activity(params):
 		try:
 			channel = bot.get_channel(textChannels['log-server'])
 			msg = ''
-			if int(use_webhook): 
-				wh_made = await make_webhook(member, channel)
-				if wh_made: msg += '\n✅ Webhook made'
-				else: msg += '\n❌ Webhook not made' 
-			if int(assign_role): 
-				assigned = await assign_init_roles(member)
-				if assigned: msg += "\n🟢 initial roles assigned 🎭"
-				else: msg += "\n🔴 initial roles assigned 🎭"
-			if int(send_dm): 
-				dm_sent = await send_dm_welcome(member)
-				if member.bot == False: memberType = 'Human'
-				else: memberType = 'Bot'
-				if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
-				else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
-
+			if member.bot == False:
+				if int(use_webhook): 
+					wh_made = await make_webhook(member, channel)
+					if wh_made: msg += '\n✅ Webhook made'
+					else: msg += '\n❌ Webhook not made' 
+				if int(assign_role): 
+					assigned = await assign_init_roles(member)
+					if assigned: msg += "\n🟢 initial roles assigned 🎭"
+					else: msg += "\n🔴 initial roles assigned 🎭"
+				if int(send_dm): 
+					dm_sent = await send_dm_welcome(member)
+					if member.bot == False: memberType = 'Human'
+					else: memberType = 'Bot'
+					if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
+					else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
 			membersCount = await updateMembersCount(member)
 			msg += f'\n🟩 **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
-
 			return msg
 		except Exception as ex:
 			print('----- welcomeMember() -----')
