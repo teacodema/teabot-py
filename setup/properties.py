@@ -19,7 +19,6 @@ textChannels = {
 	'log-channel':				832968854967025716,
 	'log-msg':						886860740156338176,
 
-	'staff-notes': 				842229209539805204,
 	'moderators-notes': 	888070702316527676,
 }
 
