@@ -4,15 +4,6 @@ reactions = {
 			'<:teacode_bordred:844450911941165086>': '🌱│Members'
 		},
 	},
-	'885234699860049960': { #testing
-		'934482102462869505': {
-			'☕': '☕│Hangout',
-			'💭': '💭│Communication',
-			'🎥': '🎥│Workshops',
-			'🧠': '🧠│Coding Challenges',
-			'📂': '📂│Mock Interview',
-		},
-	},
 	'802521765586010132': { #get-roles channel
 		'904481592532164658': {
 			'⚽': 'Html / Css',
@@ -229,7 +220,16 @@ reactions = {
 			'🍙': 'Game Developement',
 			'🌰': 'Mobile Developement',
 			'🍚': 'Data Science',
-			'🍘': 'Computer Sciences'
+			'🍘': 'Computer Sciences',
+			'🍨': 'Entrepreneurship',
+			'🍿': 'Start-Ups',
+		},
+		'-----------': {
+			'☕': 'Hangout',
+			'💭': 'Communication',
+			'🎥': 'Workshops',
+			'🧠': 'Coding Challenges',
+			'📂': 'Mock Interview',
 		},
 	},
 }

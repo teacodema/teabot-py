@@ -1,4 +1,4 @@
-newMembershipPeriode = 4 # 4days
+newMembershipPeriode = 7 #days
 guildId = 694956824356585654
 textChannels = {
 	'rules': 							783813544520712213,
