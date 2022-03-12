@@ -10,10 +10,9 @@ def init_voice_activity(params):
 	@bot.event
 	async def on_voice_state_update(member, voice1, voice2):
 		try:
-			await showVoiceChat(member, voice1, voice2, bot, get)
-			await showHelpVoice(member, voice1, voice2, bot, get)
-			# await logModeratorsVoice(member, voice1, voice2, bot, get)
-			await logAllVoice(member, voice1, voice2, bot, get)
+			await showVoiceChat(member, voice1, voice2)
+			await showHelpVoice(member, voice1, voice2)
+			await logModeratorsVoice(member, voice1, voice2, bot, get)
 			
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
@@ -25,7 +24,7 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Help › Voice ########################
-	async def showHelpVoice(member, voice1, voice2, bot, get):
+	async def showHelpVoice(member, voice1, voice2):
 		try:
 			await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
 			# await duplicateVC(categories['help-voice'], voice1, voice2, bot)
@@ -36,7 +35,7 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Voice Channels ########################
-	async def showVoiceChat(member, voice1, voice2, bot, get):
+	async def showVoiceChat(member, voice1, voice2):
 		try:
 			await logVoice(member, voice1, voice2, 'voice-chat', 'voice-channels', 'voice-room')
 		except Exception as ex:
@@ -45,33 +44,14 @@ def init_voice_activity(params):
 			await log_exception(ex, 'showVoiceChat()', None, bot)
 
 
-	# async def logModeratorsVoice(member, voice1, voice2, bot, get):
-	# 	try:
-	# 		await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
-	# 	except Exception as ex:
-	# 		print('----- logModeratorsVoice() -----')
-	# 		print(ex)
-	# 		await log_exception(ex, 'logModeratorsVoice()', None, bot)
-
-
-	######################## LOG ALL VOICE ########################
-	async def logAllVoice(member, voice1, voice2, bot, get):
+	async def logModeratorsVoice(member, voice1, voice2, bot, get):
 		try:
-			logChannel = bot.get_channel(textChannels['log-voice'])
-			msg = getVoiceLogMessage(member, voice1, voice2)
-
-			if (not voice1.channel and voice2.channel):
-				await logChannel.send(msg)
-			elif (voice1.channel and not voice2.channel):
-				await logChannel.send(msg)
-			elif (voice1.channel.id != voice2.channel.id):
-				await logChannel.send(msg)
-
+			await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
 		except Exception as ex:
-			print('----- logAllVoice() -----')
+			print('----- logModeratorsVoice() -----')
 			print(ex)
-			await log_exception(ex, 'logAllVoice()', None, bot)
-	
+			await log_exception(ex, 'logModeratorsVoice()', None, bot)
+
 	
 	async def logVoice(member, voice1, voice2, channelID, categoryID, roleID = None):
 		try:
@@ -116,32 +96,3 @@ def init_voice_activity(params):
 			print(ex)
 			return ""
 
-
-	async def duplicateVC(categoryID, voice1, voice2, bot):
-		if (voice2.channel and voice2.channel.category_id == categoryID):
-			channels = voice2.channel.category.voice_channels
-			noEmptyChannel = True
-			for ch in channels:
-				if len(ch.members) == 0:
-					noEmptyChannel = False
-					break
-			if noEmptyChannel:
-				vc = channels[0]
-				vc_name = vc.name
-				index = len(channels) + 1
-				await voice2.channel.clone(name=f'{vc_name} #{index}')		
-		# DELETE CHANNEL IF EMPTY AND LEAVE FIRST ONE
-		if (voice1.channel and voice1.channel.category_id == categoryID):
-			channels = voice1.channel.category.voice_channels
-			helpRoom1 = channels.pop(0)
-			emptyChannels = [] # Store empty channels
-			for ch in channels:
-				if len(ch.members) == 0:
-					emptyChannels.append(ch)
-			if len(helpRoom1.members) != 0:
-				helpRoom2 = emptyChannels.pop(0)
-			try:
-				for ch in emptyChannels:
-					await ch.delete()
-			except Exception as ex:
-				print(ex)
