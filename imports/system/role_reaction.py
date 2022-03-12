@@ -33,10 +33,10 @@ def init_bot_reaction(params):
 			msgs.append(msg) # await log.send(f'{msg}')
 			msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
 			msgs.append(msg_content) # await log.send(f'{msg_content}')
-			msg = get_attachments(m)
-			if msg: msgs.append(msg) #await log.send(msg)
-			msg = get_embeds(m)
-			if msg: msgs.append(msg) #await log.send(msg)
+			# msg = get_attachments(m)
+			# if msg: msgs.append(msg) #await log.send(msg)
+			# msg = get_embeds(m)
+			# if msg: msgs.append(msg) #await log.send(msg)
 			# msg = f'\n──────────────────────'
 			# await log.send(f'{msg}')
 			for msg in msgs:
@@ -162,6 +162,7 @@ def init_bot_reaction(params):
 								except Exception as ex:
 									print('---------- /bot_react()/add role user --------')
 									print(ex)
+									print(u.name)
 									# await msg.remove_reaction(r.emoji, u)
 									pass
 					except Exception as ex:
