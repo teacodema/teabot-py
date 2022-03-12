@@ -110,9 +110,9 @@ def init_server_activity(params):
 	async def send_dm_welcome(member):
 		try:
 			message = f'Merhba bik m3ana {member.mention} f **TeaCode** Community :flag_ma: :partying_face: :tada: '
-			message += f"\nHna ghadi tl9a chno tehtaj bach takhod fikra 3la server ➜ <#{textChannels['first-steps']}>"
+			message += f"\n\nHna ghadi tl9a chno tehtaj bach takhod fikra 3la server ➜ <#{textChannels['first-steps']}>"
 	
-			message += f"\n\nSowwel hna ➜ <#{textChannels['ask-staff']}> ila htajiti chi haja f server."
+			message += f"\nSowwel hna ➜ <#{textChannels['ask-staff']}> ila htajiti chi haja f server."
 			message += "\nDon't forget to **invite** your friends who could be interested https://discord.gg/bjQYevbEfY"
 			message += f"\n\n➜ Ila ma3reftich chno dir t9der tsowwel <@{users['drissboumlik']}>"
 	
