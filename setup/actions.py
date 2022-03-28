@@ -76,3 +76,13 @@ def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
 	timeZ_Ma = pytz.timezone('Africa/Casablanca')
 	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)
 	return dt_Ma
+
+
+def replace_str(str, dict_chars):
+	try:
+		for key in dict_chars:
+			str = str.replace(key, dict_chars[key])
+		return str
+	except Exception as ex:
+		print('----- replace_str() -----')
+		print(ex)

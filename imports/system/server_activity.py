@@ -53,7 +53,9 @@ def init_server_activity(params):
 		try:
 			membersCount = await updateMembersCount(member)
 			channel = bot.get_channel(textChannels['log-server'])
-			msg = f'🟥 **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) left **TeaCode**'
+			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
+			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
+			msg = f'🟥 **{membersCount}** - {member.mention} | [{_name}#{member.discriminator}] | ({_display_name}) left **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
 			print('----- on_member_remove(evt) -----')
@@ -99,7 +101,9 @@ def init_server_activity(params):
 					if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
 					else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
 			membersCount = await updateMembersCount(member)
-			msg += f'\n🟩 **{membersCount}** - {member.mention} | [{member.name}#{member.discriminator}] | ({member.display_name}) join **TeaCode**'
+			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
+			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
+			msg += f'\n🟩 **{membersCount}** - {member.mention} | [{_name}#{member.discriminator}] | ({_display_name}) join **TeaCode**'
 			return msg
 		except Exception as ex:
 			print('----- welcomeMember() -----')
@@ -153,8 +157,9 @@ def init_server_activity(params):
 		try:
 			_roles = [
 				roles['new-members'], roles['members'],
-				roles['techs'], roles['tools'],
-				roles['jobs'], roles['interests'],
+				roles['__server_activities__'],
+				roles['__techs__'], roles['__tools__'],
+				roles['__jobs__'], roles['__interests__'],
 			]
 			roles_list = []
 			guild = bot.get_guild(guildId)

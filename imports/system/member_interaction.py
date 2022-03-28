@@ -164,12 +164,3 @@ def init_member_interaction(params):
 			msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
 			await log_exception(ex, 'send_msg()', ctx, None, True, msg)
 			return None
-
-	def replace_str(str, dict_chars):
-		try:
-			for key in dict_chars:
-				str = str.replace(key, dict_chars[key])
-			return str
-		except Exception as ex:
-			print('----- replace_str() -----')
-			print(ex)
