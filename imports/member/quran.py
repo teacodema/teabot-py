@@ -1,4 +1,4 @@
-from database.player import *
+from setup.player import *
 from setup.properties import *
 from setup.actions import *
 
