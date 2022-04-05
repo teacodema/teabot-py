@@ -5,6 +5,7 @@ def init_voice_activity(params):
 	
 	bot = params['bot']
 	get = params['get']
+	tasks = params['tasks']
 
 	######################## VOICE ########################
 	@bot.event
@@ -64,15 +65,15 @@ def init_voice_activity(params):
 			msg = getVoiceLogMessage(member, voice1, voice2)
 			if (not voice1.channel and voice2.channel):
 				if (voice2.channel.category_id == categoryID):
-					await logChannel.send(msg)
+					task_send_msg(logChannel, msg) # await logChannel.send(msg)
 					if (role): await member.add_roles(role)
 			elif (voice1.channel and not voice2.channel):
 				if (voice1.channel.category_id == categoryID):
-					await logChannel.send(msg)
+					task_send_msg(logChannel, msg) # await logChannel.send(msg)
 					if (role): await member.remove_roles(role)
 			elif (voice1.channel.id != voice2.channel.id):
 				if (voice2.channel.category_id == categoryID):
-					await logChannel.send(msg)
+					task_send_msg(logChannel, msg) # await logChannel.send(msg)
 					if (role): await member.add_roles(role)
 				else:
 					if (role): await member.remove_roles(role)
@@ -96,3 +97,11 @@ def init_voice_activity(params):
 			print(ex)
 			return ""
 
+	
+	def task_send_msg(channel, msg):
+		@tasks.loop(seconds=2, count=2, reconnect=False)
+		async def send_msg():
+			if send_msg.current_loop == 0:
+				return
+			await channel.send(msg)
+		send_msg.start()
