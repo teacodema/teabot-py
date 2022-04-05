@@ -70,15 +70,16 @@ def init_bot_activity(params):
 		@tasks.loop(hours=24, count=None, reconnect=False)
 		async def check_membership_loop():
 			try:
-				if check_membership_loop.current_loop != 0:
-					updatedMembers = await checkNewMemberRole(bot, get)
-					logBot = bot.get_channel(textChannels['log-bot'])
-					msg = ''
-					updatedMembersCount = len(updatedMembers)
-					if updatedMembersCount:
-						for member in updatedMembers:
-							msg += f'{member} , '
-					await logBot.send(f'{updatedMembersCount} updated members.\n{msg}')
+				if check_membership_loop.current_loop == 0:
+					return
+				updatedMembers = await checkNewMemberRole(bot, get)
+				logBot = bot.get_channel(textChannels['log-bot'])
+				msg = ''
+				updatedMembersCount = len(updatedMembers)
+				if updatedMembersCount:
+					for member in updatedMembers:
+						msg += f'{member} , '
+				await logBot.send(f'{updatedMembersCount} updated members.\n{msg}')
 			except Exception as ex:
 				print('----- /check_membership_loop() -----')
 				print(ex)
