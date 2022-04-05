@@ -124,7 +124,7 @@ def init_bot_reaction(params):
 					msg = await ctx.channel.fetch_message(msg_id)
 					emojis = emojis.split(',')
 					for e in emojis:
-						if remove: 
+						if remove:
 							if member: await msg.remove_reaction(e, member)
 							else: await msg.clear_reaction(e)
 						else: await msg.add_reaction(e)
@@ -163,7 +163,7 @@ def init_bot_reaction(params):
 									print('---------- /bot_react()/add role user --------')
 									print(ex)
 									print(u.name)
-									# await msg.remove_reaction(r.emoji, u)
+									await msg.remove_reaction(r.emoji, u)
 									pass
 					except Exception as ex:
 						print('---------- /bot_react()/msg reactions --------')

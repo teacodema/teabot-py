@@ -196,7 +196,7 @@ reactions = {
 			'🖍️': 'Cloud Developer',
 			'📏': 'Data Engineer',
 			'🖋️': 'Cloud Engineer',
-			'⛵': 'DevOps',
+			'⛵': 'DevOps / DevSecOps',
 			'🚢': 'DevOps Engineer',
 			'🚀': 'DevOps Evangelist',
 			'✈️': 'DevOps Software Developer',
