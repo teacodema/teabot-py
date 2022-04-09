@@ -1,12 +1,31 @@
-
-import random
 from setup.properties import *
+from setup.actions import *
+import random
 
 def init_fun_activity(params):
 	
 	# client = params['client']
+	bot = params['bot']
 	discord = params['discord']
 	slash = params['slash']
+	get = params['get']
+
+	######### PICK RANDOM USER #######
+	@slash.slash(name = "pick-speaker", description = "Choose a random speaker - (events only !!)", guild_ids=[guildId])
+	async def pick_speaker(ctx):
+		try:
+			await ctx.send('Choosing...')
+			voice = ctx.author.voice
+			if voice:
+				member = random.choice(voice.channel.members)
+				msg = f'Chosen member : {member.mention}'
+			else:
+				msg = '⚠ No busy voice channel'
+			await ctx.send(msg)
+		except Exception as ex:
+			print('----- /random_user() -----')
+			print(ex)
+			await log_exception(ex, '/random_user', ctx)
 
 	######################## JANKEN GAME ########################
 	@slash.slash(name = "janken", description = "Rock Paper Scissors", guild_ids=[guildId])
