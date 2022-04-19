@@ -236,9 +236,9 @@ reactions = {
 			'🍚': 'Data Science',
 			'🍘': 'Computer Sciences',
 			'🍨': 'Start-Ups / Entrepreneurship',
-			# '🍿': '',
 			'🥧': 'Project Management (Agile/Scrum)',
 			'🥘': 'Business Intelligence',
+			'🍿': 'Web 3.0',
 		},
 		'-----------': {
 			'☕': 'Hangout',
