@@ -55,7 +55,7 @@ def init_server_activity(params):
 			channel = bot.get_channel(textChannels['log-server'])
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
-			msg = f'🟥 **{membersCount}** - {member.mention} | [{_name}#{member.discriminator}] | ({_display_name}) left **TeaCode**'
+			msg = f'🟥 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) left **TeaCode**'
 			await channel.send(msg)
 		except Exception as ex:
 			print('----- on_member_remove(evt) -----')
@@ -103,7 +103,7 @@ def init_server_activity(params):
 			membersCount = await updateMembersCount(member)
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
-			msg += f'\n🟩 **{membersCount}** - {member.mention} | [{_name}#{member.discriminator}] | ({_display_name}) join **TeaCode**'
+			msg += f'\n🟩 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) join **TeaCode**'
 			return msg
 		except Exception as ex:
 			print('----- welcomeMember() -----')
