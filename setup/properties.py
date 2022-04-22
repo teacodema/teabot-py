@@ -23,7 +23,7 @@ textChannels = {
 	'log-channel':				832968854967025716,
 	'log-msg':						886860740156338176,
 
-	'moderators-notes': 	842229209539805204,
+	'staff-notes': 	842229209539805204,
 }
 
 voiceChannels = {}
@@ -34,7 +34,7 @@ categories = {
 	'voice-channels':			796115044374413332,
 	'help-voice': 				867877610134700062,
 
-	'moderators-corner':	810187882153115648,
+	'staff-corner':	810187882153115648,
 
 	'private-corner': 		891123068964077608,
 	'lab-corner': 				885273061941706802,
@@ -43,7 +43,7 @@ categories = {
 
 roles = {
 	'founders' :		801603256907857940,
-	'moderators' :	796108259945480224,
+	'staff' :	796108259945480224,
 
 	'new-members' :	832755954960302080,
 	'members' :			807336730168393768,
