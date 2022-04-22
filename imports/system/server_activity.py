@@ -1,6 +1,5 @@
 from setup.properties import *
 from setup.actions import *
-import time
 
 def init_server_activity(params):
 	
@@ -113,11 +112,13 @@ def init_server_activity(params):
 
 	async def send_dm_welcome(member):
 		try:
+			startHereChannel = bot.get_channel(textChannels['start-here'])
+			invite = await startHereChannel.create_invite(max_age=inviteMaxAge, max_uses=inviteMaxUses, reason='Welcoming member')
 			message = f'Merhba bik m3ana {member.mention} f **TeaCode** Community :flag_ma: :partying_face: :tada: '
 			message += f"\n\nHna ghadi tl9a chno tehtaj bach takhod fikra 3la server ➜ <#{textChannels['start-here']}>"
 	
 			message += f"\nSowwel hna ➜ <#{textChannels['ask-staff']}> ila htajiti chi haja f server."
-			message += "\nDon't forget to **invite** your friends who could be interested https://discord.gg/bjQYevbEfY"
+			message += f"\nDon't forget to **invite** your friends who could be interested {invite}"
 			message += f"\n\n➜ Ila ma3reftich chno dir t9der tsowwel <@{users['drissboumlik']}>"
 	
 			channel = await member.create_dm()

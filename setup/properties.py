@@ -1,4 +1,6 @@
 newMembershipPeriode = 7 #days
+inviteMaxAge = 604800 #60 * 60 * 24 * 7
+inviteMaxUses = 10
 guildId = 694956824356585654
 textChannels = {
 	'rules': 							783813544520712213,
