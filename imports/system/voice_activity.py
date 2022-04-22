@@ -47,7 +47,7 @@ def init_voice_activity(params):
 
 	async def logModeratorsVoice(member, voice1, voice2, bot, get):
 		try:
-			await logVoice(member, voice1, voice2, 'moderators-notes', 'moderators-corner')
+			await logVoice(member, voice1, voice2, 'staff-notes', 'staff-corner')
 		except Exception as ex:
 			print('----- logModeratorsVoice() -----')
 			print(ex)

@@ -14,7 +14,7 @@ def init_server_data(params):
 	async def server_info(ctx, hidden: int = 0):
 		try:
 			excludedCategories = [
-				categories['moderators-corner'],
+				categories['staff-corner'],
 				categories['private-corner'],
 				categories['lab-corner'],
 				categories['system-corner'],

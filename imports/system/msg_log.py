@@ -9,12 +9,12 @@ def init_msg_log(params):
 
 	######################## PURGE ########################
 	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders', 'moderators'}, {'members', 'everyone'}) })
+		permissions={ guildId: slash_permissions({'founders', 'staff'}, {'members', 'everyone'}) })
 	async def purge(ctx, limit: int=None):
 		try:
 			nonlocal purgedMsgs
 			
-			if not is_authorised(ctx, {'founders', 'moderators'}):
+			if not is_authorised(ctx, {'founders', 'staff'}):
 				await ctx.send('❌ Missing Permissions')
 				return
 			
