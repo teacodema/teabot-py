@@ -1,6 +1,5 @@
 from setup.properties import *
 from setup.actions import *
-import time
 
 def init_server_data(params):
 
