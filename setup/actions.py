@@ -63,7 +63,7 @@ async def checkNewMemberRole(bot, get, do:int=0):
 		updated = []
 		for member in role.members:
 			diff = datetime.now() - member.joined_at
-			if diff.days >= params['newMembershipPeriode']:
+			if diff.days >= appParams['newMembershipPeriode']:
 				updated.append(member.mention)
 				if do: await member.remove_roles(role)
 		return updated
