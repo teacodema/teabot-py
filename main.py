@@ -1,4 +1,4 @@
-from setup.keep_alive import keep_alive
+# from setup.keep_alive import keep_alive
 import discord
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_commands import create_permission
@@ -73,5 +73,5 @@ init_bot_reaction(params)
 # init_quran(params)
 
 
-keep_alive()
+# keep_alive()
 bot.run(os.getenv("token"))
