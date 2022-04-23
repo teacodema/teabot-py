@@ -39,6 +39,7 @@ def init_server_activity(params):
 		try:
 			if member.bot:
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
+				return
 			msg = await welcomeMember(member, 1, 1, 0)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg)
@@ -52,6 +53,10 @@ def init_server_activity(params):
 	@bot.event
 	async def on_member_remove(member):
 		try:
+			if member.bot:
+				channel = bot.get_channel(textChannels['log-server'])
+				await channel.send(f"🤖 kicked a bot (ID: {member.id})")
+				return
 			membersCount = await updateMembersCount(member)
 			channel = bot.get_channel(textChannels['log-server'])
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
