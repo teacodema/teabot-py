@@ -1,6 +1,6 @@
 params = {
 	'newMembershipPeriode': 7, #days
-	'inviteMaxAge': 604800, #60 * 60 * 24 * 7
+	'inviteMaxAge': 604800, #60 * 60 * 24 * 7 week
 	'inviteMaxUses': 10,
 }
 guildId = 694956824356585654
