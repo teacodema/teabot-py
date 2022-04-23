@@ -37,6 +37,8 @@ def init_server_activity(params):
 	@bot.event
 	async def on_member_join(member):
 		try:
+			if member.bot:
+				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
 			msg = await welcomeMember(member, 1, 1, 0)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg)
@@ -84,21 +86,18 @@ def init_server_activity(params):
 		try:
 			channel = bot.get_channel(textChannels['log-server'])
 			msg = ''
-			if member.bot == False:
-				if int(use_webhook): 
-					wh_made = await make_webhook(member, channel)
-					if wh_made: msg += '\n✅ Webhook made'
-					else: msg += '\n❌ Webhook not made' 
-				if int(assign_role): 
-					assigned = await assign_init_roles(member)
-					if assigned: msg += "\n🟢 initial roles assigned 🎭"
-					else: msg += "\n🔴 initial roles assigned 🎭"
-				if int(send_dm): 
-					dm_sent = await send_dm_welcome(member)
-					if member.bot == False: memberType = 'Human'
-					else: memberType = 'Bot'
-					if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
-					else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator} ({memberType})**'
+			if int(use_webhook):
+				wh_made = await make_webhook(member, channel)
+				if wh_made: msg += '\n✅ Webhook made'
+				else: msg += '\n❌ Webhook not made' 
+			if int(assign_role):
+				assigned = await assign_init_roles(member)
+				if assigned: msg += "\n🟢 initial roles assigned 🎭"
+				else: msg += "\n🔴 initial roles assigned 🎭"
+			if int(send_dm):
+				dm_sent = await send_dm_welcome(member)
+				if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
+				else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
 			membersCount = await updateMembersCount(member)
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
