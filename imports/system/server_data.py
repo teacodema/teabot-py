@@ -9,7 +9,7 @@ def init_server_data(params):
 	get = params['get']
 
 	######################## SERVER INFO ########################
-	@slash.slash(name="si", guild_ids=[guildId],
+	@slash.slash(name = "tc_si", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def server_info(ctx, hidden: int = 0):
 		try:
@@ -78,7 +78,7 @@ def init_server_data(params):
 			await log_exception(ex, '/server-info', ctx)
 
 	######################## ROLE INFO ########################
-	@slash.slash(name="role-info", description = "Get role info/stats", guild_ids=[guildId])
+	@slash.slash(name = "role-info", description = "Get role info/stats", guild_ids = [guildId])
 	async def role_info(ctx, role: discord.Role = None, hidden: int = 0):
 		try:
 			if role == None:
@@ -106,7 +106,7 @@ def init_server_data(params):
 			await log_exception(ex, '/role-info', ctx)
 
 	######################## MEMBER INFO ########################
-	@slash.slash(name="member-info", description = "Get member info/stats", guild_ids=[guildId])
+	@slash.slash(name = "member-info", description = "Get member info/stats", guild_ids = [guildId])
 	async def member_info(ctx, member: discord.Member = None, hidden : int = 0):
 		try:
 

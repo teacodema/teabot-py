@@ -8,7 +8,7 @@ def init_msg_log(params):
 	purgedMsgs = []
 
 	######################## PURGE ########################
-	@slash.slash(name="purge", description="Clear all messages", guild_ids=[guildId],
+	@slash.slash(name = "purge", description = "Clear all messages", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders', 'staff'}, {'members', 'everyone'}) })
 	async def purge(ctx, limit: int=None):
 		try:

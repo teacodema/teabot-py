@@ -69,7 +69,7 @@ def init_server_activity(params):
 			await log_exception(ex, 'on_member_remove(evt)', None, bot)
 
 	######################## WELCOME MEMBER CMD ########################
-	@slash.slash(name="w", guild_ids=[guildId],
+	@slash.slash(name = "tc_w", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def welcome(ctx, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
 		try:
