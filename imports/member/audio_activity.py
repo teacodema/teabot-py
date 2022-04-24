@@ -180,7 +180,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## CURRENT ########################
-	@slash.slash(name = "current-track", description = "Show current playing track", guild_ids = [guildId])
+	@slash.slash(name = "track", description = "Show current playing track", guild_ids = [guildId])
 	async def current_track(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist
