@@ -11,7 +11,8 @@ def init_fun_activity(params):
 	get = params['get']
 
 	######### PICK RANDOM USER #######
-	@slash.slash(name = "pick-speaker", description = "Choose a random speaker - (events only !!)", guild_ids=[guildId])
+	@slash.slash(name = "pick-speaker", description = "Choose a random speaker - (events only !!)", guild_ids=[guildId],
+		permissions={ guildId: slash_permissions({'founders', 'staff', 'hosts'}, {'members', 'everyone'}) })
 	async def pick_speaker(ctx):
 		try:
 			await ctx.send('Choosing...')
@@ -19,10 +20,10 @@ def init_fun_activity(params):
 			if voice:
 				members = voice.channel.members
 				guild = bot.get_guild(guildId)
-				def is_not_host(member):
+				def is_not_host_or_bot(member):
 					roleIds = [role.id for role in member.roles]
-					return (roles['host'] not in roleIds) and (not member.bot)
-				members = list(filter(is_not_host, members))
+					return (roles['hosts'] not in roleIds) and (not member.bot)
+				members = list(filter(is_not_host_or_bot, members))
 				if len(members) == 0:
 					msg = 'No member chosen !! - Reasons'
 					msg+= '\n- No members available in the voice channel'
