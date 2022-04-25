@@ -17,7 +17,13 @@ def init_fun_activity(params):
 			await ctx.send('Choosing...')
 			voice = ctx.author.voice
 			if voice:
-				member = random.choice(voice.channel.members)
+				# members = voice.channel.members
+				guild = bot.get_guild(guildId)
+				def is_not_host(member):
+					roleIds = [role.id for role in member.roles]
+					return roles['host'] not in roleIds
+				members = list(filter(is_not_host, guild.members))
+				member = random.choice(members)
 				msg = f'Chosen member : {member.mention}'
 			else:
 				msg = '⚠ No busy voice channel'
