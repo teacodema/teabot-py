@@ -21,8 +21,15 @@ def init_fun_activity(params):
 				guild = bot.get_guild(guildId)
 				def is_not_host(member):
 					roleIds = [role.id for role in member.roles]
-					return roles['host'] not in roleIds
+					return (roles['host'] not in roleIds) and (not member.bot)
 				members = list(filter(is_not_host, guild.members))
+				if len(members) == 0:
+					msg = 'No member chosen !! - Reasons'
+					msg+= '\n- No members available in the voice channel'
+					msg+= '\n- Only hosts/bot are connected for now'
+					await ctx.send(msg)
+					return
+
 				member = random.choice(members)
 				msg = f'Chosen member : {member.mention}'
 			else:
