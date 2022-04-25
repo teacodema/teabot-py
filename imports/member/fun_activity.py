@@ -17,12 +17,12 @@ def init_fun_activity(params):
 			await ctx.send('Choosing...')
 			voice = ctx.author.voice
 			if voice:
-				# members = voice.channel.members
+				members = voice.channel.members
 				guild = bot.get_guild(guildId)
 				def is_not_host(member):
 					roleIds = [role.id for role in member.roles]
 					return (roles['host'] not in roleIds) and (not member.bot)
-				members = list(filter(is_not_host, guild.members))
+				members = list(filter(is_not_host, members))
 				if len(members) == 0:
 					msg = 'No member chosen !! - Reasons'
 					msg+= '\n- No members available in the voice channel'
