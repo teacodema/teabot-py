@@ -240,12 +240,12 @@ reactions = {
 			'🥘': 'Business Intelligence',
 			'🍿': 'Web 3.0',
 		},
-		'-----------': {
+		'930480136166469683': {
 			'☕': 'Hangout',
 			'💭': 'Communication',
 			'🎥': 'Workshops',
-			'🧠': 'Coding Challenges',
-			'📂': 'Mock Interview',
+			'💻': 'Coding Challenges',
+			'📞': 'Mock Interview',
 		},
 	},
 }
