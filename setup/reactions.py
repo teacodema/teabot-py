@@ -245,7 +245,7 @@ reactions = {
 			'💭': 'Communication',
 			'🎥': 'Workshops',
 			'💻': 'Coding Challenges',
-			'📞': 'Mock Interview',
+			'📱': 'Mock Interview',
 		},
 	},
 }
