@@ -56,7 +56,7 @@ def init_bot_reaction(params):
 			guild = bot.get_guild(guildId)
 			member = payload.member
 
-			log = bot.get_channel(textChannels['log-channel'])
+			log = bot.get_channel(textChannels['log-role'])
 			await log_reacted_msg(payload, log, member)
 
 			if member.bot == True:
@@ -89,7 +89,7 @@ def init_bot_reaction(params):
 			guild = bot.get_guild(guildId)
 			member = await guild.fetch_member(payload.user_id)
 
-			log = bot.get_channel(textChannels['log-channel'])
+			log = bot.get_channel(textChannels['log-role'])
 			await log_reacted_msg(payload, log, member, False)
 
 			if member.bot == True:

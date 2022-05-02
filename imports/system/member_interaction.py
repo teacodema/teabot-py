@@ -79,7 +79,7 @@ def init_member_interaction(params):
 			await ctx.send("Sending direct message...", hidden=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
-			channel = bot.get_channel(textChannels['log-channel'])
+			channel = bot.get_channel(textChannels['log-dms'])
 			notifyMe = '──────────────────────'
 			notifyMe += f'\nDM/ =▷'
 			notifyMe += f'\n__To__'
