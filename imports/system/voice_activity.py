@@ -14,6 +14,7 @@ def init_voice_activity(params):
 			await showVoiceChat(member, voice1, voice2)
 			await showHelpChat(member, voice1, voice2)
 			await logModeratorsVoice(member, voice1, voice2, bot, get)
+			await showLTVoice(member, voice1, voice2, bot, get)
 			
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
