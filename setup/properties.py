@@ -15,6 +15,7 @@ textChannels = {
 	'general': 						694956824356585657,
 	'voice-chat': 				795629763363864606,
 	'help-chat': 					802892768011223045,
+	'study-group-discussion':	909572107271278673,
 	
 	'staff-notes': 	842229209539805204,
 
@@ -36,6 +37,7 @@ categories = {
 	
 	'voice-channels':			796115044374413332,
 	'help-voice': 				867877610134700062,
+	'study-group':				909513881842515990,
 
 	'staff-corner':	810187882153115648,
 
