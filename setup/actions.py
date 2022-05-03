@@ -33,7 +33,7 @@ def slash_permissions(authorizedRolesIds, unAuthorizedRolesIds):
 		authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
 		for r in authorizedRoles:
 			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, True))
-	if unAuthorizedRoles:
+	if unAuthorizedRolesIds:
 		unAuthorizedRoles = list({key: roles[key] for key in unAuthorizedRolesIds}.values())
 		for r in unAuthorizedRoles:
 			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, False))
