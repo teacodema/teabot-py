@@ -9,7 +9,7 @@ def init_server_data(params):
 	get = params['get']
 
 	######################## SERVER INFO ########################
-	@slash.slash(name = "tc_si", guild_ids = [guildId],
+	@slash.slash(name = "tc_si", description = "Display server info", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def server_info(ctx, hidden: int = 0):
 		try:

@@ -10,7 +10,7 @@ def init_check_membership(params):
 
 	
 	######################## CHECK UNASSIGNED MEMBERS ########################
-	@slash.slash(name = "tc_cnm", guild_ids = [guildId],
+	@slash.slash(name = "tc_cnm", description = "Check new membership period", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def check_new_members(ctx, nr:int=1, do:int=0):
 		try:
@@ -48,7 +48,7 @@ def init_check_membership(params):
 
 
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
-	@slash.slash(name = "tc_unm", guild_ids = [guildId],
+	@slash.slash(name = "tc_unm", description = "No longer new members", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def update_new_members(ctx, do:int=0):
 		try:

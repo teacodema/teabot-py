@@ -9,7 +9,7 @@ def init_member_interaction(params):
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "tc_emc", description="\\n \\t /$", guild_ids=[guildId],
+	@slash.slash(name = "tc_emc", description="Edit message channel - \\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def edit_msg_channel(ctx, content, msg_id, channel: discord.TextChannel, pin: int=0):
 		try:
@@ -29,7 +29,7 @@ def init_member_interaction(params):
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "tc_rc", description="\\n \\t /$", guild_ids=[guildId],
+	@slash.slash(name = "tc_rc", description="Reply to msg channel - \\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def reply_channel(ctx, reply, msg_id, channel: discord.TextChannel):
 		try:
@@ -47,7 +47,7 @@ def init_member_interaction(params):
 
 
 	######################## SEND MSG TO CHANNEL ########################
-	@slash.slash(name = "tc_mc", description="\\n \\t /$", guild_ids=[guildId],
+	@slash.slash(name = "tc_mc", description="Send msg to channel - \\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def msg_channel(ctx, msg, channel: discord.TextChannel, pin: int=0):
 		try:
@@ -68,7 +68,7 @@ def init_member_interaction(params):
 			await log_exception(ex, '/msg_channel', ctx)
 
 	######################## SEND MSG TO MEMBER ########################
-	@slash.slash(name = "tc_mm", description="\\n \\t /$", guild_ids=[guildId],
+	@slash.slash(name = "tc_mm", description="Send msg to member/role - \\n \\t /$", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
@@ -130,7 +130,7 @@ def init_member_interaction(params):
 			await log_exception(ex, '/msg_member', ctx)
 
 	######################## DELETE A MSG ########################
-	@slash.slash(name = "tc_rm", description=",", guild_ids=[guildId],
+	@slash.slash(name = "tc_rm", description="Delete msg from public/private - ,", guild_ids=[guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def remove_msg_member(ctx, msg_ids, channel_id):
 		try:

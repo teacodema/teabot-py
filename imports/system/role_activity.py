@@ -10,7 +10,7 @@ def init_role_activity(params):
 	
 
 	######################## TOGGLE ADD ########################
-	@slash.slash(name = "tc_tr", guild_ids = [guildId],
+	@slash.slash(name = "tc_tr", description = "Toggle role to member/role", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def toggle_role(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
 		try:
@@ -39,7 +39,7 @@ def init_role_activity(params):
 
 
 	######################## ROLE TO MEMBERS ########################
-	@slash.slash(name = "tc_trm", description = ',', guild_ids = [guildId],
+	@slash.slash(name = "tc_trm", description = 'Toggle multiple roles to multiple members - ,', guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def toggle_role_members(ctx, roles, members, assign: int = 1):
 		try:
