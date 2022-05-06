@@ -21,7 +21,7 @@ def init_server_activity(params):
 					new = new.lower()
 					old = before.nick
 					allowed = False
-					allowed = new.count('boumlik') or new.count('teacode')
+					allowed = new.count('boumlik') or new.count('teacode') or new.count('teabot')
 					if (allowed):
 						if (old):
 							await after.edit(nick = old)
