@@ -26,8 +26,8 @@ def init_msg_activity(params):
 			try:
 				if await prohibited_mentions(message):
 					return
-				if await check_spam(message):
-					return
+				# if await check_spam(message):
+				# 	return
 			except Exception as ex:
 				print('----- on_message(evt)/everyone|spam -----')
 				print(ex)
