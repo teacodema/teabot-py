@@ -13,13 +13,16 @@ def init_server_data(params):
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def server_info(ctx, hidden: int = 0):
 		try:
-			excludedCategories = [
-				categories['staff-corner'],
-				categories['private-corner'],
-				categories['lab-corner'],
-				categories['system-corner'],
-			]
-			isNotAllowed = not is_founders(ctx)
+			# excludedCategories = [
+			# 	categories['staff-corner'],
+			# 	categories['private-corner'],
+			# 	categories['lab-corner'],
+			# 	categories['system-corner'],
+			# ]
+			# isNotAllowed = not is_founders(ctx)
+			if not is_founders(ctx):
+				await ctx.send('❌ Missing Permissions')
+				return
 
 			guild = bot.get_guild(ctx.guild_id)
 
