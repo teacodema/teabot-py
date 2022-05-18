@@ -26,8 +26,8 @@ def init_msg_activity(params):
 			try:
 				if await prohibited_mentions(message):
 					return
-				if await check_spam(message):
-					return
+				# if await check_spam(message):
+				# 	return
 			except Exception as ex:
 				print('----- on_message(evt)/everyone|spam -----')
 				print(ex)
@@ -51,7 +51,7 @@ def init_msg_activity(params):
 				users['teabot'],
 			]
 		if author.id not in excludedIDs:
-			channel = bot.get_channel(textChannels['log-channel'])
+			channel = bot.get_channel(textChannels['log-dms'])
 			msgs = []
 			msg = '──────────────────────'
 			msg += f'\nDM/ ◁='
@@ -83,7 +83,7 @@ def init_msg_activity(params):
 			'discord-airdrop', 'discocrd-nitro', 'discode'
 		]
 		spam = False
-		channel = bot.get_channel(textChannels['log-channel'])
+		channel = bot.get_channel(textChannels['log-txt'])
 		for b in blocked:
 			if message.content.count(b) > 0:
 				_msg = '──────────────────────'
@@ -105,7 +105,7 @@ def init_msg_activity(params):
 			if message.channel.category_id in excludedCategories:
 				return
 				
-			log = bot.get_channel(textChannels['log-channel'])
+			log = bot.get_channel(textChannels['log-txt'])
 			msgs = []
 			msg = '──────────────────────'
 			msg += f'\n🗑 by {message.author.mention} in {message.channel.mention}'
@@ -144,7 +144,7 @@ def init_msg_activity(params):
 				return
 			if (before.content.lower() == after.content.lower()):
 				return
-			log = bot.get_channel(textChannels['log-channel'])
+			log = bot.get_channel(textChannels['log-txt'])
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
 			msg += f'\n✏ by {before.author.mention} in {before.channel.mention}'

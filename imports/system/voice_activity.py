@@ -12,8 +12,9 @@ def init_voice_activity(params):
 	async def on_voice_state_update(member, voice1, voice2):
 		try:
 			await showVoiceChat(member, voice1, voice2)
-			await showHelpVoice(member, voice1, voice2)
+			await showHelpChat(member, voice1, voice2)
 			await logModeratorsVoice(member, voice1, voice2, bot, get)
+			await showLTVoice(member, voice1, voice2, bot, get)
 			
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
@@ -25,14 +26,14 @@ def init_voice_activity(params):
 
 
 	######################## LOG VOICE #Help › Voice ########################
-	async def showHelpVoice(member, voice1, voice2):
+	async def showHelpChat(member, voice1, voice2):
 		try:
 			await logVoice(member, voice1, voice2, 'help-chat', 'help-voice', 'help-room')
 			# await duplicateVC(categories['help-voice'], voice1, voice2, bot)
 		except Exception as ex:
-			print('----- showHelpVoice() -----')
+			print('----- showHelpChat() -----')
 			print(ex)
-			await log_exception(ex, 'showHelpVoice()', None, bot)
+			await log_exception(ex, 'showHelpChat()', None, bot)
 
 
 	######################## LOG VOICE #Voice Channels ########################
@@ -53,6 +54,16 @@ def init_voice_activity(params):
 			print(ex)
 			await log_exception(ex, 'logModeratorsVoice()', None, bot)
 
+	
+	######################## LOG VOICE #Help › Voice ########################
+	async def showLTVoice(member, voice1, voice2, bot, get):
+		try:
+			await logVoice(member, voice1, voice2, 'study-group-discussion', 'study-group', None)
+			# await duplicateVC(909513881842515990, voice1, voice2, bot) # Learn Together
+		except Exception as ex:
+			print('----- showLTVoice() -----')
+			print(ex)
+			await log_exception(ex, 'showLTVoice()', None, bot)
 	
 	async def logVoice(member, voice1, voice2, channelID, categoryID, roleID = None):
 		try:

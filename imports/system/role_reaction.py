@@ -56,7 +56,7 @@ def init_bot_reaction(params):
 			guild = bot.get_guild(guildId)
 			member = payload.member
 
-			log = bot.get_channel(textChannels['log-channel'])
+			log = bot.get_channel(textChannels['log-reaction'])
 			await log_reacted_msg(payload, log, member)
 
 			if member.bot == True:
@@ -89,7 +89,7 @@ def init_bot_reaction(params):
 			guild = bot.get_guild(guildId)
 			member = await guild.fetch_member(payload.user_id)
 
-			log = bot.get_channel(textChannels['log-channel'])
+			log = bot.get_channel(textChannels['log-reaction'])
 			await log_reacted_msg(payload, log, member, False)
 
 			if member.bot == True:
@@ -109,7 +109,7 @@ def init_bot_reaction(params):
 			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot)
 
 
-	@slash.slash(name = "tc_rr", description=',', guild_ids = [guildId],
+	@slash.slash(name = "tc_rr", description='Add/Remove reaction to/from msg - ,', guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def bot_react(ctx, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
 		try:

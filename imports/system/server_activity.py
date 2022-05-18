@@ -21,7 +21,7 @@ def init_server_activity(params):
 					new = new.lower()
 					old = before.nick
 					allowed = False
-					allowed = new.count('boumlik') or new.count('teacode')
+					allowed = new.count('boumlik') or new.count('teacode') or new.count('teabot')
 					if (allowed):
 						if (old):
 							await after.edit(nick = old)
@@ -69,7 +69,7 @@ def init_server_activity(params):
 			await log_exception(ex, 'on_member_remove(evt)', None, bot)
 
 	######################## WELCOME MEMBER CMD ########################
-	@slash.slash(name = "tc_w", guild_ids = [guildId],
+	@slash.slash(name = "tc_w", description = "Welcome non-activated users", guild_ids = [guildId],
 		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
 	async def welcome(ctx, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
 		try:

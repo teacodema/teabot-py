@@ -11,7 +11,7 @@ async def log_exception(ex, action, ctx=None, bot=None, hidden=True, msg=None):
 		if ctx:
 			await ctx.send(msg, hidden = hidden)
 		elif bot:
-			logBot = bot.get_channel(textChannels['log-channel'])
+			logBot = bot.get_channel(textChannels['log-exception'])
 			await logBot.send(msg)
 	except Exception as ex:
 		print('----- log_exception -----')
@@ -29,15 +29,14 @@ def is_founders(ctx):
 
 def slash_permissions(authorizedRolesIds, unAuthorizedRolesIds):
 	permissions = []
-
-	authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
-	for r in authorizedRoles:
-		permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, True))
-
-	unAuthorizedRoles = list({key: roles[key] for key in unAuthorizedRolesIds}.values())
-	for r in unAuthorizedRoles:
-		permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, False))
-
+	if authorizedRolesIds:
+		authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
+		for r in authorizedRoles:
+			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, True))
+	if unAuthorizedRolesIds:
+		unAuthorizedRoles = list({key: roles[key] for key in unAuthorizedRolesIds}.values())
+		for r in unAuthorizedRoles:
+			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, False))
 	return permissions
 
 def get_attachments(message):
