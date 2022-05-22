@@ -2,6 +2,7 @@ appParams = {
 	'newMembershipPeriode': 7, # in days
 	'inviteMaxAge': 604800, # in seconds <=> 1 week
 	'inviteMaxUses': 10,
+	'blue': 0x1da1f2
 }
 guildId = 694956824356585654
 textChannels = {

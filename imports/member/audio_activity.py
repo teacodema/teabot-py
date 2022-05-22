@@ -196,7 +196,7 @@ def init_audio_activity(params):
 			else:
 				value = f"**{currentTrackIndex+1}・**{title}... - {track['duration']}"
 			# guild = bot.get_guild(ctx.guild_id)
-			embed = discord.Embed(color=0x1da1f2)
+			embed = discord.Embed(color=appParams['blue'])
 			embed.set_thumbnail(url=track['thumbnail'])
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
@@ -445,7 +445,7 @@ def init_audio_activity(params):
 		try:
 			nonlocal playlist, currentTrackIndex
 			# guild = bot.get_guild(ctx.guild_id)
-			embed = discord.Embed(color=0x1da1f2)
+			embed = discord.Embed(color=appParams['blue'])
 			# embed.set_thumbnail(url=guild.icon_url)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
