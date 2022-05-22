@@ -5,7 +5,7 @@ reactions = {
 			'🟡': 'Coding Challenges'
 		},
 		'952311197594701895': {
-			'🇾': 'Learn Programming'
+			'🇾': 'Q/A Session'
 		},
 		'942529169223462923': {
 			'🇾': 'Learn French'
