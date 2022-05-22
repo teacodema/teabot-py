@@ -28,7 +28,7 @@ def init_server_data(params):
 
 			created_at = getTimeUtcPlusOne(guild.created_at, "%A, %B %d, %Y - %H:%M")
 
-			embed = discord.Embed(title=guild.name, description="", color=0x1da1f2)
+			embed = discord.Embed(title=guild.name, description="", color=appParams['blue'])
 			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.set_thumbnail(url=guild.icon_url)
 			embed.add_field(name="Guild Name", value=guild.name, inline=True)
