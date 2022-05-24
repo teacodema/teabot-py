@@ -43,7 +43,7 @@ def init_msg_activity(params):
 		author = message.author
 		# Testing
 		if author.id == users['drissboumlik']:
-			channel = author.dm_channel
+			channel = await author.create_dm()
 			await channel.send('am alive')
 			return
 		excludedIDs = [

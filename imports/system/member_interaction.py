@@ -4,79 +4,74 @@ from setup.actions import *
 def init_member_interaction(params):
 
 	bot = params['bot']
-	slash = params['slash']
 	discord = params['discord']
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "tc_emc", description="Edit message channel - \\n \\t /$", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def edit_msg_channel(ctx, content, msg_id, channel: discord.TextChannel, pin: int=0):
+	@bot.slash_command(name = "tc_emc", description="Edit message channel - \\n \\t /$")
+	async def edit_msg_channel(interaction, content, msg_id, channel: discord.TextChannel, pin: int=0):
 		try:
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.edit(content=content)
 			if pin:
 				await msg.pin()
-			await ctx.send('Edit done', hidden=True)
+			await interaction.send('Edit done', ephemeral=True)
 		except Exception as ex:
 			print('----- /edit_msg_channel() -----')
 			print(ex)
-			await log_exception(ex, '/edit_msg_channel', ctx)
+			await log_exception(ex, '/edit_msg_channel', interaction)
 
 
 	######################## REPLY TO MSG ########################
-	@slash.slash(name = "tc_rc", description="Reply to msg channel - \\n \\t /$", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def reply_channel(ctx, reply, msg_id, channel: discord.TextChannel):
+	@bot.slash_command(name = "tc_rc", description="Reply to msg channel - \\n \\t /$")
+	async def reply_channel(interaction, reply, msg_id, channel: discord.TextChannel):
 		try:
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			reply = replace_str(reply, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.reply(reply)
-			await ctx.send('Reply sent', hidden=True)
+			await interaction.send('Reply sent', ephemeral=True)
 		except Exception as ex:
 			print('----- /reply_channel() -----')
 			print(ex)
-			await log_exception(ex, '/reply_channel', ctx)
+			await log_exception(ex, '/reply_channel', interaction)
 
 
 	######################## SEND MSG TO CHANNEL ########################
-	@slash.slash(name = "tc_mc", description="Send msg to channel - \\n \\t /$", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def msg_channel(ctx, msg, channel: discord.TextChannel, pin: int=0):
+	@bot.slash_command(name = "tc_mc", description="Send msg to channel - \\n \\t /$")
+	async def msg_channel(interaction, msg, channel: discord.TextChannel, pin: int=0):
 		try:
 			
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = await channel.send(msg)
 			if pin:
 				await msg.pin()
-			await ctx.send('Msg sent', hidden=True)
+			await interaction.send('Msg sent', ephemeral=True)
 		
 		except Exception as ex:
 			print('----- /msg_channel() -----')
 			print(ex)
-			await log_exception(ex, '/msg_channel', ctx)
+			await log_exception(ex, '/msg_channel', interaction)
 
 	######################## SEND MSG TO MEMBER ########################
-	@slash.slash(name = "tc_mm", description="Send msg to member/role - \\n \\t /$", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def msg_member(ctx, msg, member: discord.Member = None, role: discord.Role = None):
+	@bot.slash_command(name = "tc_mm", description="Send msg to member/role - \\n \\t /$")
+	async def msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None):
 		try:
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 
-			await ctx.send("Sending direct message...", hidden=True)
+			await interaction.send("Sending direct message...", ephemeral=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
 			channel = bot.get_channel(textChannels['log-dms'])
@@ -88,13 +83,13 @@ def init_member_interaction(params):
 			if role and member == None:
 				pass
 			elif role == None and member == None:
-				member = ctx.author
+				member = interaction.author
 
 			if role:
 				members = role.members
 				for m in members:
 					try:
-						_sentMsg = await send_msg(ctx, msg, m)
+						_sentMsg = await send_msg(interaction, msg, m)
 						notifyMe = '─────────────────'
 						if _sentMsg:
 							notifyMe += f'\nmessage ID : {_sentMsg.id}'
@@ -110,7 +105,7 @@ def init_member_interaction(params):
 				notifyMe = f'\nRole: **{role.mention}**'
 				await channel.send(notifyMe)
 			if member:
-				_sentMsg = await send_msg(ctx, msg, member)
+				_sentMsg = await send_msg(interaction, msg, member)
 				notifyMe = '─────────────────'
 				if _sentMsg:
 					notifyMe += f'\nmessage ID : {_sentMsg.id}'
@@ -127,17 +122,16 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /msg_member() -----')
 			print(ex)
-			await log_exception(ex, '/msg_member', ctx)
+			await log_exception(ex, '/msg_member', interaction)
 
 	######################## DELETE A MSG ########################
-	@slash.slash(name = "tc_rm", description="Delete msg from public/private - ,", guild_ids=[guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def remove_msg_member(ctx, msg_ids, channel_id):
+	@bot.slash_command(name = "tc_rm", description="Delete msg from public/private - ,")
+	async def remove_msg_member(interaction, msg_ids, channel_id):
 		try:
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
-			await ctx.send("Deleting direct message...", hidden=True)
+			await interaction.send("Deleting direct message...", ephemeral=True)
 			msg_ids = msg_ids.split(',')
 			_ch = await bot.fetch_channel(channel_id)
 			for msg_id in msg_ids:
@@ -150,9 +144,9 @@ def init_member_interaction(params):
 		except Exception as ex:
 			print('----- /remove_msg_member() -----')
 			print(ex)
-			await log_exception(ex, '/remove_msg_member', ctx)
+			await log_exception(ex, '/remove_msg_member', interaction)
 
-	async def send_msg(ctx, message, member):
+	async def send_msg(interaction, message, member):
 		try:
 			channel = member.dm_channel
 			if channel == None:
@@ -162,5 +156,5 @@ def init_member_interaction(params):
 			print('----- send_msg() -----')
 			print(ex)
 			msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
-			await log_exception(ex, 'send_msg()', ctx, None, True, msg)
+			await log_exception(ex, 'send_msg()', interaction, None, True, msg)
 			return None

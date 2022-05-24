@@ -4,7 +4,6 @@ from setup.actions import *
 def init_voice_activity(params):
 	
 	bot = params['bot']
-	get = params['get']
 	tasks = params['tasks']
 
 	######################## VOICE ########################
@@ -13,8 +12,8 @@ def init_voice_activity(params):
 		try:
 			await showVoiceChat(member, voice1, voice2)
 			await showHelpChat(member, voice1, voice2)
-			await logModeratorsVoice(member, voice1, voice2, bot, get)
-			await showLTVoice(member, voice1, voice2, bot, get)
+			await logModeratorsVoice(member, voice1, voice2, bot)
+			await showLTVoice(member, voice1, voice2, bot)
 			
 			# voice_state = member.guild.voice_client
 			# if voice_state and len(voice_state.channel.members) == 1:
@@ -46,7 +45,7 @@ def init_voice_activity(params):
 			await log_exception(ex, 'showVoiceChat()', None, bot)
 
 
-	async def logModeratorsVoice(member, voice1, voice2, bot, get):
+	async def logModeratorsVoice(member, voice1, voice2, bot):
 		try:
 			await logVoice(member, voice1, voice2, 'staff-notes', 'staff-corner')
 		except Exception as ex:
@@ -56,7 +55,7 @@ def init_voice_activity(params):
 
 	
 	######################## LOG VOICE #Help › Voice ########################
-	async def showLTVoice(member, voice1, voice2, bot, get):
+	async def showLTVoice(member, voice1, voice2, bot):
 		try:
 			await logVoice(member, voice1, voice2, 'study-group-discussion', 'study-group', None)
 			# await duplicateVC(909513881842515990, voice1, voice2, bot) # Learn Together
@@ -72,7 +71,7 @@ def init_voice_activity(params):
 			logChannel = bot.get_channel(textChannels[channelID])
 			role = None
 			if roleID:
-				role = get(guild.roles, id = roles[roleID])
+				role = guild.get_role(roles[roleID])
 			msg = getVoiceLogMessage(member, voice1, voice2)
 			if (not voice1.channel and voice2.channel):
 				if (voice2.channel.category_id == categoryID):

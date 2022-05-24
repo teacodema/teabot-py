@@ -1,15 +1,13 @@
 from datetime import datetime
 import pytz
 from setup.properties import *
-from discord_slash.utils.manage_commands import create_permission
-from discord_slash.model import SlashCommandPermissionType
 
-async def log_exception(ex, action, ctx=None, bot=None, hidden=True, msg=None):
+async def log_exception(ex, action, interaction=None, bot=None, hidden=True, msg=None):
 	try:
 		if msg: msg += f'\n----\n{action}\n{str(ex)}'
 		else: msg = f'{action}\n{str(ex)}'
-		if ctx:
-			await ctx.send(msg, hidden = hidden)
+		if interaction:
+			await interaction.send(msg, ephemeral = hidden)
 		elif bot:
 			logBot = bot.get_channel(textChannels['log-exception'])
 			await logBot.send(msg)
@@ -18,26 +16,26 @@ async def log_exception(ex, action, ctx=None, bot=None, hidden=True, msg=None):
 		print(ex)
 
 
-def is_authorised(ctx, authorizedRolesIds):
-	roleIds = [role.id for role in ctx.author.roles]
+def is_authorised(interaction, authorizedRolesIds):
+	roleIds = [role.id for role in interaction.author.roles]
 	authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
 	roleExists = [value for value in authorizedRoles if value in roleIds]
 	return len(roleExists) > 0
 
-def is_founders(ctx):
-	return is_authorised(ctx, {'founders'})
+def is_founders(interaction):
+	return is_authorised(interaction, {'founders'})
 
-def slash_permissions(authorizedRolesIds, unAuthorizedRolesIds):
-	permissions = []
-	if authorizedRolesIds:
-		authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
-		for r in authorizedRoles:
-			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, True))
-	if unAuthorizedRolesIds:
-		unAuthorizedRoles = list({key: roles[key] for key in unAuthorizedRolesIds}.values())
-		for r in unAuthorizedRoles:
-			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, False))
-	return permissions
+# def slash_permissions(authorizedRolesIds, unAuthorizedRolesIds):
+# 	permissions = []
+# 	if authorizedRolesIds:
+# 		authorizedRoles = list({key: roles[key] for key in authorizedRolesIds}.values())
+# 		for r in authorizedRoles:
+# 			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, True))
+# 	if unAuthorizedRolesIds:
+# 		unAuthorizedRoles = list({key: roles[key] for key in unAuthorizedRolesIds}.values())
+# 		for r in unAuthorizedRoles:
+# 			permissions.append(create_permission(r, SlashCommandPermissionType.ROLE, False))
+# 	return permissions
 
 def get_attachments(message):
 	if len(message.attachments):
@@ -55,13 +53,12 @@ def get_embeds(message):
 		return embedsUrls
 	return ''
 
-async def checkNewMemberRole(bot, get, do:int=0):
+async def checkNewMemberRole(guild, do:int=0):
 	try:
-		guild = bot.get_guild(guildId)
-		role = get(guild.roles, id = roles['new-members'])
+		role = guild.get_role(roles['new-members'])
 		updated = []
 		for member in role.members:
-			diff = datetime.now() - member.joined_at
+			diff = datetime.now() - member.joined_at.replace(tzinfo=None)
 			if diff.days >= appParams['newMembershipPeriode']:
 				updated.append(member.mention)
 				if do: await member.remove_roles(role)

@@ -4,13 +4,11 @@ from setup.actions import *
 def init_msg_log(params):
 	
 	bot = params['bot']
-	slash = params['slash']
 	purgedMsgs = []
 
 	######################## PURGE ########################
-	@slash.slash(name = "purge", description = "Clear all messages", guild_ids = [guildId],
-		permissions={ guildId: slash_permissions({'founders', 'staff'}, {'members', 'everyone'}) })
-	async def purge(ctx, limit: int=None):
+	@bot.slash_command(name = "purge", description = "Clear all messages")
+	async def purge(interaction, limit: int=None):
 		try:
 			nonlocal purgedMsgs
 			
@@ -20,60 +18,59 @@ def init_msg_log(params):
 			
 			purgedMsgs = []
 			channelsToClear = [
-				textChannels['voice-chat'],
-				textChannels['help-chat']
+				textChannels['voice-chat']
 			]
-			if not limit and ctx.channel.id not in channelsToClear:
-				await ctx.send('❌ Wrong Target Channel', hidden=True)
+			if not limit and interaction.channel.id not in channelsToClear:
+				await interaction.send('❌ Wrong Target Channel', ephemeral=True)
 				return
 
 			if limit:
 				if limit > 500:
-					await ctx.send('You cannot delete more than 500 messages', hidden=True)
+					await interaction.send('You cannot delete more than 500 messages', ephemeral=True)
 					return
 				else:
-					await ctx.send('Clearing messages ...', hidden=True)
-					deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned)
-					await ctx.send(f'{len(deletedMsgs)} message(s) cleared', hidden=True)
+					await interaction.send('Clearing messages ...', ephemeral=True)
+					deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned)
+					await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
 					count = len(deletedMsgs)
 					deletedMsgs.reverse()
-					await logPurgedMessages(ctx, count, deletedMsgs)
+					await logPurgedMessages(interaction, count, deletedMsgs)
 				return
 
 			MAX_TO_DELETE = 500
-			await ctx.send('Clearing everything ...', hidden=True)
+			await interaction.send('Clearing everything ...', ephemeral=True)
 			# time.sleep(2)
-			await deleteMsg(ctx, MAX_TO_DELETE)
+			await deleteMsg(interaction, MAX_TO_DELETE)
 		except Exception as ex:
 			print('----- /purge() -----')
 			print(ex)
-			await log_exception(ex, '/purge', ctx)
+			await log_exception(ex, '/purge', interaction)
 
 	def isNotPinned(msg):
 		return not msg.pinned
 
-	async def deleteMsg(ctx, limit):
+	async def deleteMsg(interaction, limit):
 		try:
 			nonlocal purgedMsgs
-			deletedMsgs = await ctx.channel.purge(limit = limit, check = isNotPinned)
+			deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned)
 			purgedMsgs += deletedMsgs
 			deletedMsgs = len(deletedMsgs)
 			if (deletedMsgs > 0):
-				return await deleteMsg(ctx, limit)
+				return await deleteMsg(interaction, limit)
 			else:
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
-				await ctx.send(f'{len(purgedMsgs)} message(s) cleared', hidden=True)
-				await logPurgedMessages(ctx, count, purgedMsgs)
+				await interaction.send(f'{len(purgedMsgs)} message(s) cleared', ephemeral=True)
+				await logPurgedMessages(interaction, count, purgedMsgs)
 				return len(purgedMsgs)
 		except Exception as ex:
 			print('----- deleteMsg() -----')
 			print(ex)
-			await log_exception(ex, 'deleteMsg()', ctx)
+			await log_exception(ex, 'deleteMsg()', interaction)
 
-	async def logPurgedMessages(ctx, count, _purgedMsgs):
+	async def logPurgedMessages(interaction, count, _purgedMsgs):
 		log = bot.get_channel(textChannels['log-msg'])
-		headerMsg = f"🗑 **purge({count}) | {ctx.channel.mention}** ──────────"
+		headerMsg = f"🗑 **purge({count}) | {interaction.channel.mention}** ──────────"
 		await log.send(headerMsg)
 		for m in _purgedMsgs:
 			msg = '──────────────────────'
