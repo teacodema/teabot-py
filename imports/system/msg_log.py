@@ -18,7 +18,8 @@ def init_msg_log(params):
 			
 			purgedMsgs = []
 			channelsToClear = [
-				textChannels['voice-chat']
+				textChannels['voice-chat'],
+				textChannels['help-chat']
 			]
 			if not limit and interaction.channel.id not in channelsToClear:
 				await interaction.send('❌ Wrong Target Channel', ephemeral=True)

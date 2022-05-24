@@ -111,8 +111,8 @@ def init_bot_reaction(params):
 	async def bot_react(interaction, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
 		try:
 
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 	
 			if msg_id:

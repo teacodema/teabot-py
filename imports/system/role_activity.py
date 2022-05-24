@@ -11,8 +11,8 @@ def init_role_activity(params):
 	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
 		try:
 
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 
 			await interaction.send('Toggling Role...', ephemeral=True)
@@ -39,8 +39,8 @@ def init_role_activity(params):
 	async def toggle_role_members(interaction, roles, members, assign: int = 1):
 		try:
 			
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 			
 			await interaction.send('Updating Role...', ephemeral=True)
