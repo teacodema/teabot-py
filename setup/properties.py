@@ -18,7 +18,7 @@ textChannels = {
 	'help-chat': 					802892768011223045,
 	'study-group-discussion':	909572107271278673,
 	
-	'staff-notes': 	842229209539805204,
+	'staff-notes': 	951593615191326860,
 
 	'playground':					885234699860049960,
 	'log-bot':						897855382599393290,
