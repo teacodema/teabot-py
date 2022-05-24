@@ -12,8 +12,8 @@ def init_msg_log(params):
 		try:
 			nonlocal purgedMsgs
 			
-			if not is_authorised(ctx, {'founders', 'staff'}):
-				await ctx.send('❌ Missing Permissions')
+			if not is_authorised(interaction, {'founders', 'staff'}):
+				await interaction.send('❌ Missing Permissions')
 				return
 			
 			purgedMsgs = []
