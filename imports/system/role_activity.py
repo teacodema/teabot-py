@@ -4,51 +4,46 @@ from setup.actions import *
 def init_role_activity(params):
 	
 	bot = params['bot']
-	get = params['get']
-	discord = params['discord']
-	slash = params['slash']
-	
+	discord = params['discord']	
 
 	######################## TOGGLE ADD ########################
-	@slash.slash(name = "tc_tr", description = "Toggle role to member/role", guild_ids = [guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def toggle_role(ctx, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
+	@bot.slash_command(name = "tc_tr", description = "Toggle role to member/role")
+	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
 		try:
 
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 
-			await ctx.send('Toggling Role...', hidden=True)
+			await interaction.send('Toggling Role...', ephemeral=True)
 			if (role2 != None and member == None):
 				msg = f'{role2.mention} {"got" if assign else "lost"} a role : {role.mention}'
 				members = role2.members
 				for memberTo in members:
-					await toggleRole(ctx, memberTo, [role], assign)
+					await toggleRole(interaction, memberTo, [role], assign)
 			else:
 				if (not member):
-					member = ctx.author
-				await toggleRole(ctx, member, [role], assign)
+					member = interaction.author
+				await toggleRole(interaction, member, [role], assign)
 				msg = f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}'
 
-			await ctx.send(msg, hidden=True)
+			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
 			print('----- /toggle_role() -----')
 			print(ex)
-			await log_exception(ex, '/toggle_role', ctx)
+			await log_exception(ex, '/toggle_role', interaction)
 
 
 	######################## ROLE TO MEMBERS ########################
-	@slash.slash(name = "tc_trm", description = 'Toggle multiple roles to multiple members - ,', guild_ids = [guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def toggle_role_members(ctx, roles, members, assign: int = 1):
+	@bot.slash_command(name = "tc_trm", description = 'Toggle multiple roles to multiple members - ,')
+	async def toggle_role_members(interaction, roles, members, assign: int = 1):
 		try:
 			
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 			
-			await ctx.send('Updating Role...', hidden=True)
+			await interaction.send('Updating Role...', ephemeral=True)
 			guild = bot.get_guild(guildId)
 
 			msg_r = ''
@@ -57,7 +52,7 @@ def init_role_activity(params):
 			for role_id in roles:
 				role_id = role_id.replace('<@&', '')
 				role_id = role_id.replace('>', '')
-				role = get(guild.roles, id = int(role_id))
+				role = guild.get_role(int(role_id))
 				msg_r += f'{role.mention}, '
 				roles_list.append(role)
 
@@ -69,22 +64,22 @@ def init_role_activity(params):
 					m = m.replace('>', '')
 					m = await guild.fetch_member(m)
 					msg_m += f'{m.mention}, '
-					await toggleRole(ctx, m, roles_list, assign)
+					await toggleRole(interaction, m, roles_list, assign)
 				except Exception as ex:
 					print('----- /toggle_role_members()/toggle member -----')
 					print(ex)
 					pass
 
 			msg = f'{msg_m} {"got" if assign else "lost"} roles : {msg_r}'
-			await ctx.send(msg, hidden=True)
+			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
 			print('----- /toggle_role_members() -----')
 			print(ex)
-			await log_exception(ex, '/toggle_role_members', ctx)
+			await log_exception(ex, '/toggle_role_members', interaction)
 
 
 	######################## TOGGLE ROLE ########################
-	async def toggleRole(ctx, member, roles, assign = True):
+	async def toggleRole(interaction, member, roles, assign = True):
 		try:
 			if assign:
 				await member.add_roles(*roles)
@@ -93,4 +88,4 @@ def init_role_activity(params):
 		except Exception as ex:
 			print('----- toggleRole() -----')
 			print(ex)
-			await log_exception(ex, 'toggleRole()', ctx)
+			await log_exception(ex, 'toggleRole()', interaction)

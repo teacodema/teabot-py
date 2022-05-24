@@ -5,13 +5,10 @@ def init_server_data(params):
 
 	bot = params['bot']
 	discord = params['discord']
-	slash = params['slash']
-	get = params['get']
 
 	######################## SERVER INFO ########################
-	@slash.slash(name = "tc_si", description = "Display server info", guild_ids = [guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def server_info(ctx, hidden: int = 0):
+	@bot.slash_command(name = "tc_si", description = "Display server info")
+	async def server_info(interaction, hidden: int = 0):
 		try:
 			# excludedCategories = [
 			# 	categories['staff-corner'],
@@ -19,18 +16,18 @@ def init_server_data(params):
 			# 	categories['lab-corner'],
 			# 	categories['system-corner'],
 			# ]
-			# isNotAllowed = not is_founders(ctx)
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			# isNotAllowed = not is_founders(interaction)
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 
-			guild = bot.get_guild(ctx.guild_id)
-
+			guild = interaction.guild
+			
 			created_at = getTimeUtcPlusOne(guild.created_at, "%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=guild.name, description="", color=appParams['blue'])
-			embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-			embed.set_thumbnail(url=guild.icon_url)
+			embed.set_author(name=f'{guild.name}', icon_url=guild.icon.url)
+			embed.set_thumbnail(url=guild.icon.url)
 			embed.add_field(name="Guild Name", value=guild.name, inline=True)
 			embed.add_field(name="Created", value=created_at, inline=True)
 			embed.add_field(name="Roles", value=len(guild.roles), inline=True)
@@ -73,27 +70,27 @@ def init_server_data(params):
 			# embed.add_field(name="me", value=guild.me, inline=True)
 			# embed.set_footer(text=f"ID : {guild.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await ctx.send(embed=embed, hidden=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=bool(hidden))
 
 		except Exception as ex:
 			print('----- /server-info() -----')
 			print(ex)
-			await log_exception(ex, '/server-info', ctx)
+			await log_exception(ex, '/server-info', interaction)
 
 	######################## ROLE INFO ########################
-	@slash.slash(name = "role-info", description = "Get role info/stats", guild_ids = [guildId])
-	async def role_info(ctx, role: discord.Role = None, hidden: int = 0):
+	@bot.slash_command(name = "role-info", description = "Get role info/stats")
+	async def role_info(interaction, role: discord.Role = None, hidden: int = 0):
 		try:
 			if role == None:
-				role = ctx.author.top_role
+				role = interaction.author.top_role
 			else:
-				guild = bot.get_guild(guildId)
-				_role = get(guild.roles, id = 799370946372698113) # 🍃│Helpers
-				if not is_founders(ctx) and role not in ctx.author.roles and role.position > _role.position:
-					await ctx.send('❌ You cannot see this data')
+				guild = interaction.guild
+				_role = guild.get_role(799370946372698113) # 🍃│Helpers
+				if not is_founders(interaction) and role not in interaction.author.roles and role.position > _role.position:
+					await interaction.send('❌ You cannot see this data')
 					return
 
-			embed = discord.Embed(name=f'Role : {ctx.author.display_name}', title=role.name, description="", color=role.color)
+			embed = discord.Embed(title=role.name, description="", color=role.color)
 			# embed.set_thumbnail(url=member.avatar_url)
 			embed.add_field(name="Name", value=role.name, inline=True)
 			embed.add_field(name="Mentionable", value="Yes" if role.mentionable else "No", inline=True)
@@ -101,31 +98,31 @@ def init_server_data(params):
 			# embed.set_footer(text=f"ID : {role.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 
-			await ctx.send(embed=embed, hidden=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=bool(hidden))
 
 		except Exception as ex:
 			print('----- /role-info() -----')
 			print(ex)
-			await log_exception(ex, '/role-info', ctx)
+			await log_exception(ex, '/role-info', interaction)
 
 	######################## MEMBER INFO ########################
-	@slash.slash(name = "member-info", description = "Get member info/stats", guild_ids = [guildId])
-	async def member_info(ctx, member: discord.Member = None, hidden : int = 0):
+	@bot.slash_command(name = "member-info", description = "Get member info/stats")
+	async def member_info(interaction, member: discord.Member = None, hidden : int = 0):
 		try:
 
-			if member == None or member == ctx.author:
-				member = ctx.author
+			if member == None or member == interaction.author:
+				member = interaction.author
 			else:
-				if not is_founders(ctx):
-					await ctx.send('❌ You can only see your data')
-					member = ctx.author
+				if not is_founders(interaction):
+					await interaction.send('❌ You can only see your data')
+					member = interaction.author
 
 			created_at = getTimeUtcPlusOne(member.created_at, "%A, %B %d, %Y - %H:%M")
 			joined_at = getTimeUtcPlusOne(member.joined_at, "%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=member.display_name, description="", color=member.top_role.color)
-			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar_url)
-			embed.set_thumbnail(url=member.avatar_url)
+			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar.url)
+			embed.set_thumbnail(url=member.avatar.url)
 			embed.add_field(name="User Name", value=member.name, inline=True)
 			embed.add_field(name="Nick Name", value=member.nick, inline=True)
 			embed.add_field(name="Display Name", value=member.display_name, inline=True)
@@ -135,9 +132,9 @@ def init_server_data(params):
 			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await ctx.send(embed=embed, hidden=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=bool(hidden))
 		except Exception as ex:
 			print('----- /member-info() -----')
 			print(ex)
-			await log_exception(ex, '/member-info', ctx)
+			await log_exception(ex, '/member-info', interaction)
 

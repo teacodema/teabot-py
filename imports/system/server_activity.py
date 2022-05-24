@@ -5,9 +5,6 @@ def init_server_activity(params):
 	
 	discord = params['discord']
 	bot = params['bot']
-	slash = params['slash']
-	tasks = params['tasks']
-	get = params['get']
 	
 
 	@bot.event
@@ -69,22 +66,21 @@ def init_server_activity(params):
 			await log_exception(ex, 'on_member_remove(evt)', None, bot)
 
 	######################## WELCOME MEMBER CMD ########################
-	@slash.slash(name = "tc_w", description = "Welcome non-activated users", guild_ids = [guildId],
-		permissions={ guildId: slash_permissions({'founders'}, {'members', 'everyone'}) })
-	async def welcome(ctx, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
+	@bot.slash_command(name = "tc_w", description = "Welcome non-activated users")
+	async def welcome(interaction, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
 		try:
-			if not is_founders(ctx):
-				await ctx.send('❌ Missing Permissions')
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
 				return
 				
-			await ctx.send(f'Welcoming {member.mention}', hidden=True)
+			await interaction.send(f'Welcoming {member.mention}', ephemeral=True)
 			msg = await welcomeMember(member, assign_role, send_dm, use_webhook)
 			channel = bot.get_channel(textChannels['log-server'])			
 			await channel.send(msg)
 		except Exception as ex:
 			print('----- /welcome() -----')
 			print(ex)
-			await log_exception(ex, '/welcome', ctx)
+			await log_exception(ex, '/welcome', interaction)
 
 	######################## WELCOME MEMBER ########################
 	async def welcomeMember(member, assign_role = 0, send_dm = 0, use_webhook = 0):
@@ -169,7 +165,7 @@ def init_server_activity(params):
 			roles_list = []
 			guild = bot.get_guild(guildId)
 			for role_id in _roles:	
-				role = get(guild.roles, id = role_id)
+				role = guild.get_role(role_id)
 				roles_list.append(role)
 			await member.add_roles(*roles_list)
 

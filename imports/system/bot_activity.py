@@ -5,10 +5,7 @@ from setup.actions import *
 def init_bot_activity(params):
 
 	bot = params['bot']
-	# client2 = params['client2']
 	discord = params['discord']
-	# slash = params['slash']
-	get = params['get']
 	tasks = params['tasks']
 
 	# states = ["online", "dnd", "idle", "offline"]

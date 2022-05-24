@@ -1,5 +1,6 @@
 # from database.player import *
 from setup.properties import *
+from setup.actions import *
 import re
 import datetime
 import random
@@ -7,9 +8,7 @@ import random
 def init_audio_activity(params):
 
 	bot = params['bot']
-	slash = params['slash']
 	discord = params['discord']
-	get = params['get']
 	YoutubeDL = params['YoutubeDL']
 	FFmpegPCMAudio = params['FFmpegPCMAudio']
 	playlist = []
@@ -38,7 +37,7 @@ def init_audio_activity(params):
 		'options': '-vn'}
 
 	######################## PLAY ########################
-	@slash.slash(name = "play", description = "Play a YouTube url", guild_ids = [guildId])
+	@bot.slash_command(name = "play", description = "Play a YouTube url")
 	async def play(ctx, url=None):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
@@ -53,7 +52,7 @@ def init_audio_activity(params):
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if not url:
 				if len(playlist) == 0:
 					await ctx.send('⚠ The queue is empty')
@@ -130,7 +129,7 @@ def init_audio_activity(params):
 				currentTrackIndex = 0
 				track = playlist[currentTrackIndex]
 
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if vc and (not voice or not voice.is_connected()):
 				await vc.connect()
 			playTrack(ctx)
@@ -151,7 +150,7 @@ def init_audio_activity(params):
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
 				return
-			voice = get(bot.voice_clients, guild = _ctxPlay.guild)
+			voice = _ctxPlay.guild.voice_client
 			if not voice or not voice.is_connected():
 				# await ctx.send('❌ The bot is not connected')
 				return
@@ -172,7 +171,7 @@ def init_audio_activity(params):
 			btn_pressed = True
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 		except Exception as ex:
@@ -180,7 +179,7 @@ def init_audio_activity(params):
 			print(ex)
 
 	######################## CURRENT ########################
-	@slash.slash(name = "track", description = "Show current playing track", guild_ids = [guildId])
+	@bot.slash_command(name = "track", description = "Show current playing track")
 	async def current_track(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist
@@ -209,7 +208,7 @@ def init_audio_activity(params):
 
 
 	######################## PLAYLIST ########################
-	@slash.slash(name = "queue", description = "Show the queue", guild_ids = [guildId])
+	@bot.slash_command(name = "queue", description = "Show the queue")
 	async def queue(ctx):
 		try:
 			nonlocal playlist
@@ -224,7 +223,7 @@ def init_audio_activity(params):
 			await log_exception(ex, '/queue', ctx)
 
 	######################## REPLAY ########################
-	@slash.slash(name = "replay", description = "Replay current track", guild_ids = [guildId])
+	@bot.slash_command(name = "replay", description = "Replay current track")
 	async def replay(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -243,7 +242,7 @@ def init_audio_activity(params):
 				return
 			await ctx.send('▶ Replay ...')
 
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if not voice or not voice.is_connected():
 				await vc.connect()
 			playTrack(ctx)
@@ -253,7 +252,7 @@ def init_audio_activity(params):
 			await log_exception(ex, '/replay', ctx)
 
 	######################## NEXT ########################
-	@slash.slash(name = "next", description = "Play next track", guild_ids = [guildId])
+	@bot.slash_command(name = "next", description = "Play next track")
 	async def next(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -275,7 +274,7 @@ def init_audio_activity(params):
 			if currentTrackIndex >= len(playlist):
 				currentTrackIndex = 0
 
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if not voice or not voice.is_connected():
 				await vc.connect()
 			playTrack(ctx)
@@ -285,7 +284,7 @@ def init_audio_activity(params):
 			await log_exception(ex, '/next', ctx)
 
 	######################## PREVIOUS ########################
-	@slash.slash(name = "previous", description = "Play previous track", guild_ids = [guildId])
+	@bot.slash_command(name = "previous", description = "Play previous track")
 	async def previous(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -307,7 +306,7 @@ def init_audio_activity(params):
 			if currentTrackIndex < 0:
 				currentTrackIndex = len(playlist) - 1
 
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if not voice or not voice.is_connected():
 				await vc.connect()
 			playTrack(ctx)
@@ -317,14 +316,14 @@ def init_audio_activity(params):
 			await log_exception(ex, '/previous', ctx)
 
 	######################## PAUSE ########################
-	@slash.slash(name = "pause", description = "Pause the player", guild_ids = [guildId])
+	@bot.slash_command(name = "pause", description = "Pause the player")
 	async def pause(ctx):
 		try:
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if voice and voice.is_playing():
 				await ctx.send('⏸ Pausing ...')
 				voice.pause()
@@ -336,14 +335,14 @@ def init_audio_activity(params):
 			await log_exception(ex, '/pause', ctx)
 
 	######################## RESUME ########################
-	@slash.slash(name = "resume", description = "Resume the player", guild_ids = [guildId])
+	@bot.slash_command(name = "resume", description = "Resume the player")
 	async def resume(ctx):
 		try:
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if voice and voice.is_paused():
 				await ctx.send('⏯ Resuming ...')
 				voice.resume()
@@ -355,7 +354,7 @@ def init_audio_activity(params):
 			await log_exception(ex, '/resume', ctx)
 
 	######################## STOP ########################
-	@slash.slash(name = "stop", description = "Stop the player", guild_ids = [guildId])
+	@bot.slash_command(name = "stop", description = "Stop the player")
 	async def stop(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -366,7 +365,7 @@ def init_audio_activity(params):
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if voice and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⏹ Stopping ...')
 				voice.stop()
@@ -378,11 +377,11 @@ def init_audio_activity(params):
 			await log_exception(ex, '/stop', ctx)
 
 	######################## LEAVE ########################
-	@slash.slash(name = "leave", description = "Disconnect the bot from the voice room", guild_ids = [guildId])
+	@bot.slash_command(name = "leave", description = "Disconnect the bot from the voice room")
 	async def leave(ctx):
 		try:
 			# player_params['current_played'] = None
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if voice != None:
 				await voice.disconnect()
 				await ctx.send('🚪 Leaving ...')
@@ -394,11 +393,11 @@ def init_audio_activity(params):
 			await log_exception(ex, '/leave', ctx)
 
 	######################## CLEAR PLAYLIST ########################
-	@slash.slash(name = "clear-queue", description = "Flushes the queue", guild_ids = [guildId])
+	@bot.slash_command(name = "clear-queue", description = "Flushes the queue")
 	async def clear_queue(ctx):
 		try:
 			nonlocal playlist
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⚠ A track is currently playing')
 				return
@@ -410,11 +409,11 @@ def init_audio_activity(params):
 			await log_exception(ex, '/clear-queue', ctx)
 
 	######################## REFRESH LIST ########################
-	@slash.slash(name = "refresh", description = "Refill the queue with some tracks", guild_ids = [guildId])
+	@bot.slash_command(name = "refresh", description = "Refill the queue with some tracks")
 	async def refresh(ctx):
 		try:
 			nonlocal playlist
-			voice = get(bot.voice_clients, guild = ctx.guild)
+			voice = ctx.guild.voice_client
 			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⚠ A track is currently playing')
 				return
