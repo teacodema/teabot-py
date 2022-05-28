@@ -1,12 +1,31 @@
 from setup.properties import *
 from setup.actions import *
 
-def init_member_interaction(params):
+def init_bot_chat(params):
 
 	bot = params['bot']
 	discord = params['discord']
 
-
+	####################### MAKE A WEBHOOK #######################
+	@bot.slash_command(name="tc_mw", description="Make a webhook - \\n \\t /$")
+	async def make_webhook(interaction, member: discord.Member, channel: discord.TextChannel, msg, name=None):
+		try:
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
+			if name == None:
+				name = member.display_name
+			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
+			webhook = await channel.create_webhook(name=name)
+			await webhook.send(f'{msg}', username=member.display_name, avatar_url=member.avatar.url)
+			await webhook.delete()
+			await interaction.send('✅ Webhook made', ephemeral=True)
+		except Exception as ex:
+			await interaction.send('❌ Webhook not made', ephemeral=True)
+			print('----- /make_webhook() -----')
+			print(ex)
+			await log_exception(ex, '/make_webhook', interaction)
+	
 	######################## REPLY TO MSG ########################
 	@bot.slash_command(name = "tc_emc", description="Edit message channel - \\n \\t /$")
 	async def edit_msg_channel(interaction, content, msg_id, channel: discord.TextChannel, pin: int=0):
