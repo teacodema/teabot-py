@@ -1,10 +1,4 @@
-pip install discord
-
-pip install discord.py
-
-pip install discord-voice
-
-pip install discord-py-slash-command
+pip install disnake
 
 pip install pynacl
 

@@ -120,9 +120,9 @@ def init_server_data(params):
 			created_at = getTimeUtcPlusOne(member.created_at, "%A, %B %d, %Y - %H:%M")
 			joined_at = getTimeUtcPlusOne(member.joined_at, "%A, %B %d, %Y - %H:%M")
 
-			embed = discord.Embed(title=member.display_name, description="", color=member.top_role.color)
-			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar.url)
-			embed.set_thumbnail(url=member.avatar.url)
+			embed = discord.Embed(title=member.display_name, description="", color=member.color)
+			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.display_avatar)
+			embed.set_thumbnail(url=member.display_avatar)
 			embed.add_field(name="User Name", value=member.name, inline=True)
 			embed.add_field(name="Nick Name", value=member.nick, inline=True)
 			embed.add_field(name="Display Name", value=member.display_name, inline=True)
