@@ -1,4 +1,5 @@
 import datetime
+import os
 from setup.properties import *
 from setup.actions import *
 
@@ -67,7 +68,7 @@ def init_bot_activity(params):
 		@tasks.loop(hours=1, count=None, reconnect=False)
 		async def am_alive():
 			channel = bot.get_channel(textChannels['log-bot'])
-			msg = f'Ping at - {getTimeUtcPlusOne(datetime.now())}'
+			msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}'
 			await channel.send(msg)
 		am_alive.start()	
 
