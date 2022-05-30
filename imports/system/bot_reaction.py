@@ -159,13 +159,15 @@ def init_bot_reaction(params):
 								except Exception as ex:
 									print('---------- /bot_react()/add role user --------')
 									print(ex)
-									print(u.name)
 									print(role.name)
+									print(u.name)
 									await msg.remove_reaction(r.emoji, u)
 									pass
 					except Exception as ex:
 						print('---------- /bot_react()/msg reactions --------')
 						print(ex)
+						print(channel.name)
+						print(role.name)
 						pass
 			await interaction.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', ephemeral=True)
 		except Exception as ex:
