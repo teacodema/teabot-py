@@ -147,7 +147,7 @@ def init_bot_reaction(params):
 						msg = await channel.fetch_message(int(msg_id))
 						for r in msg.reactions:
 							roleName = reactions[str(channel_id)][str(msg_id)][str(r.emoji)]
-							role = guild.get_role(name = roleName)
+							role = discord.utils.get(guild.roles, name = roleName)
 							async for u in r.users():
 								try:
 									if u.id != users['teabot']:
@@ -160,6 +160,7 @@ def init_bot_reaction(params):
 									print('---------- /bot_react()/add role user --------')
 									print(ex)
 									print(u.name)
+									print(role.name)
 									await msg.remove_reaction(r.emoji, u)
 									pass
 					except Exception as ex:
