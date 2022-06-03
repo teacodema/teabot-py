@@ -189,8 +189,8 @@ def init_server_activity(params):
 		if before.current_timeout != after.current_timeout:
 			channel = bot.get_channel(textChannels['log-server'])
 			if after.current_timeout:
-				msg = f"{after.mention} is timedout & will be untimedout on {getTimeUtcPlusOne(after.current_timeout)}"
+				msg = f"⏱🔴 {after.mention} is timedout & will be untimedout on {getTimeUtcPlusOne(after.current_timeout)}"
 			else:
-				msg = f"{after.mention} is released from timeout"
+				msg = f"⏱🟢 {after.mention} is released from timeout"
 			await channel.send(msg)
 		
