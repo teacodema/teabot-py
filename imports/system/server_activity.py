@@ -13,18 +13,8 @@ def init_server_activity(params):
 			if (after.id == users['drissboumlik']):
 				return
 			else:
-				new = after.nick
-				if (new):
-					new = new.lower()
-					old = before.nick
-					allowed = False
-					allowed = new.count('boumlik') or new.count('teacode') or new.count('teabot')
-					if (allowed):
-						if (old):
-							await after.edit(nick = old)
-						else:
-							await after.edit(nick = "STOP THAT")
-						
+				await check_nickname(before, after)
+				await check_timeout(before, after)
 		except Exception as ex:
 			print('----- on_member_update(evt) -----')
 			print(ex)
@@ -181,3 +171,26 @@ def init_server_activity(params):
 			print(ex)
 			await log_exception(ex, 'assign_init_roles()', None, bot)
 			return 0
+
+	async def check_nickname(before, after):
+		new = after.nick
+		if (new):
+			new = new.lower()
+			old = before.nick
+			allowed = False
+			allowed = new.count('boumlik') or new.count('teacode') or new.count('teabot')
+			if (allowed):
+				if (old):
+					await after.edit(nick = old)
+				else:
+					await after.edit(nick = "STOP THAT")
+					
+	async def check_timeout(before, after):
+		if before.current_timeout != after.current_timeout:
+			channel = bot.get_channel(textChannels['log-server'])
+			if after.current_timeout:
+				msg = f"{after.mention} is timedout & will be untimedout on {getTimeUtcPlusOne(after.current_timeout)}"
+			else:
+				msg = f"{after.mention} is released from timeout"
+			await channel.send(msg)
+		
