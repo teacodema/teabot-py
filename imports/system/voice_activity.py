@@ -16,7 +16,7 @@ def init_voice_activity(params):
 			msg = f'{member.mention} joined __**{voice.channel.name}**__'
 			if (not voice1.channel and voice2.channel) or (voice1.channel and voice2.channel and voice1.channel.category_id != voice2.channel.category_id):
 				if member.voice and member.voice.self_deaf:
-					msg += f"\n_{member.display_name}_ won't be able to hear you now 🙉"
+					msg += f"\n_{member.display_name}_ won't be able to hear you now 🔇"
 		else:
 			msg = f'{member.mention} left __**{voice.channel.name}**__'
 		task_send_msg(channel, msg) # await channel.send(msg)
@@ -25,9 +25,9 @@ def init_voice_activity(params):
 		if voice1.channel and voice2.channel:
 			if voice1.self_deaf != voice2.self_deaf:
 				if not voice2.self_deaf:
-					msg = f"_{member.display_name}_ is able to hear you now 👂"
+					msg = f"_{member.display_name}_ is able to hear you now 🔉"
 				elif voice2.self_deaf:
-					msg = f"_{member.display_name}_ won't be able to hear you now 🙉"
+					msg = f"_{member.display_name}_ won't be able to hear you now 🔇"
 				category = voice_data[voice2.channel.category_id]
 				channel = bot.get_channel(category['vc-text'])
 				await channel.send(msg)
