@@ -2,6 +2,18 @@ from datetime import datetime
 import pytz
 from setup.properties import *
 
+
+def task_update_activity(discord, bot, tasks, activity_name = None):
+	@tasks.loop(count=1, reconnect=False)
+	async def update_activity():
+		if activity_name:
+			activity = discord.Activity(type = discord.ActivityType.playing, name = activity_name)
+		else:
+			activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
+		await bot.change_presence(activity = activity)
+	update_activity.start()
+
+
 async def log_exception(ex, action, interaction=None, bot=None, hidden=True, msg=None):
 	try:
 		if msg: msg += f'\n----\n{action}\n{str(ex)}'
@@ -64,6 +76,7 @@ async def checkNewMemberRole(guild, do:int=0):
 				if do: await member.remove_roles(role)
 		return updated
 	except Exception as ex:
+		raise ex
 		print('----- checkNewMemberRole -----')
 		print(ex)
 		return -1

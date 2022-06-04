@@ -8,6 +8,7 @@ import random
 def init_audio_activity(params):
 
 	bot = params['bot']
+	tasks = params['tasks']
 	discord = params['discord']
 	YoutubeDL = params['YoutubeDL']
 	FFmpegPCMAudio = params['FFmpegPCMAudio']
@@ -174,6 +175,7 @@ def init_audio_activity(params):
 			voice = ctx.guild.voice_client
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
+			task_update_activity(discord, bot, tasks, track['title'])
 		except Exception as ex:
 			print('----- playTrack() -----')
 			print(ex)
@@ -369,6 +371,7 @@ def init_audio_activity(params):
 			if voice and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⏹ Stopping ...')
 				voice.stop()
+				task_update_activity(discord, bot, tasks)
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
@@ -383,8 +386,9 @@ def init_audio_activity(params):
 			# player_params['current_played'] = None
 			voice = ctx.guild.voice_client
 			if voice != None:
-				await voice.disconnect()
 				await ctx.send('🚪 Leaving ...')
+				await voice.disconnect()
+				task_update_activity(discord, bot, tasks)
 			else:
 				await ctx.send('❌ Not connected ...')
 		except Exception as ex:

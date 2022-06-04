@@ -22,7 +22,7 @@ def init_bot_activity(params):
 	@bot.event
 	async def on_ready():
 		try:
-			await startBot(bot, discord)
+			await startBot(bot, discord, tasks)
 			start_loop()
 		except Exception as ex:
 			print('----- on_ready(evt) -----')
@@ -74,18 +74,17 @@ def init_bot_activity(params):
 
 
 ######################## BOT READY ########################
-async def startBot(bot, discord):
+async def startBot(bot, discord, tasks):
 	try:
 		print("We have logged in as {0.user}".format(bot))
-		status = discord.Status.online
-		# activity = discord.Activity(type=discord.ActivityType.watching, name="teacode.ma")
-		# activity = discord.Game(name="https://teacode.ma", type=3)
-		activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
-		# class discord.CustomActivity(name, *, emoji=None, **extra)
-		await bot.change_presence(status=status, activity=activity)
+		# status = discord.Status.online
+		# # activity = discord.Activity(type=discord.ActivityType.watching, name="teacode.ma")
+		# # activity = discord.Game(name="https://teacode.ma", type=3)
+		# activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
+		# # class discord.CustomActivity(name, *, emoji=None, **extra)
+		# await bot.change_presence(status=status, activity=activity)
+		task_update_activity(discord, bot, tasks)
 	except Exception as ex:
 		print('----- startBot() -----')
 		print(ex)
 		await log_exception(ex, 'startBot()', None, bot)
-
-
