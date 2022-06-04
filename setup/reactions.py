@@ -1,5 +1,8 @@
 reactions = {
 	'796732247470112769': { #polls
+		'982778577877614643': {
+			'🇾': 'Learn Blender'
+		},
 		'938141030673428550': {
 			'🟤': 'Play Chess',
 			'🟡': 'Coding Challenges'
