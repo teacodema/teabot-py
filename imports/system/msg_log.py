@@ -71,8 +71,10 @@ def init_msg_log(params):
 
 	async def logPurgedMessages(interaction, count, _purgedMsgs):
 		log = bot.get_channel(textChannels['log-msg'])
-		headerMsg = f"🗑 **purge({count}) | {interaction.channel.mention}** ──────────"
-		await log.send(headerMsg)
+		dt = replace_str(getTimeUtcPlusOne(datetime.now()), {":": "."})
+		threadMsg = await log.send(f"🗑 **purge({count})** | {interaction.channel.mention} / {dt}")
+		log_thread = await threadMsg.create_thread(name=f"{interaction.channel.name} | {dt}")
+
 		for m in _purgedMsgs:
 			msg = '──────────────────────'
 			msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
@@ -87,4 +89,5 @@ def init_msg_log(params):
 			msg += get_attachments(m)
 			msg += get_embeds(m)
 			msg += f'\n──────────────────────'
-			await log.send(msg)
+			await log_thread.send(msg)
+		await log_thread.edit(archived=True)
