@@ -124,7 +124,7 @@ def init_server_activity(params):
 	async def make_webhook(member, channel):
 		try:
 			webhook = await channel.create_webhook(name=member.name)
-			await webhook.send(f'Hi I\'m {member.display_name}/{member.mention}', username=member.name, avatar_url=member.avatar_url)
+			await webhook.send(f'Hi I\'m {member.display_name}/{member.mention}', username=member.name, avatar_url=member.avatar.url)
 			await webhook.delete()
 			return 1
 		except Exception as ex:
