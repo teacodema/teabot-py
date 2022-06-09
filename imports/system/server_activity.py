@@ -103,10 +103,11 @@ def init_server_activity(params):
 	async def send_dm_welcome(member):
 		try:
 			startHereChannel = bot.get_channel(textChannels['start-here'])
-			invite = await startHereChannel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=appParams['inviteMaxUses'], reason='Welcoming member')
-			message = f'Merhba bik m3ana {member.mention} f **TeaCode** Community :flag_ma: :partying_face: :tada: '
+			invite = await startHereChannel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=appParams['inviteMaxUses'], reason=f'Welcoming member (ID: {member.id})')
+			message = f"📌 *This is an automated welcoming message (No need to reply)* ‼"
+			message += f'\n\nMerhba bik m3ana {member.mention} f **TeaCode** Community  :flag_ma:  👋'
+
 			message += f"\n\nHna ghadi tl9a chno tehtaj bach takhod fikra 3la server ➜ <#{textChannels['start-here']}>"
-	
 			message += f"\nSowwel hna ➜ <#{textChannels['ask-staff']}> ila htajiti chi haja f server."
 			message += f"\nDon't forget to **invite** your friends who could be interested {invite}"
 			message += f"\n\n➜ Ila ma3reftich chno dir t9der tsowwel <@{users['drissboumlik']}>"
