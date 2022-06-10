@@ -11,7 +11,7 @@ def init_bot_reaction(params):
 
 		url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 		operation = f'{"Added" if adding else "Removed"}'
-		await log.send(f'{url}\n{member.mention} {operation} {payload.emoji}')
+		await log.send(f'{url}\n{member.mention} {operation} {payload.emoji} - ({payload.emoji.id})')
 
 		_ch = bot.get_channel(payload.channel_id)
 
