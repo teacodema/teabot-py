@@ -63,7 +63,8 @@ def init_msg_log(params):
 				count = len(purgedMsgs)
 				purgedMsgs.reverse()
 				await interaction.send(f'{len(purgedMsgs)} message(s) cleared', ephemeral=True)
-				await logPurgedMessages(interaction, count, purgedMsgs)
+				if count:
+					await logPurgedMessages(interaction, count, purgedMsgs)
 				return len(purgedMsgs)
 		except Exception as ex:
 			print('----- deleteMsg() -----')
