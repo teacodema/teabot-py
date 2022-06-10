@@ -17,6 +17,7 @@ textChannels = {
 	'voice-chat': 				795629763363864606,
 	'help-chat': 					802892768011223045,
 	'study-group-discussion':	909572107271278673,
+	'read-me':					934933155285180496,
 	
 	'staff-notes': 	951593615191326860,
 

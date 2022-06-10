@@ -27,11 +27,11 @@ rules = [
     },
     {
         "key": "7-help-guide",
-        "value": f"Check for the Help Guide here <#{textChannels['playground']}>",
+        "value": f"Check for the Help Guide here <#{textChannels['read-me']}>",
     },
     {
         "key": "8-server-guide",
-        "value": f"Check for FAQ (Frequently Asked Questions) here <#{textChannels['playground']}>",
+        "value": f"Check for FAQ (Frequently Asked Questions) here <#{textChannels['faqs']}>",
     },
     {
         "key": "9-no-promo",
