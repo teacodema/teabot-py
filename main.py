@@ -18,6 +18,7 @@ from imports.system.check_membership import *
 from imports.system.bot_reaction import *
 from imports.member.audio_activity import *
 from imports.member.fun_activity import *
+from imports.member.tag_rules import *
 # from imports.member.quran import *
 
 intents = discord.Intents.all()
@@ -44,6 +45,7 @@ init_fun_activity(params)
 init_bot_chat(params)
 init_check_membership(params)
 init_bot_reaction(params)
+init_rules_tag(params)
 # init_quran(params)
 
 
