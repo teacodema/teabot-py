@@ -35,7 +35,8 @@ def init_msg_log(params):
 					await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
 					count = len(deletedMsgs)
 					deletedMsgs.reverse()
-					await logPurgedMessages(interaction, count, deletedMsgs)
+					if count:
+						await logPurgedMessages(interaction, count, deletedMsgs)
 				return
 
 			MAX_TO_DELETE = 500
