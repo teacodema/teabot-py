@@ -13,7 +13,7 @@ def init_rules_tag(params):
 		try:
 			rule = next(item for item in rules if item["key"] == query)
 			rule_index = rules.index(rule) + 1
-			msg = f'**{rule_index} -** {rule["value"]}\n\n➜ Check <#{textChannels["rules"]}> or <https://teacode.ma/rules> for more details.'
+			msg = f'**{rule_index} -** {rule["value"]}\n➜ Check <#{textChannels["rules"]}> or <https://teacode.ma/rules> for more details.'
 			await interaction.send(msg)
 		except Exception as ex:
 			print('----- /tag_rules() -----')
