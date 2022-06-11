@@ -69,7 +69,8 @@ def init_msg_activity(params):
 
 	async def prohibited_mentions(message):
 		content = message.content
-		if str(message.channel.type) == 'text':
+		channel_type = str(message.channel.type)
+		if channel_type == 'text' or channel_type == 'public_thread':
 			if content.count('@everyone') or content.count('@here'):
 				msg = 'Dont mention __everyone__ or __here__ please\n*Your message will be deleted after 5 seconds !!*'
 				await message.channel.send(msg, delete_after = 10)
