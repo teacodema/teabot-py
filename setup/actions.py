@@ -95,3 +95,15 @@ def replace_str(str, dict_chars):
 	except Exception as ex:
 		print('----- replace_str() -----')
 		print(ex)
+
+def start_task(task):
+	try:
+		task.start()
+	except:
+		pass
+
+def end_task(task):
+	try:
+		task.cancel()
+	except:
+		pass

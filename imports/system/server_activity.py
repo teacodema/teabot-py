@@ -5,6 +5,8 @@ def init_server_activity(params):
 	
 	discord = params['discord']
 	bot = params['bot']
+	tasks = params['tasks']
+	notify_timeout_release = None
 	
 
 	@bot.event
@@ -185,13 +187,19 @@ def init_server_activity(params):
 					await after.edit(nick = old)
 				else:
 					await after.edit(nick = "STOP THAT")
-					
+
 	async def check_timeout(before, after):
+		nonlocal notify_timeout_release
 		if before.current_timeout != after.current_timeout:
 			channel = bot.get_channel(textChannels['log-server'])
 			if after.current_timeout:
 				msg = f"⏱🔴 {after.mention} is timedout & will be untimedout on {getTimeUtcPlusOne(after.current_timeout)}"
+				if notify_timeout_release:
+					end_task(notify_timeout_release)
+				@tasks.loop(time=after.current_timeout.time(), reconnect=True)
+				async def notify_timeout_release():
+					await channel.send(f"⏱🟢 {after.mention} is released from timeout")
+				start_task(notify_timeout_release)
 			else:
 				msg = f"⏱🟢 {after.mention} is released from timeout"
 			await channel.send(msg)
-		
