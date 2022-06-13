@@ -14,6 +14,9 @@ def init_slash_commands_message(params):
 	@bot.slash_command(name = "tag", description = "Reminde with a rule")
 	async def tag_rules(interaction, query=commands.Param(autocomplete=keys)):
 		try:
+			if query not in keys:
+				await interaction.send('Issue with the input (choose one of the provided options)')
+				return
 			rule = next(item for item in rules if item["key"] == query)
 			# rule_index = rules.index(rule) + 1
 			msg = f'**{query} :** {rule["value"]}\n➜ Check <#{textChannels["rules"]}> or <https://teacode.ma/rules> for more details.'
