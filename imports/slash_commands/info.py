@@ -1,7 +1,7 @@
-from setup.properties import *
-from setup.actions import *
+from setup.data.params import *
+from setup.actions.common import *
 
-def init_server_data(params):
+def init_slash_commands_info(params):
 
 	bot = params['bot']
 	discord = params['discord']
@@ -85,7 +85,7 @@ def init_server_data(params):
 				role = interaction.author.top_role
 			else:
 				guild = interaction.guild
-				_role = guild.get_role(799370946372698113) # 🍃│Helpers
+				_role = guild.get_role(978075400213250109) # 🍃│Helpers
 				if not is_founders(interaction) and role not in interaction.author.roles and role.position > _role.position:
 					await interaction.send('❌ You cannot see this data')
 					return

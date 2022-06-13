@@ -1,9 +1,9 @@
-from setup.properties import *
-from setup.actions import *
+from setup.data.properties import *
+from setup.actions.common import *
 import random
 
-def init_fun_activity(params):
-	
+def init_slash_commands_extra(params):
+
 	# client = params['client']
 	bot = params['bot']
 	discord = params['discord']

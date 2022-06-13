@@ -1,10 +1,69 @@
-from setup.properties import *
-from setup.actions import *
+from setup.data.properties import *
+from setup.actions.common import *
+from setup.actions.message import *
+from setup.data.params import *
 
-def init_bot_chat(params):
+def init_slash_commands_message(params):
 
 	bot = params['bot']
 	discord = params['discord']
+	commands = params['commands']
+
+	keys = [ rule['key'] for rule in rules ]
+	######### RULES ########
+	@bot.slash_command(name = "tag", description = "Reminde with a rule")
+	async def tag_rules(interaction, query=commands.Param(autocomplete=keys)):
+		try:
+			rule = next(item for item in rules if item["key"] == query)
+			# rule_index = rules.index(rule) + 1
+			msg = f'**{query} :** {rule["value"]}\n➜ Check <#{textChannels["rules"]}> or <https://teacode.ma/rules> for more details.'
+			await interaction.send(msg)
+		except Exception as ex:
+			print('----- /tag_rules() -----')
+			print(ex)
+			await log_exception(ex, '/tag_rules', interaction)
+
+	
+	######################## PURGE ########################
+	@bot.slash_command(name = "purge", description = "Clear all messages")
+	async def purge(interaction, limit: int=None):
+		try:
+			
+			if not is_authorised(interaction, {'founders', 'staff'}):
+				await interaction.send('❌ Missing Permissions')
+				return
+			
+			purgedMsgs = []
+			channelsToClear = [
+				textChannels['voice-chat'],
+				textChannels['help-chat']
+			]
+			if not limit and interaction.channel.id not in channelsToClear:
+				await interaction.send('❌ Wrong Target Channel', ephemeral=True)
+				return
+
+			if limit:
+				if limit > 500:
+					await interaction.send('You cannot delete more than 500 messages', ephemeral=True)
+					return
+				else:
+					await interaction.send('Clearing messages ...', ephemeral=True)
+					deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned)
+					await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
+					count = len(deletedMsgs)
+					deletedMsgs.reverse()
+					if count:
+						await logPurgedMessages(params, interaction, count, deletedMsgs)
+				return
+
+			MAX_TO_DELETE = 500
+			await interaction.send('Clearing everything ...', ephemeral=True)
+			# time.sleep(2)
+			await deleteMsg(purgedMsgs, interaction, MAX_TO_DELETE)
+		except Exception as ex:
+			print('----- /purge() -----')
+			print(ex)
+			await log_exception(ex, '/purge', interaction)
 
 	####################### MAKE A WEBHOOK #######################
 	@bot.slash_command(name="tc_mw", description="Make a webhook - \\n \\t /$")
@@ -164,16 +223,3 @@ def init_bot_chat(params):
 			print('----- /remove_msg_member() -----')
 			print(ex)
 			await log_exception(ex, '/remove_msg_member', interaction)
-
-	async def send_msg(interaction, message, member):
-		try:
-			channel = member.dm_channel
-			if channel == None:
-				channel = await member.create_dm()
-			return await channel.send(message)
-		except Exception as ex:
-			print('----- send_msg() -----')
-			print(ex)
-			msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
-			await log_exception(ex, 'send_msg()', interaction, None, True, msg)
-			return None

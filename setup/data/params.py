@@ -1,4 +1,31 @@
-from setup.properties import *
+from setup.data.properties import *
+
+
+player_params = {
+	'current_played': None,
+}
+
+appParams = {
+	'newMembershipPeriode': 7, # in days
+	'inviteMaxAge': 604800, # in seconds <=> 1 week
+	'inviteMaxUses': 10,
+	'blue': 0x1da1f2,
+	'notifyOffset': 15
+}
+
+voice_data = {
+	977901284189425755: { #testing
+		'vc-text':			978373773063499777,
+	},
+	982652617589129227: { #voice-channels
+		'vc-text':			982653718346465340,
+		'vc-role':		978372227441524816,
+	},
+	982653086755606568: { #help-voice
+		'vc-text':			982653507029061693,
+		'vc-role':		982653192003260476,
+	}
+}
 
 rules = [
     {
@@ -42,3 +69,12 @@ rules = [
         "value": "No NSFW or obscene content. This includes text, images, or links featuring nudity, sex, hard violence, or other graphically disturbing content"
     },
 ]
+
+reactions = {
+	'965359255966339083': { #polls
+		'985826087206518794': {
+			'🟤': 'Staff',
+			'🟡': 'Member',
+		}
+	}
+}

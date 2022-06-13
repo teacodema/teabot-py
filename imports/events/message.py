@@ -1,7 +1,8 @@
-from setup.properties import *
-from setup.actions import *
+from setup.data.properties import *
+from setup.actions.message import *
+from setup.actions.common import *
 
-def init_msg_activity(params):
+def init_events_message(params):
 	
 	bot = params['bot']
 
@@ -11,7 +12,7 @@ def init_msg_activity(params):
 		try:
 			if str(message.channel.type) == 'private':
 				try:
-					await log_member_dms(message)
+					await log_member_dms(params, message)
 				except Exception as ex:
 					print('----- on_message(evt)/log_dms -----')
 					print(ex)
@@ -33,66 +34,11 @@ def init_msg_activity(params):
 				print(ex)
 				await log_exception(ex, 'on_message(evt)/everyone|spam', None, bot)
 			
-			await bot.process_commands(message)
+			# await bot.process_commands(message)
 		except Exception as ex:
 			print('----- on_message(evt) -----')
 			print(ex)
 			await log_exception(ex, 'on_message(evt)', None, bot)
-
-	async def log_member_dms(message):
-		author = message.author
-		# Testing
-		if author.id == users['drissboumlik']:
-			channel = await author.create_dm()
-			await channel.send('am alive')
-			return
-		excludedIDs = [
-				users['drissboumlik'],
-				users['teabot'],
-			]
-		if author.id not in excludedIDs:
-			channel = bot.get_channel(textChannels['log-dms'])
-			msgs = []
-			msg = '──────────────────────'
-			msg += f'\nDM/ ◁='
-			msg += f'\n__From__\n{author} - {author.mention}'
-			msg += f'\n__Content__\n'
-			msgs.append(msg) #await channel.send(msg)
-			msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
-			msgs.append(msg_content) #await channel.send(msg_content)
-			msg = get_attachments(message)
-			if msg: msgs.append(msg) #await channel.send(msg)
-			msg = get_embeds(message)
-			if msg: msgs.append(msg) #await channel.send(msg)
-			for msg in msgs:
-				await channel.send(msg)
-
-	async def prohibited_mentions(message):
-		content = message.content
-		channel_type = str(message.channel.type)
-		if channel_type == 'text' or channel_type == 'public_thread':
-			if content.count('@everyone') or content.count('@here'):
-				msg = 'Dont mention __everyone__ or __here__ please\n*Your message will be deleted after 5 seconds !!*'
-				await message.channel.send(msg, delete_after = 10)
-				await message.delete(delay=10)
-				return True
-		return False
-	
-	async def check_spam(message):
-		blocked = [
-			'dlscord', 'discordnitro', 'discordglfts',
-			'discord-airdrop', 'discocrd-nitro', 'discode'
-		]
-		spam = False
-		channel = bot.get_channel(textChannels['log-txt'])
-		for b in blocked:
-			if message.content.count(b) > 0:
-				_msg = '──────────────────────'
-				_msg = f'\nspam message from {message.author.mention} on {message.channel.mention}'
-				await channel.send(_msg)
-				await message.delete()
-				spam = True
-		return spam
 
 	######################## ON MESSAGE DELETE ########################
 	@bot.event
@@ -114,7 +60,7 @@ def init_msg_activity(params):
 			edited_at = None
 			if message.edited_at:
 				edited_at = getTimeUtcPlusOne(message.edited_at, "%d %B %Y - %H:%M")
-			msg += f'\n{created_at} ➜ {edited_at}'
+			msg += f'\n📅 {created_at} ➜ {edited_at}'
 			msg += f'\n__Content__\n'
 			msgs.append(msg) #await log.send(msg)
 			msg_content = f'{"--Sticker | Empty--" if (message.content == "") else message.content}'

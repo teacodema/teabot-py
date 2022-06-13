@@ -1,14 +1,13 @@
-# from database.player import *
-from setup.properties import *
-from setup.actions import *
 import re
 import datetime
 import random
+# from database.player import *
+from setup.data.params import *
+from setup.actions.common import *
 
-def init_audio_activity(params):
+def init_slash_commands_voice(params):
 
 	bot = params['bot']
-	tasks = params['tasks']
 	discord = params['discord']
 	YoutubeDL = params['YoutubeDL']
 	FFmpegPCMAudio = params['FFmpegPCMAudio']
@@ -175,7 +174,7 @@ def init_audio_activity(params):
 			voice = ctx.guild.voice_client
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
-			task_update_activity(discord, bot, tasks, track['title'])
+			task_update_activity(params, activity_name = track['title'])
 		except Exception as ex:
 			print('----- playTrack() -----')
 			print(ex)
@@ -371,7 +370,7 @@ def init_audio_activity(params):
 			if voice and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⏹ Stopping ...')
 				voice.stop()
-				task_update_activity(discord, bot, tasks)
+				task_update_activity(params)
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
@@ -388,7 +387,7 @@ def init_audio_activity(params):
 			if voice != None:
 				await ctx.send('🚪 Leaving ...')
 				await voice.disconnect()
-				task_update_activity(discord, bot, tasks)
+				task_update_activity(params)
 			else:
 				await ctx.send('❌ Not connected ...')
 		except Exception as ex:

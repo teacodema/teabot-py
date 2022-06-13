@@ -1,6 +1,6 @@
-from setup.player import *
-from setup.properties import *
-from setup.actions import *
+from setup.data.params import *
+from setup.data.properties import *
+from setup.actions.common import *
 
 def init_quran(params):
 	
