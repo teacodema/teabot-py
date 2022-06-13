@@ -13,6 +13,11 @@ appParams = {
 	'notifyOffset': 15
 }
 
+emojis = {
+	'userjoin': '<:userjoin:902613054544560149>',
+	'userleft': '<:userleft:902612227662684170>'
+}
+
 voice_data = {
 	796115044374413332: { #voice-channels
 		'vc-text':			795629763363864606,

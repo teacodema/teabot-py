@@ -9,12 +9,12 @@ async def logVoice(params, guild, member, voice, joining, role_toggle_fct, voice
 			await role_toggle_fct(role)
 		channel = bot.get_channel(category['vc-text'])
 		if joining:
-			msg = f'<:userjoin:902613054544560149> {member.mention} joined __**{voice.channel.name}**__'
+			msg = f'{emojis["userjoin"]} {member.mention} joined __**{voice.channel.name}**__'
 			if (not voice1.channel and voice2.channel) or (voice1.channel and voice2.channel and voice1.channel.category_id != voice2.channel.category_id):
 				if member.voice and member.voice.self_deaf:
 					msg += f"\n**{member.display_name}** : I won't be able to hear you 🔇"
 		else:
-			msg = f'<:userleft:902612227662684170> {member.mention} left __**{voice.channel.name}**__'
+			msg = f'{emojis["userleft"]} {member.mention} left __**{voice.channel.name}**__'
 		task_send_msg(params, channel, msg) # await channel.send(msg)
 
 async def check_deafen(params, member, voice1, voice2):
