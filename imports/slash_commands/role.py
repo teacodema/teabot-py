@@ -1,3 +1,5 @@
+import json
+import os
 from setup.data.properties import *
 from setup.actions.common import *
 from setup.actions.role import *
@@ -79,4 +81,41 @@ def init_slash_commands_role(params):
 			print('----- /toggle_role_members() -----')
 			print(ex)
 			await log_exception(ex, '/toggle_role_members', interaction)
+
+
+	@bot.slash_command(name = "tc_nr", description = "Member has not role")
+	async def members_hasnt_role(interaction, role: discord.Role):
+		try:
+			
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
+			
+			await interaction.send('Searching...', ephemeral=True)
+			guild = interaction.guild
+			filtered = filter(lambda member: member.get_role(role.id) == None, guild.members)
+			filtered = list(filtered)
+			
+			count = len(filtered)
+			msg = f"These members({count}) don't have this role {role.mention}\n"
+			if count <= 100:
+				for member in filtered:
+					msg += f'{member.mention} , '
+				await interaction.send(msg.strip(), ephemeral=True)
+			else:
+				json_filtered = []
+				for member in filtered:
+					json_filtered.append({"id":member.id, "name":member.name})
+				json_data = json.dumps(json_filtered)
+				with open("file.json", "w") as outfile:
+					outfile.write(json_data)
+				file = discord.File("file.json")
+				await interaction.send(content=msg, file=file, ephemeral=True)
+				os.remove("file.json")
+
+		except Exception as ex:
+			print('----- /members_hasnt_role() -----')
+			print(ex)
+			await log_exception(ex, '/members_hasnt_role', interaction)
+
 
