@@ -93,20 +93,13 @@ async def send_msg(interaction, message, member):
 def isNotPinned(msg):
 	return not msg.pinned
 
-async def deleteMsg(params, purgedMsgs, interaction, limit):
+async def deleteMsg(params, interaction, limit):
 	try:
 		deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned)
-		purgedMsgs += deletedMsgs
-		deletedMsgs = len(deletedMsgs)
-		if (deletedMsgs > 0):
-			return await deleteMsg(params, purgedMsgs, interaction, limit)
+		if (len(deletedMsgs) > 0):
+			return list(set(deletedMsgs + await deleteMsg(params, interaction, limit)))
 		else:
-			count = len(purgedMsgs)
-			purgedMsgs.reverse()
-			await interaction.send(f'{len(purgedMsgs)} message(s) cleared', ephemeral=True)
-			if count:
-				await logPurgedMessages(params, interaction, count, purgedMsgs)
-			return len(purgedMsgs)
+			return []
 	except Exception as ex:
 		print('----- deleteMsg() -----')
 		print(ex)

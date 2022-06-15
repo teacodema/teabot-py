@@ -36,7 +36,6 @@ def init_slash_commands_message(params):
 				await interaction.send('❌ Missing Permissions')
 				return
 			
-			purgedMsgs = []
 			channelsToClear = [
 				textChannels['voice-chat'],
 				textChannels['help-chat']
@@ -61,8 +60,15 @@ def init_slash_commands_message(params):
 
 			MAX_TO_DELETE = 500
 			await interaction.send('Clearing everything ...', ephemeral=True)
-			# time.sleep(2)
-			await deleteMsg(params, purgedMsgs, interaction, MAX_TO_DELETE)
+			#await deleteMsg(params, purgedMsgs, interaction, MAX_TO_DELETE)
+			deletedMsgs = await deleteMsg(params, interaction, MAX_TO_DELETE)
+			await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
+			count = len(deletedMsgs)
+			# deletedMsgs.reverse()
+			deletedMsgs = sorted(deletedMsgs, key=lambda msg: msg.created_at)
+			if count:
+				await logPurgedMessages(params, interaction, count, deletedMsgs)
+			
 		except Exception as ex:
 			print('----- /purge() -----')
 			print(ex)
