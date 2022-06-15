@@ -62,7 +62,7 @@ def init_slash_commands_message(params):
 			MAX_TO_DELETE = 500
 			await interaction.send('Clearing everything ...', ephemeral=True)
 			# time.sleep(2)
-			await deleteMsg(purgedMsgs, interaction, MAX_TO_DELETE)
+			await deleteMsg(params, purgedMsgs, interaction, MAX_TO_DELETE)
 		except Exception as ex:
 			print('----- /purge() -----')
 			print(ex)
