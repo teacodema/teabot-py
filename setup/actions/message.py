@@ -109,7 +109,10 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	bot = params['bot']
 	log = bot.get_channel(textChannels['log-msg'])
 	dt = replace_str(getTimeUtcPlusOne(datetime.now()), {":": "."})
-	threadMsg = await log.send(f"🗑 **purge({count})** | {interaction.channel.mention} / {dt}")
+	headerMsg = f"🗑 **purge({count})** | {interaction.channel.mention}"
+	headerMsg += f"\n__Date__ : {dt}"
+	headerMsg += f"\n__Author__ : {interaction.author.display_name} ({interaction.author.id})"
+	threadMsg = await log.send(headerMsg)
 	log_thread = await threadMsg.create_thread(name=f"{interaction.channel.name} | {dt}")
 
 	for m in _purgedMsgs:
