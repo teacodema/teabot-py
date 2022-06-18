@@ -104,6 +104,7 @@ async def deleteMsg(params, interaction, limit):
 		print('----- deleteMsg() -----')
 		print(ex)
 		await log_exception(ex, 'deleteMsg()', interaction)
+		return deletedMsgs
 
 async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	bot = params['bot']
