@@ -39,7 +39,6 @@ def init_events():
 	init_events_reaction(params)
 	init_events_voice(params)
 	init_events_member(params)
-	init_events_start(params)
 # init_quran(params)
 
 def init_slash_commands():
