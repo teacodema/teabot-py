@@ -17,13 +17,14 @@ def start_loop(params):
 async def startBot(params):
 	try:
 		bot = params['bot']
+		discord = params['discord']
 		print("We have logged in as {0.user}".format(bot))
-		# status = discord.Status.online
+		status = discord.Status.online
+		activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
+		await bot.change_presence(status=status, activity=activity)
 		# # activity = discord.Activity(type=discord.ActivityType.watching, name="teacode.ma")
 		# # activity = discord.Game(name="https://teacode.ma", type=3)
-		# activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
 		# # class discord.CustomActivity(name, *, emoji=None, **extra)
-		# await bot.change_presence(status=status, activity=activity)
 		task_update_activity(params)
 	except Exception as ex:
 		print('----- startBot() -----')
