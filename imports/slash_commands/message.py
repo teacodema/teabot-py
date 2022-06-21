@@ -50,7 +50,7 @@ def init_slash_commands_message(params):
 					return
 				else:
 					await interaction.send('Clearing messages ...', ephemeral=True)
-					deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned)
+					deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
 					await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
 					count = len(deletedMsgs)
 					deletedMsgs.reverse()

@@ -95,7 +95,7 @@ def isNotPinned(msg):
 
 async def deleteMsg(params, interaction, limit):
 	try:
-		deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned)
+		deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
 		if (len(deletedMsgs) > 0):
 			return list(set(deletedMsgs + await deleteMsg(params, interaction, limit)))
 		else:
@@ -116,8 +116,9 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	threadMsg = await log.send(headerMsg)
 	log_thread = await threadMsg.create_thread(name=f"{interaction.channel.name} | {dt}")
 
+	msgIndex = 1
 	for m in _purgedMsgs:
-		msg = '──────────────────────'
+		msg = f'───────────\t**{msgIndex}**\t───────────'
 		msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
 		
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
@@ -131,4 +132,5 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 		msg += get_embeds(m)
 		msg += f'\n──────────────────────'
 		await log_thread.send(msg)
+		msgIndex += 1
 	await log_thread.edit(archived=True)
