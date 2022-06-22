@@ -13,8 +13,10 @@ def get_attachments(message):
 def get_embeds(message):
 	if len(message.embeds):
 		embedsUrls = '\n__Embeds__\n'
-		for attch in message.embeds:
-			embedsUrls += f'{attch.url} - {attch.image} - {attch.author.mention} - {attch.description}\n'
+		for embed in message.embeds:
+			embedsUrls += f'{embed.url} - {embed.image} - {embed.author.mention} - {embed.description}\n'
+			for field in embed.fields:
+				embedsUrls += f'\t- {field.name} (field name) : {field.value} (field value)\n'
 		return embedsUrls
 	return ''
 
@@ -121,7 +123,6 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	for m in _purgedMsgs:
 		msg = f'───────────\t**{msgIndex}**\t───────────'
 		msg += f'\n🗑 by {m.author.mention} in {m.channel.mention}'
-		
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 		edited_at = None
 		if m.edited_at:
