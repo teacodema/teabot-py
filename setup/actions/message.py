@@ -95,6 +95,7 @@ def isNotPinned(msg):
 
 async def deleteMsg(params, interaction, limit):
 	try:
+		deletedMsgs = []
 		deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
 		if (len(deletedMsgs) > 0):
 			return list(set(deletedMsgs + await deleteMsg(params, interaction, limit)))
