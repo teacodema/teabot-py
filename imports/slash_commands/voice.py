@@ -15,7 +15,6 @@ def init_slash_commands_voice(params):
 	currentTrackIndex = 0
 	_ctxPlay = None,
 	voice = None
-	btn_pressed = False
 
 	ydl_opts = {
 							'noplaylist': True,
@@ -141,13 +140,8 @@ def init_slash_commands_voice(params):
 	
 	def playNext(err):
 		try:
-			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
-			
-			print(err)
-
-			if btn_pressed:
-				btn_pressed = False
-				return
+			nonlocal currentTrackIndex, playlist, voice, _ctxPlay
+		
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
 				return
@@ -168,8 +162,8 @@ def init_slash_commands_voice(params):
 
 	def playTrack(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
-			btn_pressed = True
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay
+			
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
 			voice = ctx.guild.voice_client
@@ -229,13 +223,12 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "replay", description = "Replay current track")
 	async def replay(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
 
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -258,13 +251,12 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "next", description = "Play next track")
 	async def next(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
 				
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -290,13 +282,12 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "previous", description = "Play previous track")
 	async def previous(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
 				
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -360,10 +351,9 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "stop", description = "Stop the player")
 	async def stop(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 
 			# player_params['current_played'] = None
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
