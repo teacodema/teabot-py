@@ -80,7 +80,7 @@ def init_slash_commands_voice(params):
 				if (voice.is_connected()):
 					if (voice.is_playing() or voice.is_paused()):
 						await ctx.send("⬆ Track is queued")
-						track = extractUrlData(url)
+						track = extractUrlData(url, ctx)
 						playlist.append(track)
 					else:
 						await Player(ctx, "▶ Playing ...", url)
@@ -93,7 +93,7 @@ def init_slash_commands_voice(params):
 			print(ex)
 			await log_exception(ex, '/play', ctx)
 
-	def extractUrlData(url):
+	def extractUrlData(url, ctx = None):
 		try:
 			nonlocal ydl_opts
 			with YoutubeDL(ydl_opts) as ydl:
@@ -104,6 +104,7 @@ def init_slash_commands_voice(params):
 			thumbnail = info['thumbnail']
 			id = info['id']
 			track = {
+				"member": ctx.author.display_name,
 				"_url": URL, "url": url,
 				"id": id, "title": title,
 				"_duration": duration, "duration": str(datetime.timedelta(seconds=duration)).lstrip("0:"),
@@ -122,7 +123,7 @@ def init_slash_commands_voice(params):
 				await ctx.send(msg)
 			if url:
 				# playlist = []
-				track = extractUrlData(url)
+				track = extractUrlData(url, ctx)
 				playlist.append(track)
 				currentTrackIndex = len(playlist) - 1 #0
 			else:
@@ -195,6 +196,7 @@ def init_slash_commands_voice(params):
 				value = f"{track['duration']} - ...{title}**・{currentTrackIndex+1}**"
 			else:
 				value = f"**{currentTrackIndex+1}・**{title}... - {track['duration']}"
+			value += f"\n➜ Added by {track['member']}\n{track['url']}"
 			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=appParams['blue'])
 			embed.set_thumbnail(url=track['thumbnail'])
@@ -422,7 +424,7 @@ def init_slash_commands_voice(params):
 				return
 			playlist = []
 			await ctx.send('📋 Processing ... just a moment')
-			initPlaylist()
+			initPlaylist(ctx)
 			await displayPlaylist(ctx)
 		except Exception as ex:
 			print('----- /refresh() -----')
@@ -464,9 +466,10 @@ def init_slash_commands_voice(params):
 				ar_regex = (r'[a-zA-Z]+')
 				ar_regex_match = not re.match(ar_regex, title)
 				if ar_regex_match:
-					value += f"{track['duration']} - ...{title}\n"
+					value += f"{track['duration']} - ...{title}"
 				else:
-					value += f"{title}... - {track['duration']}\n"
+					value += f"{title}... - {track['duration']}"
+				value += f"\n➜ Added by {track['member']}\n{track['url']}\n"
 				embed.add_field(name=f'{index}', value=value, inline=False)
 
 			await ctx.send(embed=embed)
@@ -474,7 +477,7 @@ def init_slash_commands_voice(params):
 			print('----- displayPlaylist() -----')
 			print(ex)
 
-	def initPlaylist():
+	def initPlaylist(ctx = None):
 		try:
 			nonlocal playlist
 			defaultList = [
@@ -492,7 +495,7 @@ def init_slash_commands_voice(params):
 
 			for track_url in defaultList:
 				try:
-					track = extractUrlData(track_url)
+					track = extractUrlData(track_url, ctx)
 					playlist.append(track)
 				except Exception as ex:
 					print(track_url)
