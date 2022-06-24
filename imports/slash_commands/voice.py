@@ -1,11 +1,11 @@
-# from database.player import *
-from setup.properties import *
-from setup.actions import *
 import re
 import datetime
 import random
+# from database.player import *
+from setup.data.params import *
+from setup.actions.common import *
 
-def init_audio_activity(params):
+def init_slash_commands_voice(params):
 
 	bot = params['bot']
 	discord = params['discord']
@@ -15,7 +15,6 @@ def init_audio_activity(params):
 	currentTrackIndex = 0
 	_ctxPlay = None,
 	voice = None
-	btn_pressed = False
 
 	ydl_opts = {
 							'noplaylist': True,
@@ -80,7 +79,7 @@ def init_audio_activity(params):
 				if (voice.is_connected()):
 					if (voice.is_playing() or voice.is_paused()):
 						await ctx.send("⬆ Track is queued")
-						track = extractUrlData(url)
+						track = extractUrlData(url, ctx)
 						playlist.append(track)
 					else:
 						await Player(ctx, "▶ Playing ...", url)
@@ -93,7 +92,7 @@ def init_audio_activity(params):
 			print(ex)
 			await log_exception(ex, '/play', ctx)
 
-	def extractUrlData(url):
+	def extractUrlData(url, ctx = None):
 		try:
 			nonlocal ydl_opts
 			with YoutubeDL(ydl_opts) as ydl:
@@ -104,6 +103,7 @@ def init_audio_activity(params):
 			thumbnail = info['thumbnail']
 			id = info['id']
 			track = {
+				"member": ctx.author.display_name,
 				"_url": URL, "url": url,
 				"id": id, "title": title,
 				"_duration": duration, "duration": str(datetime.timedelta(seconds=duration)).lstrip("0:"),
@@ -122,7 +122,7 @@ def init_audio_activity(params):
 				await ctx.send(msg)
 			if url:
 				# playlist = []
-				track = extractUrlData(url)
+				track = extractUrlData(url, ctx)
 				playlist.append(track)
 				currentTrackIndex = len(playlist) - 1 #0
 			else:
@@ -140,13 +140,8 @@ def init_audio_activity(params):
 	
 	def playNext(err):
 		try:
-			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
-			
-			print(err)
-
-			if btn_pressed:
-				btn_pressed = False
-				return
+			nonlocal currentTrackIndex, playlist, voice, _ctxPlay
+		
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
 				return
@@ -167,13 +162,14 @@ def init_audio_activity(params):
 
 	def playTrack(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
-			btn_pressed = True
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay
+			
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
 			voice = ctx.guild.voice_client
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
+			task_update_activity(params, activity_name = track['title'])
 		except Exception as ex:
 			print('----- playTrack() -----')
 			print(ex)
@@ -194,6 +190,7 @@ def init_audio_activity(params):
 				value = f"{track['duration']} - ...{title}**・{currentTrackIndex+1}**"
 			else:
 				value = f"**{currentTrackIndex+1}・**{title}... - {track['duration']}"
+			value += f"\n➜ Added by {track['member']}\n{track['url']}"
 			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=appParams['blue'])
 			embed.set_thumbnail(url=track['thumbnail'])
@@ -226,13 +223,12 @@ def init_audio_activity(params):
 	@bot.slash_command(name = "replay", description = "Replay current track")
 	async def replay(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
 
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -255,13 +251,12 @@ def init_audio_activity(params):
 	@bot.slash_command(name = "next", description = "Play next track")
 	async def next(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
 				
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -287,13 +282,12 @@ def init_audio_activity(params):
 	@bot.slash_command(name = "previous", description = "Play previous track")
 	async def previous(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
 				
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -357,10 +351,9 @@ def init_audio_activity(params):
 	@bot.slash_command(name = "stop", description = "Stop the player")
 	async def stop(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts
 
 			# player_params['current_played'] = None
-			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
@@ -369,6 +362,7 @@ def init_audio_activity(params):
 			if voice and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⏹ Stopping ...')
 				voice.stop()
+				task_update_activity(params)
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
@@ -383,8 +377,9 @@ def init_audio_activity(params):
 			# player_params['current_played'] = None
 			voice = ctx.guild.voice_client
 			if voice != None:
-				await voice.disconnect()
 				await ctx.send('🚪 Leaving ...')
+				await voice.disconnect()
+				task_update_activity(params)
 			else:
 				await ctx.send('❌ Not connected ...')
 		except Exception as ex:
@@ -419,7 +414,7 @@ def init_audio_activity(params):
 				return
 			playlist = []
 			await ctx.send('📋 Processing ... just a moment')
-			initPlaylist()
+			initPlaylist(ctx)
 			await displayPlaylist(ctx)
 		except Exception as ex:
 			print('----- /refresh() -----')
@@ -461,9 +456,10 @@ def init_audio_activity(params):
 				ar_regex = (r'[a-zA-Z]+')
 				ar_regex_match = not re.match(ar_regex, title)
 				if ar_regex_match:
-					value += f"{track['duration']} - ...{title}\n"
+					value += f"{track['duration']} - ...{title}"
 				else:
-					value += f"{title}... - {track['duration']}\n"
+					value += f"{title}... - {track['duration']}"
+				value += f"\n➜ Added by {track['member']}\n{track['url']}\n"
 				embed.add_field(name=f'{index}', value=value, inline=False)
 
 			await ctx.send(embed=embed)
@@ -471,7 +467,7 @@ def init_audio_activity(params):
 			print('----- displayPlaylist() -----')
 			print(ex)
 
-	def initPlaylist():
+	def initPlaylist(ctx = None):
 		try:
 			nonlocal playlist
 			defaultList = [
@@ -489,7 +485,7 @@ def init_audio_activity(params):
 
 			for track_url in defaultList:
 				try:
-					track = extractUrlData(track_url)
+					track = extractUrlData(track_url, ctx)
 					playlist.append(track)
 				except Exception as ex:
 					print(track_url)

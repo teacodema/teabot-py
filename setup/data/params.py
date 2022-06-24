@@ -1,5 +1,88 @@
+from setup.data.properties import *
+
+
+player_params = {
+	'current_played': None,
+}
+
+appParams = {
+	'newMembershipPeriode': 7, # in days
+	'inviteMaxAge': 604800, # in seconds <=> 1 week
+	'inviteMaxUses': 10,
+	'blue': 0x1da1f2,
+	'notifyOffset': 15
+}
+
+emojis = {
+	'userjoin': '<:userjoin:902613054544560149>',
+	'userleft': '<:userleft:902612227662684170>'
+}
+
+voice_data = {
+	796115044374413332: { #voice-channels
+		'vc-text':			795629763363864606,
+		'vc-role':		867871623025262602,
+	},
+	867877610134700062: { #help-voice
+		'vc-text':			802892768011223045,
+		'vc-role':		818265370665943072,
+	},
+	909513881842515990: { #study-group
+		'vc-text':			909572107271278673,
+	},
+	810187882153115648: { #committee corner
+		'vc-text':			951593615191326860,
+	}
+}
+
+rules = [
+    {
+        "key": "1 - Guidelines & Terms",
+        "value": "Follow the Discord Community Guidelines (<https://discord.com/guidelines>) and Terms (<https://discord.com/terms>)",
+    },
+    {
+        "key": "2 - Behavior",
+        "value": "Be kind, Be respectful, Be considerate, Treat everyone with respect, think about how your contribution will affect others in the community, for more details read this <https://conversation.guide>",
+    },
+    {
+        "key": "3 - Interaction",
+        "value": "When you join any voice/text channel, please avoid saying/writing any obscene content (spam, NSFW, ..etc) or bad words (directly or indirectly), otherwise you risk getting kicked/banned from the server",
+    },
+    {
+        "key": "4 - Profile",
+        "value": "We keep the right to ask you to change your nickname/username/description if it's not readable or contains any bad words",
+    },
+    {
+        "key": "5 - Cheating",
+        "value": "Cheating in school related stuff (exams, projects .. etc) is prohibited",
+    },
+    {
+        "key": "6 - Contribute",
+        "value": f"If you see something against the rules or something that makes you feel unsafe, let the <@&{roles['staff']}> know. We want this server to be a welcoming space!",
+    },
+    {
+        "key": "7 - Help Guide",
+        "value": f"Check for the Help Guide here <#{textChannels['read-me']}>",
+    },
+    {
+        "key": "8 - Server Guide",
+        "value": f"Check for FAQ (Frequently Asked Questions) here <#{textChannels['faqs']}>",
+    },
+    {
+        "key": "9 - No promo",
+        "value": f"No spam or self-promotion (server invites, advertisements, etc) without permission from a <@&{roles['staff']}>. This includes DMing fellow members",
+    },
+    {
+        "key": "10 - No NSFW",
+        "value": "No NSFW or obscene content. This includes text, images, or links featuring nudity, sex, hard violence, or other graphically disturbing content"
+    },
+]
+
 reactions = {
 	'796732247470112769': { #polls
+		'982778577877614643': {
+			'🇾': 'Learn Blender'
+		},
 		'938141030673428550': {
 			'🟤': 'Play Chess',
 			'🟡': 'Coding Challenges'
@@ -16,7 +99,8 @@ reactions = {
 	},
 	'783813544520712213': { #rules channel
 		'881792967386480690': {
-			'<:teacode_bordred:844450911941165086>': '🌱│Members'
+			'<:teacode_icon_dark:972803589145776189>': '🌱│Members',
+			'<:teacode_icon_white:972803591452622858>': '🌱│Members',
 		},
 	},
 	'802521765586010132': { #get-roles channel

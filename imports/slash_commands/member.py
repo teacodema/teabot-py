@@ -1,11 +1,30 @@
-from setup.properties import *
-from setup.actions import *
+from setup.data.properties import *
+from setup.actions.common import *
+from setup.actions.member import *
 
-
-def init_check_membership(params):
-
-	bot = params['bot']
+def init_slash_commands_member(params):
 	
+	bot = params['bot']
+	discord = params['discord']	
+
+	
+	######################## WELCOME MEMBER CMD ########################
+	@bot.slash_command(name = "tc_w", description = "Welcome non-activated users")
+	async def welcome(interaction, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
+		try:
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
+				
+			await interaction.send(f'Welcoming {member.mention}', ephemeral=True)
+			msg = await welcomeMember(params, member, assign_role, send_dm, use_webhook)
+			channel = bot.get_channel(textChannels['log-server'])			
+			await channel.send(msg)
+		except Exception as ex:
+			print('----- /welcome() -----')
+			print(ex)
+			await log_exception(ex, '/welcome', interaction)
+
 	######################## CHECK UNASSIGNED MEMBERS ########################
 	@bot.slash_command(name = "tc_cnm", description = "Check new membership period")
 	async def check_new_members(interaction, nr:int=1, do:int=0):

@@ -6,18 +6,19 @@ from disnake import FFmpegPCMAudio #, PCMVolumeTransformer
 from youtube_dl import YoutubeDL
 # from setup.properties import *
 # from setup.actions import *
-from imports.system.bot_activity import *
-from imports.system.role_activity import *
-from imports.system.server_activity import *
-from imports.system.server_data import *
-from imports.system.msg_activity import *
-from imports.system.msg_log import *
-from imports.system.voice_activity import *
-from imports.system.bot_chat import *
-from imports.system.check_membership import *
-from imports.system.bot_reaction import *
-from imports.member.audio_activity import *
-from imports.member.fun_activity import *
+from imports.events.start import *
+from imports.events.message import *
+from imports.events.reaction import *
+from imports.events.voice import *
+from imports.events.member import *
+
+from imports.slash_commands.info import *
+from imports.slash_commands.message import *
+from imports.slash_commands.reaction import *
+from imports.slash_commands.voice import *
+from imports.slash_commands.member import *
+from imports.slash_commands.role import *
+from imports.slash_commands.extra.fun import *
 # from imports.member.quran import *
 
 intents = discord.Intents.all()
@@ -32,19 +33,26 @@ params = {
 	'FFmpegPCMAudio': FFmpegPCMAudio,
 }
 
-init_bot_activity(params)
-init_role_activity(params)
-init_server_activity(params)
-init_server_data(params)
-init_msg_activity(params)
-init_msg_log(params)
-init_voice_activity(params)
-init_audio_activity(params)
-init_fun_activity(params)
-init_bot_chat(params)
-init_check_membership(params)
-init_bot_reaction(params)
+def init_events():
+	init_events_start(params)
+	init_events_message(params)
+	init_events_reaction(params)
+	init_events_voice(params)
+	init_events_member(params)
 # init_quran(params)
+
+def init_slash_commands():
+	init_slash_commands_info(params)
+	init_slash_commands_message(params)
+	init_slash_commands_reaction(params)
+	init_slash_commands_voice(params)
+	init_slash_commands_member(params)
+	init_slash_commands_role(params)
+	init_slash_commands_extra(params)
+
+
+init_events()
+init_slash_commands()
 
 
 # keep_alive()

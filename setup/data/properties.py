@@ -1,10 +1,7 @@
-appParams = {
-	'newMembershipPeriode': 7, # in days
-	'inviteMaxAge': 604800, # in seconds <=> 1 week
-	'inviteMaxUses': 10,
-	'blue': 0x1da1f2
-}
+
+#################################### SERVER DATA
 guildId = 694956824356585654
+
 textChannels = {
 	'rules': 							783813544520712213,
 	'faqs': 							805147852237570078,
@@ -17,6 +14,7 @@ textChannels = {
 	'voice-chat': 				795629763363864606,
 	'help-chat': 					802892768011223045,
 	'study-group-discussion':	909572107271278673,
+	'read-me':					934933155285180496,
 	
 	'staff-notes': 	951593615191326860,
 
@@ -46,6 +44,7 @@ categories = {
 	'lab-corner': 				885273061941706802,
 	'system-corner': 			794057030180405270,
 }
+
 
 roles = {
 	'founders' :		801603256907857940,

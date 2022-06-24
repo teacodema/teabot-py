@@ -1,12 +1,14 @@
-from setup.properties import *
-from setup.actions import *
+import json
+import os
+from setup.data.properties import *
+from setup.actions.common import *
+from setup.actions.role import *
 
-def init_role_activity(params):
+def init_slash_commands_role(params):
 	
 	bot = params['bot']
-	discord = params['discord']	
+	discord = params['discord']
 
-	######################## TOGGLE ADD ########################
 	@bot.slash_command(name = "tc_tr", description = "Toggle role to member/role")
 	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
 		try:
@@ -16,16 +18,19 @@ def init_role_activity(params):
 				return
 
 			await interaction.send('Toggling Role...', ephemeral=True)
-			if (role2 != None and member == None):
-				msg = f'{role2.mention} {"got" if assign else "lost"} a role : {role.mention}'
+			msg = ''
+			if role2:
+				msg += f'{role2.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
 				members = role2.members
 				for memberTo in members:
-					await toggleRole(interaction, memberTo, [role], assign)
-			else:
-				if (not member):
-					member = interaction.author
-				await toggleRole(interaction, member, [role], assign)
-				msg = f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}'
+					await toggleRole(memberTo, [role], assign, interaction)
+			if member == None and role2 == None:
+				member = interaction.author
+				await toggleRole(member, [role], assign, interaction)
+				msg += f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
+			if member:
+				await toggleRole(member, [role], assign, interaction)
+				msg += f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
 
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
@@ -64,7 +69,7 @@ def init_role_activity(params):
 					m = m.replace('>', '')
 					m = await guild.fetch_member(m)
 					msg_m += f'{m.mention}, '
-					await toggleRole(interaction, m, roles_list, assign)
+					await toggleRole(m, roles_list, assign, interaction)
 				except Exception as ex:
 					print('----- /toggle_role_members()/toggle member -----')
 					print(ex)
@@ -78,14 +83,39 @@ def init_role_activity(params):
 			await log_exception(ex, '/toggle_role_members', interaction)
 
 
-	######################## TOGGLE ROLE ########################
-	async def toggleRole(interaction, member, roles, assign = True):
+	@bot.slash_command(name = "tc_nr", description = "Member has not role")
+	async def members_hasnt_role(interaction, role: discord.Role):
 		try:
-			if assign:
-				await member.add_roles(*roles)
+			
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
+			
+			await interaction.send('Searching...', ephemeral=True)
+			guild = interaction.guild
+			filtered = filter(lambda member: member.get_role(role.id) == None, guild.members)
+			filtered = list(filtered)
+			
+			count = len(filtered)
+			msg = f"These members({count}) don't have this role {role.mention}\n"
+			if count <= 100:
+				for member in filtered:
+					msg += f'{member.mention} , '
+				await interaction.send(msg.strip(), ephemeral=True)
 			else:
-				await member.remove_roles(*roles)
+				json_filtered = []
+				for member in filtered:
+					json_filtered.append({"id":member.id, "name":member.name})
+				json_data = json.dumps(json_filtered)
+				with open("file.json", "w") as outfile:
+					outfile.write(json_data)
+				file = discord.File("file.json")
+				await interaction.send(content=msg, file=file, ephemeral=True)
+				os.remove("file.json")
+
 		except Exception as ex:
-			print('----- toggleRole() -----')
+			print('----- /members_hasnt_role() -----')
 			print(ex)
-			await log_exception(ex, 'toggleRole()', interaction)
+			await log_exception(ex, '/members_hasnt_role', interaction)
+
+
