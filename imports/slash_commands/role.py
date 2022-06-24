@@ -83,8 +83,8 @@ def init_slash_commands_role(params):
 			await log_exception(ex, '/toggle_role_members', interaction)
 
 
-	@bot.slash_command(name = "tc_nr", description = "Member has not role")
-	async def members_hasnt_role(interaction, role: discord.Role):
+	@bot.slash_command(name = "tc_hr", description = "Member has(n't) role")
+	async def members_has_role(interaction, role: discord.Role, has: int=1):
 		try:
 			
 			if not is_founders(interaction):
@@ -93,11 +93,16 @@ def init_slash_commands_role(params):
 			
 			await interaction.send('Searching...', ephemeral=True)
 			guild = interaction.guild
-			filtered = filter(lambda member: member.get_role(role.id) == None, guild.members)
+			if has:
+				verb = "have"
+				filtered = filter(lambda member: member.get_role(role.id) != None, guild.members)
+			else:
+				verb = "don't have"
+				filtered = filter(lambda member: member.get_role(role.id) == None, guild.members)
 			filtered = list(filtered)
 			
 			count = len(filtered)
-			msg = f"These members({count}) don't have this role {role.mention}\n"
+			msg = f"These members({count}) {verb} this role {role.mention}\n"
 			if count <= 100:
 				for member in filtered:
 					msg += f'{member.mention} , '
