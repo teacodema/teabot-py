@@ -15,6 +15,7 @@ def init_slash_commands_voice(params):
 	currentTrackIndex = 0
 	_ctxPlay = None,
 	voice = None
+	btn_pressed = False
 
 	ydl_opts = {
 							'noplaylist': True,
@@ -34,6 +35,28 @@ def init_slash_commands_voice(params):
 	FFMPEG_OPTIONS = {
 		'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
 		'options': '-vn'}
+
+	######################## SEEK ########################
+	@bot.slash_command(name = "seek", description = "Play a YouTube url at specific time")
+	async def seek(ctx, seconds:int):
+		try:
+			nonlocal FFMPEG_OPTIONS, btn_pressed
+			btn_pressed = True
+			vc = isUserConnected(ctx)
+			if vc == False:
+				await ctx.send('❌ You need to be connected to a voice channel')
+				return
+			await ctx.send('Seeking ...')
+			FFMPEG_OPTIONS = {
+				'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+				'options': f'-vn -ss {seconds}'}
+			
+			voice = ctx.guild.voice_client
+			if not voice or not voice.is_connected():
+				await vc.connect()
+			playTrack(ctx)
+		except Exception as ex:
+			raise ex
 
 	######################## PLAY ########################
 	@bot.slash_command(name = "play", description = "Play a YouTube url")
@@ -140,7 +163,11 @@ def init_slash_commands_voice(params):
 	
 	def playNext(err):
 		try:
-			nonlocal currentTrackIndex, playlist, voice, _ctxPlay
+			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
+			
+			if btn_pressed:
+				btn_pressed = False
+				return
 		
 			if len(playlist) == 0:
 				# await ctx.send('⚠ The playlist is empty')
@@ -162,7 +189,8 @@ def init_slash_commands_voice(params):
 
 	def playTrack(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
+			btn_pressed = True
 			
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
@@ -171,6 +199,7 @@ def init_slash_commands_voice(params):
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 			task_update_activity(params, activity_name = track['title'])
 		except Exception as ex:
+			raise ex
 			print('----- playTrack() -----')
 			print(ex)
 
@@ -223,7 +252,8 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "replay", description = "Replay current track")
 	async def replay(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			btn_pressed = True
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
@@ -251,7 +281,8 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "next", description = "Play next track")
 	async def next(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			btn_pressed = True
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
@@ -282,7 +313,8 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "previous", description = "Play previous track")
 	async def previous(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			btn_pressed = True
 			
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
@@ -351,7 +383,8 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "stop", description = "Stop the player")
 	async def stop(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
+			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+			btn_pressed = True
 
 			# player_params['current_played'] = None
 			vc = isUserConnected(ctx)
