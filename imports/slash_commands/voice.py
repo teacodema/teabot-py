@@ -32,28 +32,6 @@ def init_slash_commands_voice(params):
 									'preferredcodec': 'mp3',
 									'preferredquality': '128',
 							}]}
-	FFMPEG_OPTIONS = {
-		'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-		'options': '-vn'}
-
-	######################## SEEK ########################
-	@bot.slash_command(name = "seek", description = "Play a YouTube url at specific time")
-	async def seek(ctx, seconds:int):
-		try:
-			nonlocal btn_pressed
-			btn_pressed = True
-			vc = isUserConnected(ctx)
-			if vc == False:
-				await ctx.send('❌ You need to be connected to a voice channel')
-				return
-			await ctx.send('Seeking ...')
-			
-			voice = ctx.guild.voice_client
-			if not voice or not voice.is_connected():
-				await vc.connect()
-			playTrack(ctx, seconds)
-		except Exception as ex:
-			raise ex
 
 	######################## PLAY ########################
 	@bot.slash_command(name = "play", description = "Play a YouTube url")
@@ -116,13 +94,16 @@ def init_slash_commands_voice(params):
 		try:
 			nonlocal ydl_opts
 			with YoutubeDL(ydl_opts) as ydl:
-				info = ydl.extract_info(url, download = False)
+				info = {'start_time': 0}
+				info.update(ydl.extract_info(url, download = False))
+
 			URL = info['formats'][0]['url']
 			title = info['title']
 			duration = info['duration']
 			thumbnail = info['thumbnail']
 			id = info['id']
 			track = {
+				"start_time": info['start_time'],
 				"member": ctx.author.display_name,
 				"_url": URL, "url": url,
 				"id": id, "title": title,
@@ -161,7 +142,7 @@ def init_slash_commands_voice(params):
 	def playNext(err):
 		try:
 			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
-			
+			print(err)
 			if btn_pressed:
 				btn_pressed = False
 				return
@@ -184,21 +165,16 @@ def init_slash_commands_voice(params):
 			print('----- playNext() -----')
 			print(ex)
 
-	def playTrack(ctx, seconds = False):
+	def playTrack(ctx):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed, FFMPEG_OPTIONS
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
 			btn_pressed = True
-			
-			if seconds:
-				FFMPEG_OPTIONS = {
-						'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-						'options': f'-vn -ss {seconds}'}
-			else:
-				FFMPEG_OPTIONS = {
-						'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-						'options': '-vn'}
-			_ctxPlay = ctx
+
 			track = playlist[currentTrackIndex]
+			FFMPEG_OPTIONS = {
+				'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+				'options': f'-vn -ss {track["start_time"]}'}
+			_ctxPlay = ctx
 			voice = ctx.guild.voice_client
 			voice.stop()
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
