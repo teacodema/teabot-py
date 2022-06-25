@@ -51,7 +51,7 @@ def init_slash_commands_voice(params):
 			voice = ctx.guild.voice_client
 			if not voice or not voice.is_connected():
 				await vc.connect()
-			playTrack(ctx, True)
+			playTrack(ctx, seconds)
 		except Exception as ex:
 			raise ex
 
@@ -184,12 +184,12 @@ def init_slash_commands_voice(params):
 			print('----- playNext() -----')
 			print(ex)
 
-	def playTrack(ctx, seek = False):
+	def playTrack(ctx, seconds = False):
 		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
+			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed, FFMPEG_OPTIONS
 			btn_pressed = True
 			
-			if seek:
+			if seconds:
 				FFMPEG_OPTIONS = {
 						'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
 						'options': f'-vn -ss {seconds}'}
