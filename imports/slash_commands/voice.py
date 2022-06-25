@@ -40,21 +40,18 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "seek", description = "Play a YouTube url at specific time")
 	async def seek(ctx, seconds:int):
 		try:
-			nonlocal FFMPEG_OPTIONS, btn_pressed
+			nonlocal btn_pressed
 			btn_pressed = True
 			vc = isUserConnected(ctx)
 			if vc == False:
 				await ctx.send('❌ You need to be connected to a voice channel')
 				return
 			await ctx.send('Seeking ...')
-			FFMPEG_OPTIONS = {
-				'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-				'options': f'-vn -ss {seconds}'}
 			
 			voice = ctx.guild.voice_client
 			if not voice or not voice.is_connected():
 				await vc.connect()
-			playTrack(ctx)
+			playTrack(ctx, True)
 		except Exception as ex:
 			raise ex
 
@@ -187,11 +184,19 @@ def init_slash_commands_voice(params):
 			print('----- playNext() -----')
 			print(ex)
 
-	def playTrack(ctx):
+	def playTrack(ctx, seek = False):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
 			btn_pressed = True
 			
+			if seek:
+				FFMPEG_OPTIONS = {
+						'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+						'options': f'-vn -ss {seconds}'}
+			else:
+				FFMPEG_OPTIONS = {
+						'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+						'options': '-vn'}
 			_ctxPlay = ctx
 			track = playlist[currentTrackIndex]
 			voice = ctx.guild.voice_client
