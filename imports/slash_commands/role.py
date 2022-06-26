@@ -119,23 +119,30 @@ def init_slash_commands_role(params):
 			guild = interaction.guild
 			if has:
 				verb = "have"
-				filtered = filter(lambda member: member.get_role(role.id) != None, guild.members)
+				filtered_members = filter(lambda member: member.get_role(role.id) != None, guild.members)
 			else:
 				verb = "don't have"
-				filtered = filter(lambda member: member.get_role(role.id) == None, guild.members)
-			filtered = list(filtered)
+				filtered_members = filter(lambda member: member.get_role(role.id) == None, guild.members)
+			filtered_members = list(filtered_members)
 			
-			count = len(filtered)
+			count = len(filtered_members)
 			msg = f"These members({count}) {verb} this role {role.mention}\n"
-			if count <= 100:
-				for member in filtered:
+			send_file = False
+			MAX_COUNT = 50
+			if count > MAX_COUNT:
+				send_file = True
+			else:
+				for member in filtered_members:
 					msg += f'{member.mention} , '
+				if len(msg) >= 2000: send_file = True
+			
+			if not send_file:
 				await interaction.send(msg.strip(), ephemeral=True)
 			else:
-				json_filtered = []
-				for member in filtered:
-					json_filtered.append({"id":member.id, "name":member.name})
-				json_data = json.dumps(json_filtered)
+				json_filtered_members = []
+				for member in filtered_members:
+					json_filtered_members.append({"id":member.id, "name":member.name})
+				json_data = json.dumps(json_filtered_members)
 				with open("file.json", "w") as outfile:
 					outfile.write(json_data)
 				file = discord.File("file.json")
