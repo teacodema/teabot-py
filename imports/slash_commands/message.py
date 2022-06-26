@@ -205,7 +205,7 @@ def init_slash_commands_message(params):
 		----------
 		msg: Message content - \\n \\t /$
 		member: Server existing member
-		Role: Server existing role
+		role: Role members
 		"""
 		try:
 			if not is_founders(interaction):
