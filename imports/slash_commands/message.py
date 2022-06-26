@@ -25,7 +25,7 @@ def init_slash_commands_message(params):
 				return
 			rule = next(item for item in rules if item["key"] == query)
 			# rule_index = rules.index(rule) + 1
-			msg = f'**{query} :** {rule["value"]}\n➜ Check <#{textChannels["rules"]}> or <https://teacode.ma/rules> for more details.'
+			msg = f'**{query} :**\n{rule["value"]}'
 			await interaction.send(msg)
 		except Exception as ex:
 			print('----- /tag_rules() -----')
