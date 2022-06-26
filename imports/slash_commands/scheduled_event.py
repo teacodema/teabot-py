@@ -10,27 +10,17 @@ def init_slash_commands_scheduled_event(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "event-delete-all", description = "Deleting all events")
-	async def event_delete_all(interaction):
-		try:
-			if not is_founders(interaction):
-				await interaction.send('❌ Missing Permissions')
-				return
-			await interaction.send('Deleting all events')
-			
-			guild = interaction.guild
-			for event in guild.scheduled_events:
-				await event.delete()
-			
-		except Exception as ex:
-			raise ex
-			print('----- /event_delete_all() -----')
-			print(ex)
-			await log_exception(ex, '/event_delete_all', interaction)
-
 	
-	@bot.slash_command(name = "event-delete-between-dates", description = "Deleting events created with name after date")
+	@bot.slash_command(name = "event-delete-between-dates")
 	async def event_delete_between_dates(interaction, name, from_date, to_date):
+		"""
+		Deleting events created with name between 2 dates
+		Parameters
+		----------
+		name: Event name
+		from_date: Start date to check after
+		to_date: End date to check before
+		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')
@@ -67,6 +57,11 @@ def init_slash_commands_scheduled_event(params):
 		recurrence: Number of (Weekly) events to create - 2 <= recurrence <= 5 (every_n_weeks param should be set)
 		"""
 		try:
+			
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
+				
 			if (every_n_weeks and not recurrence) or (recurrence and not every_n_weeks):
 				await interaction.send('*recurrence* and *every_n_weeks* should be set together !!', ephemeral=True)
 				return
