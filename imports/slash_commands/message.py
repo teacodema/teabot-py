@@ -11,8 +11,14 @@ def init_slash_commands_message(params):
 
 	keys = [ rule['key'] for rule in rules ]
 	######### RULES ########
-	@bot.slash_command(name = "tag", description = "Reminde with a rule")
+	@bot.slash_command(name = "tag")
 	async def tag_rules(interaction, query=commands.Param(autocomplete=keys)):
+		"""
+		Reminde with a rule
+		Parameters
+		----------
+		query: Choose a predefined rule by key
+		"""
 		try:
 			if query not in keys:
 				await interaction.send('Issue with the input (choose one of the provided options)')
@@ -28,8 +34,14 @@ def init_slash_commands_message(params):
 
 	
 	######################## PURGE ########################
-	@bot.slash_command(name = "purge", description = "Clear all messages")
+	@bot.slash_command(name = "purge")
 	async def purge(interaction, limit: int=None):
+		"""
+		Clear all messages
+		Parameters
+		----------
+		limit: Optional for specific channels / limit <= 500
+		"""
 		try:
 			
 			if not is_authorised(interaction, {'founders', 'staff'}):
@@ -75,8 +87,17 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/purge', interaction)
 
 	####################### MAKE A WEBHOOK #######################
-	@bot.slash_command(name="tc_mw", description="Make a webhook - \\n \\t /$")
+	@bot.slash_command(name="tc_mw")
 	async def make_webhook(interaction, member: discord.Member, channel: discord.TextChannel, msg, name=None):
+		"""
+		Make a webhook - \\n \\t /$
+		Parameters
+		----------
+		member: Server existing member
+		msg: Message to send by the webhook - \\n \\t /$
+		channel: Channel where to send the msg
+		name: Webhook name
+		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')
@@ -95,8 +116,17 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/make_webhook', interaction)
 	
 	######################## REPLY TO MSG ########################
-	@bot.slash_command(name = "tc_emc", description="Edit message channel - \\n \\t /$")
+	@bot.slash_command(name = "tc_emc")
 	async def edit_msg_channel(interaction, content, msg_id, channel: discord.TextChannel, pin: int=0):
+		"""
+		Edit message channel - \\n \\t /$
+		Parameters
+		----------
+		content: New message content - \\n \\t /$
+		msg_id: Message ID to edit
+		channel: Channel where to fetch the message by msg_id
+		pin: Add to pinned channel messages
+		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')
@@ -114,8 +144,16 @@ def init_slash_commands_message(params):
 
 
 	######################## REPLY TO MSG ########################
-	@bot.slash_command(name = "tc_rc", description="Reply to msg channel - \\n \\t /$")
+	@bot.slash_command(name = "tc_rc")
 	async def reply_channel(interaction, reply, msg_id, channel: discord.TextChannel):
+		"""
+		Reply to msg channel - \\n \\t /$
+		Parameters
+		----------
+		reply: Message content - \\n \\t /$
+		msg_id: Message ID to reply to
+		channel: Channel where to fetch the message by msg_id
+		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')
@@ -131,8 +169,16 @@ def init_slash_commands_message(params):
 
 
 	######################## SEND MSG TO CHANNEL ########################
-	@bot.slash_command(name = "tc_mc", description="Send msg to channel - \\n \\t /$")
+	@bot.slash_command(name = "tc_mc")
 	async def msg_channel(interaction, msg, channel: discord.TextChannel, pin: int=0):
+		"""
+		Send msg to channel - \\n \\t /$
+		Parameters
+		----------
+		msg: Message content - \\n \\t /$
+		channel: Channel where to send the message
+		pin: Add to pinned channel messages
+		"""
 		try:
 			
 			if not is_founders(interaction):
@@ -151,8 +197,16 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/msg_channel', interaction)
 
 	######################## SEND MSG TO MEMBER ########################
-	@bot.slash_command(name = "tc_mm", description="Send msg to member/role - \\n \\t /$")
+	@bot.slash_command(name = "tc_mm")
 	async def msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None):
+		"""
+		Send msg to member/role - \\n \\t /$
+		Parameters
+		----------
+		msg: Message content - \\n \\t /$
+		member: Server existing member
+		Role: Server existing role
+		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')
@@ -212,8 +266,15 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/msg_member', interaction)
 
 	######################## DELETE A MSG ########################
-	@bot.slash_command(name = "tc_rm", description="Delete msg from public/private - ,")
+	@bot.slash_command(name = "tc_rm")
 	async def remove_msg_member(interaction, msg_ids, channel_id):
+		"""
+		Delete msg from public/private - ,
+		Parameters
+		----------
+		msg_ids: Messages IDs separated by ,
+		channel_id: Channel where to fetch the messages
+		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')

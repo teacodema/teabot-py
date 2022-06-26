@@ -7,8 +7,17 @@ def init_slash_commands_reaction(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "tc_rr", description='Add/Remove reaction to/from msg - ,')
+	@bot.slash_command(name = "tc_rr", description='')
 	async def bot_react(interaction, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
+		"""
+		Add/Remove reaction to/from msg - ,
+		Parameters
+		----------
+		msg_id: Message ID
+		emojis: Server existing emojis separated by , 
+		remove: Remove the reaction - values 0/1
+		member: Member to remove reactions for (remove param should be == 1)
+		"""
 		try:
 
 			if not is_founders(interaction):

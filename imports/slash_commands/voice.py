@@ -34,8 +34,14 @@ def init_slash_commands_voice(params):
 							}]}
 
 	######################## PLAY ########################
-	@bot.slash_command(name = "play", description = "Play a YouTube url")
+	@bot.slash_command(name = "play")
 	async def play(ctx, url=None):
+		"""
+		Play a YouTube url / Existing playlist
+		Parameters
+		----------
+		url: youtube_url or youtube_url&t=361
+		"""
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
 

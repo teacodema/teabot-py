@@ -9,8 +9,17 @@ def init_slash_commands_role(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "tc_tr", description = "Toggle role to member/role")
+	@bot.slash_command(name = "tc_tr")
 	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
+		"""
+		Toggle role to member/role
+		Parameters
+		----------
+		role: Role to toggle
+		member: Member the role will be toggled to
+		role2: Role members the role will be toggled to
+		assign: Assign/Unassign - values 0/1
+		"""
 		try:
 
 			if not is_founders(interaction):
@@ -40,8 +49,16 @@ def init_slash_commands_role(params):
 
 
 	######################## ROLE TO MEMBERS ########################
-	@bot.slash_command(name = "tc_trm", description = 'Toggle multiple roles to multiple members - ,')
+	@bot.slash_command(name = "tc_trm")
 	async def toggle_role_members(interaction, roles, members, assign: int = 1):
+		"""
+		Toggle multiple roles to multiple members - ,
+		Parameters
+		----------
+		roles: Roles to toggle separated by ,
+		members: Members the roles will be toggled to separated by ,
+		assign: Assign/Unassign - values 0/1
+		"""
 		try:
 			
 			if not is_founders(interaction):
@@ -83,8 +100,15 @@ def init_slash_commands_role(params):
 			await log_exception(ex, '/toggle_role_members', interaction)
 
 
-	@bot.slash_command(name = "tc_hr", description = "Member has(n't) role")
+	@bot.slash_command(name = "tc_hr")
 	async def members_has_role(interaction, role: discord.Role, has: int=1):
+		"""
+		Members who have(n't) a role
+		Parameters
+		----------
+		role: Role to check
+		has: Check for having/not having - values 0/1
+		"""
 		try:
 			
 			if not is_founders(interaction):

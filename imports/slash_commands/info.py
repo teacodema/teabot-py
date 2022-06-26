@@ -7,8 +7,14 @@ def init_slash_commands_info(params):
 	discord = params['discord']
 
 	######################## SERVER INFO ########################
-	@bot.slash_command(name = "tc_si", description = "Display server info")
+	@bot.slash_command(name = "tc_si")
 	async def server_info(interaction, hidden: int = 0):
+		"""
+		Display server info
+		Parameters
+		----------
+		hidden: Ephemeral message - values 0/1
+		"""
 		try:
 			# excludedCategories = [
 			# 	categories['staff-corner'],
@@ -78,8 +84,15 @@ def init_slash_commands_info(params):
 			await log_exception(ex, '/server-info', interaction)
 
 	######################## ROLE INFO ########################
-	@bot.slash_command(name = "role-info", description = "Get role info/stats")
+	@bot.slash_command(name = "role-info")
 	async def role_info(interaction, role: discord.Role = None, hidden: int = 0):
+		"""
+		Get role info/stats
+		Parameters
+		----------
+		role: Server existing role
+		hidden: Ephemeral message - values 0/1
+		"""
 		try:
 			if role == None:
 				role = interaction.author.top_role
@@ -106,8 +119,15 @@ def init_slash_commands_info(params):
 			await log_exception(ex, '/role-info', interaction)
 
 	######################## MEMBER INFO ########################
-	@bot.slash_command(name = "member-info", description = "Get member info/stats")
+	@bot.slash_command(name = "member-info")
 	async def member_info(interaction, member: discord.Member = None, hidden : int = 0):
+		"""
+		Get member info/stats
+		Parameters
+		----------
+		member: Server existing member
+		hidden: Ephemeral message - values 0/1
+		"""
 		try:
 
 			if member == None or member == interaction.author:
