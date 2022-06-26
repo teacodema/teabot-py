@@ -18,6 +18,7 @@ from imports.slash_commands.reaction import *
 from imports.slash_commands.voice import *
 from imports.slash_commands.member import *
 from imports.slash_commands.role import *
+from imports.slash_commands.scheduled_event import *
 from imports.slash_commands.extra.fun import *
 # from imports.member.quran import *
 
@@ -48,6 +49,7 @@ def init_slash_commands():
 	init_slash_commands_voice(params)
 	init_slash_commands_member(params)
 	init_slash_commands_role(params)
+	init_slash_commands_scheduled_event(params)
 	init_slash_commands_extra(params)
 
 
