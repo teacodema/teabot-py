@@ -13,6 +13,9 @@ def init_slash_commands_scheduled_event(params):
 	@bot.slash_command(name = "event-delete-all", description = "Deleting all events")
 	async def event_delete_all(interaction):
 		try:
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
 			await interaction.send('Deleting all events')
 			
 			guild = interaction.guild
@@ -29,6 +32,9 @@ def init_slash_commands_scheduled_event(params):
 	@bot.slash_command(name = "event-delete-between-dates", description = "Deleting events created with name after date")
 	async def event_delete_between_dates(interaction, name, from_date, to_date):
 		try:
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
 			await interaction.send(f'Deleting events created with name: {name} between {from_date} & {to_date}')
 			tzinfo = timezone(timedelta(hours=1))
 			from_date = dp.parse(from_date).replace(tzinfo=tzinfo)
