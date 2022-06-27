@@ -18,17 +18,21 @@ def init_slash_commands_scheduled_event(params):
 		Parameters
 		----------
 		name: Event name
-		from_date: Start date to check after
-		to_date: End date to check before
+		from_date: Start date to check after / example - 7/1/2022 21:15
+		to_date: End date to check before / example - 7/30/2022 21:15
 		"""
 		try:
 			if not is_founders(interaction):
 				await interaction.send('❌ Missing Permissions')
 				return
-			await interaction.send(f'Deleting events created with name: {name} between {from_date} & {to_date}')
 			tzinfo = timezone(timedelta(hours=1))
 			from_date = dp.parse(from_date).replace(tzinfo=tzinfo)
 			to_date = dp.parse(to_date).replace(tzinfo=tzinfo)
+			if from_date >= to_date:
+				await interaction.send('from_date < to_date !!', ephemeral=True)
+				return
+
+			await interaction.send(f'Deleting events created with name: {name} between {from_date} & {to_date}')
 			
 			guild = interaction.guild
 			events_to_delete = filter(lambda event: (event.scheduled_start_time > from_date and event.scheduled_start_time < to_date and event.name == name), guild.scheduled_events)
