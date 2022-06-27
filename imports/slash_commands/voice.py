@@ -37,14 +37,14 @@ def init_slash_commands_voice(params):
 	@bot.slash_command(name = "play")
 	async def play(ctx, url=None):
 		"""
-		Play a YouTube url / Existing playlist
+		Play a YouTube url / Search term / Existing playlist
 		Parameters
 		----------
 		url: youtube_url or youtube_url&t=361
 		"""
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
-
+			await ctx.send('Loading ...')
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
@@ -186,7 +186,6 @@ def init_slash_commands_voice(params):
 			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
 			task_update_activity(params, activity_name = track['title'])
 		except Exception as ex:
-			raise ex
 			print('----- playTrack() -----')
 			print(ex)
 
@@ -463,7 +462,7 @@ def init_slash_commands_voice(params):
 			# embed.set_thumbnail(url=guild.icon_url)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-			embed.add_field(name="📋│Playlist", value=f'{len(playlist)} songs', inline=False)
+			embed.add_field(name="📋│Playlist", value=f'{len(playlist)} tracks', inline=False)
 			
 			for i in range(len(playlist)):
 				value = ""
@@ -471,7 +470,7 @@ def init_slash_commands_voice(params):
 				if (currentTrackIndex == i):
 					index = '▷ Now Playing' #'►'
 				else:
-					index = f'✧ Song {i+1}'
+					index = f'✧ Track {i+1}'
 				title = track['title'][0:40]
 				ar_regex = (r'[a-zA-Z]+')
 				ar_regex_match = not re.match(ar_regex, title)
