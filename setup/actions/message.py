@@ -128,8 +128,14 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 		if m.edited_at:
 			edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
 		msg += f'\n📅 {created_at} ➜ {edited_at}'
+		msg += "\n__Content__\n"
 		msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
-		msg += f'\n__Content__\n{msg_content}'
+		if len(msg_content) >= 1800: 
+			await log_thread.send(msg)
+			await log_thread.send(msg_content)
+			msg = ''
+		else:
+			msg += f'{msg_content}'
 		msg += get_attachments(m)
 		msg += get_embeds(m)
 		msg += f'\n──────────────────────'
