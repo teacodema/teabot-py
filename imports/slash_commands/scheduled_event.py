@@ -22,11 +22,13 @@ def init_slash_commands_scheduled_event(params):
 			await interaction.send("Loading...", ephemeral=True)
 			guild = interaction.guild
 			event = guild.get_scheduled_event(int(event_id))
-			users = await event.fetch_users().flatten()
-			count = len(users)
-			msg = f"This event has {count} subscribers\n"
-			for member in users:
-				msg += f'{member.mention} , '
+			if event:
+				users = await event.fetch_users().flatten()
+				count = len(users)
+				msg = f"This event has {count} subscribers\n"
+				for member in users:
+					msg += f'{member.mention} , '
+			else: msg = "Event not found !!"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /event_subscribers() -----')
