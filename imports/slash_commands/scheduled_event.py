@@ -10,6 +10,28 @@ def init_slash_commands_scheduled_event(params):
 	bot = params['bot']
 	discord = params['discord']
 
+	@bot.slash_command(name = "subscribers")
+	async def event_subscribers(interaction, event_id):
+		"""
+		Get event subscribers
+		Parameters
+		----------
+		event_id: ID of an exisitng event
+		"""
+		try:
+			await interaction.send("Loading...", ephemeral=True)
+			guild = interaction.guild
+			event = guild.get_scheduled_event(int(event_id))
+			users = await event.fetch_users().flatten()
+			count = len(users)
+			msg = f"This event has {count} subscribers\n"
+			for member in users:
+				msg += f'{member.mention} , '
+			await interaction.send(msg.strip(), ephemeral=True)
+		except Exception as ex:
+			print('----- /event_subscribers() -----')
+			print(ex)
+			await log_exception(ex, '/event_subscribers', interaction)
 	
 	@bot.slash_command(name = "event-delete-between-dates")
 	async def event_delete_between_dates(interaction, name, from_date, to_date):
