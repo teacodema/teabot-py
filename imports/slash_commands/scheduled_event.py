@@ -11,12 +11,13 @@ def init_slash_commands_scheduled_event(params):
 	discord = params['discord']
 
 	@bot.slash_command(name = "subscribers")
-	async def event_subscribers(interaction, event_id):
+	async def event_subscribers(interaction, event_id, role: discord.Role = None):
 		"""
 		Get event subscribers
 		Parameters
 		----------
 		event_id: ID of an exisitng event
+		role: Role to assign
 		"""
 		try:
 			await interaction.send("Loading...", ephemeral=True)
@@ -28,6 +29,7 @@ def init_slash_commands_scheduled_event(params):
 				msg = f"This event has {count} subscribers\n"
 				for member in users:
 					msg += f'{member.mention} , '
+					if role: await member.add_roles(role)
 			else: msg = "Event not found !!"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
