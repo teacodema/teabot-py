@@ -107,7 +107,9 @@ or
 
 You can find more informations on message formatting here :
 <https://support.discord.com/hc/en-us/articles/210298617-Bases-de-la-mise-en-forme-de-texte-Markdown-mise-en-forme-du-chat-gras-italique-soulign%C3%A9->
-see image below also :point_down:"""
+see image below also :point_down:
+https://teacode.ma/assets/shared/img/extra/markdown_code.gif
+"""
 		},
     {
         "key": "8 - Server Guide",
