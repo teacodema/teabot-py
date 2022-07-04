@@ -26,10 +26,11 @@ def init_slash_commands_scheduled_event(params):
 			if event:
 				users = await event.fetch_users().flatten()
 				count = len(users)
-				msg = f"This event has {count} subscribers\n"
+				msg = f"Event : {event.name}\nSubscribers : {count}\n"
 				for member in users:
 					msg += f'{member.mention} , '
 					if role: await member.add_roles(role)
+				if role: msg += f"\nAssigned role : {role.mention}"
 			else: msg = "Event not found !!"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
