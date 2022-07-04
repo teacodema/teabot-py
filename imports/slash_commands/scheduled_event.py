@@ -20,6 +20,9 @@ def init_slash_commands_scheduled_event(params):
 		role: Role to assign
 		"""
 		try:
+			if not is_founders(interaction):
+				await interaction.send('❌ Missing Permissions')
+				return
 			await interaction.send("Loading...", ephemeral=True)
 			guild = interaction.guild
 			event = guild.get_scheduled_event(int(event_id))
