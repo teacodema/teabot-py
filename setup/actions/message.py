@@ -138,7 +138,6 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 			msg += f'{msg_content}'
 		msg += get_attachments(m)
 		msg += get_embeds(m)
-		msg += f'\n──────────────────────'
 		await log_thread.send(msg)
 		msgIndex += 1
 	await log_thread.edit(archived=True)
