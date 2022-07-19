@@ -31,8 +31,11 @@ def init_slash_commands_scheduled_event(params):
 				count = len(users)
 				msg = f"Event : {event.name}\nSubscribers : {count}\n"
 				for member in users:
-					msg += f'{member.mention} , '
-					if role: await member.add_roles(role)
+					try:
+						msg += f'{member.mention} , '
+						if role: await member.add_roles(role)
+					except:
+						print(member)
 				if role: msg += f"\nAssigned role : {role.mention}"
 			else: msg = "Event not found !!"
 			await interaction.send(msg.strip(), ephemeral=True)
