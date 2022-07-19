@@ -61,7 +61,11 @@ rules = [
         "value": "Cheating in school related stuff (exams, projects .. etc) is prohibited",
     },
     {
-        "key": "6 - Contribute",
+        "key": "6 - Contribute / Suggestions",
+        "value": f"If you have any ideas (for events, activities, rules .... ), Or you want to report a bug, or anything related to **TeaCode** (discord, website, social links),  you can post it here <#{textChannels['suggestions']}>",
+    },
+    {
+        "key": "6 - Contribute / Report",
         "value": f"If you see something against the rules or something that makes you feel unsafe, let the <@&{roles['staff']}> know. We want this server to be a welcoming space!",
     },
     {

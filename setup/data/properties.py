@@ -11,6 +11,7 @@ textChannels = {
 	'ask-staff': 					819526219456184370,
 	
 	'general': 						694956824356585657,
+	'suggestions':					805057778665390121,
 	'voice-chat': 				795629763363864606,
 	'help-chat': 					802892768011223045,
 	'study-group-discussion':	909572107271278673,
