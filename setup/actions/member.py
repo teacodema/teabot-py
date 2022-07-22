@@ -25,7 +25,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 		channel = bot.get_channel(textChannels['log-server'])
 		msg = ''
 		if int(use_webhook):
-			wh_made = await make_webhook(member, channel)
+			wh_made = await make_webhook(params, member, channel)
 			if wh_made: msg += '\n✅ Webhook made'
 			else: msg += '\n❌ Webhook not made' 
 		if int(assign_role):
@@ -69,8 +69,9 @@ async def send_dm_welcome(params, member):
 		await log_exception(ex, 'send_dm_welcome()', None, bot)
 		return 0
 			
-async def make_webhook(member, channel):
+async def make_webhook(params, member, channel):
 	try:
+		bot = params['bot']
 		webhook = await channel.create_webhook(name=member.name)
 		await webhook.send(f'Hi I\'m {member.display_name}/{member.mention}', username=member.name, avatar_url=member.avatar.url)
 		await webhook.delete()

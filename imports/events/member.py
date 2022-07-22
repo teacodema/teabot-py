@@ -29,7 +29,7 @@ def init_events_member(params):
 			if member.bot:
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
 				return
-			msg = await welcomeMember(params, member, 1, 1, 0)
+			msg = await welcomeMember(params, member, 1, 1, 1)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg)
 		except Exception as ex:
