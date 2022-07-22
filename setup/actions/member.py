@@ -36,7 +36,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 			dm_sent = await send_dm_welcome(params, member)
 			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
 			else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
-		membersCount = await updateMembersCount(params, member)
+		membersCount = await updateMembersCount(params)
 		_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 		_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
 		msg += f'\n🟩 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) join **TeaCode**'
@@ -83,7 +83,7 @@ async def make_webhook(params, member, channel):
 		return 0
 
 ######################## UPDATE MEMBERS COUNT ########################
-async def updateMembersCount(params, member):
+async def updateMembersCount(params):
 	try:
 		bot = params['bot']
 		guild = bot.get_guild(guildId)

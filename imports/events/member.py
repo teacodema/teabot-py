@@ -46,7 +46,7 @@ def init_events_member(params):
 				channel = bot.get_channel(textChannels['log-server'])
 				await channel.send(f"🤖 kicked a bot (ID: {member.id})")
 				return
-			membersCount = await updateMembersCount(params, member)
+			membersCount = await updateMembersCount(params)
 			channel = bot.get_channel(textChannels['log-server'])
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
