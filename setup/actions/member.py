@@ -73,7 +73,7 @@ async def make_webhook(params, member, channel):
 	try:
 		bot = params['bot']
 		webhook = await channel.create_webhook(name=member.name)
-		await webhook.send(f'Hi I\'m {member.display_name}/{member.mention}', username=member.name, avatar_url=member.avatar.url)
+		await webhook.send(f'Hi I\'m {member.display_name}/{member.mention}', username=member.name, avatar_url=member.display_avatar.url)
 		await webhook.delete()
 		return 1
 	except Exception as ex:
