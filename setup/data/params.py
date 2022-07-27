@@ -57,23 +57,23 @@ rules = [
         "value": "We keep the right to ask you to change your nickname/username/description if it's not readable or contains any bad words",
     },
     {
-        "key": "5 - Cheating",
+        "key": "5 - No Cheating",
         "value": "Cheating in school related stuff (exams, projects .. etc) is prohibited",
     },
     {
-        "key": "6 - Contribute / Suggestions",
+        "key": "6 - Contribute | Suggestions",
         "value": f"If you have any ideas (for events, activities, rules .... ), Or you want to report a bug, or anything related to **TeaCode** (discord, website, social links),  you can post it here <#{textChannels['suggestions']}>",
     },
     {
-        "key": "6 - Contribute / Report",
+        "key": "6 - Contribute | Report",
         "value": f"If you see something against the rules or something that makes you feel unsafe, let the <@&{roles['staff']}> know. We want this server to be a welcoming space!",
     },
     {
-        "key": "7 - Help Guide / Full",
+        "key": "7 - Help Guide | Full",
         "value": f"Check for the Help Guide here <#{textChannels['read-me']}>",
     },
     {
-        "key": "7 - Help Guide / How to Help",
+        "key": "7 - Help Guide | How to Help",
         "value": f"""1- If someone contacts you by private message, tell them to post their question inside the group to get a faster answer and everyone can benefit.
 2- If you want to share code, share it directly (check <https://teacode.ma/how-to-post-code> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
 3- Get connected to the **__<#{categories['help-voice']}>__** to get this role <@&{roles['help-room']}> which allows you to invite others and see the **__<#{textChannels['help-chat']}>__** channel 
@@ -82,7 +82,7 @@ rules = [
 6- If you help someone, try to guide the person asking for help, providing the final solution is prohibited.""",
     },
     {
-        "key": "7 - Help Guide / How to ask for Help",
+        "key": "7 - Help Guide | How to Ask for Help",
         "value": f"""1- Do not contact members by private message, the questions you have and the answers given can benefit everyone and you will be more likely to have a quick answer.
 2- If you have a problem or question, make sure to do a minimum of research before. This server is dedicated to mutual aid, but our role is not to do Google searches for you!
 3- Do not ask for solutions.
@@ -99,8 +99,8 @@ rules = [
 11- Before asking your question visit these websites <https://dontasktoask.com/>, <https://xyproblem.info/>, <https://nohello.net/>.""",
     },
 	{
-			"key": "7 - Help Guide / How to post code",
-			"value": """You can post a block of code and enable syntax highlighting using 3 back quotes followed by the language name, for example for Python (copy this code :point_down: and change py to css, js, .... etc): 
+		"key": "7 - Help Guide | How to post code",
+		"value": """You can post a block of code and enable syntax highlighting using 3 back quotes followed by the language name, for example for Python (copy this code :point_down: and change py to css, js, .... etc): 
 \`\`\`py
   // python code
 \`\`\`
@@ -114,13 +114,13 @@ You can find more informations on message formatting here :
 see image below also :point_down:
 https://teacode.ma/assets/shared/img/extra/markdown_code.gif
 """
-		},
+	},
     {
         "key": "8 - Server Guide",
         "value": f"Check for FAQ (Frequently Asked Questions) here <#{textChannels['faqs']}>",
     },
     {
-        "key": "9 - No promo",
+        "key": "9 - No Spam / Promo",
         "value": f"No spam or self-promotion (server invites, advertisements, etc) without permission from a <@&{roles['staff']}>. This includes DMing fellow members",
     },
     {
