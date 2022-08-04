@@ -65,4 +65,4 @@ def init_events_reaction(params):
 		if roleName:
 			role = next(role for role in guild.roles if role.name == roleName)
 			await fct_params['toggle_roles'](role)
-			await log.send(f'{member.mention} {fct_params["action"]} a role {role.mention}')
+			await log.send(f'{member.display_name}#{member.discriminator} ({member.id}) {fct_params["action"]} a role {role.mention}')

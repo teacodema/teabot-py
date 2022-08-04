@@ -6,7 +6,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	bot = params['bot']
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 	operation = f'{"Added" if adding else "Removed"}'
-	await log.send(f'{url}\n{member.mention} {operation} {payload.emoji} - ({payload.emoji.id})')
+	await log.send(f'{url}\n{member.display_name}#{member.discriminator} ({member.id}) {operation} {payload.emoji} - ({payload.emoji.id})')
 
 	_ch = bot.get_channel(payload.channel_id)
 
@@ -16,7 +16,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	m = await _ch.fetch_message(payload.message_id)
 	if m:
 		msgs = []
-		msg = f'\n✉ by {m.author.display_name} in {m.channel.mention}'
+		msg = f'\n✉ by {m.author.display_name}#{m.author.id} ({m.author.id}) in {m.channel.mention}'
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 		edited_at = None
 		if m.edited_at:

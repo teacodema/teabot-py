@@ -81,16 +81,16 @@ def init_slash_commands_extra(params):
 			index2 = choices.index(ch2)
 
 			if (index1 == 0 and index2 == 2):
-				result = f'{member1.mention} is the **WINNER** 🎉 🎊'
+				result = f'{member1.display_name} is the **WINNER** 🎉 🎊'
 			elif (index2 == 0 and index1 == 2):
-				result = f'{member2.mention} is the **WINNER** 🎉 🎊'
+				result = f'{member2.display_name} is the **WINNER** 🎉 🎊'
 			elif (index1 == index2):
 				result = "it's a **TIE**"
 			else:
 				if index1 > index2:
-					result = f'{member1.mention} is the **WINNER** 🎉 🎊'
+					result = f'{member1.display_name} is the **WINNER** 🎉 🎊'
 				else:
-					result = f'{member2.mention} is the **WINNER** 🎉 🎊'
+					result = f'{member2.display_name} is the **WINNER** 🎉 🎊'
 
 			await interaction.send(f'{msg} | {result}')
 		except Exception as ex:

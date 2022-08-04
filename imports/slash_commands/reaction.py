@@ -63,7 +63,7 @@ def init_slash_commands_reaction(params):
 										member = await guild.fetch_member(u.id)
 										if role not in member.roles:
 											await member.add_roles(role)
-											_msg += f'{member.mention} got {role.mention}\n'
+											_msg += f'{member.display_name}#{member.discriminator} ({member.id}) got {role.mention}\n'
 											roles_assigned += 1
 								except Exception as ex:
 									print('---------- /bot_react()/add role user --------')

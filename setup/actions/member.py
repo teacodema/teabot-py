@@ -34,8 +34,8 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 			else: msg += "\n🔴 initial roles assigned 🎭"
 		if int(send_dm):
 			dm_sent = await send_dm_welcome(params, member)
-			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
-			else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}**'
+			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}** ({member.id})'
+			else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}** ({member.id})'
 		membersCount = await updateMembersCount(params)
 		_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 		_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
