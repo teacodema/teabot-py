@@ -39,7 +39,7 @@ def init_events_reaction(params):
 		except Exception as ex:
 			print('---------- on_raw_reaction_remove(evt) --------')
 			print(ex)
-			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot)
+			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot, False, payload.user_id)
 
 	async def toggleReaction(payload, fct_params):
 		excludedCategories = [
