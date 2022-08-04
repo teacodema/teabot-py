@@ -16,7 +16,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	m = await _ch.fetch_message(payload.message_id)
 	if m:
 		msgs = []
-		msg = f'\n✉ by {m.author.display_name}#{m.author.id} ({m.author.id}) in {m.channel.mention}'
+		msg = f'\n✉ by {m.author.display_name}#{m.author.discriminator} ({m.author.id}) in {m.channel.mention}'
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 		edited_at = None
 		if m.edited_at:

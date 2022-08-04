@@ -38,7 +38,7 @@ async def log_member_dms(params, message):
 		msgs = []
 		msg = '──────────────────────'
 		msg += f'\nDM/ ◁='
-		msg += f'\n__From__\n{author} - {author.mention}'
+		msg += f'\n__From__\n{author} - {author.mention} ({author.id})'
 		msg += f'\n__Content__\n'
 		msgs.append(msg) #await channel.send(msg)
 		msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
