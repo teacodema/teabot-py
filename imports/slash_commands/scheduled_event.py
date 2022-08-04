@@ -65,7 +65,7 @@ def init_slash_commands_scheduled_event(params):
 				await interaction.send('from_date < to_date !!', ephemeral=True)
 				return
 
-			await interaction.send(f'Deleting events created with name: {name} between {from_date} & {to_date}')
+			await interaction.send(f'Deleting events created with name: __{name}__ between __{from_date.date()}__ & __{to_date.date()}__')
 			
 			guild = interaction.guild
 			events_to_delete = filter(lambda event: (event.scheduled_start_time > from_date and event.scheduled_start_time < to_date and event.name == name), guild.scheduled_events)
