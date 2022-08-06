@@ -55,7 +55,8 @@ def init_events_message(params):
 			log = bot.get_channel(textChannels['log-txt'])
 			msgs = []
 			msg = '──────────────────────'
-			msg += f'\n🗑 by {message.author.display_name}#{message.author.discriminator} ({message.author.id}) in {message.channel.mention}'
+			msg += f'\n🗑 by {message.author.display_name}#{message.author.discriminator} in {message.channel.mention}'
+			msg += f'\nAuthor ID : {message.author.id}'
 			created_at = getTimeUtcPlusOne(message.created_at, "%d %B %Y - %H:%M")
 			edited_at = None
 			if message.edited_at:
@@ -94,7 +95,8 @@ def init_events_message(params):
 			log = bot.get_channel(textChannels['log-txt'])
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
-			msg += f'\n✏ by {before.author.display_name}#{before.author.discriminator} ({before.author.id}) in {before.channel.mention}'
+			msg += f'\n✏ by {before.author.display_name}#{before.author.discriminator} in {before.channel.mention}'
+			msg += f'\nAuthor ID : {before.author.id}'
 			created_at = getTimeUtcPlusOne(after.created_at, "%d %B %Y - %H:%M")
 			edited_at = None
 			if after.edited_at:

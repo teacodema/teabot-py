@@ -122,7 +122,8 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	msgIndex = 1
 	for m in _purgedMsgs:
 		msg = f'───────────\t**{msgIndex}**\t───────────'
-		msg += f'\n🗑 by {m.author.display_name}#{m.author.discriminator} ({m.author.id}) in {m.channel.mention}'
+		msg += f'\n🗑 by {m.author.display_name}#{m.author.discriminator} in {m.channel.mention}'
+		msg += f'\nAuthor ID : {m.author.id}'
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 		edited_at = None
 		if m.edited_at:
