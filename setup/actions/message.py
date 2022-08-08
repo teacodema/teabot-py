@@ -2,6 +2,14 @@ from datetime import datetime
 from setup.data.properties import *
 from setup.actions.common import *
 
+
+def toggle_mention(member, roleId):
+	user_mention = member.mention
+	role = member.guild.get_role(roleId)
+	if role in member.roles:
+		user_mention = f'{member.display_name}#{member.discriminator}'
+	return user_mention
+
 def get_attachments(message):
 	if len(message.attachments):
 		attachmentsUrls = '\n__Attachments__\n'

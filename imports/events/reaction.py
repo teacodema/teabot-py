@@ -2,6 +2,7 @@ from setup.data.params import *
 from setup.data.properties import *
 from setup.actions.reaction import *
 from setup.actions.common import *
+from setup.actions.message import *
 
 def init_events_reaction(params):
 
@@ -65,4 +66,5 @@ def init_events_reaction(params):
 		if roleName:
 			role = next(role for role in guild.roles if role.name == roleName)
 			await fct_params['toggle_roles'](role)
-			await log.send(f'{member.display_name}#{member.discriminator} {fct_params["action"]} a role {role.mention}')
+			user_mention = toggle_mention(member, roles['mods'])
+			await log.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
