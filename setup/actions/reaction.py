@@ -18,7 +18,8 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	m = await _ch.fetch_message(payload.message_id)
 	if m:
 		msgs = []
-		msg = f'\n✉ by {m.author.display_name}#{m.author.discriminator} in {m.channel.mention}'
+		user_mention = toggle_mention(m.author, roles['mods'])
+		msg = f'\n✉ by {user_mention} in {m.channel.mention}'
 		msg += f'\nAuthor ID : {m.author.id}'
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 		edited_at = None
