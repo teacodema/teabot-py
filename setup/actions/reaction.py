@@ -1,12 +1,14 @@
 from setup.data.properties import *
 from setup.actions.common import *
+from setup.actions.message import *
 
 
 async def log_reacted_msg(params, payload, log, member, adding=True):
 	bot = params['bot']
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 	operation = f'{"Added" if adding else "Removed"}'
-	await log.send(f'{url}\n{member.display_name}#{member.discriminator} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}')
+	user_mention = toggle_mention(member, roles['mods'])
+	await log.send(f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}')
 
 	_ch = bot.get_channel(payload.channel_id)
 
