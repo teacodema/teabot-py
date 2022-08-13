@@ -7,9 +7,9 @@ def init_slash_commands_events(params):
 	@bot.listen()
 	async def on_slash_command(inter):
 		msg = '-------on_slash_command-------'
-		msg += f'\nCommand  : {inter.application_command.name}'
-		msg += f'\nChannel : {inter.channel.name}'
-		msg += f'\nAuthor : {inter.author.display_name} / {inter.author.id} / {inter.author.mention}'
+		msg += f'\nCommand  : {inter.application_command.name} / {inter.application_command.qualified_name}'
+		msg += f'\nChannel : {inter.channel.mention}'
+		msg += f'\nAuthor : {inter.author.mention} / {inter.author.id}'
 		channel = bot.get_channel(textChannels['log-cmd'])
 		await channel.send(msg)
 
