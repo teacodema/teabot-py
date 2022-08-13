@@ -11,6 +11,7 @@ from imports.events.message import *
 from imports.events.reaction import *
 from imports.events.voice import *
 from imports.events.member import *
+from imports.events.slash_commands import *
 
 from imports.slash_commands.info import *
 from imports.slash_commands.message import *
@@ -40,6 +41,7 @@ def init_events():
 	init_events_reaction(params)
 	init_events_voice(params)
 	init_events_member(params)
+	init_slash_commands_events(params)
 # init_quran(params)
 
 def init_slash_commands():
