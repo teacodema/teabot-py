@@ -8,7 +8,8 @@ def init_slash_commands_events(params):
 	@bot.listen()
 	async def on_slash_command(inter):
 		msg = '------- on_slash_command -------'
-		msg += f'\nCommand  : {inter.application_command.name} / {inter.application_command.qualified_name}'
+		msg += f'\nCommand : {inter.application_command.name} / {inter.application_command.callback.__name__}'
+		msg += f'\nDescription : {inter.application_command.body.description}'
 		msg += f'\nChannel : {inter.channel.mention}'
 		user_mention = toggle_mention(inter.author, roles['root'], True)
 		msg += f'\nAuthor : {user_mention}'
