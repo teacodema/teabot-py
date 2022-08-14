@@ -3,11 +3,12 @@ from setup.data.properties import *
 from setup.actions.common import *
 
 
-def toggle_mention(member, roleId):
+def toggle_mention(member, roleId, append_member_id = False):
 	user_mention = member.mention
 	role = member.guild.get_role(roleId)
 	if role in member.roles:
 		user_mention = f'{member.display_name}#{member.discriminator}'
+	if append_member_id: user_mention += f' / {member.id}'
 	return user_mention
 
 def get_attachments(message):
