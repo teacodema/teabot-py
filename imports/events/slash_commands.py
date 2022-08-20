@@ -7,7 +7,8 @@ def init_slash_commands_events(params):
 
 	@bot.listen()
 	async def on_slash_command(inter):
-		msg = '------- on_slash_command -------'
+		msg = '──────────────────────'
+		msg += '\n------- on_slash_command -------'
 		msg += f'\nCommand : {inter.application_command.name} / {inter.application_command.callback.__name__}'
 		msg += f'\nDescription : {inter.application_command.body.description}'
 		msg += f'\nChannel : {inter.channel.mention}'
