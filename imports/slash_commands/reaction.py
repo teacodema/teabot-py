@@ -54,6 +54,7 @@ def init_slash_commands_reaction(params):
 				for msg_id in reactions[str(channel_id)]:
 					try:
 						msg = await channel.fetch_message(int(msg_id))
+						await interaction.send(f'https://discord.com/channels/{guildId}/{channel_id}/{msg_id}', ephemeral=True)
 						for r in msg.reactions:
 							roleName = reactions[str(channel_id)][str(msg_id)][str(r.emoji)]
 							role = discord.utils.get(guild.roles, name = roleName)
