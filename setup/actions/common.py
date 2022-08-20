@@ -19,6 +19,7 @@ async def log_exception(ex, action, interaction=None, bot=None, hidden=True, msg
 	try:
 		if msg: msg += f'\n----\n{action}\n{str(ex)}'
 		else: msg = f'{action}\n{str(ex)}'
+		msg += '\n──────────────────────'
 		if interaction:
 			await interaction.send(msg, ephemeral = hidden)
 		elif bot:
