@@ -1,5 +1,5 @@
 # from setup.keep_alive import keep_alive
-import os
+import os, inspect
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake import FFmpegPCMAudio #, PCMVolumeTransformer
@@ -33,6 +33,7 @@ params = {
 	'commands': commands,
 	'YoutubeDL': YoutubeDL,
 	'FFmpegPCMAudio': FFmpegPCMAudio,
+	'inspect': inspect
 }
 
 def init_events():
