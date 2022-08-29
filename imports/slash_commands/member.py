@@ -6,6 +6,7 @@ def init_slash_commands_member(params):
 	
 	bot = params['bot']
 	discord = params['discord']	
+	inspect = params['inspect']
 
 	
 	######################## WELCOME MEMBER CMD ########################
@@ -21,7 +22,8 @@ def init_slash_commands_member(params):
 		use_webhook: Make a webhook for the new member - values 0/1
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 				
@@ -45,8 +47,9 @@ def init_slash_commands_member(params):
 		do: Apply the update - values 0/1
 		"""
 		try:
-			if not is_founders(interaction):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions')
 				return
 			await interaction.send('Checking ...', ephemeral=True)
 			guild = interaction.guild
@@ -89,8 +92,9 @@ def init_slash_commands_member(params):
 		do: Apply the update - values 0/1
 		"""
 		try:
-			if not is_founders(interaction):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions')
 				return
 			await interaction.send('Updating ...', ephemeral=True)
 			updatedMembers = await checkNewMemberRole(interaction.guild, do)

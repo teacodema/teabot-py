@@ -8,6 +8,7 @@ def init_slash_commands_role(params):
 	
 	bot = params['bot']
 	discord = params['discord']
+	inspect = params['inspect']
 
 	@bot.slash_command(name = "tc_tr")
 	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
@@ -22,7 +23,8 @@ def init_slash_commands_role(params):
 		"""
 		try:
 
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 
@@ -61,7 +63,8 @@ def init_slash_commands_role(params):
 		"""
 		try:
 			
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			
@@ -111,7 +114,8 @@ def init_slash_commands_role(params):
 		"""
 		try:
 			
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			

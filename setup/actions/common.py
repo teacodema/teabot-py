@@ -1,5 +1,6 @@
 # from database.player import *
 from setup.data.properties import *
+from setup.data.permissions import *
 import pytz
 
 
@@ -39,12 +40,25 @@ def is_authorised(interaction, authorizedRolesIds):
 def is_founders(interaction):
 	return is_authorised(interaction, {'founders'})
 
+def is_allowed(interaction, action_name):
+	# for role_id in functions_roles[action_name]:
+	# 	role = interaction.guild.get_role(roles[role_id])
+	# 	if role in interaction.author.roles:
+	# 		return True
+	if action_name in functions_roles['*']:
+		return True
+	roles_keys = [ role for role in functions_roles ]
+	for role_key in roles_keys:
+		if role_key in roles:
+			role = interaction.guild.get_role(roles[role_key])
+			if role in interaction.author.roles and action_name in functions_roles[role_key]:
+				return True
+	return False
 
 def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
 	timeZ_Ma = pytz.timezone('Africa/Casablanca')
 	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)
 	return dt_Ma
-
 
 
 def replace_str(str, dict_chars):

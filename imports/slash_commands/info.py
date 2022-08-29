@@ -5,6 +5,7 @@ def init_slash_commands_info(params):
 
 	bot = params['bot']
 	discord = params['discord']
+	inspect = params['inspect']
 
 	######################## SERVER INFO ########################
 	@bot.slash_command(name = "tc_si")
@@ -23,7 +24,9 @@ def init_slash_commands_info(params):
 			# 	categories['system-corner'],
 			# ]
 			# isNotAllowed = not is_founders(interaction)
-			if not is_founders(interaction):
+			
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 
@@ -99,7 +102,8 @@ def init_slash_commands_info(params):
 			else:
 				guild = interaction.guild
 				_role = guild.get_role(978075400213250109) # 🍃│Helpers
-				if not is_founders(interaction) and role not in interaction.author.roles and role.position > _role.position:
+				action_name = inspect.stack()[0][3]
+				if not is_allowed(interaction, action_name) and role not in interaction.author.roles and role.position > _role.position:
 					await interaction.send('❌ You cannot see this data')
 					return
 
@@ -133,7 +137,8 @@ def init_slash_commands_info(params):
 			if member == None or member == interaction.author:
 				member = interaction.author
 			else:
-				if not is_founders(interaction):
+				action_name = inspect.stack()[0][3]
+				if not is_allowed(interaction, action_name):
 					await interaction.send('❌ You can only see your data')
 					member = interaction.author
 

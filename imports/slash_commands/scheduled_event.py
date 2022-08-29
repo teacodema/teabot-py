@@ -9,6 +9,7 @@ def init_slash_commands_scheduled_event(params):
 	
 	bot = params['bot']
 	discord = params['discord']
+	inspect = params['inspect']
 
 	@bot.slash_command(name = "subscribers")
 	async def event_subscribers(interaction, event_id, role: discord.Role = None):
@@ -20,7 +21,8 @@ def init_slash_commands_scheduled_event(params):
 		role: Role to assign
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			await interaction.send("Loading...", ephemeral=True)
@@ -58,7 +60,8 @@ def init_slash_commands_scheduled_event(params):
 		to_date: End date to check before / example - 7/30/2022 21:15
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			tzinfo = timezone(timedelta(hours=1))
@@ -98,7 +101,8 @@ def init_slash_commands_scheduled_event(params):
 		"""
 		try:
 			
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 				

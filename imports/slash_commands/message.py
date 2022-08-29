@@ -8,6 +8,7 @@ def init_slash_commands_message(params):
 	bot = params['bot']
 	discord = params['discord']
 	commands = params['commands']
+	inspect = params['inspect']
 
 	keys = [ rule['key'] for rule in rules ]
 	######### RULES ########
@@ -44,7 +45,8 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			
-			if not is_authorised(interaction, {'founders', 'staff'}):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			
@@ -99,7 +101,8 @@ def init_slash_commands_message(params):
 		name: Webhook name
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			if name == None:
@@ -128,7 +131,8 @@ def init_slash_commands_message(params):
 		pin: Add to pinned channel messages
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
@@ -155,7 +159,8 @@ def init_slash_commands_message(params):
 		channel: Channel where to fetch the message by msg_id
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			msg = await channel.fetch_message(int(msg_id))
@@ -180,8 +185,8 @@ def init_slash_commands_message(params):
 		pin: Add to pinned channel messages
 		"""
 		try:
-			
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 
@@ -208,7 +213,8 @@ def init_slash_commands_message(params):
 		role: Role members
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 
@@ -276,7 +282,8 @@ def init_slash_commands_message(params):
 		channel_id: Channel where to fetch the messages
 		"""
 		try:
-			if not is_founders(interaction):
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions')
 				return
 			await interaction.send("Deleting direct message...", ephemeral=True)
