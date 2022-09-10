@@ -126,7 +126,6 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	dt = replace_str(getTimeUtcPlusOne(datetime.now()), {":": "."})
 	headerMsg = f"🗑 **purge({count})** | {interaction.channel.mention}"
 	headerMsg += f"\n__Date__ : {dt}"
-	headerMsg += f"\n__Author__ : {interaction.author.display_name} ({interaction.author.id})"
 	threadMsg = await log.send(headerMsg)
 	log_thread = await threadMsg.create_thread(name=f"{interaction.channel.name} | {dt}")
 
