@@ -48,10 +48,11 @@ def init_events_reaction(params):
 				categories['system-corner']
 			]
 			log = bot.get_channel(textChannels['log-reaction'])
-			action = "Added" if fct_params['action'] == "got" else "Remove"
-			await log.send(f"{payload.user_id} - {action} / {payload.emoji}")
 			channel = bot.get_channel(payload.channel_id)
-			if (channel == None or not hasattr(channel, 'category_id')) or (channel.category_id in excludedCategories):
+			
+			if (channel == None) or (str(channel.type) == 'private') or (channel.category_id in excludedCategories):
+				action = "Added" if fct_params['action'] == "got" else "Remove"
+				await log.send(f"{payload.user_id} - {action} / {payload.emoji}")
 				return
 				
 			guild = bot.get_guild(guildId)
