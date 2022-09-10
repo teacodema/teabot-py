@@ -6,7 +6,7 @@ from setup.actions.common import *
 def start_loop(params):	
 	bot = params['bot']
 	tasks = params['tasks']
-	@tasks.loop(hours=3, count=None, reconnect=False)
+	@tasks.loop(hours=4, count=None, reconnect=False)
 	async def am_alive():
 		channel = bot.get_channel(textChannels['log-bot'])
 		msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}'
