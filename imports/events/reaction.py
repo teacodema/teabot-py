@@ -14,7 +14,7 @@ def init_events_reaction(params):
 			member = payload.member
 			fct_params = {
 				"adding": True,
-				"toggle_roles": member.add_roles,
+				"toggle_roles": (member.add_roles if hasattr(member, 'add_roles') else None),
 				"action": "got",
 				"member": member,
 			}
@@ -32,7 +32,7 @@ def init_events_reaction(params):
 			member = await guild.fetch_member(payload.user_id)
 			fct_params = {
 				"adding": False,
-				"toggle_roles": member.remove_roles,
+				"toggle_roles": (member.remove_roles if hasattr(member, 'remove_roles') else None),
 				"action": "lost",
 				"member": member,
 			}
@@ -47,14 +47,16 @@ def init_events_reaction(params):
 			excludedCategories = [
 				categories['system-corner']
 			]
+			log = bot.get_channel(textChannels['log-reaction'])
+			action = "Added" if fct_params['action'] == "got" else "Remove"
+			await log.send(f"{payload.user_id} - {action} / {payload.emoji}")
 			channel = bot.get_channel(payload.channel_id)
-			if channel.category_id in excludedCategories:
+			if (channel == None or not hasattr(channel, 'category_id')) or (channel.category_id in excludedCategories):
 				return
 				
 			guild = bot.get_guild(guildId)
 			member = fct_params['member']
 
-			log = bot.get_channel(textChannels['log-reaction'])
 			await log_reacted_msg(params, payload, log, member, fct_params['adding'])
 
 			if member.bot == True:
@@ -64,7 +66,7 @@ def init_events_reaction(params):
 				if str(payload.message_id) in reactions[str(payload.channel_id)]:
 					if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
 						roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
-			if roleName:
+			if roleName and "toggle_roles" in fct_params:
 				role = next(role for role in guild.roles if role.name == roleName)
 				await fct_params['toggle_roles'](role)
 				user_mention = toggle_mention(member, roles['mods'], True)
