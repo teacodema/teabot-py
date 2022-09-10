@@ -43,28 +43,31 @@ def init_events_reaction(params):
 			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot, False, str(payload.user_id))
 
 	async def toggleReaction(payload, fct_params):
-		excludedCategories = [
-			categories['system-corner']
-		]
-		channel = bot.get_channel(payload.channel_id)
-		if channel.category_id in excludedCategories:
-			return
-			
-		guild = bot.get_guild(guildId)
-		member = fct_params['member']
+		try:
+			excludedCategories = [
+				categories['system-corner']
+			]
+			channel = bot.get_channel(payload.channel_id)
+			if channel.category_id in excludedCategories:
+				return
+				
+			guild = bot.get_guild(guildId)
+			member = fct_params['member']
 
-		log = bot.get_channel(textChannels['log-reaction'])
-		await log_reacted_msg(params, payload, log, member, fct_params['adding'])
+			log = bot.get_channel(textChannels['log-reaction'])
+			await log_reacted_msg(params, payload, log, member, fct_params['adding'])
 
-		if member.bot == True:
-			return
-		roleName = None
-		if str(payload.channel_id) in reactions:
-			if str(payload.message_id) in reactions[str(payload.channel_id)]:
-				if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
-					roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
-		if roleName:
-			role = next(role for role in guild.roles if role.name == roleName)
-			await fct_params['toggle_roles'](role)
-			user_mention = toggle_mention(member, roles['mods'])
-			await log.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
+			if member.bot == True:
+				return
+			roleName = None
+			if str(payload.channel_id) in reactions:
+				if str(payload.message_id) in reactions[str(payload.channel_id)]:
+					if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
+						roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
+			if roleName:
+				role = next(role for role in guild.roles if role.name == roleName)
+				await fct_params['toggle_roles'](role)
+				user_mention = toggle_mention(member, roles['mods'], True)
+				await log.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
+		except Exception as ex:
+			raise ex
