@@ -145,7 +145,8 @@ def init_slash_commands_role(params):
 			else:
 				json_filtered_members = []
 				for member in filtered_members:
-					json_filtered_members.append({"id":member.id, "name":member.name})
+					object = {"id":member.id, "name":member.name , "mention": member.mention, "display_name": member.display_name}
+					json_filtered.append(object)
 				json_data = json.dumps(json_filtered_members)
 				with open("file.json", "w") as outfile:
 					outfile.write(json_data)
