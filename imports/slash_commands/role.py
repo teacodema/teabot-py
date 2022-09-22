@@ -86,6 +86,7 @@ def init_slash_commands_role(params):
 			for m in members:
 				try:
 					m = m.replace('<@!', '')
+					m = m.replace('<@', '')
 					m = m.replace('>', '')
 					m = await guild.fetch_member(m)
 					msg_m += f'{m.mention}, '
