@@ -163,13 +163,13 @@ def init_slash_commands_role(params):
 
 	################## UPDATE ROLE ####################
 	@bot.slash_command(name = "tc_ur")
-	async def update_roles(interaction, roles, position:int):
+	async def update_roles(interaction, roles, role:discord.Role):
 		"""
 		Update role position - ,
 		Parameters
 		----------
 		roles: Role to update separated by ,
-		position: positionned at "position - 1" / @everyone = 0
+		role: positionned at "role.position - 1" / @everyone = 0
 		"""
 		try:
 			action_name = inspect.stack()[0][3]
@@ -182,6 +182,7 @@ def init_slash_commands_role(params):
 			msg_r = ''
 			roles = roles.split(',')
 			roles.reverse()
+			position = role.position
 			for role_id in roles:
 				role_id = role_id.replace('<@&', '')
 				role_id = role_id.replace('>', '')
