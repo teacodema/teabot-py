@@ -161,3 +161,38 @@ def init_slash_commands_role(params):
 			await log_exception(ex, '/members_hasnt_role', interaction)
 
 
+	################## UPDATE ROLE ####################
+	@bot.slash_command(name = "tc_ur")
+	async def update_roles(interaction, roles, position:int):
+		"""
+		Update role position - ,
+		Parameters
+		----------
+		roles: Role to update separated by ,
+		position: positionned at "position - 1" / @everyone = 0
+		"""
+		try:
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions')
+				return
+
+			await interaction.send("Processing", ephemeral=True)
+			guild = interaction.guild
+			msg_r = ''
+			roles = roles.split(',')
+			roles.reverse()
+			for role_id in roles:
+				role_id = role_id.replace('<@&', '')
+				role_id = role_id.replace('>', '')
+				role = guild.get_role(int(role_id))
+				await role.edit(position=position - 1)
+				msg_r += f'{role.mention}, '
+
+			msg = "Roles updated "
+			await interaction.send(msg, ephemeral=True)
+		except Exception as ex:
+			print('----- /update_roles() -----')
+			print(ex)
+			await log_exception(ex, '/update_roles', interaction)
+
