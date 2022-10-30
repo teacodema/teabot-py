@@ -1,0 +1,6 @@
+[[build.buildpacks]]
+uri = "https://github.com/DrissBoumlik/heroku-buildpack-ffprobe"
+[[build.buildpacks]]
+uri = "https://github.com/DrissBoumlik/heroku-buildpack-libopus"
+[[build.buildpacks]]
+uri = "https://github.com/DrissBoumlik/heroku-buildpack-ffmpeg"
