@@ -382,5 +382,11 @@ reactions = {
 			'💻': 'Coding Challenges',
 			'📱': 'Mock Interview',
 		},
+		'969927727580868628': {
+			'🎓': 'Student',
+			'💼': 'Employee',
+			'🎒': 'Freelancer',
+			'👔': 'Entrepreneur',
+		},
 	},
 }
