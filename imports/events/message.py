@@ -24,15 +24,15 @@ def init_events_message(params):
 			if message.channel.category_id in excludedCategories:
 				return
 				
-			try:
-				if await prohibited_mentions(message):
-					return
-				# if await check_spam(message):
-				# 	return
-			except Exception as ex:
-				print('----- on_message(evt)/everyone|spam -----')
-				print(ex)
-				await log_exception(ex, 'on_message(evt)/everyone|spam', None, bot)
+			# try:
+			# 	if await prohibited_mentions(message):
+			# 		return
+			# 	# if await check_spam(message):
+			# 	# 	return
+			# except Exception as ex:
+			# 	print('----- on_message(evt)/everyone|spam -----')
+			# 	print(ex)
+			# 	await log_exception(ex, 'on_message(evt)/everyone|spam', None, bot)
 			
 			# await bot.process_commands(message)
 		except Exception as ex:
