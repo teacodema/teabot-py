@@ -47,7 +47,7 @@ def init_slash_commands_message(params):
 			
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			
 			channelsToClear = [
@@ -103,7 +103,7 @@ def init_slash_commands_message(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			if name == None:
 				name = member.display_name
@@ -133,7 +133,7 @@ def init_slash_commands_message(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -161,7 +161,7 @@ def init_slash_commands_message(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			msg = await channel.fetch_message(int(msg_id))
 			reply = replace_str(reply, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -187,7 +187,7 @@ def init_slash_commands_message(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -215,7 +215,7 @@ def init_slash_commands_message(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 
 			await interaction.send("Sending direct message...", ephemeral=True)
@@ -284,7 +284,7 @@ def init_slash_commands_message(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			await interaction.send("Deleting direct message...", ephemeral=True)
 			msg_ids = msg_ids.split(',')

@@ -25,7 +25,7 @@ def init_slash_commands_role(params):
 
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 
 			await interaction.send('Toggling Role...', ephemeral=True)
@@ -65,7 +65,7 @@ def init_slash_commands_role(params):
 			
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			
 			await interaction.send('Updating Role...', ephemeral=True)
@@ -117,7 +117,7 @@ def init_slash_commands_role(params):
 			
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			
 			await interaction.send('Searching...', ephemeral=True)
@@ -174,7 +174,7 @@ def init_slash_commands_role(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 
 			await interaction.send("Processing", ephemeral=True)

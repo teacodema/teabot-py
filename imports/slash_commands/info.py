@@ -27,7 +27,7 @@ def init_slash_commands_info(params):
 			
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 
 			guild = interaction.guild

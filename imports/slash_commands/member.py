@@ -24,7 +24,7 @@ def init_slash_commands_member(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 				
 			await interaction.send(f'Welcoming {member.mention}', ephemeral=True)
@@ -49,7 +49,7 @@ def init_slash_commands_member(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			await interaction.send('Checking ...', ephemeral=True)
 			guild = interaction.guild
@@ -94,7 +94,7 @@ def init_slash_commands_member(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			await interaction.send('Updating ...', ephemeral=True)
 			updatedMembers = await checkNewMemberRole(interaction.guild, do)

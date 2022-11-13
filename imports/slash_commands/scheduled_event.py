@@ -23,7 +23,7 @@ def init_slash_commands_scheduled_event(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			await interaction.send("Loading...", ephemeral=True)
 			guild = interaction.guild
@@ -62,7 +62,7 @@ def init_slash_commands_scheduled_event(params):
 		try:
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			tzinfo = timezone(timedelta(hours=1))
 			from_date = dp.parse(from_date).replace(tzinfo=tzinfo)
@@ -103,7 +103,7 @@ def init_slash_commands_scheduled_event(params):
 			
 			action_name = inspect.stack()[0][3]
 			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions')
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 				
 			if (every_n_weeks and not recurrence) or (recurrence and not every_n_weeks):
