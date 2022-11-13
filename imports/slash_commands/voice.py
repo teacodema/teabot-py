@@ -20,6 +20,7 @@ def init_slash_commands_voice(params):
 			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
+			await interaction.send(f'Cloning...', ephemeral=True)
 			await channel.clone(name = name)
 		except Exception as ex:
 			print('----- /clone_voice_channel() -----')
