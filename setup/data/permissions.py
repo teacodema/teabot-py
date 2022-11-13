@@ -5,7 +5,7 @@ functions_roles = {
         'track', 'queue', 'clear-queue', 'refresh', 'leave',
     ],
     'staff': [
-        'purge', 'event_create', 'clone_voice_channel'
+        'purge', 'event_create', 'clone_voice_channel', 'delete_voice_channel'
     ],
 	'root': [
         'server_info', 'role_info', 'member_info',
