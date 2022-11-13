@@ -17,6 +17,7 @@ from imports.slash_commands.info import *
 from imports.slash_commands.message import *
 from imports.slash_commands.reaction import *
 from imports.slash_commands.voice import *
+from imports.slash_commands.audio import *
 from imports.slash_commands.member import *
 from imports.slash_commands.role import *
 from imports.slash_commands.scheduled_event import *
@@ -50,6 +51,7 @@ def init_slash_commands():
 	init_slash_commands_message(params)
 	init_slash_commands_reaction(params)
 	init_slash_commands_voice(params)
+	init_slash_commands_audio(params)
 	init_slash_commands_member(params)
 	init_slash_commands_role(params)
 	init_slash_commands_scheduled_event(params)
