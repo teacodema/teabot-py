@@ -44,7 +44,7 @@ protected_voiceChannels = {
 	812942879165120522,	# Quran
 	
 	788859426776809502,	# Help room 1
-	932971775342551060,	# Help room 2
+	1041502905070522439,	# Help room 2
 }
 
 categories = {
