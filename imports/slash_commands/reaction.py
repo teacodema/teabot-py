@@ -8,7 +8,7 @@ def init_slash_commands_reaction(params):
 	discord = params['discord']
 	inspect = params['inspect']
 
-	@bot.slash_command(name = "tc_rr", description='')
+	@bot.slash_command(name = "tc_rr")
 	async def bot_react(interaction, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
 		"""
 		Add/Remove reaction to/from msg - ,
@@ -87,3 +87,32 @@ def init_slash_commands_reaction(params):
 			print('---------- /bot_react() --------')
 			print(ex)
 			await log_exception(ex, '/bot_react', interaction)
+			
+	@bot.slash_command(name = "tc_gmr")
+	async def get_message_reactions(interaction, msg_id):
+		"""
+		Get users who reacted to a message
+		Parameters
+		----------
+		msg_id: Message ID
+		"""
+		try:
+			
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
+				return
+
+			await interaction.send('Fetching emojis from the message ....', ephemeral=True)
+			msg = await interaction.channel.fetch_message(msg_id)
+			feedbackText = f'https://discord.com/channels/{guildId}/{msg.channel.id}/{msg_id}\n'
+			for r in msg.reactions:
+				feedbackText += f'\n{r.emoji} / '
+				async for u in r.users():
+					feedbackText += f'{u.mention} '
+			
+			await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
+		except Exception as ex:
+			print('---------- /get_message_reactions() --------')
+			print(ex)
+			await log_exception(ex, '/get_message_reactions', interaction)
