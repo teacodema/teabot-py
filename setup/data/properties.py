@@ -36,15 +36,15 @@ textChannels = {
 voiceChannels = {}
 
 protected_voiceChannels = {
-	'900514598057287740',	# Hangout
-	'899100431454699520',	# Communication
-	'899100694148157530',	# Workshops
-	'899099886195212339',	#Coding challenges
-	'899100166500528138',	# Mock interview
-	'812942879165120522',	# Quran
+	900514598057287740,	# Hangout
+	899100431454699520,	# Communication
+	899100694148157530,	# Workshops
+	899099886195212339,	#Coding challenges
+	899100166500528138,	# Mock interview
+	812942879165120522,	# Quran
 	
-	'788859426776809502',	# Help room 1
-	'932971775342551060',	# Help room 2
+	788859426776809502,	# Help room 1
+	932971775342551060,	# Help room 2
 }
 
 categories = {
