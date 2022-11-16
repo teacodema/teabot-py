@@ -15,7 +15,7 @@ def init_slash_commands_reaction(params):
 		Parameters
 		----------
 		msg_id: Message ID
-		emojis: Server existing emojis separated by , 
+		emojis: Server existing emojis separated by , or space
 		remove: Remove the reaction - values 0/1
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
@@ -30,7 +30,7 @@ def init_slash_commands_reaction(params):
 				if emojis:
 					await interaction.send('Bot Reacting ....', ephemeral=True)
 					msg = await interaction.channel.fetch_message(msg_id)
-					emojis = emojis.split(',')
+					emojis = emojis.split(',').split(' ')
 					for e in emojis:
 						if remove:
 							if member: await msg.remove_reaction(e, member)

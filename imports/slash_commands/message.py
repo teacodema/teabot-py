@@ -278,7 +278,7 @@ def init_slash_commands_message(params):
 		Delete msg from public/private - ,
 		Parameters
 		----------
-		msg_ids: Messages IDs separated by ,
+		msg_ids: Messages IDs separated by , or space
 		channel_id: Channel where to fetch the messages
 		"""
 		try:
@@ -287,7 +287,7 @@ def init_slash_commands_message(params):
 				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
 			await interaction.send("Deleting direct message...", ephemeral=True)
-			msg_ids = msg_ids.split(',')
+			msg_ids = msg_ids.split(',').split(' ')
 			_ch = await bot.fetch_channel(channel_id)
 			for msg_id in msg_ids:
 				try:

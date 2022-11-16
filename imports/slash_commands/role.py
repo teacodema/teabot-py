@@ -57,8 +57,8 @@ def init_slash_commands_role(params):
 		Toggle multiple roles to multiple members - ,
 		Parameters
 		----------
-		roles: Roles to toggle separated by ,
-		members: Members the roles will be toggled to separated by ,
+		roles: Roles to toggle separated by , or space
+		members: Members the roles will be toggled to separated by , or space
 		assign: Assign/Unassign - values 0/1
 		"""
 		try:
@@ -72,7 +72,7 @@ def init_slash_commands_role(params):
 			guild = bot.get_guild(guildId)
 
 			msg_r = ''
-			roles = roles.split(',')
+			roles = roles.split(',').split(' ')
 			roles_list = []
 			for role_id in roles:
 				role_id = role_id.replace('<@&', '')
@@ -82,7 +82,7 @@ def init_slash_commands_role(params):
 				roles_list.append(role)
 
 			msg_m = ''
-			members = members.split(',')
+			members = members.split(',').split(' ')
 			for m in members:
 				try:
 					m = m.replace('<@!', '')
@@ -168,7 +168,7 @@ def init_slash_commands_role(params):
 		Update role position - ,
 		Parameters
 		----------
-		roles: Role to update separated by ,
+		roles: Role to update separated by , or space
 		role: positionned at "role.position - 1" / @everyone = 0
 		"""
 		try:
@@ -180,7 +180,7 @@ def init_slash_commands_role(params):
 			await interaction.send("Processing", ephemeral=True)
 			guild = interaction.guild
 			msg_r = ''
-			roles = roles.split(',')
+			roles = roles.split(',').split(' ')
 			roles.reverse()
 			position = role.position
 			for role_id in roles:
