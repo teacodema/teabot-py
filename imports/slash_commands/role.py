@@ -190,7 +190,7 @@ def init_slash_commands_role(params):
 				await role.edit(position=position - 1)
 				msg_r += f'{role.mention}, '
 
-			msg = "Roles updated "
+			msg = f"Roles updated {msg_r}"
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
 			print('----- /update_roles() -----')
