@@ -186,11 +186,11 @@ def init_slash_commands_role(params):
 			for role_id in roles:
 				role_id = role_id.replace('<@&', '')
 				role_id = role_id.replace('>', '')
-				role = guild.get_role(int(role_id))
-				await role.edit(position=position - 1)
-				msg_r += f'{role.mention}, '
+				_role = guild.get_role(int(role_id))
+				await _role.edit(position=position - 1)
+				msg_r += f'{_role.mention}, '
 
-			msg = f"Roles updated {msg_r}"
+			msg = f"Roles position updated {msg_r} under {role.mention}"
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
 			print('----- /update_roles() -----')
