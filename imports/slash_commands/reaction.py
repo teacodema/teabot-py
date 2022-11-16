@@ -30,7 +30,7 @@ def init_slash_commands_reaction(params):
 				if emojis:
 					await interaction.send('Bot Reacting ....', ephemeral=True)
 					msg = await interaction.channel.fetch_message(msg_id)
-					emojis = emojis.split(',').split(' ')
+					emojis = split_str(emojis)
 					for e in emojis:
 						if remove:
 							if member: await msg.remove_reaction(e, member)

@@ -72,7 +72,7 @@ def init_slash_commands_role(params):
 			guild = bot.get_guild(guildId)
 
 			msg_r = ''
-			roles = roles.split(',').split(' ')
+			roles = split_str(roles)
 			roles_list = []
 			for role_id in roles:
 				role_id = role_id.replace('<@&', '')
@@ -82,7 +82,7 @@ def init_slash_commands_role(params):
 				roles_list.append(role)
 
 			msg_m = ''
-			members = members.split(',').split(' ')
+			members = split_str(members)
 			for m in members:
 				try:
 					m = m.replace('<@!', '')
@@ -180,7 +180,7 @@ def init_slash_commands_role(params):
 			await interaction.send("Processing", ephemeral=True)
 			guild = interaction.guild
 			msg_r = ''
-			roles = roles.split(',').split(' ')
+			roles = split_str(roles)
 			roles.reverse()
 			position = role.position
 			for role_id in roles:

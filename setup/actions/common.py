@@ -1,7 +1,7 @@
 # from database.player import *
 from setup.data.properties import *
 from setup.data.permissions import *
-import pytz
+import pytz, re
 
 
 def start_task(task):
@@ -70,7 +70,13 @@ def replace_str(str, dict_chars):
 		print('----- replace_str() -----')
 		print(ex)
 
-	
+def split_str(str):
+	try:
+		return re.split(',| |;|-|_', str)
+	except Exception as ex:
+		print('----- split_str() -----')
+		print(ex)
+
 
 def task_update_activity(params, activity_name = None):
 	bot = params['bot']
