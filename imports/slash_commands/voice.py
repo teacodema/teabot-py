@@ -30,7 +30,7 @@ def init_slash_commands_voice(params):
 				return
 			await interaction.send(f'Cloning...', ephemeral=True)
 			if (name == None) or (name == channel.name):
-				name = f'{channel.name} #2'
+				name = f'{channel.name} / (cloned)'
 			await channel.clone(name = name)
 		except Exception as ex:
 			print('----- /clone_voice_channel() -----')
