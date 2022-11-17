@@ -29,6 +29,8 @@ def init_slash_commands_voice(params):
 				await interaction.send('❌ Channel not allowed', ephemeral=True)
 				return
 			await interaction.send(f'Cloning...', ephemeral=True)
+			if (name == None) or (name == channel.name):
+				name = f'{channel.name} #2'
 			await channel.clone(name = name)
 		except Exception as ex:
 			print('----- /clone_voice_channel() -----')
