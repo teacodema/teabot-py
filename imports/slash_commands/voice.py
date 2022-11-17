@@ -49,7 +49,12 @@ def init_slash_commands_voice(params):
 			if not is_allowed(interaction, action_name):
 				await interaction.send('❌ Missing Permissions', ephemeral=True)
 				return
-			if channel.id in protected_voiceChannels:
+				
+			excludedCategories = [
+				categories['voice-channels'],
+				categories['help-voice'],
+			]
+			if (channel.category_id not in excludedCategories) or (channel.id in protected_voiceChannels):
 				await interaction.send('❌ Channel not allowed', ephemeral=True)
 				return
 			await interaction.send(f'Deleting...', ephemeral=True)
