@@ -53,6 +53,8 @@ def init_events_message(params):
 				return
 				
 			log = bot.get_channel(textChannels['log-txt'])
+			log_thread = await make_thread(log, f'✏ Message Deleted by {message.author.display_name}')
+			
 			msgs = []
 			msg = '──────────────────────'
 			user_mention = toggle_mention(message.author, roles['mods'])
@@ -72,7 +74,7 @@ def init_events_message(params):
 			msg = get_embeds(message)
 			if msg: msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
-				await log.send(msg)
+				await log_thread.send(msg)
 
 		except Exception as ex:
 			print('----- on_message_delete(evt) -----')
@@ -94,6 +96,8 @@ def init_events_message(params):
 			if (before.content.lower() == after.content.lower()):
 				return
 			log = bot.get_channel(textChannels['log-txt'])
+			log_thread = await make_thread(log, f'✏ Message Edited by {before.author.display_name}')
+			
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
 			user_mention = toggle_mention(before.author, roles['mods'])
@@ -119,7 +123,7 @@ def init_events_message(params):
 			# msg += '\n──────────────────────'
 			# msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
-				await log.send(msg)
+				await log_thread.send(msg)
 		except Exception as ex:
 			print('----- on_message_edit(evt) -----')
 			print(ex)

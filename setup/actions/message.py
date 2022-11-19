@@ -50,6 +50,8 @@ async def log_member_dms(params, message):
 		]
 	if author.id not in excludedIDs:
 		channel = bot.get_channel(textChannels['log-dms'])
+		log_thread = await make_thread(channel, f'✏ DM by {author.display_name}')
+			
 		msgs = []
 		msg = '──────────────────────'
 		msg += f'\nDM/ ◁='
@@ -63,7 +65,7 @@ async def log_member_dms(params, message):
 		msg = get_embeds(message)
 		if msg: msgs.append(msg) #await channel.send(msg)
 		for msg in msgs:
-			await channel.send(msg)
+			await log_thread.send(msg)
 
 async def prohibited_mentions(message):
 	content = message.content

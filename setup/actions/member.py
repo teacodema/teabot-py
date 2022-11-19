@@ -23,7 +23,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 	try:
 		bot = params['bot']
 		channel = bot.get_channel(textChannels['log-server'])
-		msg = '──────────────────────'
+		msg = ''
 		if int(use_webhook):
 			wh_made = await make_webhook(params, member, channel)
 			if wh_made: msg += '\n✅ Webhook made'
@@ -40,6 +40,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 		_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 		_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
 		msg += f'\n🟩 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) join **TeaCode**'
+		msg = '──────────────────────'
 		return msg
 	except Exception as ex:
 		print('----- welcomeMember() -----')
