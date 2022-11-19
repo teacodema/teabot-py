@@ -66,6 +66,7 @@ async def log_member_dms(params, message):
 		if msg: msgs.append(msg) #await channel.send(msg)
 		for msg in msgs:
 			await log_thread.send(msg)
+		await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
 	content = message.content
