@@ -225,9 +225,8 @@ def init_slash_commands_message(params):
 				member = interaction.author
 
 			channel = bot.get_channel(textChannels['log-dms'])
-			headerMsg = f"✉ DM/ =▷ 🎭 / 👤"
-			threadMsg = await channel.send(headerMsg)
-			log_thread = await threadMsg.create_thread(name=headerMsg)
+			log_thread = await make_thread(channel, f"✉ DM/ =▷ 🎭 / 👤")
+
 			if role:
 				members = role.members
 				for m in members:

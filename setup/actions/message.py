@@ -2,6 +2,10 @@ from datetime import datetime
 from setup.data.properties import *
 from setup.actions.common import *
 
+async def make_thread(channel, headerMsg, threadName=None):
+	threadMsg = await channel.send(headerMsg)
+	log_thread = await threadMsg.create_thread(name=threadName or headerMsg)
+	return log_thread
 
 def toggle_mention(member, roleId, append_member_id = False):
 	user_mention = member.mention
@@ -126,8 +130,7 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	dt = replace_str(getTimeUtcPlusOne(datetime.now()), {":": "."})
 	headerMsg = f"🗑 **purge({count})** | {interaction.channel.mention}"
 	headerMsg += f"\n__Date__ : {dt}"
-	threadMsg = await log.send(headerMsg)
-	log_thread = await threadMsg.create_thread(name=f"{interaction.channel.name} | {dt}")
+	log_thread = await make_thread(log, headerMsg, f"{interaction.channel.name} | {dt}")
 
 	msgIndex = 1
 	for m in _purgedMsgs:
