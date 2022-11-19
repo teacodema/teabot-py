@@ -40,7 +40,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 		_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 		_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
 		msg += f'\n🟩 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) join **TeaCode**'
-		msg = '──────────────────────'
+		msg += '──────────────────────'
 		return msg
 	except Exception as ex:
 		print('----- welcomeMember() -----')
