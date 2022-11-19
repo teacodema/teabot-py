@@ -51,6 +51,7 @@ def init_events_member(params):
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
 			msg = f'🟥 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) left **TeaCode**'
+			msg += '\n──────────────────────'
 			await channel.send(msg)
 		except Exception as ex:
 			print('----- on_member_remove(evt) -----')
