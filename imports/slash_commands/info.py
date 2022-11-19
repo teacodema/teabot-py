@@ -8,7 +8,7 @@ def init_slash_commands_info(params):
 	inspect = params['inspect']
 
 	######################## SERVER INFO ########################
-	@bot.slash_command(name = "tc_si")
+	@bot.slash_command(name = "server-info")
 	async def server_info(interaction, hidden: int = 0):
 		"""
 		Display server info
@@ -97,15 +97,20 @@ def init_slash_commands_info(params):
 		hidden: Ephemeral message - values 0/1
 		"""
 		try:
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
+				return
+
 			if role == None:
 				role = interaction.author.top_role
-			else:
-				guild = interaction.guild
-				_role = guild.get_role(roles['helpers']) # 🍃│Helpers
-				action_name = inspect.stack()[0][3]
-				if not is_allowed(interaction, action_name) and role not in interaction.author.roles and role.position > _role.position:
-					await interaction.send('❌ You cannot see this data')
-					return
+			# else:
+			# 	guild = interaction.guild
+			# 	_role = guild.get_role(roles['helpers']) # 🍃│Helpers
+			# 	action_name = inspect.stack()[0][3]
+			# 	if not is_allowed(interaction, action_name) and role not in interaction.author.roles and role.position > _role.position:
+			# 		await interaction.send('❌ You cannot see this data')
+			# 		return
 
 			embed = discord.Embed(title=role.name, description="", color=role.color)
 			# embed.set_thumbnail(url=member.avatar_url)
@@ -133,14 +138,18 @@ def init_slash_commands_info(params):
 		hidden: Ephemeral message - values 0/1
 		"""
 		try:
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
+				return
 
 			if member == None or member == interaction.author:
 				member = interaction.author
-			else:
-				action_name = inspect.stack()[0][3]
-				if not is_allowed(interaction, action_name):
-					await interaction.send('❌ You can only see your data')
-					member = interaction.author
+			# else:
+			# 	action_name = inspect.stack()[0][3]
+			# 	if not is_allowed(interaction, action_name):
+			# 		await interaction.send('❌ You can only see your data')
+			# 		member = interaction.author
 
 			created_at = getTimeUtcPlusOne(member.created_at, "%A, %B %d, %Y - %H:%M")
 			joined_at = getTimeUtcPlusOne(member.joined_at, "%A, %B %d, %Y - %H:%M")

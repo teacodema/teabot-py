@@ -7,11 +7,18 @@ def init_slash_commands_extra(params):
 	# client = params['client']
 	bot = params['bot']
 	discord = params['discord']
+	inspect = params['inspect']
 
 	######### PICK RANDOM USER #######
 	@bot.slash_command(name = "pick-speaker", description = "Choose a random speaker - (events only !!)")
 	async def pick_speaker(interaction):
 		try:
+			
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
+				return
+			
 			await interaction.send('Choosing...')
 			voice = interaction.author.voice
 			if voice:
@@ -54,6 +61,11 @@ def init_slash_commands_extra(params):
 			# 	await interaction.send(msg)
 			# 	return
 
+			action_name = inspect.stack()[0][3]
+			if not is_allowed(interaction, action_name):
+				await interaction.send('❌ Missing Permissions', ephemeral=True)
+				return
+			
 			choices = [':page_facing_up:', ':scissors:', ':rock:']
 
 			if (member1 == None and member2 == None):
