@@ -89,7 +89,7 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/purge', interaction)
 
 	####################### MAKE A WEBHOOK #######################
-	@bot.slash_command(name="tc_mw")
+	@bot.slash_command(name = "tc_mw")
 	async def make_webhook(interaction, member: discord.Member, channel: discord.TextChannel, msg, name=None):
 		"""
 		Make a webhook - \\n \\t /$

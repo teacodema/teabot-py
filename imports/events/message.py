@@ -53,7 +53,7 @@ def init_events_message(params):
 				return
 				
 			log = bot.get_channel(textChannels['log-txt'])
-			log_thread = await make_thread(log, f'✏ Message Deleted by {message.author.display_name}')
+			log_thread = await make_thread(log, f'🗑 Message Deleted by {message.author.display_name}')
 			
 			msgs = []
 			msg = '──────────────────────'
