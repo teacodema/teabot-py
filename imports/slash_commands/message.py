@@ -225,11 +225,11 @@ def init_slash_commands_message(params):
 				member = interaction.author
 
 			channel = bot.get_channel(textChannels['log-dms'])
+			headerMsg = f"✉ DM/ =▷ 🎭 / 👤"
+			threadMsg = await channel.send(headerMsg)
+			log_thread = await threadMsg.create_thread(name=headerMsg)
 			if role:
 				members = role.members
-				headerMsg = f"✉ DM/ =▷ 🎭 {role.name}"
-				threadMsg = await channel.send(headerMsg)
-				log_thread = await threadMsg.create_thread(name=headerMsg)
 				for m in members:
 					try:
 						_sentMsg = await send_dm_msg(interaction, msg, m)
@@ -248,9 +248,6 @@ def init_slash_commands_message(params):
 				notifyMe = f'\nRole: **{role.mention}**'
 				await log_thread.send(notifyMe)
 			if member:
-				headerMsg = f"✉ DM/ =▷ to 👤 {member.name}"
-				threadMsg = await channel.send(headerMsg)
-				log_thread = await threadMsg.create_thread(name=headerMsg)
 				_sentMsg = await send_dm_msg(interaction, msg, member)
 				notifyMe = '─────────────────'
 				if _sentMsg:
@@ -265,7 +262,7 @@ def init_slash_commands_message(params):
 				notifyMe = f'\n__Content__\n'
 				await log_thread.send(notifyMe)
 				await log_thread.send(msg)
-				await log_thread.edit(archived=True)
+			await log_thread.edit(archived=True)
 
 		except Exception as ex:
 			print('----- /msg_member() -----')
