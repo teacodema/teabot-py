@@ -22,12 +22,6 @@ def init_slash_commands_role(params):
 		assign: Assign/Unassign - values 0/1
 		"""
 		try:
-
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			await interaction.send('Toggling Role...', ephemeral=True)
 			msg = ''
 			if role2:
@@ -62,12 +56,6 @@ def init_slash_commands_role(params):
 		assign: Assign/Unassign - values 0/1
 		"""
 		try:
-			
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-			
 			await interaction.send('Updating Role...', ephemeral=True)
 			guild = bot.get_guild(guildId)
 
@@ -114,12 +102,6 @@ def init_slash_commands_role(params):
 		has: Check for having/not having - values 0/1
 		"""
 		try:
-			
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-			
 			await interaction.send('Searching...', ephemeral=True)
 			guild = interaction.guild
 			if has:
@@ -172,11 +154,6 @@ def init_slash_commands_role(params):
 		role: positionned at "role.position - 1" / @everyone = 0
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			await interaction.send("Processing", ephemeral=True)
 			guild = interaction.guild
 			msg_r = ''

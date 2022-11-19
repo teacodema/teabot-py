@@ -17,10 +17,6 @@ def init_slash_commands_voice(params):
 		name: Channel name (optional)
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			excludedCategories = [
 				categories['voice-channels'],
 				categories['help-voice'],
@@ -47,11 +43,6 @@ def init_slash_commands_voice(params):
 		channel: Voice channel to delete
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-				
 			excludedCategories = [
 				categories['voice-channels'],
 				categories['help-voice'],

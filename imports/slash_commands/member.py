@@ -22,11 +22,6 @@ def init_slash_commands_member(params):
 		use_webhook: Make a webhook for the new member - values 0/1
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-				
 			await interaction.send(f'Welcoming {member.mention}', ephemeral=True)
 			msg = await welcomeMember(params, member, assign_role, send_dm, use_webhook)
 			channel = bot.get_channel(textChannels['log-server'])			
@@ -47,10 +42,6 @@ def init_slash_commands_member(params):
 		do: Apply the update - values 0/1
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			await interaction.send('Checking ...', ephemeral=True)
 			guild = interaction.guild
 			if nr <= 0: nr = 1
@@ -92,10 +83,6 @@ def init_slash_commands_member(params):
 		do: Apply the update - values 0/1
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			await interaction.send('Updating ...', ephemeral=True)
 			updatedMembers = await checkNewMemberRole(interaction.guild, do)
 			msg = ''

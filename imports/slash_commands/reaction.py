@@ -20,12 +20,6 @@ def init_slash_commands_reaction(params):
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
 		try:
-
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-	
 			if msg_id:
 				if emojis:
 					await interaction.send('Bot Reacting ....', ephemeral=True)
@@ -97,12 +91,6 @@ def init_slash_commands_reaction(params):
 		msg_id: Message ID
 		"""
 		try:
-			
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			await interaction.send('Fetching emojis from the message ....', ephemeral=True)
 			msg = await interaction.channel.fetch_message(msg_id)
 			feedbackText = f'https://discord.com/channels/{guildId}/{msg.channel.id}/{msg_id}\n'

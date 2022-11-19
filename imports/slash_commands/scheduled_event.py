@@ -21,10 +21,6 @@ def init_slash_commands_scheduled_event(params):
 		role: Role to assign
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			await interaction.send("Loading...", ephemeral=True)
 			guild = interaction.guild
 			event = guild.get_scheduled_event(int(event_id))
@@ -60,10 +56,6 @@ def init_slash_commands_scheduled_event(params):
 		to_date: End date to check before / example - 7/30/2022 21:15
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			tzinfo = timezone(timedelta(hours=1))
 			from_date = dp.parse(from_date).replace(tzinfo=tzinfo)
 			to_date = dp.parse(to_date).replace(tzinfo=tzinfo)
@@ -100,12 +92,6 @@ def init_slash_commands_scheduled_event(params):
 		recurrence: Number of (Weekly) events to create - 2 <= recurrence <= 5 (every_n_weeks param should be set)
 		"""
 		try:
-			
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-				
 			if (every_n_weeks and not recurrence) or (recurrence and not every_n_weeks):
 				await interaction.send('*recurrence* and *every_n_weeks* should be set together !!', ephemeral=True)
 				return

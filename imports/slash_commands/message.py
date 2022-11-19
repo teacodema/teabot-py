@@ -44,12 +44,6 @@ def init_slash_commands_message(params):
 		limit: Optional for specific channels / limit <= 500
 		"""
 		try:
-			
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-			
 			channelsToClear = [
 				textChannels['voice-chat'],
 				textChannels['help-chat']
@@ -101,10 +95,6 @@ def init_slash_commands_message(params):
 		name: Webhook name
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			if name == None:
 				name = member.display_name
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -131,10 +121,6 @@ def init_slash_commands_message(params):
 		pin: Add to pinned channel messages
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			msg = await channel.fetch_message(int(msg_id))
 			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.edit(content=content)
@@ -159,10 +145,6 @@ def init_slash_commands_message(params):
 		channel: Channel where to fetch the message by msg_id
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			msg = await channel.fetch_message(int(msg_id))
 			reply = replace_str(reply, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.reply(reply)
@@ -185,11 +167,6 @@ def init_slash_commands_message(params):
 		pin: Add to pinned channel messages
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = await channel.send(msg)
 			if pin:
@@ -213,11 +190,6 @@ def init_slash_commands_message(params):
 		role: Role members
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			await interaction.send("Sending direct message...", ephemeral=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
@@ -279,10 +251,6 @@ def init_slash_commands_message(params):
 		channel_id: Channel where to fetch the messages
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
 			await interaction.send("Deleting direct message...", ephemeral=True)
 			msg_ids = split_str(msg_ids)
 			_ch = await bot.fetch_channel(channel_id)

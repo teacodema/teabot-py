@@ -24,14 +24,7 @@ def init_slash_commands_info(params):
 			# 	categories['system-corner'],
 			# ]
 			# isNotAllowed = not is_founders(interaction)
-			
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			guild = interaction.guild
-			
 			created_at = getTimeUtcPlusOne(guild.created_at, "%A, %B %d, %Y - %H:%M")
 
 			embed = discord.Embed(title=guild.name, description="", color=appParams['blue'])
@@ -97,11 +90,6 @@ def init_slash_commands_info(params):
 		hidden: Ephemeral message - values 0/1
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			if role == None:
 				role = interaction.author.top_role
 			# else:
@@ -138,11 +126,6 @@ def init_slash_commands_info(params):
 		hidden: Ephemeral message - values 0/1
 		"""
 		try:
-			action_name = inspect.stack()[0][3]
-			if not is_allowed(interaction, action_name):
-				await interaction.send('❌ Missing Permissions', ephemeral=True)
-				return
-
 			if member == None or member == interaction.author:
 				member = interaction.author
 			# else:

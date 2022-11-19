@@ -5,6 +5,16 @@ def init_slash_commands_events(params):
 
 	bot = params['bot']
 
+	@bot.slash_command_check
+	async def check_slash_command(interaction):
+		# print(inter.application_command.name)
+		# print(inter.application_command.callback.__name__)
+		action_name = interaction.application_command.callback.__name__
+		if not is_allowed(interaction, action_name):
+			await interaction.send('❌ Missing Permissions', ephemeral=True)
+			return False
+		return True
+
 	@bot.listen()
 	async def on_slash_command(inter):
 		msg = '──────────────────────'
