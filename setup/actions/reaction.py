@@ -6,10 +6,14 @@ from setup.actions.message import *
 async def log_reacted_msg(params, payload, log, member, adding=True):
 	bot = params['bot']
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
-	operation = f'{"Added" if adding else "Removed"}'
+	operation = f'{"🔼 Added" if adding else "🔽 Removed"}'
 	user_mention = toggle_mention(member, roles['mods'])
-	await log.send(f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}')
-
+	headerMsg = f'Reaction {operation}'
+	threadMsg = await log.send(headerMsg)
+	log_thread = await threadMsg.create_thread(name=headerMsg)
+	thread_first_msg = f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}'
+	await log_thread.send(thread_first_msg)
+	
 	_ch = bot.get_channel(payload.channel_id)
 
 	if _ch.category_id == categories['information']:
@@ -37,5 +41,6 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 		# msg = f'\n──────────────────────'
 		# await log.send(f'{msg}')
 		for msg in msgs:
-			await log.send(msg)
+			await log_thread.send(msg)
+	await log_thread.edit(archived=True)
 

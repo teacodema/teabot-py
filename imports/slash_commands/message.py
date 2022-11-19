@@ -221,22 +221,18 @@ def init_slash_commands_message(params):
 			await interaction.send("Sending direct message...", ephemeral=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
-			channel = bot.get_channel(textChannels['log-dms'])
-			notifyMe = '──────────────────────'
-			notifyMe += f'\nDM/ =▷'
-			notifyMe += f'\n__To__'
-			await channel.send(notifyMe)
-
-			if role and member == None:
-				pass
-			elif role == None and member == None:
+			if role == None and member == None:
 				member = interaction.author
 
+			channel = bot.get_channel(textChannels['log-dms'])
 			if role:
 				members = role.members
+				headerMsg = f"✉ DM/ =▷ 🎭 {role.name}"
+				threadMsg = await channel.send(headerMsg)
+				log_thread = await threadMsg.create_thread(name=headerMsg)
 				for m in members:
 					try:
-						_sentMsg = await send_msg(interaction, msg, m)
+						_sentMsg = await send_dm_msg(interaction, msg, m)
 						notifyMe = '─────────────────'
 						if _sentMsg:
 							notifyMe += f'\nmessage ID : {_sentMsg.id}'
@@ -244,15 +240,18 @@ def init_slash_commands_message(params):
 							notifyMe += f'\nMember: {m.mention} / {m.name}#{m.discriminator}'
 						else: notifyMe += f'\nIssue with this member {m.mention} / {m.name}#{m.discriminator}'
 						notifyMe += '\n--------------'
-						await channel.send(notifyMe)
+						await log_thread.send(notifyMe)
 					except Exception as ex:
 						print('----- /msg_member()/send_msg/role -----')
 						print(ex)
 						pass
 				notifyMe = f'\nRole: **{role.mention}**'
-				await channel.send(notifyMe)
+				await log_thread.send(notifyMe)
 			if member:
-				_sentMsg = await send_msg(interaction, msg, member)
+				headerMsg = f"✉ DM/ =▷ to 👤 {member.name}"
+				threadMsg = await channel.send(headerMsg)
+				log_thread = await threadMsg.create_thread(name=headerMsg)
+				_sentMsg = await send_dm_msg(interaction, msg, member)
 				notifyMe = '─────────────────'
 				if _sentMsg:
 					notifyMe += f'\nmessage ID : {_sentMsg.id}'
@@ -260,11 +259,13 @@ def init_slash_commands_message(params):
 					notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
 				else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
 				notifyMe += '\n--------------'
-				await channel.send(notifyMe)
+				await log_thread.send(notifyMe)
 
-			notifyMe = f'\n__Content__\n'
-			await channel.send(notifyMe)
-			await channel.send(msg)
+			if role or member:
+				notifyMe = f'\n__Content__\n'
+				await log_thread.send(notifyMe)
+				await log_thread.send(msg)
+				await log_thread.edit(archived=True)
 
 		except Exception as ex:
 			print('----- /msg_member() -----')

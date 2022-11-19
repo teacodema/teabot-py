@@ -90,17 +90,17 @@ async def check_spam(params, message):
 	return spam
 
 
-async def send_msg(interaction, message, member):
+async def send_dm_msg(interaction, message, member):
 	try:
 		channel = member.dm_channel
 		if channel == None:
 			channel = await member.create_dm()
 		return await channel.send(message)
 	except Exception as ex:
-		print('----- send_msg() -----')
+		print('----- send_dm_msg() -----')
 		print(ex)
 		msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
-		await log_exception(ex, 'send_msg()', interaction, None, True, msg)
+		await log_exception(ex, 'send_dm_msg()', interaction, None, True, msg)
 		return None
 
 def isNotPinned(msg):
