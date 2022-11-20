@@ -7,11 +7,11 @@ functions_roles = {
         'track', 'queue', 'clear-queue', 'refresh', 'leave',
     ],
     'hosts': [
-        'pick_speaker'
+        'pick_speaker',
     ],
     'staff': [
         'purge',
-        'pick_speaker'
+        'pick_speaker',
         'check_new_members', 'update_new_members',
         'toggle_role', 'toggle_role_members',
         'event_subscribers', 'event_create',
