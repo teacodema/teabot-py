@@ -47,6 +47,9 @@ def is_allowed(interaction, action_name):
 	# 		return True
 	if action_name in functions_roles['*']:
 		return True
+	rootRole = interaction.guild.get_role(roles['root'])
+	if rootRole in interaction.author.roles:
+		return True
 	roles_keys = [ role for role in functions_roles ]
 	for role_key in roles_keys:
 		if role_key in roles:
