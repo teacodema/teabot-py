@@ -78,7 +78,7 @@ rules = [
 2- If you want to share code, share it directly (check <https://teacode.ma/how-to-post-code> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
 3- Get connected to the **__<#{categories['help-voice']}>__** to get this role <@&{roles['help-room']}> which allows you to invite others and see the **__<#{textChannels['help-chat']}>__** channel 
 4- When there is more than one helper helping the same person, respect each other and DO NOT try to show that you're more skilled or better than the others, the main goal is to help the person asking to achieve the solution on his own, not competing against each other.
-5- Do Not Ask for help in exchange for money or Ask for money in exchange for help.
+5- Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>.
 6- If you help someone, try to guide the person asking for help, providing the final solution is prohibited.""",
     },
     {
@@ -95,7 +95,7 @@ rules = [
 7- Members who can/want to help regularly visit the Help rooms, so when you ask for help, **DO NOT mention someone or everyone** , instead 👉 mention the role tags (ex: in <#{textChannels['python']}> use <@&{roles['python']}> <@&{roles['django']}> ..... , in <#{textChannels['js']}> use <@&{roles['nodejs']}> <@&{roles['reactjs']}> .... etc).
 8- Do Not Post the same question in multiple channels.
 9- Get connected to the **__<#{categories['help-voice']}>__** to get this role <@&{roles['help-room']}> which allows you to invite others and see the **__<#{textChannels['help-chat']}>__** channel.
-10- Do Not Ask for help in exchange for money or Ask for money in exchange for help.
+10- Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>.
 11- Before asking your question visit these websites <https://dontasktoask.com/>, <https://xyproblem.info/>, <https://nohello.net/>.""",
     },
 	{
@@ -114,6 +114,18 @@ You can find more informations on message formatting here :
 see image below also :point_down:
 https://teacode.ma/assets/shared/img/extra/markdown_code.gif
 """
+	},
+	{
+		"key": "7 - Help Guide | Share Code",
+		"value": """If you want to share code, share it directly (check <https://teacode.ma/how-to-post-code> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ..."""
+	},
+	{
+		"key": "7 - Help Guide | No Money asked",
+		"value": f"""Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>."""
+	},
+	{
+		"key": "7 - Help Guide | Before Asking for help",
+		"value": """Before asking your question visit these websites <https://dontasktoask.com/>, <https://xyproblem.info/>, <https://nohello.net/>."""
 	},
     {
         "key": "8 - Server Guide",
