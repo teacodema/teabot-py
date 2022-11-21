@@ -7,6 +7,11 @@ async def make_thread(channel, headerMsg, threadName=None):
 	log_thread = await threadMsg.create_thread(name=threadName or headerMsg)
 	return log_thread
 
+def channel_mention(channel):
+	if str(channel.type) == 'private':
+		return channel.id
+	return channel.mention
+
 def toggle_mention(member, roleId, append_member_id = False):
 	user_mention = member.mention
 	role = None

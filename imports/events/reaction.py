@@ -12,6 +12,9 @@ def init_events_reaction(params):
 	async def on_raw_reaction_add(payload):
 		try:
 			member = payload.member
+			if not member: 
+				guild = bot.get_guild(guildId)
+				member = await guild.fetch_member(payload.user_id)
 			fct_params = {
 				"adding": True,
 				"toggle_roles": (member.add_roles if hasattr(member, 'add_roles') else None),
@@ -44,33 +47,25 @@ def init_events_reaction(params):
 
 	async def toggleReaction(payload, fct_params):
 		try:
-			excludedCategories = [
-				categories['system-corner']
-			]
 			log = bot.get_channel(textChannels['log-reaction'])
-			channel = bot.get_channel(payload.channel_id)
 			
-			if (channel == None) or (str(channel.type) == 'private') or (channel.category_id in excludedCategories):
-				action = "Added" if fct_params['action'] == "got" else "Remove"
-				await log.send(f"{payload.user_id} - {action} / {payload.emoji}")
-				return
 				
 			guild = bot.get_guild(guildId)
 			member = fct_params['member']
 
-			await log_reacted_msg(params, payload, log, member, fct_params['adding'])
+			log_thread = await log_reacted_msg(params, payload, log, member, fct_params['adding'])
 
-			if member.bot == True:
-				return
-			roleName = None
-			if str(payload.channel_id) in reactions:
-				if str(payload.message_id) in reactions[str(payload.channel_id)]:
-					if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
-						roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
-			if roleName and "toggle_roles" in fct_params:
-				role = next(role for role in guild.roles if role.name == roleName)
-				await fct_params['toggle_roles'](role)
-				user_mention = toggle_mention(member, roles['mods'], True)
-				await log.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
+			if member.bot != True:
+				roleName = None
+				if str(payload.channel_id) in reactions:
+					if str(payload.message_id) in reactions[str(payload.channel_id)]:
+						if str(payload.emoji) in reactions[str(payload.channel_id)][str(payload.message_id)]:
+							roleName = reactions[str(payload.channel_id)][str(payload.message_id)][str(payload.emoji)]
+				if roleName and "toggle_roles" in fct_params:
+					role = next(role for role in guild.roles if role.name == roleName)
+					await fct_params['toggle_roles'](role)
+					user_mention = toggle_mention(member, roles['mods'], True)
+					await log_thread.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
+			await log_thread.edit(archived=True)
 		except Exception as ex:
 			raise ex
