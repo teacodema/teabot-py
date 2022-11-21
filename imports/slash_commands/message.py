@@ -13,7 +13,7 @@ def init_slash_commands_message(params):
 	keys = [ rule['key'] for rule in rules ]
 	######### RULES ########
 	@bot.slash_command(name = "tag")
-	async def tag_rules(interaction, query=commands.Param(autocomplete=keys)):
+	async def tag_rules(interaction, query=commands.Param(choices=keys)):
 		"""
 		Reminde with a rule
 		Parameters
