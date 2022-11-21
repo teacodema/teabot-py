@@ -63,8 +63,7 @@ def init_slash_commands_role(params):
 			roles = split_str(roles)
 			roles_list = []
 			for role_id in roles:
-				role_id = role_id.replace('<@&', '')
-				role_id = role_id.replace('>', '')
+				role_id = role_id.replace('<@&', '').replace('>', '')
 				role = guild.get_role(int(role_id))
 				msg_r += f'{role.mention}, '
 				roles_list.append(role)
@@ -73,9 +72,7 @@ def init_slash_commands_role(params):
 			members = split_str(members)
 			for m in members:
 				try:
-					m = m.replace('<@!', '')
-					m = m.replace('<@', '')
-					m = m.replace('>', '')
+					m = m.replace('<@!', '').replace('<@', '').replace('>', '')
 					m = await guild.fetch_member(m)
 					msg_m += f'{m.mention}, '
 					await toggleRole(m, roles_list, assign, interaction)
@@ -161,8 +158,7 @@ def init_slash_commands_role(params):
 			roles.reverse()
 			position = role.position
 			for role_id in roles:
-				role_id = role_id.replace('<@&', '')
-				role_id = role_id.replace('>', '')
+				role_id = role_id.replace('<@&', '').replace('>', '')
 				_role = guild.get_role(int(role_id))
 				await _role.edit(position=position - 1)
 				msg_r += f'{_role.mention}, '
