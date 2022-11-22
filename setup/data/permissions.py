@@ -2,7 +2,7 @@ functions_roles = {
     '*': [
         'server_info', 'role_info', 'member_info',
         'janken',
-        'tag',
+        'tag_rules',
         'play', 'replay', 'pause', 'resume', 'previous', 'next', 'stop'
         'track', 'queue', 'clear-queue', 'refresh', 'leave',
     ],
