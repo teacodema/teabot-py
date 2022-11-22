@@ -53,7 +53,7 @@ def init_events_message(params):
 				return
 				
 			log = bot.get_channel(textChannels['log-txt'])
-			log_thread = await make_thread(log, f'🗑 Message Deleted by {toggle_user_mention(message.author, roles["mods"])}')
+			log_thread = await make_thread(log, f'🗑 Message Deleted by {toggle_user_mention(message.author, roles["mods"])} in {toggle_channel_mention(message.channel)}')
 			
 			msgs = []
 			msg = '──────────────────────'
@@ -97,7 +97,7 @@ def init_events_message(params):
 			if (before.content.lower() == after.content.lower()):
 				return
 			log = bot.get_channel(textChannels['log-txt'])
-			log_thread = await make_thread(log, f'✏ Message Edited by {toggle_user_mention(before.author, roles["mods"])}')
+			log_thread = await make_thread(log, f'✏ Message Edited by {toggle_user_mention(before.author, roles["mods"])} in {toggle_channel_mention(before.channel)}')
 			
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
