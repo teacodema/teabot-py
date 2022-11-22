@@ -23,7 +23,7 @@ def init_slash_commands_events(params):
 		msg += f'\nCommand : {inter.application_command.name} / {inter.application_command.callback.__name__}'
 		msg += f'\nDescription : {inter.application_command.body.description}'
 		msg += f'\nChannel : {inter.channel.mention}'
-		user_mention = toggle_mention(inter.author, roles['root'], True)
+		user_mention = toggle_user_mention(inter.author, roles['root'], True)
 		msg += f'\nAuthor : {user_mention}'
 		channel = bot.get_channel(textChannels['log-cmd'])
 		await channel.send(msg)

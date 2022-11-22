@@ -53,11 +53,11 @@ def init_events_message(params):
 				return
 				
 			log = bot.get_channel(textChannels['log-txt'])
-			log_thread = await make_thread(log, f'🗑 Message Deleted by {message.author.display_name}')
+			log_thread = await make_thread(log, f'🗑 Message Deleted by {toggle_user_mention(message.author, roles["mods"])}')
 			
 			msgs = []
 			msg = '──────────────────────'
-			user_mention = toggle_mention(message.author, roles['mods'])
+			user_mention = toggle_user_mention(message.author, roles['mods'])
 			msg += f'\n🗑 by {user_mention} in {message.channel.mention}'
 			msg += f'\nAuthor ID : {message.author.id}'
 			created_at = getTimeUtcPlusOne(message.created_at, "%d %B %Y - %H:%M")
@@ -97,11 +97,11 @@ def init_events_message(params):
 			if (before.content.lower() == after.content.lower()):
 				return
 			log = bot.get_channel(textChannels['log-txt'])
-			log_thread = await make_thread(log, f'✏ Message Edited by {before.author.display_name}')
+			log_thread = await make_thread(log, f'✏ Message Edited by {toggle_user_mention(before.author, roles["mods"])}')
 			
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
-			user_mention = toggle_mention(before.author, roles['mods'])
+			user_mention = toggle_user_mention(before.author, roles['mods'])
 			msg += f'\n✏ by {user_mention} in {before.channel.mention}'
 			msg += f'\nAuthor ID : {before.author.id}'
 			created_at = getTimeUtcPlusOne(after.created_at, "%d %B %Y - %H:%M")
