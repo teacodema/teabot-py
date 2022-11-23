@@ -9,7 +9,6 @@ def init_slash_commands_scheduled_event(params):
 	
 	bot = params['bot']
 	discord = params['discord']
-	inspect = params['inspect']
 
 	@bot.slash_command(name = "subscribers")
 	async def event_subscribers(interaction, event_id, role: discord.Role = None):

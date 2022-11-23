@@ -7,7 +7,6 @@ def init_slash_commands_extra(params):
 	# client = params['client']
 	bot = params['bot']
 	discord = params['discord']
-	inspect = params['inspect']
 
 	######### PICK RANDOM USER #######
 	@bot.slash_command(name = "pick-speaker", description = "Choose a random speaker - (events only !!)")

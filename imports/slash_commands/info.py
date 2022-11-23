@@ -5,7 +5,6 @@ def init_slash_commands_info(params):
 
 	bot = params['bot']
 	discord = params['discord']
-	inspect = params['inspect']
 
 	######################## SERVER INFO ########################
 	@bot.slash_command(name = "server-info")

@@ -8,7 +8,6 @@ def init_slash_commands_message(params):
 	bot = params['bot']
 	discord = params['discord']
 	commands = params['commands']
-	inspect = params['inspect']
 
 	keys = [ rule['key'] for rule in rules ]
 	######### RULES ########

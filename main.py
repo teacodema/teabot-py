@@ -1,5 +1,5 @@
 # from setup.keep_alive import keep_alive
-import os, inspect
+import os
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake import FFmpegPCMAudio #, PCMVolumeTransformer
@@ -17,7 +17,7 @@ from imports.slash_commands.info import *
 from imports.slash_commands.message import *
 from imports.slash_commands.reaction import *
 from imports.slash_commands.voice import *
-from imports.slash_commands.audio import *
+# from imports.slash_commands.audio import *
 from imports.slash_commands.member import *
 from imports.slash_commands.role import *
 from imports.slash_commands.scheduled_event import *
@@ -34,7 +34,6 @@ params = {
 	'commands': commands,
 	'YoutubeDL': YoutubeDL,
 	'FFmpegPCMAudio': FFmpegPCMAudio,
-	'inspect': inspect
 }
 
 def init_events():
@@ -51,7 +50,7 @@ def init_slash_commands():
 	init_slash_commands_message(params)
 	init_slash_commands_reaction(params)
 	init_slash_commands_voice(params)
-	init_slash_commands_audio(params)
+	# init_slash_commands_audio(params)
 	init_slash_commands_member(params)
 	init_slash_commands_role(params)
 	init_slash_commands_scheduled_event(params)

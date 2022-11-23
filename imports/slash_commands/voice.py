@@ -5,7 +5,6 @@ from setup.data.properties import *
 def init_slash_commands_voice(params):
 	bot = params['bot']
 	discord = params['discord']
-	inspect = params['inspect']
     
 	@bot.slash_command(name = "clone-vc")
 	async def clone_voice_channel(interaction, channel:discord.VoiceChannel, name = None):

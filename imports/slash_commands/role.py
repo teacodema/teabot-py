@@ -8,7 +8,6 @@ def init_slash_commands_role(params):
 	
 	bot = params['bot']
 	discord = params['discord']
-	inspect = params['inspect']
 
 	@bot.slash_command(name = "tc_tr")
 	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):

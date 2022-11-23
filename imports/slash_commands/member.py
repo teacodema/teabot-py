@@ -6,7 +6,6 @@ def init_slash_commands_member(params):
 	
 	bot = params['bot']
 	discord = params['discord']	
-	inspect = params['inspect']
 
 	
 	######################## WELCOME MEMBER CMD ########################

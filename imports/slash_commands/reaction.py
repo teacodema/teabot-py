@@ -6,7 +6,6 @@ def init_slash_commands_reaction(params):
 
 	bot = params['bot']
 	discord = params['discord']
-	inspect = params['inspect']
 
 	@bot.slash_command(name = "tc_rr")
 	async def bot_react(interaction, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
