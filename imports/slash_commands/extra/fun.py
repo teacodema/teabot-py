@@ -16,10 +16,6 @@ def init_slash_commands_extra(params):
 			voice = interaction.author.voice
 			if voice:
 				members = voice.channel.members
-				guild = bot.get_guild(guildId)
-				def is_not_host_or_bot(member):
-					roleIds = [role.id for role in member.roles]
-					return (roles['hosts'] not in roleIds) and (not member.bot)
 				members = list(filter(is_not_host_or_bot, members))
 				if len(members) == 0:
 					msg = 'No member chosen !! - Reasons'

@@ -4,6 +4,10 @@ from setup.data.permissions import *
 import pytz, re
 
 
+def is_not_host_or_bot(member):
+	roleIds = [role.id for role in member.roles]
+	return (roles['hosts'] not in roleIds) and (not member.bot)
+
 def start_task(task):
 	try:
 		task.start()

@@ -5,8 +5,8 @@ from setup.actions.common import *
 def init_events_start(params):
 
 	bot = params['bot']
-	discord = params['discord']
-	tasks = params['tasks']
+	# discord = params['discord']
+	# tasks = params['tasks']
 
 	# states = ["online", "dnd", "idle", "offline"]
 	# discord_states = [
