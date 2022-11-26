@@ -9,6 +9,7 @@ def init_events_slash_commands(params):
 	async def check_slash_command(interaction):
 		# print(inter.application_command.name)
 		# print(inter.application_command.callback.__name__)
+		await interaction.send("Thinking...", ephemeral=True)
 		action_name = interaction.application_command.callback.__name__
 		if not is_allowed(interaction, action_name):
 			await interaction.send('❌ Missing Permissions', ephemeral=True)
