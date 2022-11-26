@@ -1,7 +1,7 @@
 from setup.actions.message import *
 from setup.data.properties import *
 
-def init_slash_commands_events(params):
+def init_events_slash_commands(params):
 
 	bot = params['bot']
 
