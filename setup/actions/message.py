@@ -55,12 +55,11 @@ async def log_member_dms(params, message):
 		]
 	if author.id not in excludedIDs:
 		channel = bot.get_channel(textChannels['log-dms'])
-		log_thread = await make_thread(channel, f'✉ DM/ ◁== {author.display_name}')
+		user_mention = toggle_user_mention(inter.author, roles['root'], True)
+		log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
 			
 		msgs = []
-		msg = '──────────────────────'
-		msg += f'\nDM/ ◁='
-		msg += f'\n__From__\n{author} - {author.mention} ({author.id})'
+		msg = f'\n__From__\n{user_mention} / {author.id}'
 		msg += f'\n__Content__\n'
 		msgs.append(msg) #await channel.send(msg)
 		msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
