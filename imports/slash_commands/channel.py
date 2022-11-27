@@ -13,7 +13,7 @@ def init_slash_commands_channel(params):
 		Parameters
 		----------
 		channel: target channel
-        role: role to be affected by the change
+		role: role to be affected by the change
 		"""
 		try:
 			await toggle_hide_channel(channel, role, False)
@@ -29,7 +29,7 @@ def init_slash_commands_channel(params):
 		Parameters
 		----------
 		channel: target channel
-        role: role to be affected by the change
+		role: role to be affected by the change
 		"""
 		try:
 			await toggle_hide_channel(channel, role, True)
@@ -45,7 +45,7 @@ def init_slash_commands_channel(params):
 		Parameters
 		----------
 		channel: target channel
-        role: role to be affected by the change
+		role: role to be affected by the change
 		"""
 		try:
 			await toggle_lock_channel(channel, role, False)
@@ -62,7 +62,7 @@ def init_slash_commands_channel(params):
 		Parameters
 		----------
 		channel: target channel
-        role: role to be affected by the change
+		role: role to be affected by the change
 		"""
 		try:
 			await toggle_lock_channel(channel, role, True)
