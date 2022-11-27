@@ -13,10 +13,8 @@ def toggle_channel_mention(channel):
 	return channel.mention
 
 def toggle_user_mention(bot, member, roleId, append_member_id = False):
-	if not isinstance(member, discord.Member):
-		guild = bot.get_guild(guildId)
-		member = guild.get_member(member.id)
-
+	guild = bot.get_guild(guildId)
+	member = guild.get_member(member.id)
 	user_mention = member.mention
 	role = None
 	if hasattr(member, 'guild'):
