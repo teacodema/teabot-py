@@ -12,7 +12,11 @@ def toggle_channel_mention(channel):
 		return channel.id
 	return channel.mention
 
-def toggle_user_mention(member, roleId, append_member_id = False):
+def toggle_user_mention(bot, member, roleId, append_member_id = False):
+	if not isinstance(member, discord.Member):
+		guild = bot.get_guild(guildId)
+		member = guild.get_member(member.id)
+
 	user_mention = member.mention
 	role = None
 	if hasattr(member, 'guild'):
@@ -55,7 +59,7 @@ async def log_member_dms(params, message):
 		]
 	if author.id not in excludedIDs:
 		channel = bot.get_channel(textChannels['log-dms'])
-		user_mention = toggle_user_mention(author, roles['root'], True)
+		user_mention = toggle_user_mention(bot, author, roles['root'], True)
 		log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
 			
 		msgs = []
