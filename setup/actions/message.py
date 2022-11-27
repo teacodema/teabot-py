@@ -17,7 +17,7 @@ def toggle_user_mention(member, roleId, append_member_id = False):
 	role = None
 	if hasattr(member, 'guild'):
 		role = member.guild.get_role(roleId)
-	if (not role) or (role and role in member.roles):
+	if (not role) or (role in member.roles):
 		user_mention = f'{member.display_name}#{member.discriminator}'
 	if append_member_id: user_mention += f' / {member.id}'
 	return user_mention
@@ -59,7 +59,7 @@ async def log_member_dms(params, message):
 		log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
 			
 		msgs = []
-		msg = f'\n__From__\n{user_mention} / {author.id}'
+		msg = f'\n__From__\n{user_mention}'
 		msg += f'\n__Content__\n'
 		msgs.append(msg) #await channel.send(msg)
 		msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
