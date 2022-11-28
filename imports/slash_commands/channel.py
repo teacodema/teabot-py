@@ -7,66 +7,36 @@ def init_slash_commands_channel(params):
 	discord = params['discord']
 
 	@bot.slash_command(name = "hide-channel")
-	async def hide_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role):
+	async def hide_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unhide:int = 0):
 		"""
 		Hide channel for a role
 		Parameters
 		----------
-		channel: target channel
+		channel: target channel/category
 		role: role to be affected by the change
+		unhide: display the channel/category for the role
 		"""
 		try:
-			await toggle_hide_channel(channel, role, False)
+			await toggle_hide_channel(channel, role, bool(unhide))
 		except Exception as ex:
 			print('----- /hide_channel() -----')
 			print(ex)
 			await log_exception(ex, '/hide_channel', interaction)
 
-	@bot.slash_command(name = "show-channel")
-	async def show_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role):
-		"""
-		Show channel for a role
-		Parameters
-		----------
-		channel: target channel
-		role: role to be affected by the change
-		"""
-		try:
-			await toggle_hide_channel(channel, role, True)
-		except Exception as ex:
-			print('----- /show_channel() -----')
-			print(ex)
-			await log_exception(ex, '/show_channel', interaction)
-	
 	@bot.slash_command(name = "lock-channel")
-	async def lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role):
+	async def lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unlock:int = 0):
 		"""
 		Lock channel for a role
 		Parameters
 		----------
 		channel: target channel
 		role: role to be affected by the change
+		unlock: unlock the channel/category for the role
 		"""
 		try:
-			await toggle_lock_channel(channel, role, False)
+			await toggle_lock_channel(channel, role, bool(unlock))
 		except Exception as ex:
 			print('----- /lock_channel() -----')
 			print(ex)
 			await log_exception(ex, '/lock_channel', interaction)
 
-	
-	@bot.slash_command(name = "unlock-channel")
-	async def unlock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role):
-		"""
-		Unlock channel for a role
-		Parameters
-		----------
-		channel: target channel
-		role: role to be affected by the change
-		"""
-		try:
-			await toggle_lock_channel(channel, role, True)
-		except Exception as ex:
-			print('----- /unlock_channel() -----')
-			print(ex)
-			await log_exception(ex, '/unlock_channel', interaction)
