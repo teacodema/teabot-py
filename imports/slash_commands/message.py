@@ -32,7 +32,36 @@ def init_slash_commands_message(params):
 			print(ex)
 			await log_exception(ex, '/tag_rules', interaction)
 
-	
+	@bot.slash_command(name = "poll")
+	async def poll(interaction, header, options, emojis, channel = None):
+		"""
+		Make a poll
+		Parameters
+		----------
+		header: Header message (part I)
+		options: Options of the poll separated by , or space (part II)
+		emojis: emojis for the users
+		"""
+		try:
+			await interaction.send('Creating the Poll...', ephemeral=True)
+			if channel == None: channel = interaction.channel
+			msg = f'{header}\n'
+			emojis = split_str(emojis)
+			options = split_str(options)
+			index = 0
+			for o in options:
+				msg += f'\n{emojis[index]} - {o}'
+				index += 1
+			msg += '\n\n─────────────────────────'
+			print(msg)
+			msg = await channel.send(msg)
+			for e in emojis:
+				await msg.add_reaction(e)
+		except Exception as ex:
+			print('----- /poll() -----')
+			print(ex)
+			await log_exception(ex, '/poll', interaction)
+
 	######################## PURGE ########################
 	@bot.slash_command(name = "purge")
 	async def purge(interaction, limit: int=None):

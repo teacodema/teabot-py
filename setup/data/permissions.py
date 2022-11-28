@@ -11,7 +11,7 @@ functions_roles = {
     ],
     'staff': [
         'purge',
-        'pick_speaker',
+        'pick_speaker', 'poll',
         'check_new_members', 'update_new_members',
         'toggle_role', 'toggle_role_members',
         'event_subscribers', 'event_create',
