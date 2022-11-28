@@ -9,7 +9,7 @@ def init_slash_commands_member(params):
 
 	
 	######################## WELCOME MEMBER CMD ########################
-	@bot.slash_command(name = "tc_w")
+	@bot.slash_command(name = "tc_welcome")
 	async def welcome(interaction, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
 		"""
 		Welcome users manually (dm + assign initial roles)
@@ -31,7 +31,7 @@ def init_slash_commands_member(params):
 			await log_exception(ex, '/welcome', interaction)
 
 	######################## CHECK UNASSIGNED MEMBERS ########################
-	@bot.slash_command(name = "tc_cnm")
+	@bot.slash_command(name = "tc_check-new-members")
 	async def check_new_members(interaction, nr:int=1, do:int=0):
 		"""
 		Check new membership period
@@ -73,7 +73,7 @@ def init_slash_commands_member(params):
 
 
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
-	@bot.slash_command(name = "tc_unm")
+	@bot.slash_command(name = "tc_update-new-members")
 	async def update_new_members(interaction, do:int=0):
 		"""
 		Check new-membership period

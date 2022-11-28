@@ -9,7 +9,7 @@ def init_slash_commands_channel(params):
 	@bot.slash_command(name = "hide-channel")
 	async def hide_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unhide:int = 0):
 		"""
-		Hide channel for a role
+		Hide/Unhide channel for a role
 		Parameters
 		----------
 		channel: target channel/category
@@ -26,7 +26,7 @@ def init_slash_commands_channel(params):
 	@bot.slash_command(name = "lock-channel")
 	async def lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unlock:int = 0):
 		"""
-		Lock channel for a role
+		Lock/Unlock channel for a role
 		Parameters
 		----------
 		channel: target channel

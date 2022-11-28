@@ -7,8 +7,8 @@ def init_slash_commands_reaction(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "tc_rr")
-	async def bot_react(interaction, msg_id=None, emojis=None, remove:int=0, member: discord.Member = None):
+	@bot.slash_command(name = "tc_bot-reacts")
+	async def bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
 		"""
 		Add/Remove reaction to/from msg - ,
 		Parameters
@@ -19,27 +19,38 @@ def init_slash_commands_reaction(params):
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
 		try:
+			await interaction.send('Bot Reacting ....', ephemeral=True)
+			msg = await interaction.channel.fetch_message(msg_id)
+			emojis = split_str(emojis)
+			for e in emojis:
+				if remove:
+					if member: await msg.remove_reaction(e, member)
+					else: await msg.clear_reaction(e)
+				else: await msg.add_reaction(e)
+		except Exception as ex:
+			print('---------- /bot_react() --------')
+			print(ex)
+			await log_exception(ex, '/bot_react', interaction)
+			
+	@bot.slash_command(name = "tc_update-roles-reactions")
+	async def update_roles_reactions(interaction, msg_id = None):
+		"""
+		Update existing role-reactions in case the bot was offline
+		Parameters
+		----------
+		msg_id: Message target ID
+		"""
+		try:
 			if msg_id:
-				if emojis:
-					await interaction.send('Bot Reacting ....', ephemeral=True)
+				await interaction.send('Roles-Reactions are setting up ....', ephemeral=True)
+				if str(interaction.channel.id) in reactions and str(msg_id) in reactions[str(interaction.channel.id)]:
 					msg = await interaction.channel.fetch_message(msg_id)
-					emojis = split_str(emojis)
-					for e in emojis:
-						if remove:
-							if member: await msg.remove_reaction(e, member)
-							else: await msg.clear_reaction(e)
-						else: await msg.add_reaction(e)
-					return
-				else:
-					await interaction.send('Reactions are setting up ....', ephemeral=True)
-					if str(interaction.channel.id) in reactions and str(msg_id) in reactions[str(interaction.channel.id)]:
-						msg = await interaction.channel.fetch_message(msg_id)
-						for e in reactions[str(interaction.channel.id)][msg_id]:
-							await msg.add_reaction(e)
-						await interaction.send('Done Reacting.', ephemeral=True)
-					else: await interaction.send('Could not find channel/message.', ephemeral=True)
-					return
-
+					for e in reactions[str(interaction.channel.id)][msg_id]:
+						await msg.add_reaction(e)
+					await interaction.send('Done Reacting.', ephemeral=True)
+				else: await interaction.send('Could not find channel/message.', ephemeral=True)
+				return
+			
 			await interaction.send('Updating members roles ....', ephemeral=True)
 			guild = bot.get_guild(guildId)
 			roles_assigned = 0
@@ -77,11 +88,12 @@ def init_slash_commands_reaction(params):
 						pass
 			await interaction.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', ephemeral=True)
 		except Exception as ex:
-			print('---------- /bot_react() --------')
+			print('---------- /update_roles_reactions() --------')
 			print(ex)
-			await log_exception(ex, '/bot_react', interaction)
+			await log_exception(ex, '/update_roles_reactions', interaction)
+
 			
-	@bot.slash_command(name = "tc_gmr")
+	@bot.slash_command(name = "tc_get-msg-reactions")
 	async def get_message_reactions(interaction, msg_id):
 		"""
 		Get users who reacted to a message

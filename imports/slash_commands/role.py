@@ -9,7 +9,7 @@ def init_slash_commands_role(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "tc_tr")
+	@bot.slash_command(name = "tc_toggle-role")
 	async def toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
 		"""
 		Toggle role to member/role
@@ -44,8 +44,8 @@ def init_slash_commands_role(params):
 
 
 	######################## ROLE TO MEMBERS ########################
-	@bot.slash_command(name = "tc_trm")
-	async def toggle_role_members(interaction, roles, members, assign: int = 1):
+	@bot.slash_command(name = "tc_toggle-roles-members")
+	async def toggle_roles_members(interaction, roles, members, assign: int = 1):
 		"""
 		Toggle multiple roles to multiple members - ,
 		Parameters
@@ -88,7 +88,7 @@ def init_slash_commands_role(params):
 			await log_exception(ex, '/toggle_role_members', interaction)
 
 
-	@bot.slash_command(name = "tc_hr")
+	@bot.slash_command(name = "tc_members_has-role")
 	async def members_has_role(interaction, role: discord.Role, has: int=1):
 		"""
 		Members who have(n't) a role
@@ -140,8 +140,8 @@ def init_slash_commands_role(params):
 
 
 	################## UPDATE ROLE ####################
-	@bot.slash_command(name = "tc_ur")
-	async def update_roles(interaction, roles, role:discord.Role):
+	@bot.slash_command(name = "tc_update-roles-position")
+	async def update_roles_position(interaction, roles, role:discord.Role):
 		"""
 		Update role position - ,
 		Parameters
