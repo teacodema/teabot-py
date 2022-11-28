@@ -19,7 +19,7 @@ functions_roles = {
     ],
 	'root': [
         'welcome',
-        'show_channel', 'hide_channel', 'lock_channel', 'unlock_channel',
+        'hide_channel', 'lock_channel',
         'make_webhook', 'msg_member', 'msg_channel', 'edit_msg_channel',
         'reply_channel', 'remove_msg_member',
         'bot_react', 'get_message_reactions',
