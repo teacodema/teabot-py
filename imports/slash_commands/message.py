@@ -124,7 +124,8 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			if channel.category == None:
-				await interaction.send('This is probably a category', ephemeral=True)
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
 			if name == None:
 				name = member.display_name
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -152,7 +153,8 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			if channel.category == None:
-				await interaction.send('This is probably a category', ephemeral=True)
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
 			msg = await channel.fetch_message(int(msg_id))
 			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.edit(content=content)
@@ -178,7 +180,8 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			if channel.category == None:
-				await interaction.send('This is probably a category', ephemeral=True)
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
 			msg = await channel.fetch_message(int(msg_id))
 			reply = replace_str(reply, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.reply(reply)
@@ -202,7 +205,8 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			if channel.category == None:
-				await interaction.send('This is probably a category', ephemeral=True)
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = await channel.send(msg)
 			if pin:
