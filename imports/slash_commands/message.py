@@ -112,7 +112,7 @@ def init_slash_commands_message(params):
 
 	####################### MAKE A WEBHOOK #######################
 	@bot.slash_command(name = "tc_make-webhook")
-	async def make_webhook(interaction, member: discord.Member, channel: discord.TextChannel, msg, name=None):
+	async def make_webhook(interaction, member: discord.Member, channel: discord.abc.GuildChannel, msg, name=None):
 		"""
 		Make a webhook - \\n \\t /$
 		Parameters
@@ -123,6 +123,8 @@ def init_slash_commands_message(params):
 		name: Webhook name
 		"""
 		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category', ephemeral=True)
 			if name == None:
 				name = member.display_name
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -138,7 +140,7 @@ def init_slash_commands_message(params):
 	
 	######################## REPLY TO MSG ########################
 	@bot.slash_command(name = "tc_edit-msg-channel")
-	async def edit_msg_channel(interaction, content, msg_id, channel: discord.TextChannel, pin: int=0):
+	async def edit_msg_channel(interaction, content, msg_id, channel: discord.abc.GuildChannel, pin: int=0):
 		"""
 		Edit message channel - \\n \\t /$
 		Parameters
@@ -149,6 +151,8 @@ def init_slash_commands_message(params):
 		pin: Add to pinned channel messages
 		"""
 		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category', ephemeral=True)
 			msg = await channel.fetch_message(int(msg_id))
 			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.edit(content=content)
@@ -163,7 +167,7 @@ def init_slash_commands_message(params):
 
 	######################## REPLY TO MSG ########################
 	@bot.slash_command(name = "tc_reply-channel")
-	async def reply_channel(interaction, reply, msg_id, channel: discord.TextChannel):
+	async def reply_channel(interaction, reply, msg_id, channel: discord.abc.GuildChannel):
 		"""
 		Reply to msg channel - \\n \\t /$
 		Parameters
@@ -173,6 +177,8 @@ def init_slash_commands_message(params):
 		channel: Channel where to fetch the message by msg_id
 		"""
 		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category', ephemeral=True)
 			msg = await channel.fetch_message(int(msg_id))
 			reply = replace_str(reply, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.reply(reply)
@@ -185,7 +191,7 @@ def init_slash_commands_message(params):
 
 	######################## SEND MSG TO CHANNEL ########################
 	@bot.slash_command(name = "tc_msg-channel")
-	async def msg_channel(interaction, msg, channel: discord.TextChannel, pin: int=0):
+	async def msg_channel(interaction, msg, channel: discord.abc.GuildChannel, pin: int=0):
 		"""
 		Send msg to channel - \\n \\t /$
 		Parameters
@@ -195,6 +201,8 @@ def init_slash_commands_message(params):
 		pin: Add to pinned channel messages
 		"""
 		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category', ephemeral=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = await channel.send(msg)
 			if pin:
