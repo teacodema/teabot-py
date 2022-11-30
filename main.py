@@ -28,7 +28,7 @@ from imports.slash_commands.thread import *
 # from imports.member.quran import *
 
 intents = discord.Intents.all()
-bot = commands.Bot(intents = intents)
+bot = commands.InteractionBot(intents = intents)
 
 params = {
 	'bot': bot,
@@ -67,5 +67,4 @@ init_events()
 init_slash_commands()
 
 
-# keep_alive()
 bot.run(os.getenv("token"))
