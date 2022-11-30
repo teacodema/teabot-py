@@ -1,3 +1,4 @@
+from setup.data.params import * 
 from setup.data.properties import *
 from setup.actions.common import *
 from setup.actions.message import *
@@ -49,3 +50,37 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	return log_thread
 	# await log_thread.edit(archived=True)
 
+
+async def update_msg_reactions(params, guild, channel, msg_id):
+	try:
+		discord = params['discord']
+		msg = await channel.fetch_message(int(msg_id))
+		roles_assigned = 0
+		_msg = ''
+		for r in msg.reactions:
+			roleName = reactions[str(channel.id)][str(msg_id)][str(r.emoji)]
+			role = discord.utils.get(guild.roles, name = roleName)
+			reacted_users = await r.users().flatten()
+			for u in reacted_users:
+				try:
+					if u.id != users['teabot']:
+						member = await guild.fetch_member(u.id)
+						if role not in member.roles:
+							await member.add_roles(role)
+							_msg += f'{member.display_name}#{member.discriminator} got {role.mention}\n'
+							_msg += f'Member ID : {member.id} / {member.mention}\n'
+							roles_assigned += 1
+				except Exception as ex:
+					print('---------- /update_msg_reactions()/add role user --------')
+					print(ex)
+					print(role.name)
+					print(u.name)
+					await msg.remove_reaction(r.emoji, u)
+					pass
+		return {'roles_assigned': roles_assigned, '_msg': _msg}
+	except Exception as ex:
+		print('---------- /update_msg_reactions()/msg reactions --------')
+		print(ex)
+		print(channel.name)
+		print(role.name)
+		pass

@@ -1,6 +1,7 @@
 from setup.data.params import * 
 from setup.data.properties import *
 from setup.actions.common import *
+from setup.actions.reaction import *
 
 def init_slash_commands_reaction(params):
 
@@ -33,7 +34,7 @@ def init_slash_commands_reaction(params):
 			await log_exception(ex, '/bot_react', interaction)
 			
 	@bot.slash_command(name = "tc_update-roles-reactions")
-	async def update_roles_reactions(interaction, msg_id = None):
+	async def update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
 		"""
 		Update existing role-reactions in case the bot was offline
 		Parameters
@@ -41,51 +42,22 @@ def init_slash_commands_reaction(params):
 		msg_id: Message target ID
 		"""
 		try:
-			if msg_id:
-				await interaction.send('Roles-Reactions are setting up ....', ephemeral=True)
-				if str(interaction.channel.id) in reactions and str(msg_id) in reactions[str(interaction.channel.id)]:
-					msg = await interaction.channel.fetch_message(msg_id)
-					for e in reactions[str(interaction.channel.id)][msg_id]:
-						await msg.add_reaction(e)
-					await interaction.send('Done Reacting.', ephemeral=True)
-				else: await interaction.send('Could not find channel/message.', ephemeral=True)
-				return
-			
 			await interaction.send('Updating members roles ....', ephemeral=True)
-			guild = bot.get_guild(guildId)
-			roles_assigned = 0
-			_msg = ''
-			for channel_id in reactions:
-				channel = bot.get_channel(int(channel_id))
-				for msg_id in reactions[str(channel_id)]:
-					try:
-						msg = await channel.fetch_message(int(msg_id))
-						await interaction.send(f'https://discord.com/channels/{guildId}/{channel_id}/{msg_id}', ephemeral=True)
-						for r in msg.reactions:
-							roleName = reactions[str(channel_id)][str(msg_id)][str(r.emoji)]
-							role = discord.utils.get(guild.roles, name = roleName)
-							async for u in r.users():
-								try:
-									if u.id != users['teabot']:
-										member = await guild.fetch_member(u.id)
-										if role not in member.roles:
-											await member.add_roles(role)
-											_msg += f'{member.display_name}#{member.discriminator} got {role.mention}\n'
-											_msg += f'Member ID : {member.id} / {member.mention}\n'
-											roles_assigned += 1
-								except Exception as ex:
-									print('---------- /bot_react()/add role user --------')
-									print(ex)
-									print(role.name)
-									print(u.name)
-									await msg.remove_reaction(r.emoji, u)
-									pass
-					except Exception as ex:
-						print('---------- /bot_react()/msg reactions --------')
-						print(ex)
-						print(channel.name)
-						print(role.name)
-						pass
+			
+			if channel and msg_id:
+				returnedDict = await update_msg_reactions(params, interaction.guild, channel, msg_id)
+				roles_assigned = returnedDict['roles_assigned']
+				_msg = returnedDict['_msg']
+			else:
+				roles_assigned = 0
+				_msg = ''
+				for channel_id in reactions:
+					channel = bot.get_channel(int(channel_id))
+					for msg_id in reactions[str(channel_id)]:
+						await interaction.send(f'https://discord.com/channels/{guildId}/{channel.id}/{msg_id}', ephemeral=True)
+						returnedDict = await update_msg_reactions(params, interaction.guild, channel, msg_id)
+						roles_assigned += returnedDict['roles_assigned']
+						_msg += returnedDict['_msg']
 			await interaction.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', ephemeral=True)
 		except Exception as ex:
 			print('---------- /update_roles_reactions() --------')
