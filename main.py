@@ -68,5 +68,6 @@ init_events()
 init_slash_commands()
 init_temporary(params)
 
-
+print(f'token  : {os.getenv("token")}')
+print(f'test  : {os.getenv("testing")}')
 bot.run(os.getenv("token"))

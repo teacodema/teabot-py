@@ -20,63 +20,63 @@ def init_temporary(params):
 	# 	os.remove("file.json")
 
 
-	tags_roles = {
-		'frontend': [
-			"Gatsby", "jQuery", "Javascript",
-			"Bootstrap", "Tailwind Css", "Less", 
-			"Sass", "Html / Css", "Svelte",
-			"EmberJs", "ReactJs", "VueJs", 
-			"Angular", "Typescript",
-		],
-		'backend': [
-			"Ruby on Rails",
-			"Ruby","Flask","Django","Python",
-			"Spring","Spring Boot","Java", "DotNet",
-			"VB.Net","C#","CodeIgniter","Symfony","Laravel",
-			"Php","ExpressJs","NodeJs",
-			"Next JS", "Nest JS", "Nuxt JS"    
-		],
-		'devops': [
-			"Gradle", "Selenium", "SonarQube",
-			"Ansible","Jenkins","Kubernetes","Docker",
-		],
-		'database': [
-			"Neo4j", "RethinkDB", "Cassandra", "Firebase", "Redis",
-			"MongoDB","SQL Server","Oracle","SQLite","PostgreSQL","MySQL",
-			"GraphQL", "NoSQL", "Transact-SQL","PL / SQL", "SQL",
-		],
-		'mobile': [
-			"Xamarin Forms", "Xamarin Native", 
-			"iOS", "Android", "Ionic", "Flutter", 
-			"Dart", "React Native", "Kotlin"
-		],
-		'software': [
-			"Notepad++","Vim","CodeBlocks","Brackets",
-			"NetBeans","Eclipse","VSCode","Atom",
-			"Sublime Text","Visual Studio","Android Studio","DataGrip",
-			"RubyMine","Rider (.Net)","PyCharm","PhpStorm",
-			"WebStorm","IntelliJ IDEA",
-		],
-		'os-shells': [
-			"iTerm2", "Bash", "Cmder", "Windows Terminal",
-			"Mac", "Linux", "Windows",
-		],
-		'version-control': [
-			"Svn", "SourceTree", "Phabricator", "Git Kraken",
-			"Bitbucket", "GitLab", "Github", "Git",
-		]
-	}
+	# tags_roles = {
+	# 	'frontend': [
+	# 		"Gatsby", "jQuery", "Javascript",
+	# 		"Bootstrap", "Tailwind Css", "Less", 
+	# 		"Sass", "Html / Css", "Svelte",
+	# 		"EmberJs", "ReactJs", "VueJs", 
+	# 		"Angular", "Typescript",
+	# 	],
+	# 	'backend': [
+	# 		"Ruby on Rails",
+	# 		"Ruby","Flask","Django","Python",
+	# 		"Spring","Spring Boot","Java", "DotNet",
+	# 		"VB.Net","C#","CodeIgniter","Symfony","Laravel",
+	# 		"Php","ExpressJs","NodeJs",
+	# 		"Next JS", "Nest JS", "Nuxt JS"    
+	# 	],
+	# 	'devops': [
+	# 		"Gradle", "Selenium", "SonarQube",
+	# 		"Ansible","Jenkins","Kubernetes","Docker",
+	# 	],
+	# 	'database': [
+	# 		"Neo4j", "RethinkDB", "Cassandra", "Firebase", "Redis",
+	# 		"MongoDB","SQL Server","Oracle","SQLite","PostgreSQL","MySQL",
+	# 		"GraphQL", "NoSQL", "Transact-SQL","PL / SQL", "SQL",
+	# 	],
+	# 	'mobile': [
+	# 		"Xamarin Forms", "Xamarin Native", 
+	# 		"iOS", "Android", "Ionic", "Flutter", 
+	# 		"Dart", "React Native", "Kotlin"
+	# 	],
+	# 	'software': [
+	# 		"Notepad++","Vim","CodeBlocks","Brackets",
+	# 		"NetBeans","Eclipse","VSCode","Atom",
+	# 		"Sublime Text","Visual Studio","Android Studio","DataGrip",
+	# 		"RubyMine","Rider (.Net)","PyCharm","PhpStorm",
+	# 		"WebStorm","IntelliJ IDEA",
+	# 	],
+	# 	'os-shells': [
+	# 		"iTerm2", "Bash", "Cmder", "Windows Terminal",
+	# 		"Mac", "Linux", "Windows",
+	# 	],
+	# 	'version-control': [
+	# 		"Svn", "SourceTree", "Phabricator", "Git Kraken",
+	# 		"Bitbucket", "GitLab", "Github", "Git",
+	# 	]
+	# }
 
-	@bot.slash_command(name="roles-to-tags")
-	async def roles_to_tags(interaction, category:discord.CategoryChannel):
-		for fch in category.forum_channels:
-			tags = tags_roles[fch.name]
-			tags_to_add = []
-			for tagname in tags:
-				tag = discord.ForumTag(name = tagname)
-				tags_to_add.append(tag)
-			print(fch.name, len(tags_to_add))
-			await fch.edit(available_tags=tags_to_add)
+	# @bot.slash_command(name="roles-to-tags")
+	# async def roles_to_tags(interaction, category:discord.CategoryChannel):
+	# 	for fch in category.forum_channels:
+	# 		tags = tags_roles[fch.name]
+	# 		tags_to_add = []
+	# 		for tagname in tags:
+	# 			tag = discord.ForumTag(name = tagname)
+	# 			tags_to_add.append(tag)
+	# 		print(fch.name, len(tags_to_add))
+	# 		await fch.edit(available_tags=tags_to_add)
 
 
 	# ########## Fetch Bot Slash Cmmands ##########
