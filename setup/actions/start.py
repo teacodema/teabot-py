@@ -9,7 +9,10 @@ def start_loop(params):
 	@tasks.loop(hours=4, count=None, reconnect=False)
 	async def am_alive():
 		channel = bot.get_channel(textChannels['log-bot'])
-		msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}'
+		test_activated = ''
+		if os.getenv("testing") == "1":
+			test_activated = ' \ (**Test Mode Activated** 🧪)'
+		msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}{test_activated}'
 		await channel.send(msg)
 	am_alive.start()	
 
