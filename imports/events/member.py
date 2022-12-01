@@ -1,3 +1,4 @@
+import os
 from setup.data.properties import *
 from setup.actions.common import *
 from setup.actions.member import *
@@ -26,7 +27,7 @@ def init_events_member(params):
 	@bot.event
 	async def on_member_join(member):
 		try:
-			if member.bot:
+			if member.bot and (os.getenv("kick_bot") == "1"):
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
 				return
 			msg = await welcomeMember(params, member, 1, 1, 1)
