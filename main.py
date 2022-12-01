@@ -25,7 +25,7 @@ from imports.slash_commands.scheduled_event import *
 from imports.slash_commands.extra.fun import *
 from imports.slash_commands.channel import *
 from imports.slash_commands.thread import *
-from imports.slash_commands.temporary import *
+from temporary import *
 # from imports.member.quran import *
 
 intents = discord.Intents.all()
@@ -62,11 +62,11 @@ def init_slash_commands():
 	init_slash_commands_extra(params)
 	init_slash_commands_channel(params)
 	init_slash_commands_thread(params)
-	init_slash_commands_temporary(params)
 
 
 init_events()
 init_slash_commands()
+init_temporary(params)
 
 
 bot.run(os.getenv("token"))
