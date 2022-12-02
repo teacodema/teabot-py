@@ -228,6 +228,7 @@ def init_slash_commands_message(params):
 		msg: Message content - \\n \\t /$
 		member: Server existing member
 		role: Role members
+		members: Server existing members separated by , or space
 		"""
 		try:
 			await interaction.send("Sending direct message...", ephemeral=True)
