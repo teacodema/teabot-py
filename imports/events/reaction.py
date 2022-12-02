@@ -1,8 +1,8 @@
-from setup.data.params import * 
-from setup.data.properties import *
-from setup.actions.reaction import *
-from setup.actions.common import *
-from setup.actions.message import *
+from imports.data.params import * 
+from imports.data.properties import *
+from imports.actions.reaction import *
+from imports.actions.common import *
+from imports.actions.message import *
 
 def init_events_reaction(params):
 

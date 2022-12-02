@@ -1,6 +1,6 @@
-from setup.data.params import *
-from setup.data.properties import *
-from setup.actions.common import *
+from imports.data.params import *
+from imports.data.properties import *
+from imports.actions.common import *
 
 def init_quran(params):
 	

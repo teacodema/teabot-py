@@ -1,7 +1,7 @@
-from setup.data.properties import *
-from setup.actions.common import *
-from setup.actions.message import *
-from setup.data.params import *
+from imports.data.properties import *
+from imports.actions.common import *
+from imports.actions.message import *
+from imports.data.params import *
 
 def init_slash_commands_message(params):
 

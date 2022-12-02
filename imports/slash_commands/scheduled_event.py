@@ -2,8 +2,8 @@ import requests, os
 import dateutil.parser as dp
 import dateutil.relativedelta as drel
 from datetime import timedelta, timezone
-from setup.data.params import *
-from setup.actions.common import *
+from imports.data.params import *
+from imports.actions.common import *
 
 def init_slash_commands_scheduled_event(params):
 	

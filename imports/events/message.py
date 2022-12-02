@@ -1,6 +1,6 @@
-from setup.data.properties import *
-from setup.actions.message import *
-from setup.actions.common import *
+from imports.data.properties import *
+from imports.actions.message import *
+from imports.actions.common import *
 
 def init_events_message(params):
 	

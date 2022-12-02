@@ -1,4 +1,4 @@
-from setup.data.properties import *
+from imports.data.properties import *
 
 
 player_params = {

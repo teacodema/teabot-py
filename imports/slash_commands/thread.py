@@ -1,5 +1,5 @@
 
-from setup.actions.channel import *
+from imports.actions.channel import *
 
 def init_slash_commands_thread(params):
 	

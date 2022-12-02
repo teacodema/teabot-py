@@ -1,6 +1,6 @@
-from setup.data.properties import *
-from setup.actions.common import *
 import random
+from imports.data.properties import *
+from imports.actions.common import *
 
 def init_slash_commands_extra(params):
 

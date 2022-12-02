@@ -1,8 +1,8 @@
 from datetime import datetime
-from setup.data.properties import *
-from setup.data.params import *
-from setup.actions.common import *
-from setup.actions.role import *
+from imports.data.properties import *
+from imports.data.params import *
+from imports.actions.common import *
+from imports.actions.role import *
 
 async def checkNewMemberRole(guild, do:int=0):
 	try:

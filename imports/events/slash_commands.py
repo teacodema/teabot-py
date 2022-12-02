@@ -1,5 +1,5 @@
-from setup.actions.message import *
-from setup.data.properties import *
+from imports.actions.message import *
+from imports.data.properties import *
 
 def init_events_slash_commands(params):
 

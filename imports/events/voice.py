@@ -1,6 +1,6 @@
-from setup.data.params import *
-from setup.actions.voice import *
-from setup.actions.common import *
+from imports.data.params import *
+from imports.actions.voice import *
+from imports.actions.common import *
 
 def init_events_voice(params):
 

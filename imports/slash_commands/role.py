@@ -1,8 +1,7 @@
-import json
-import os
-from setup.data.properties import *
-from setup.actions.common import *
-from setup.actions.role import *
+import json, os
+from imports.data.properties import *
+from imports.actions.common import *
+from imports.actions.role import *
 
 def init_slash_commands_role(params):
 	

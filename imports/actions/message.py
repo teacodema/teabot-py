@@ -1,6 +1,6 @@
 from datetime import datetime
-from setup.data.properties import *
-from setup.actions.common import *
+from imports.data.properties import *
+from imports.actions.common import *
 
 async def make_thread(channel, headerMsg, threadName=None):
 	threadMsg = await channel.send(headerMsg)

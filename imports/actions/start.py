@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
-from setup.data.properties import *
-from setup.actions.common import *
+from imports.data.properties import *
+from imports.actions.common import *
 	
 def start_loop(params):	
 	bot = params['bot']

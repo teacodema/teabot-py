@@ -1,6 +1,6 @@
 # from database.player import *
-from setup.data.properties import *
-from setup.data.permissions import *
+from imports.data.properties import *
+from imports.data.permissions import *
 import pytz, re
 
 

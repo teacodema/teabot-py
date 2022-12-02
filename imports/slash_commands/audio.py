@@ -1,9 +1,7 @@
-import re
-import datetime
-import random
+import re, datetime, random
 # from database.player import *
-from setup.data.params import *
-from setup.actions.common import *
+from imports.data.params import *
+from imports.actions.common import *
 
 def init_slash_commands_audio(params):
 

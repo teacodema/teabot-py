@@ -1,5 +1,5 @@
 import json, os
-from setup.actions.common import *
+from imports.actions.common import *
 
 def init_temporary(params):
 	

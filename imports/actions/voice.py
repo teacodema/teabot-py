@@ -1,4 +1,4 @@
-from setup.data.params import *
+from imports.data.params import *
 
 async def logVoice(params, guild, member, voice, joining, role_toggle_fct, voice1 = None, voice2 = None):
 	bot = params['bot']
