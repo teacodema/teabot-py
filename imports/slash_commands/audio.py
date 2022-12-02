@@ -126,7 +126,7 @@ def init_slash_commands_audio(params):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
 			if msg:
-				await ctx.send(msg)
+				await ctx.send(msg.strip())
 			if url:
 				# playlist = []
 				track = extractUrlData(url, ctx)
