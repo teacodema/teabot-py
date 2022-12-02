@@ -148,4 +148,4 @@ async def check_timeout(params, before, after, notify_timeout_release):
 			start_task(notify_timeout_release)
 		else:
 			msg = f"⏱🟢 {after.mention} is released from timeout"
-		await channel.send(msg)
+		await channel.send(msg.strip())

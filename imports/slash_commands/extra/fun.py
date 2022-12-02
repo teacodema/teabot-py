@@ -21,14 +21,14 @@ def init_slash_commands_extra(params):
 					msg = 'No member chosen !! - Reasons'
 					msg+= '\n- No members available in the voice channel'
 					msg+= '\n- Only hosts/bot are connected for now'
-					await interaction.send(msg)
+					await interaction.send(msg.strip())
 					return
 
 				member = random.choice(members)
 				msg = f'Chosen member : {member.mention}'
 			else:
 				msg = '⚠ No busy voice channel'
-			await interaction.send(msg)
+			await interaction.send(msg.strip())
 		except Exception as ex:
 			print('----- /random_user() -----')
 			print(ex)

@@ -46,7 +46,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 		# msg = f'\n──────────────────────'
 		# await log.send(f'{msg}')
 		for msg in msgs:
-			await log_thread.send(msg)
+			await log_thread.send(msg.strip())
 	return log_thread
 	# await log_thread.edit(archived=True)
 

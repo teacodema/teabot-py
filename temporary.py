@@ -86,7 +86,7 @@ def init_temporary(params):
 		msg = ''
 		for x in bot.slash_commands:
 			msg += x.name + '\t\t' + x.callback.__name__ + '\n'
-		await interaction.send(msg)
+		await interaction.send(msg.strip())
 		print(bot.help_command.cog.qualified_name)
 
 	########## MATCH 2 MEMBERS ############
@@ -105,7 +105,7 @@ def init_temporary(params):
 			members.remove(member1)
 			member2 = random.choice(members)
 			msg = f'Chosen members : {member1.mention} & {member2.mention}'
-			await interaction.send(msg)
+			await interaction.send(msg.strip())
 		except Exception as ex:
 			print('----- /make_pair() -----')
 			print(ex)
@@ -135,10 +135,10 @@ def init_temporary(params):
 					role = guild.get_role(roles['members'])
 				if after.status == discord.GuildScheduledEventStatus.active:
 					msg = f'🟢 Live : **{after.name}** / {role.mention}\nFeel free to join\n{event_invite_link}'
-					await channel.send(msg)
+					await channel.send(msg.strip())
 				elif after.status == discord.GuildScheduledEventStatus.completed:
 					msg = f'🟥 Event ended / {after.name}\nThank you for attending\nsee you soon 👋'
-					await channel.send(msg)
+					await channel.send(msg.strip())
 		except Exception as ex:
 			print('----- on_guild_scheduled_event_update(evt) -----')
 			print(ex)

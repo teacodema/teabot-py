@@ -24,7 +24,7 @@ def init_slash_commands_member(params):
 			await interaction.send(f'Welcoming {member.mention}', ephemeral=True)
 			msg = await welcomeMember(params, member, assign_role, send_dm, use_webhook)
 			channel = bot.get_channel(textChannels['log-server'])			
-			await channel.send(msg)
+			await channel.send(msg.strip())
 		except Exception as ex:
 			print('----- /welcome() -----')
 			print(ex)

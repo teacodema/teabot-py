@@ -74,7 +74,7 @@ def init_events_message(params):
 			msg = get_embeds(message)
 			if msg: msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
-				await log_thread.send(msg)
+				await log_thread.send(msg.strip())
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:
@@ -124,7 +124,7 @@ def init_events_message(params):
 			# msg += '\n──────────────────────'
 			# msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
-				await log_thread.send(msg)
+				await log_thread.send(msg.strip())
 			await log_thread.edit(archived=True)
 		except Exception as ex:
 			print('----- on_message_edit(evt) -----')

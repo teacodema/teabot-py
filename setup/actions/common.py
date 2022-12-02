@@ -26,10 +26,10 @@ async def log_exception(ex, action, interaction=None, bot=None, hidden=True, msg
 		else: msg = f'{action}\n{str(ex)}'
 		msg += '\n──────────────────────'
 		if interaction:
-			await interaction.send(msg, ephemeral = hidden)
+			await interaction.send(msg.strip(), ephemeral = hidden)
 		elif bot:
 			logBot = bot.get_channel(textChannels['log-exception'])
-			await logBot.send(msg)
+			await logBot.send(msg.strip())
 	except Exception as ex:
 		print('----- log_exception -----')
 		print(ex)

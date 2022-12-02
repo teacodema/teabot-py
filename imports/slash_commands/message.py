@@ -26,7 +26,7 @@ def init_slash_commands_message(params):
 			rule = next(item for item in rules if item["key"] == query)
 			# rule_index = rules.index(rule) + 1
 			msg = f'**{query} :**\n{rule["value"]}'
-			await interaction.send(msg)
+			await interaction.send(msg.strip())
 		except Exception as ex:
 			print('----- /tag_rules() -----')
 			print(ex)
@@ -53,7 +53,7 @@ def init_slash_commands_message(params):
 				msg += f'\n{emojis[index]} - {o.strip()}'
 				index += 1
 			msg += '\n\n─────────────────────────'
-			msg = await channel.send(msg)
+			msg = await channel.send(msg.strip())
 			for e in emojis:
 				await msg.add_reaction(e)
 		except Exception as ex:
@@ -207,7 +207,7 @@ def init_slash_commands_message(params):
 				await interaction.send('This is probably a category ⚠', ephemeral=True)
 				return
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
-			msg = await channel.send(msg)
+			msg = await channel.send(msg.strip())
 			if pin:
 				await msg.pin()
 			await interaction.send('Msg sent', ephemeral=True)
@@ -275,7 +275,7 @@ def init_slash_commands_message(params):
 
 				notifyMe = f'\n__Content__\n'
 				await log_thread.send(notifyMe)
-				await log_thread.send(msg)
+				await log_thread.send(msg.strip())
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:

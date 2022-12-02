@@ -32,14 +32,14 @@ def init_events_slash_commands(params):
 		for key in paramskeys:
 			msg += f'\n\t- {key} : {params[key]}'
 		channel = bot.get_channel(textChannels['log-cmd'])
-		await channel.send(msg)
+		await channel.send(msg.strip())
 
 	@bot.listen()
 	async def on_slash_command_completion(inter):
 		msg = '------- on_slash_command_completion -------'
 		msg += '\nCompleted'
 		channel = bot.get_channel(textChannels['log-cmd'])
-		await channel.send(msg)
+		await channel.send(msg.strip())
 		
 	@bot.listen()
 	async def on_slash_command_error(inter, exception):
@@ -47,4 +47,4 @@ def init_events_slash_commands(params):
 		msg += '\nError'
 		msg += f'\n{str(exception)}'
 		channel = bot.get_channel(textChannels['log-cmd'])
-		await channel.send(msg)
+		await channel.send(msg.strip())

@@ -32,7 +32,7 @@ def init_events_member(params):
 				return
 			msg = await welcomeMember(params, member, 1, 1, 1)
 			channel = bot.get_channel(textChannels['log-server'])
-			await channel.send(msg)
+			await channel.send(msg.strip())
 		except Exception as ex:
 			print('----- on_member_join(evet) -----')
 			print(ex)
@@ -53,7 +53,7 @@ def init_events_member(params):
 			_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
 			msg = f'🟥 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) left **TeaCode**'
 			msg += '\n──────────────────────'
-			await channel.send(msg)
+			await channel.send(msg.strip())
 		except Exception as ex:
 			print('----- on_member_remove(evt) -----')
 			print(ex)

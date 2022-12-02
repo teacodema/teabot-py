@@ -36,7 +36,7 @@ def init_slash_commands_role(params):
 				await toggleRole(member, [role], assign, interaction)
 				msg += f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
 
-			await interaction.send(msg, ephemeral=True)
+			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /toggle_role() -----')
 			print(ex)
@@ -81,7 +81,7 @@ def init_slash_commands_role(params):
 					pass
 
 			msg = f'{msg_m} {"got" if assign else "lost"} roles : {msg_r}'
-			await interaction.send(msg, ephemeral=True)
+			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /toggle_role_members() -----')
 			print(ex)
@@ -130,7 +130,7 @@ def init_slash_commands_role(params):
 				with open("file.json", "w") as outfile:
 					outfile.write(json_data)
 				file = discord.File("file.json")
-				await interaction.send(content=msg, file=file, ephemeral=True)
+				await interaction.send(content=msg.strip(), file=file, ephemeral=True)
 				os.remove("file.json")
 
 		except Exception as ex:
@@ -163,7 +163,7 @@ def init_slash_commands_role(params):
 				msg_r += f'{_role.mention}, '
 
 			msg = f"Roles position updated {msg_r} under {role.mention}"
-			await interaction.send(msg, ephemeral=True)
+			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /update_roles() -----')
 			print(ex)

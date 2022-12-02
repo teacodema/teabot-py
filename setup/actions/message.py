@@ -71,7 +71,7 @@ async def log_member_dms(params, message):
 		msg = get_embeds(message)
 		if msg: msgs.append(msg) #await channel.send(msg)
 		for msg in msgs:
-			await log_thread.send(msg)
+			await log_thread.send(msg.strip())
 		await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
@@ -80,7 +80,7 @@ async def prohibited_mentions(message):
 	if channel_type == 'text' or channel_type == 'public_thread':
 		if content.count('@everyone') or content.count('@here'):
 			msg = 'Dont mention __everyone__ or __here__ please\n*Your message will be deleted after 5 seconds !!*'
-			await message.channel.send(msg, delete_after = 10)
+			await message.channel.send(msg.strip(), delete_after = 10)
 			await message.delete(delay=10)
 			return True
 	return False
@@ -154,13 +154,13 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 		msg += "\n__Content__\n"
 		msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
 		if len(msg_content) >= 1800: 
-			await log_thread.send(msg)
-			await log_thread.send(msg_content)
+			await log_thread.send(msg.strip())
+			await log_thread.send(msg_content.strip())
 			msg = ''
 		else:
 			msg += f'{msg_content}'
 		msg += get_attachments(m)
 		msg += get_embeds(m)
-		await log_thread.send(msg)
+		await log_thread.send(msg.strip())
 		msgIndex += 1
 	await log_thread.edit(archived=True)
