@@ -77,8 +77,10 @@ def replace_str(str, dict_chars):
 		print('----- replace_str() -----')
 		print(ex)
 
-def split_str(str):
+def split_str(str, spliters=None):
 	try:
+		if spliters:
+			return re.split(spliters, str)
 		return re.split(',| |;|-|_', str)
 	except Exception as ex:
 		print('----- split_str() -----')

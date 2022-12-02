@@ -39,7 +39,7 @@ def init_slash_commands_message(params):
 		Parameters
 		----------
 		header: Header message (part I)
-		options: Options of the poll separated by , or space (part II)
+		options: Options of the poll separated by $$ (part II)
 		emojis: emojis for the users
 		"""
 		try:
@@ -47,13 +47,12 @@ def init_slash_commands_message(params):
 			if channel == None: channel = interaction.channel
 			msg = f'{header}\n'
 			emojis = split_str(emojis)
-			options = split_str(options)
+			options = split_str(options, '\$\$')
 			index = 0
 			for o in options:
-				msg += f'\n{emojis[index]} - {o}'
+				msg += f'\n{emojis[index]} - {o.strip()}'
 				index += 1
 			msg += '\n\n─────────────────────────'
-			print(msg)
 			msg = await channel.send(msg)
 			for e in emojis:
 				await msg.add_reaction(e)
