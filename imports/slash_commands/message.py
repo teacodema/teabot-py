@@ -33,14 +33,15 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/tag_rules', interaction)
 
 	@bot.slash_command(name = "poll")
-	async def poll(interaction, header, options, emojis, channel = None):
+	async def poll(interaction, header, options, emojis, channel:discord.TextChannel = None):
 		"""
 		Make a poll
 		Parameters
 		----------
 		header: Header message (part I)
 		options: Options of the poll separated by $$ (part II)
-		emojis: emojis for the users
+		emojis: Emojis for the users
+		channel: Target channel
 		"""
 		try:
 			await interaction.send('Creating the Poll...', ephemeral=True)
