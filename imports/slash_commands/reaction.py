@@ -39,6 +39,7 @@ def init_slash_commands_reaction(params):
 		Update existing role-reactions in case the bot was offline
 		Parameters
 		----------
+		channel: Targer channel
 		msg_id: Message target ID
 		"""
 		try:
