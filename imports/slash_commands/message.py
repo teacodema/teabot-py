@@ -220,7 +220,7 @@ def init_slash_commands_message(params):
 
 	######################## SEND MSG TO MEMBER ########################
 	@bot.slash_command(name = "tc_msg-member")
-	async def msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None):
+	async def msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None, members = None):
 		"""
 		Send msg to member/role - \\n \\t /$
 		Parameters
@@ -233,15 +233,31 @@ def init_slash_commands_message(params):
 			await interaction.send("Sending direct message...", ephemeral=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
-			if role == None and member == None:
+			if role == None and member == None and members == None:
 				member = interaction.author
 
 			channel = bot.get_channel(textChannels['log-dms'])
 			log_thread = await make_thread(channel, f"✉ DM/ ==▷ 🎭 / 👤")
-
-			if role:
-				members = role.members
+			
+			target_members = []
+			if members:
+				members = split_str(members)
 				for m in members:
+					try:
+						m = m.replace('<@!', '').replace('<@', '').replace('>', '')
+						m = await interaction.guild.fetch_member(m)
+						target_members.append(m)
+					except Exception as ex:
+						print(ex)
+						pass
+
+			if member:
+				target_members.append(member)
+			if role:
+				target_members += role.members
+
+			if len(target_members):
+				for m in target_members:
 					try:
 						_sentMsg = await send_dm_msg(interaction, msg, m)
 						notifyMe = '─────────────────'
@@ -253,23 +269,10 @@ def init_slash_commands_message(params):
 						notifyMe += '\n--------------'
 						await log_thread.send(notifyMe)
 					except Exception as ex:
-						print('----- /msg_member()/send_msg/role -----')
+						print('----- /msg_member() -----')
 						print(ex)
 						pass
-				notifyMe = f'\nRole: **{role.mention}**'
-				await log_thread.send(notifyMe)
-			if member:
-				_sentMsg = await send_dm_msg(interaction, msg, member)
-				notifyMe = '─────────────────'
-				if _sentMsg:
-					notifyMe += f'\nmessage ID : {_sentMsg.id}'
-					notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-					notifyMe += f'\nMember: {member.mention} / {member.name}#{member.discriminator}'
-				else: notifyMe += f'\nIssue with this member {member.mention} / {member.name}#{member.discriminator}'
-				notifyMe += '\n--------------'
-				await log_thread.send(notifyMe)
 
-			if role or member:
 				notifyMe = f'\n__Content__\n'
 				await log_thread.send(notifyMe)
 				await log_thread.send(msg)
