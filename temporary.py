@@ -6,7 +6,7 @@ def init_temporary(params):
 	bot = params['bot']
 	discord = params['discord']
 	
-	@bot.slash_command(name="roles-file")
+	@bot.slash_command(name = "roles-file")
 	async def roles_file(interaction):
 		json_filtered_members = []
 		for role in interaction.guild.roles:
@@ -68,7 +68,7 @@ def init_temporary(params):
 	# 	]
 	# }
 
-	# @bot.slash_command(name="roles-to-tags")
+	# @bot.slash_command(name = "roles-to-tags")
 	# async def roles_to_tags(interaction, category:discord.CategoryChannel):
 	# 	for fch in category.forum_channels:
 	# 		tags = tags_roles[fch.name]
@@ -81,7 +81,7 @@ def init_temporary(params):
 
 
 	########## Fetch Bot Slash Cmmands ##########
-	@bot.slash_command(name="list-commands")
+	@bot.slash_command(name = "list-commands")
 	async def fetch_commands(interaction):
 		msg = ''
 		for x in bot.slash_commands:
@@ -90,7 +90,7 @@ def init_temporary(params):
 		print(bot.help_command.cog.qualified_name)
 
 	########## MATCH 2 MEMBERS ############
-	@bot.slash_command(name="make-pair")
+	@bot.slash_command(name = "make-pair")
 	async def make_pair(interaction, role: discord.Role = None):
 		try:
 			voice = interaction.author.voice

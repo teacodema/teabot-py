@@ -8,8 +8,8 @@ def init_slash_commands_reaction(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "tc_bot-reacts")
-	async def bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
+	@bot.slash_command(name = "bot-reacts")
+	async def tc_bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
 		"""
 		Add/Remove reaction to/from msg - ,
 		Parameters
@@ -33,8 +33,8 @@ def init_slash_commands_reaction(params):
 			print(ex)
 			await log_exception(ex, '/bot_react', interaction)
 			
-	@bot.slash_command(name = "tc_update-roles-reactions")
-	async def update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
+	@bot.slash_command(name = "update-roles-reactions")
+	async def tc_update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
 		"""
 		Update existing role-reactions in case the bot was offline
 		Parameters
@@ -65,8 +65,8 @@ def init_slash_commands_reaction(params):
 			await log_exception(ex, '/update_roles_reactions', interaction)
 
 			
-	@bot.slash_command(name = "tc_get-msg-reactions")
-	async def get_message_reactions(interaction, msg_id):
+	@bot.slash_command(name = "get-msg-reactions")
+	async def tc_get_message_reactions(interaction, msg_id):
 		"""
 		Get users who reacted to a message
 		Parameters

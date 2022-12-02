@@ -6,8 +6,8 @@ def init_slash_commands_thread(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "tc_delete-threads")
-	async def delete_threads(interaction, channel: discord.abc.GuildChannel, delete_archived: int = 0):
+	@bot.slash_command(name = "delete-threads")
+	async def tc_delete_threads(interaction, channel: discord.abc.GuildChannel, delete_archived: int = 0):
 		"""
 		Delete Threads
 		Parameters

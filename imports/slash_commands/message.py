@@ -111,8 +111,8 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/purge', interaction)
 
 	####################### MAKE A WEBHOOK #######################
-	@bot.slash_command(name = "tc_make-webhook")
-	async def make_webhook(interaction, member: discord.Member, channel: discord.abc.GuildChannel, msg, name=None):
+	@bot.slash_command(name = "make-webhook")
+	async def tc_make_webhook(interaction, member: discord.Member, channel: discord.abc.GuildChannel, msg, name=None):
 		"""
 		Make a webhook - \\n \\t /$
 		Parameters
@@ -140,8 +140,8 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/make_webhook', interaction)
 	
 	######################## REPLY TO MSG ########################
-	@bot.slash_command(name = "tc_edit-msg-channel")
-	async def edit_msg_channel(interaction, content, msg_id, channel: discord.abc.GuildChannel, pin: int=0):
+	@bot.slash_command(name = "edit-msg-channel")
+	async def tc_edit_msg_channel(interaction, content, msg_id, channel: discord.abc.GuildChannel, pin: int=0):
 		"""
 		Edit message channel - \\n \\t /$
 		Parameters
@@ -168,8 +168,8 @@ def init_slash_commands_message(params):
 
 
 	######################## REPLY TO MSG ########################
-	@bot.slash_command(name = "tc_reply-channel")
-	async def reply_channel(interaction, reply, msg_id, channel: discord.abc.GuildChannel):
+	@bot.slash_command(name = "reply-channel")
+	async def tc_reply_channel(interaction, reply, msg_id, channel: discord.abc.GuildChannel):
 		"""
 		Reply to msg channel - \\n \\t /$
 		Parameters
@@ -193,8 +193,8 @@ def init_slash_commands_message(params):
 
 
 	######################## SEND MSG TO CHANNEL ########################
-	@bot.slash_command(name = "tc_msg-channel")
-	async def msg_channel(interaction, msg, channel: discord.abc.GuildChannel, pin: int=0):
+	@bot.slash_command(name = "msg-channel")
+	async def tc_msg_channel(interaction, msg, channel: discord.abc.GuildChannel, pin: int=0):
 		"""
 		Send msg to channel - \\n \\t /$
 		Parameters
@@ -219,8 +219,8 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/msg_channel', interaction)
 
 	######################## SEND MSG TO MEMBER ########################
-	@bot.slash_command(name = "tc_msg-member")
-	async def msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None, members = None):
+	@bot.slash_command(name = "msg-member")
+	async def tc_msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None, members = None):
 		"""
 		Send msg to member/role - \\n \\t /$
 		Parameters
@@ -284,8 +284,8 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/msg_member', interaction)
 
 	######################## DELETE A MSG ########################
-	@bot.slash_command(name = "tc_remove-msg-member")
-	async def remove_msg_member(interaction, msg_ids, channel_id):
+	@bot.slash_command(name = "remove-msg")
+	async def tc_remove_msg(interaction, msg_ids, channel_id):
 		"""
 		Delete msg from public/private - ,
 		Parameters

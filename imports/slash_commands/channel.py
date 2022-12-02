@@ -7,7 +7,7 @@ def init_slash_commands_channel(params):
 	discord = params['discord']
 
 	@bot.slash_command(name = "hide-channel")
-	async def hide_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unhide:int = 0):
+	async def tc_hide_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unhide:int = 0):
 		"""
 		Hide/Unhide channel for a role
 		Parameters
@@ -24,7 +24,7 @@ def init_slash_commands_channel(params):
 			await log_exception(ex, '/hide_channel', interaction)
 
 	@bot.slash_command(name = "lock-channel")
-	async def lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unlock:int = 0):
+	async def tc_lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unlock:int = 0):
 		"""
 		Lock/Unlock channel for a role
 		Parameters
