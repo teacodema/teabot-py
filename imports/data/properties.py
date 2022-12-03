@@ -39,6 +39,7 @@ voiceChannels = {}
 protected_voiceChannels = {
 	900514598057287740,	# Talk┊Event
 	899100431454699520,	# Communication
+	1048375097339158609,	# Communication - stage
 	899100694148157530,	# Workshops
 	899099886195212339,	#Coding challenges
 	899100166500528138,	# Mock interview
