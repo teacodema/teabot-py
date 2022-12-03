@@ -62,14 +62,14 @@ def init_slash_commands_scheduled_event(params):
 				await interaction.send('from_date < to_date !!', ephemeral=True)
 				return
 
-			await interaction.send(f'Deleting events created with name: __{name}__ between __{from_date.date()}__ & __{to_date.date()}__')
+			await interaction.send(f'Deleting events created with name: __{name}__ between __{from_date.date()}__ & __{to_date.date()}__', ephemeral=True)
 			
 			guild = interaction.guild
 			events_to_delete = filter(lambda event: (event.scheduled_start_time > from_date and event.scheduled_start_time < to_date and event.name == name), guild.scheduled_events)
 			events_to_delete = list(events_to_delete)
 			for event in events_to_delete:
 				await event.delete()
-			await interaction.send(f'Event(s) deleted : {len(events_to_delete)}')
+			await interaction.send(f'Event(s) deleted : {len(events_to_delete)}', ephemeral=True)
 		except Exception as ex:
 			print('----- /event_delete_between_dates() -----')
 			print(ex)
@@ -104,7 +104,7 @@ def init_slash_commands_scheduled_event(params):
 				return
 
 			count =  recurrence if recurrence else 1
-			await interaction.send(f'Creating {count} event(s) in progress ...')
+			await interaction.send(f'Creating {count} event(s) in progress ...', ephemeral=True)
 			
 			guild = interaction.guild
 			entity_type = discord.GuildScheduledEventEntityType.voice
@@ -131,7 +131,7 @@ def init_slash_commands_scheduled_event(params):
 				start_time = start_time.replace(tzinfo=tzinfo)
 				await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel=channel, description=description, image=image)
 
-			await interaction.send(f'Created events : {count}')
+			await interaction.send(f'Created events : {count}', ephemeral=True)
 		except Exception as ex:
 			print('----- /event_create() -----')
 			print(ex)

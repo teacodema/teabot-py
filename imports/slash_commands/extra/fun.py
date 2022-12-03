@@ -12,7 +12,7 @@ def init_slash_commands_extra(params):
 	@bot.slash_command(name = "pick-speaker", description = "Choose a random speaker - (events only !!)")
 	async def pick_speaker(interaction):
 		try:
-			await interaction.send('Choosing...')
+			await interaction.send('Choosing...', ephemeral=True)
 			voice = interaction.author.voice
 			if voice:
 				members = voice.channel.members
@@ -21,7 +21,7 @@ def init_slash_commands_extra(params):
 					msg = 'No member chosen !! - Reasons'
 					msg+= '\n- No members available in the voice channel'
 					msg+= '\n- Only hosts/bot are connected for now'
-					await interaction.send(msg.strip())
+					await interaction.send(msg.strip(), ephemeral=True)
 					return
 
 				member = random.choice(members)
@@ -63,7 +63,7 @@ def init_slash_commands_extra(params):
 					member2 = interaction.author
 
 			if (member1 == member2):
-				await interaction.send("You can't play with yourself")
+				await interaction.send("You can't play with yourself", ephemeral=True)
 				return
 
 			ch1 = random.choice(choices)
