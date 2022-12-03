@@ -107,7 +107,6 @@ def init_slash_commands_scheduled_event(params):
 			await interaction.send(f'Creating {count} event(s) in progress ...')
 			
 			guild = interaction.guild
-			channel_id = channel.id
 			entity_type = discord.GuildScheduledEventEntityType.voice
 			if description: description = replace_str(description, {"\\n": "\n", "\\t": "	", "/$": " "})
 
@@ -126,11 +125,11 @@ def init_slash_commands_scheduled_event(params):
 			if recurrence and every_n_weeks:
 				for i in range(recurrence):
 					start_time = start_time.replace(tzinfo=tzinfo)
-					await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel_id=channel_id, description=description, image=image)
+					await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel=channel, description=description, image=image)
 					start_time = start_time + drel.relativedelta(weeks=every_n_weeks)
 			else:
 				start_time = start_time.replace(tzinfo=tzinfo)
-				await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel_id=channel_id, description=description, image=image)
+				await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel=channel, description=description, image=image)
 
 			await interaction.send(f'Created events : {count}')
 		except Exception as ex:
