@@ -402,6 +402,9 @@ reactions = {
 			'🎥': 'Workshops',
 			'💻': 'Coding Challenges',
 			'📱': 'Mock Interview',
+			'🗓': 'Community Events',
+			'📢': 'Announcements / Polls',
+			'💀': 'Hide Archive',
 		},
 		'969927727580868628': {
 			'🎓': 'Student',
