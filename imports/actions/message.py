@@ -18,9 +18,7 @@ async def toggle_user_mention(bot, _member, roleId, append_member_id = False):
 	if member == None:
 		member = await bot.fetch_user(_member.id)
 	user_mention = member.mention
-	role = None
-	if hasattr(member, 'guild'):
-		role = member.guild.get_role(roleId)
+	role = guild.get_role(roleId)
 	if (not role) or (role in member.roles):
 		user_mention = f'{member.display_name}#{member.discriminator}'
 	if append_member_id: user_mention += f' / {member.id}'
