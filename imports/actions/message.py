@@ -12,11 +12,11 @@ def toggle_channel_mention(channel):
 		return channel.id
 	return channel.mention
 
-async def toggle_user_mention(bot, member, roleId, append_member_id = False):
+async def toggle_user_mention(bot, _member, roleId, append_member_id = False):
 	guild = bot.get_guild(guildId)
-	member = guild.get_member(member.id)
+	member = guild.get_member(_member.id)
 	if member == None:
-		member = await bot.fetch_user(member.id)
+		member = await bot.fetch_user(_member.id)
 	user_mention = member.mention
 	role = None
 	if hasattr(member, 'guild'):
