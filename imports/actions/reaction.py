@@ -37,12 +37,12 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 		msg += f'\n📅 {created_at} ➜ {edited_at}'
 		msg += f'\n__Content__\n'
 		msgs.append(msg) # await log.send(f'{msg}')
-		msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
+		msg_content = get_message_content(m)
 		msgs.append(msg_content) # await log.send(f'{msg_content}')
-		# msg = get_attachments(m)
-		# if msg: msgs.append(msg) #await log.send(msg)
-		# msg = get_embeds(m)
-		# if msg: msgs.append(msg) #await log.send(msg)
+		msg = get_attachments(m)
+		if msg: msgs.append(msg) #await log.send(msg)
+		msg = get_embeds(m)
+		if msg: msgs.append(msg) #await log.send(msg)
 		# msg = f'\n──────────────────────'
 		# await log.send(f'{msg}')
 		for msg in msgs:

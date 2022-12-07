@@ -2,6 +2,9 @@ from datetime import datetime
 from imports.data.properties import *
 from imports.actions.common import *
 
+def get_message_content(msg):
+	return f'{"--Sticker | Empty--" if (msg.content == "") else msg.content}'
+
 async def make_thread(channel, headerMsg, threadName=None):
 	threadMsg = await channel.send(headerMsg)
 	log_thread = await threadMsg.create_thread(name=threadName or headerMsg)
@@ -152,7 +155,7 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 			edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
 		msg += f'\n📅 {created_at} ➜ {edited_at}'
 		msg += "\n__Content__\n"
-		msg_content = f'{"--Sticker | Empty--" if (m.content == "") else m.content}'
+		msg_content = get_message_content(m)
 		if len(msg_content) >= 1800: 
 			await log_thread.send(msg.strip())
 			await log_thread.send(msg_content.strip())

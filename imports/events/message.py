@@ -47,7 +47,7 @@ def init_events_message(params):
 			if str(message.channel.type) == 'private':
 				return
 			excludedCategories = [
-				categories['system-corner']
+				categories['system-corner'],
 			]
 			if message.channel.category_id in excludedCategories:
 				return
@@ -67,7 +67,7 @@ def init_events_message(params):
 			msg += f'\n📅 {created_at} ➜ {edited_at}'
 			msg += f'\n__Content__\n'
 			msgs.append(msg) #await log.send(msg)
-			msg_content = f'{"--Sticker | Empty--" if (message.content == "") else message.content}'
+			msg_content = get_message_content(message)
 			msgs.append(msg_content) #await log.send(msg_content)
 			msg = get_attachments(message)
 			if msg: msgs.append(msg) #await log.send(msg)
@@ -90,7 +90,7 @@ def init_events_message(params):
 			if str(before.channel.type) == 'private':
 				return
 			excludedCategories = [
-				categories['system-corner']
+				categories['system-corner'],
 			]
 			if before.channel.category_id in excludedCategories:
 				return
@@ -112,11 +112,11 @@ def init_events_message(params):
 			msg += f'\n📅 {created_at} ➜ {edited_at}'
 			msg += f'\n__Content__\n'
 			msgs.append(msg) #await log.send(msg)
-			msg_content = f'{"--Sticker | Empty--" if (before.content == "") else before.content}'
+			msg_content = get_message_content(before)
 			msgs.append(msg_content) #await log.send(msg_content)
 			msg = '\n──▼▼▼▼▼──\n'
 			msgs.append(msg) #await log.send(msg)
-			msg_content = f'{"--Sticker | Empty--" if (after.content == "") else after.content}'
+			msg_content = get_message_content(after)
 			msgs.append(msg_content) #await log.send(msg_content)
 			msg = get_attachments(before)
 			if msg: msgs.append(msg) #await log.send(msg)
