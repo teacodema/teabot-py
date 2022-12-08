@@ -93,7 +93,7 @@ def init_slash_commands_info(params):
 				role = interaction.author.top_role
 			# else:
 			# 	guild = interaction.guild
-			# 	_role = guild.get_role(roles['helpers']) # 🍃│Helpers
+			# 	_role = guild.get_role(roles['helpers']) # Helpers
 			# 	action_name = inspect.stack()[0][3]
 			# 	if not is_allowed(interaction, action_name) and role not in interaction.author.roles and role.position > _role.position:
 			# 		await interaction.send('❌ You cannot see this data')

@@ -171,8 +171,8 @@ reactions = {
 	},
 	'783813544520712213': { #rules channel
 		'881792967386480690': {
-			'<:teacode_icon_dark:972803589145776189>': '🌱│Members',
-			'<:teacode_icon_white:972803591452622858>': '🌱│Members',
+			'<:teacode_icon_dark:972803589145776189>': '🌱 Members',
+			'<:teacode_icon_white:972803591452622858>': '🌱 Members',
 		},
 	},
 	'802521765586010132': { #get-roles channel
