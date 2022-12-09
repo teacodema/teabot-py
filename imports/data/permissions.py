@@ -14,7 +14,7 @@ functions_roles = {
         'pick_speaker', 'poll',
         'tc_check_new_members', 'tc_update_new_members',
         'tc_toggle_role', 'tc_toggle_roles_members',
-        'event_subscribers', 'event_create',
+        'event_subscribers', 'event_create', 'event_edit_status',
         'clone_voice_channel', 'delete_voice_channel'
     ],
 	'root': [

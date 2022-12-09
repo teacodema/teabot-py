@@ -10,7 +10,7 @@ def init_slash_commands_scheduled_event(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "subscribers")
+	@bot.slash_command(name = "event-subscribers")
 	async def event_subscribers(interaction, event_id, role: discord.Role = None):
 		"""
 		Get event subscribers
@@ -44,7 +44,36 @@ def init_slash_commands_scheduled_event(params):
 			print(ex)
 			await log_exception(ex, '/event_subscribers', interaction)
 	
-	@bot.slash_command(name = "event-delete-between-dates")
+	
+	@bot.slash_command(name = "event-edit-status")
+	async def event_edit_status(interaction, event_id, flag):
+		"""
+		Edit the even status
+		Parameters
+		----------
+		event_id: Event ID
+		flag: values -1:canceled / 1:completed / 0:active
+		"""
+		try:
+			_status = {
+				"-1": discord.GuildScheduledEventStatus.canceled,
+				"1": discord.GuildScheduledEventStatus.completed,
+				"0": discord.GuildScheduledEventStatus.active,
+			}
+			if flag not in _status: await interaction.send(f'⚠ flag should have -1, 1 or 0', ephemeral=True)
+			event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
+			if event.status == _status[flag]: 
+				await interaction.send('Status already edited', ephemeral=True)
+				return
+			await event.edit(status = _status[flag])
+			await interaction.send('Status Updated', ephemeral=True)
+		except Exception as ex:
+			print('----- /event_edit_status() -----')
+			print(ex)
+			await log_exception(ex, '/event_edit_status', interaction)
+
+	
+	@bot.slash_command(name = "event-delete")
 	async def event_delete_between_dates(interaction, name, from_date, to_date):
 		"""
 		Deleting events created with name between 2 dates

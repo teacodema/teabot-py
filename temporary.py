@@ -111,16 +111,6 @@ def init_temporary(params):
 			print(ex)
 			await log_exception(ex, '/make_pair', interaction)
 
-	@bot.slash_command(name = "start")
-	async def event_start(interaction, event: discord.GuildScheduledEvent):
-		try:
-			pass
-		except Exception as ex:
-			print('----- /event_start() -----')
-			print(ex)
-			await log_exception(ex, '/event_start', interaction)
-
-
 	@bot.event
 	async def on_guild_scheduled_event_update(before, after):
 		try:
