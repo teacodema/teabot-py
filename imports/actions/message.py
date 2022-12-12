@@ -60,7 +60,7 @@ async def log_member_dms(params, message):
 		]
 	if author.id not in excludedIDs:
 		channel = bot.get_channel(textChannels['log-dms'])
-		user_mention = toggle_user_mention(bot, author, roles['root'], True)
+		user_mention = await toggle_user_mention(bot, author, roles['root'], True)
 		log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
 			
 		msgs = []
