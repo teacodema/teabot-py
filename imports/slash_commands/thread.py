@@ -6,8 +6,25 @@ def init_slash_commands_thread(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "delete-threads")
-	async def tc_delete_threads(interaction, channel: discord.abc.GuildChannel, delete_archived: int = 0):
+	@bot.slash_command(name = "thread-archive")
+	async def tc_thread_archive(interaction, channel: discord.abc.GuildChannel):
+		"""
+		Archive Threads
+		Parameters
+		----------
+		channel: target channel
+		"""
+		try:
+			for thread in channel.threads:
+				await thread.edit(archived=True)
+		except Exception as ex:
+			print('----- /thread_archive() -----')
+			print(ex)
+			await log_exception(ex, '/thread_archive', interaction)
+
+
+	@bot.slash_command(name = "thread-delete")
+	async def tc_thread_delete(interaction, channel: discord.abc.GuildChannel, delete_archived: int = 0):
 		"""
 		Delete Threads
 		Parameters
