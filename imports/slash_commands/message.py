@@ -129,7 +129,7 @@ def init_slash_commands_message(params):
 				name = member.display_name
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 			webhook = await channel.create_webhook(name=name)
-			await webhook.send(f'{msg}', username=member.display_name, avatar_url=member.display_avatar.url)
+			await webhook.send(f'{msg}', username=name, avatar_url=member.display_avatar.url)
 			await webhook.delete()
 			await interaction.send('✅ Webhook made', ephemeral=True)
 		except Exception as ex:
