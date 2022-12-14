@@ -12,7 +12,6 @@ def init_slash_commands_extra(params):
 	@bot.slash_command(name = "pick-speaker", description = "Choose a random speaker - (events only !!)")
 	async def pick_speaker(interaction):
 		try:
-			await interaction.send('Choosing...', ephemeral=True)
 			voice = interaction.author.voice
 			if voice:
 				members = voice.channel.members
@@ -30,9 +29,9 @@ def init_slash_commands_extra(params):
 				msg = '⚠ No busy voice channel'
 			await interaction.send(msg.strip())
 		except Exception as ex:
-			print('----- /random_user() -----')
+			print('----- /pick_speaker() -----')
 			print(ex)
-			await log_exception(ex, '/random_user', interaction)
+			await log_exception(ex, '/pick_speaker', interaction)
 
 	######################## JANKEN GAME ########################
 	@bot.slash_command(name = "janken", description = "Rock Paper Scissors")

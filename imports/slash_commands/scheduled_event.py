@@ -13,15 +13,25 @@ def init_slash_commands_scheduled_event(params):
 
 	@bot.slash_command(name = "fetch-events")
 	async def get_events_by_name(interaction, name):
-		await interaction.send('Fetching events...', ephemeral=True)
-		events = list(filter(lambda event: (event.name == name), interaction.guild.scheduled_events))
-		if len(events) == 0:
-			msg = f'No event found with name : {name}'
-		else:
-			msg = f'Events found {len(events)} :'
-			for e in events:
-				msg += f'\n{e.name} / {e.scheduled_start_time} ➜ {e.scheduled_end_time}'
-		await interaction.send(msg, ephemeral=True)
+		"""
+		Get event by name
+		Parameters
+		----------
+		name: Name of the event
+		"""
+		try:
+			events = list(filter(lambda event: (event.name == name), interaction.guild.scheduled_events))
+			if len(events) == 0:
+				msg = f'No event found with name : {name}'
+			else:
+				msg = f'Events found {len(events)} :'
+				for e in events:
+					msg += f'\n{e.name} / {e.scheduled_start_time} ➜ {e.scheduled_end_time}'
+			await interaction.send(msg, ephemeral=True)
+		except Exception as ex:
+			print('----- /get_events_by_name() -----')
+			print(ex)
+			await log_exception(ex, '/get_events_by_name', interaction)
 
 
 	@bot.slash_command(name = "event-subscribers")
@@ -34,7 +44,6 @@ def init_slash_commands_scheduled_event(params):
 		role: Role to assign
 		"""
 		try:
-			await interaction.send("Loading...", ephemeral=True)
 			guild = interaction.guild
 			event = guild.get_scheduled_event(int(event_id))
 			if event:

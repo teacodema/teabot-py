@@ -21,14 +21,13 @@ def init_slash_commands_member(params):
 		use_webhook: Make a webhook for the new member - values 0/1
 		"""
 		try:
-			await interaction.send(f'Welcoming {member.mention}', ephemeral=True)
 			msg = await welcomeMember(params, member, assign_role, send_dm, use_webhook)
 			channel = bot.get_channel(textChannels['log-server'])			
 			await channel.send(msg.strip())
 		except Exception as ex:
-			print('----- /welcome() -----')
+			print('----- /tc_welcome() -----')
 			print(ex)
-			await log_exception(ex, '/welcome', interaction)
+			await log_exception(ex, '/tc_welcome', interaction)
 
 	######################## CHECK UNASSIGNED MEMBERS ########################
 	@bot.slash_command(name = "check-new-members")
@@ -41,7 +40,6 @@ def init_slash_commands_member(params):
 		do: Apply the update - values 0/1
 		"""
 		try:
-			await interaction.send('Checking ...', ephemeral=True)
 			guild = interaction.guild
 			if nr <= 0: nr = 1
 			def count_roles(member):
@@ -67,9 +65,9 @@ def init_slash_commands_member(params):
 			else: await interaction.send(f'{len(users)} can be checked members.\n{msg}', ephemeral=True)
 
 		except Exception as ex:
-			print('----- /check_new_members() -----')
+			print('----- /tc_check_new_members() -----')
 			print(ex)
-			await log_exception(ex, '/check_new_members', interaction)
+			await log_exception(ex, '/tc_check_new_members', interaction)
 
 
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
@@ -82,7 +80,6 @@ def init_slash_commands_member(params):
 		do: Apply the update - values 0/1
 		"""
 		try:
-			await interaction.send('Updating ...', ephemeral=True)
 			updatedMembers = await checkNewMemberRole(interaction.guild, do)
 			msg = ''
 			updatedMembersCount = len(updatedMembers)
@@ -92,6 +89,6 @@ def init_slash_commands_member(params):
 			if do: await interaction.send(f'{updatedMembersCount} updated members.\n{msg}', ephemeral=True)
 			else: await interaction.send(f'{updatedMembersCount} can be updated members.\n{msg}', ephemeral=True)
 		except Exception as ex:
-			print('----- /update_new_members() -----')
+			print('----- /tc_update_new_members() -----')
 			print(ex)
-			await log_exception(ex, '/update_new_members', interaction)
+			await log_exception(ex, '/tc_update_new_members', interaction)

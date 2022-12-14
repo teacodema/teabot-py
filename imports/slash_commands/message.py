@@ -44,7 +44,6 @@ def init_slash_commands_message(params):
 		channel: Target channel
 		"""
 		try:
-			await interaction.send('Creating the Poll...', ephemeral=True)
 			if channel == None: channel = interaction.channel
 			msg = f'{header}\n'
 			emojis = split_str(emojis)
@@ -135,9 +134,9 @@ def init_slash_commands_message(params):
 			await interaction.send('✅ Webhook made', ephemeral=True)
 		except Exception as ex:
 			await interaction.send('❌ Webhook not made', ephemeral=True)
-			print('----- /make_webhook() -----')
+			print('----- /tc_make_webhook() -----')
 			print(ex)
-			await log_exception(ex, '/make_webhook', interaction)
+			await log_exception(ex, '/tc_make_webhook', interaction)
 	
 	######################## REPLY TO MSG ########################
 	@bot.slash_command(name = "edit-msg-channel")
@@ -162,9 +161,9 @@ def init_slash_commands_message(params):
 				await msg.pin()
 			await interaction.send('Edit done', ephemeral=True)
 		except Exception as ex:
-			print('----- /edit_msg_channel() -----')
+			print('----- /tc_edit_msg_channel() -----')
 			print(ex)
-			await log_exception(ex, '/edit_msg_channel', interaction)
+			await log_exception(ex, '/tc_edit_msg_channel', interaction)
 
 
 	######################## REPLY TO MSG ########################
@@ -187,9 +186,9 @@ def init_slash_commands_message(params):
 			await msg.reply(reply)
 			await interaction.send('Reply sent', ephemeral=True)
 		except Exception as ex:
-			print('----- /reply_channel() -----')
+			print('----- /tc_reply_channel() -----')
 			print(ex)
-			await log_exception(ex, '/reply_channel', interaction)
+			await log_exception(ex, '/tc_reply_channel', interaction)
 
 
 	######################## SEND MSG TO CHANNEL ########################
@@ -214,9 +213,9 @@ def init_slash_commands_message(params):
 			await interaction.send('Msg sent', ephemeral=True)
 		
 		except Exception as ex:
-			print('----- /msg_channel() -----')
+			print('----- /tc_msg_channel() -----')
 			print(ex)
-			await log_exception(ex, '/msg_channel', interaction)
+			await log_exception(ex, '/tc_msg_channel', interaction)
 
 	######################## SEND MSG TO MEMBER ########################
 	@bot.slash_command(name = "msg-member")
@@ -231,7 +230,6 @@ def init_slash_commands_message(params):
 		members: Server existing members separated by , or space
 		"""
 		try:
-			await interaction.send("Sending direct message...", ephemeral=True)
 			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
 
 			if role == None and member == None and members == None:
@@ -280,9 +278,9 @@ def init_slash_commands_message(params):
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:
-			print('----- /msg_member() -----')
+			print('----- /tc_msg_member() -----')
 			print(ex)
-			await log_exception(ex, '/msg_member', interaction)
+			await log_exception(ex, '/tc_msg_member', interaction)
 
 	######################## DELETE A MSG ########################
 	@bot.slash_command(name = "remove-msg")
@@ -295,7 +293,6 @@ def init_slash_commands_message(params):
 		channel_id: Channel where to fetch the messages
 		"""
 		try:
-			await interaction.send("Deleting direct message...", ephemeral=True)
 			msg_ids = split_str(msg_ids)
 			_ch = await bot.fetch_channel(channel_id)
 			for msg_id in msg_ids:
@@ -306,6 +303,6 @@ def init_slash_commands_message(params):
 					print(msg_id)
 					pass
 		except Exception as ex:
-			print('----- /remove_msg_member() -----')
+			print('----- /tc_remove_msg_member() -----')
 			print(ex)
-			await log_exception(ex, '/remove_msg_member', interaction)
+			await log_exception(ex, '/tc_remove_msg_member', interaction)

@@ -18,9 +18,9 @@ def init_slash_commands_thread(params):
 			for thread in channel.threads:
 				await thread.edit(archived=True)
 		except Exception as ex:
-			print('----- /thread_archive() -----')
+			print('----- /tc_thread_archive() -----')
 			print(ex)
-			await log_exception(ex, '/thread_archive', interaction)
+			await log_exception(ex, '/tc_thread_archive', interaction)
 
 
 	@bot.slash_command(name = "thread-delete")
@@ -39,7 +39,7 @@ def init_slash_commands_thread(params):
 			for thread in total_threads:
 				await thread.delete()
 		except Exception as ex:
-			print('----- /delete_threads() -----')
+			print('----- /tc_thread_delete() -----')
 			print(ex)
-			await log_exception(ex, '/delete_threads', interaction)
+			await log_exception(ex, '/tc_thread_delete', interaction)
 

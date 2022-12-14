@@ -20,7 +20,6 @@ def init_slash_commands_role(params):
 		assign: Assign/Unassign - values 0/1
 		"""
 		try:
-			await interaction.send('Toggling Role...', ephemeral=True)
 			msg = ''
 			if role2:
 				msg += f'{role2.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
@@ -37,9 +36,9 @@ def init_slash_commands_role(params):
 
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /toggle_role() -----')
+			print('----- /tc_toggle_role() -----')
 			print(ex)
-			await log_exception(ex, '/toggle_role', interaction)
+			await log_exception(ex, '/tc_toggle_role', interaction)
 
 
 	######################## ROLE TO MEMBERS ########################
@@ -54,7 +53,6 @@ def init_slash_commands_role(params):
 		assign: Assign/Unassign - values 0/1
 		"""
 		try:
-			await interaction.send('Updating Role...', ephemeral=True)
 			guild = bot.get_guild(guildId)
 
 			msg_r = ''
@@ -82,12 +80,12 @@ def init_slash_commands_role(params):
 			msg = f'{msg_m} {"got" if assign else "lost"} roles : {msg_r}'
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /toggle_role_members() -----')
+			print('----- /tc_toggle_roles_members() -----')
 			print(ex)
-			await log_exception(ex, '/toggle_role_members', interaction)
+			await log_exception(ex, '/tc_toggle_roles_members', interaction)
 
 
-	@bot.slash_command(name = "members_has-role")
+	@bot.slash_command(name = "members-has-role")
 	async def tc_members_has_role(interaction, role: discord.Role, has: int=1):
 		"""
 		Members who have(n't) a role
@@ -97,7 +95,6 @@ def init_slash_commands_role(params):
 		has: Check for having/not having - values 0/1
 		"""
 		try:
-			await interaction.send('Searching...', ephemeral=True)
 			guild = interaction.guild
 			if has:
 				verb = "have"
@@ -133,9 +130,9 @@ def init_slash_commands_role(params):
 				os.remove("file.json")
 
 		except Exception as ex:
-			print('----- /members_hasnt_role() -----')
+			print('----- /tc_members_has_role() -----')
 			print(ex)
-			await log_exception(ex, '/members_hasnt_role', interaction)
+			await log_exception(ex, '/tc_members_has_role', interaction)
 
 
 	################## UPDATE ROLE ####################
@@ -149,7 +146,6 @@ def init_slash_commands_role(params):
 		role: positionned at "role.position - 1" / @everyone = 0
 		"""
 		try:
-			await interaction.send("Processing", ephemeral=True)
 			guild = interaction.guild
 			msg_r = ''
 			roles = split_str(roles)
@@ -164,7 +160,7 @@ def init_slash_commands_role(params):
 			msg = f"Roles position updated {msg_r} under {role.mention}"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /update_roles() -----')
+			print('----- /tc_update_roles_position() -----')
 			print(ex)
-			await log_exception(ex, '/update_roles', interaction)
+			await log_exception(ex, '/tc_update_roles_position', interaction)
 

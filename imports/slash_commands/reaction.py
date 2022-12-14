@@ -20,7 +20,6 @@ def init_slash_commands_reaction(params):
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
 		try:
-			await interaction.send('Bot Reacting ....', ephemeral=True)
 			msg = await interaction.channel.fetch_message(msg_id)
 			emojis = split_str(emojis)
 			for e in emojis:
@@ -29,9 +28,9 @@ def init_slash_commands_reaction(params):
 					else: await msg.clear_reaction(e)
 				else: await msg.add_reaction(e)
 		except Exception as ex:
-			print('---------- /bot_react() --------')
+			print('---------- /tc_bot_react() --------')
 			print(ex)
-			await log_exception(ex, '/bot_react', interaction)
+			await log_exception(ex, '/tc_bot_react', interaction)
 			
 	@bot.slash_command(name = "update-roles-reactions")
 	async def tc_update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
@@ -43,8 +42,6 @@ def init_slash_commands_reaction(params):
 		msg_id: Message target ID
 		"""
 		try:
-			await interaction.send('Updating members roles ....', ephemeral=True)
-			
 			if channel and msg_id:
 				returnedDict = await update_msg_reactions(params, interaction.guild, channel, msg_id)
 				roles_assigned = returnedDict['roles_assigned']
@@ -61,9 +58,9 @@ def init_slash_commands_reaction(params):
 						_msg += returnedDict['_msg']
 			await interaction.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', ephemeral=True)
 		except Exception as ex:
-			print('---------- /update_roles_reactions() --------')
+			print('---------- /tc_update_roles_reactions() --------')
 			print(ex)
-			await log_exception(ex, '/update_roles_reactions', interaction)
+			await log_exception(ex, '/tc_update_roles_reactions', interaction)
 
 			
 	@bot.slash_command(name = "get-msg-reactions")
@@ -75,7 +72,6 @@ def init_slash_commands_reaction(params):
 		msg_id: Message ID
 		"""
 		try:
-			await interaction.send('Fetching emojis from the message ....', ephemeral=True)
 			msg = await interaction.channel.fetch_message(msg_id)
 			feedbackText = f'https://discord.com/channels/{guildId}/{msg.channel.id}/{msg_id}\n'
 			for r in msg.reactions:
@@ -85,6 +81,6 @@ def init_slash_commands_reaction(params):
 			
 			await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
 		except Exception as ex:
-			print('---------- /get_message_reactions() --------')
+			print('---------- /tc_get_message_reactions() --------')
 			print(ex)
-			await log_exception(ex, '/get_message_reactions', interaction)
+			await log_exception(ex, '/tc_get_message_reactions', interaction)

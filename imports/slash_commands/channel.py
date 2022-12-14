@@ -19,9 +19,9 @@ def init_slash_commands_channel(params):
 		try:
 			await toggle_hide_channel(channel, role, bool(unhide))
 		except Exception as ex:
-			print('----- /hide_channel() -----')
+			print('----- /tc_hide_channel() -----')
 			print(ex)
-			await log_exception(ex, '/hide_channel', interaction)
+			await log_exception(ex, '/tc_hide_channel', interaction)
 
 	@bot.slash_command(name = "lock-channel")
 	async def tc_lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unlock:int = 0):
@@ -36,7 +36,7 @@ def init_slash_commands_channel(params):
 		try:
 			await toggle_lock_channel(channel, role, bool(unlock))
 		except Exception as ex:
-			print('----- /lock_channel() -----')
+			print('----- /tc_lock_channel() -----')
 			print(ex)
-			await log_exception(ex, '/lock_channel', interaction)
+			await log_exception(ex, '/tc_lock_channel', interaction)
 
