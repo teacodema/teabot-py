@@ -8,7 +8,7 @@ def init_slash_commands_info(params):
 
 	######################## SERVER INFO ########################
 	@bot.slash_command(name = "server-info")
-	async def server_info(interaction, hidden: int = 0):
+	async def server_info(interaction, hidden: int = 1):
 		"""
 		Display server info
 		Parameters
@@ -80,7 +80,7 @@ def init_slash_commands_info(params):
 
 	######################## ROLE INFO ########################
 	@bot.slash_command(name = "role-info")
-	async def role_info(interaction, role: discord.Role = None, hidden: int = 0):
+	async def role_info(interaction, role: discord.Role = None, hidden: int = 1):
 		"""
 		Get role info/stats
 		Parameters
@@ -116,7 +116,7 @@ def init_slash_commands_info(params):
 
 	######################## MEMBER INFO ########################
 	@bot.slash_command(name = "member-info")
-	async def member_info(interaction, member: discord.Member = None, hidden : int = 0):
+	async def member_info(interaction, member: discord.Member = None, hidden : int = 1):
 		"""
 		Get member info/stats
 		Parameters
@@ -153,4 +153,39 @@ def init_slash_commands_info(params):
 			print('----- /member-info() -----')
 			print(ex)
 			await log_exception(ex, '/member-info', interaction)
+
+	@bot.slash_command(name = "channel-info")
+	async def channel_info(interaction, channel: discord.abc.GuildChannel, hidden : int = 1):
+		"""
+		Get channel info/stats
+		Parameters
+		----------
+		channel: Server existing channel
+		hidden: Ephemeral message - values 0/1
+		"""
+		try:
+			created_at = getTimeUtcPlusOne(channel.created_at, "%A, %B %d, %Y - %H:%M")
+			member = interaction.author
+			embed = discord.Embed(title=channel.name, description="", color=member.color)
+			embed.set_author(name=f'{channel.name}', icon_url=interaction.guild.icon.url)
+			embed.set_thumbnail(url=interaction.guild.icon.url)
+			embed.add_field(name="Channel Name", value=channel.name, inline=True)
+			embed.add_field(name="Channel Type", value=channel.type, inline=True)
+			if hasattr(channel, 'category') and channel.category:
+				print(channel.category)
+				embed.add_field(name="Category", value=channel.category.name, inline=True)
+			embed.add_field(name="Created", value=created_at, inline=True)
+			if hasattr(channel, 'members'): 
+				embed.add_field(name="Members", value=len(channel.members), inline=True)
+			if hasattr(channel, 'threads'): 
+				embed.add_field(name="Threads", value=len(channel.threads), inline=True)
+
+			# embed.set_footer(text=f"ID : {member.id}")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			await interaction.send(embed=embed, ephemeral=bool(hidden))
+		except Exception as ex:
+			raise ex
+			print('----- /channel-info() -----')
+			print(ex)
+			await log_exception(ex, '/channel-info', interaction)
 
