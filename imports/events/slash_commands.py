@@ -18,16 +18,16 @@ def init_events_slash_commands(params):
 		return True
 
 	@bot.listen()
-	async def on_slash_command(inter):
+	async def on_slash_command(interaction):
 		msg = '──────────────────────'
 		msg += '\n------- on_slash_command -------'
-		msg += f'\nCommand : {inter.application_command.name} / {inter.application_command.callback.__name__}'
-		msg += f'\nDescription : {inter.application_command.body.description}'
-		msg += f'\nChannel : {inter.channel.mention}'
-		user_mention = await toggle_user_mention(bot, inter.author, roles['root'], True)
+		msg += f'\nCommand : {interaction.application_command.name} / {interaction.application_command.callback.__name__}'
+		msg += f'\nDescription : {interaction.application_command.body.description}'
+		msg += f'\nChannel : {interaction.channel.mention}'
+		user_mention = await toggle_user_mention(bot, interaction.author, roles['root'], True)
 		msg += f'\nAuthor : {user_mention}'
 		msg += '\nParameters'
-		params = inter.filled_options
+		params = interaction.filled_options
 		paramskeys = params.keys()
 		for key in paramskeys:
 			msg += f'\n\t- {key} : {params[key]}'
@@ -35,7 +35,7 @@ def init_events_slash_commands(params):
 		await channel.send(msg.strip())
 
 	@bot.listen()
-	async def on_slash_command_completion(inter):
+	async def on_slash_command_completion(interaction):
 		await interaction.send(f"<@{users['teabot']}> is done.", ephemeral=True)
 		msg = '------- on_slash_command_completion -------'
 		msg += '\nCompleted'
@@ -43,7 +43,7 @@ def init_events_slash_commands(params):
 		await channel.send(msg.strip())
 		
 	@bot.listen()
-	async def on_slash_command_error(inter, exception):
+	async def on_slash_command_error(interaction, exception):
 		msg = '------- on_slash_command_error -------'
 		msg += '\nError'
 		msg += f'\n{str(exception)}'
