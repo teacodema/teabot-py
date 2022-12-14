@@ -15,6 +15,9 @@ def init_slash_commands_thread(params):
 		channel: target channel
 		"""
 		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
 			for thread in channel.threads:
 				await thread.edit(archived=True)
 		except Exception as ex:
@@ -33,6 +36,9 @@ def init_slash_commands_thread(params):
 		delete_archived: include archived threads - values 0/1
 		"""
 		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
 			total_threads = channel.threads
 			if delete_archived:
 				total_threads = total_threads + await channel.archived_threads().flatten()
