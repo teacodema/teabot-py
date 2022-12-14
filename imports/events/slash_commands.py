@@ -36,6 +36,7 @@ def init_events_slash_commands(params):
 
 	@bot.listen()
 	async def on_slash_command_completion(inter):
+		await interaction.send(f"<@{users['teabot']}> is done.", ephemeral=True)
 		msg = '------- on_slash_command_completion -------'
 		msg += '\nCompleted'
 		channel = bot.get_channel(textChannels['log-cmd'])
