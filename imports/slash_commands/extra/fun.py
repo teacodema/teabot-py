@@ -27,7 +27,7 @@ def init_slash_commands_extra(params):
 				msg = f'Chosen member : {member.mention}'
 			else:
 				msg = '⚠ No busy voice channel'
-			await interaction.send(msg.strip())
+			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /pick_speaker() -----')
 			print(ex)
