@@ -7,6 +7,25 @@ def init_slash_commands_role(params):
 	
 	bot = params['bot']
 	discord = params['discord']
+	
+	
+	@bot.slash_command(name = "role-fetch")
+	async def role_fetch(interaction):
+		await interaction.send("Thinking")
+		roles = interaction.guild.roles
+		roles = sorted(roles, key=lambda role: len(role.members))
+		list = []
+		for role in roles:
+			object = {"id":role.id, "name":role.name, "position":role.position, "count": len(role.members)}
+			list.append(object)
+		json_data = json.dumps(list)
+		with open("file.json", "w") as outfile:
+			outfile.write(json_data)
+		file = discord.File("file.json")
+		await interaction.send(file=file, ephemeral=True)
+		os.remove("file.json")
+			
+	
 
 	@bot.slash_command(name = "toggle-role")
 	async def tc_toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
