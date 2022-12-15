@@ -26,7 +26,9 @@ def init_events_member(params):
 	######################## JOIN MEMBER ########################
 	@bot.event
 	async def on_member_join(member):
-		try:
+		try:			
+			# data = await invite.get_invite(member)
+			# print(data.inviter)
 			if member.bot and (os.getenv("kick_bot") == "1"):
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
 				return

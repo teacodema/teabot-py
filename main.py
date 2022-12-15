@@ -2,6 +2,7 @@
 import os
 import disnake as discord
 from disnake.ext import tasks, commands
+from disnake.ext.invitetracker import InviteLogger
 from disnake import FFmpegPCMAudio #, PCMVolumeTransformer
 from youtube_dl import YoutubeDL
 # from setup.properties import *
@@ -13,6 +14,7 @@ from imports.events.voice import *
 from imports.events.member import *
 from imports.events.slash_commands import *
 from imports.events.scheduled_event import *
+from imports.events.thread import *
 
 from imports.slash_commands.info import *
 from imports.slash_commands.message import *
@@ -30,8 +32,10 @@ from temporary import *
 
 intents = discord.Intents.all()
 bot = commands.InteractionBot(intents = intents)
+invite = InviteLogger(bot)
 
 params = {
+	'invite': invite,
 	'bot': bot,
 	'discord': discord,
 	'tasks': tasks,
@@ -48,6 +52,7 @@ def init_events():
 	init_events_member(params)
 	init_events_slash_commands(params)
 	init_events_scheduled_event(params)
+	init_events_thread(params)
 # init_quran(params)
 
 def init_slash_commands():
