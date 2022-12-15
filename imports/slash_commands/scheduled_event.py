@@ -11,7 +11,7 @@ def init_slash_commands_scheduled_event(params):
 	discord = params['discord']
 
 
-	@bot.slash_command(name = "fetch-events")
+	@bot.slash_command(name = "event-fetch")
 	async def get_events_by_name(interaction, name):
 		"""
 		Get event by name
