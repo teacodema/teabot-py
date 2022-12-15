@@ -9,22 +9,28 @@ def init_slash_commands_role(params):
 	discord = params['discord']
 	
 	
-	@bot.slash_command(name = "role-fetch")
-	async def role_fetch(interaction):
-		await interaction.send("Thinking")
-		roles = interaction.guild.roles
-		roles = sorted(roles, key=lambda role: len(role.members))
-		list = []
-		for role in roles:
-			object = {"id":role.id, "name":role.name, "position":role.position, "count": len(role.members)}
-			list.append(object)
-		json_data = json.dumps(list)
-		with open("file.json", "w") as outfile:
-			outfile.write(json_data)
-		file = discord.File("file.json")
-		await interaction.send(file=file, ephemeral=True)
-		os.remove("file.json")
-			
+	@bot.slash_command(name = "roles-fetch")
+	async def tc_roles_fetch(interaction):
+		"""
+		Fetch roles data
+		"""
+		try:
+			roles = interaction.guild.roles
+			roles = sorted(roles, key=lambda role: len(role.members))
+			list = []
+			for role in roles:
+				object = {"id":role.id, "name":role.name, "position":role.position, "count": len(role.members)}
+				list.append(object)
+			json_data = json.dumps(list)
+			with open("file.json", "w") as outfile:
+				outfile.write(json_data)
+			file = discord.File("file.json")
+			await interaction.send(file=file, ephemeral=True)
+			os.remove("file.json")
+		except Exception as ex:
+			print('----- /tc_toggle_role() -----')
+			print(ex)
+			await log_exception(ex, '/tc_toggle_role', interaction)
 	
 
 	@bot.slash_command(name = "toggle-role")
