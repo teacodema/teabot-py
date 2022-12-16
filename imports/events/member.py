@@ -6,6 +6,7 @@ from imports.actions.member import *
 def init_events_member(params):
 	
 	bot = params['bot']
+	invite = params['invite']
 	notify_timeout_release = None
 	
 
@@ -27,7 +28,7 @@ def init_events_member(params):
 	@bot.event
 	async def on_member_join(member):
 		try:			
-			# data = await invite.get_invite(member)
+			data = await invite.get_invite(member)
 			# print(data.inviter)
 			if member.bot and (os.getenv("kick_bot") == "1"):
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
@@ -35,6 +36,8 @@ def init_events_member(params):
 			msg = await welcomeMember(params, member, 1, 1, 1)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg.strip())
+            channel = bot.get_channel(textChannels['log-common'])
+            await channel.send(f'<@{member.id}>/{member.id} was invited by <@{data.inviter.id}>/{data.inviter.id}')
 		except Exception as ex:
 			print('----- on_member_join(evet) -----')
 			print(ex)
