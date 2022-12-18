@@ -75,9 +75,13 @@ def init_slash_commands_reaction(params):
 			msg = await interaction.channel.fetch_message(msg_id)
 			feedbackText = f'https://discord.com/channels/{guildId}/{msg.channel.id}/{msg_id}\n'
 			for r in msg.reactions:
+				if len(feedbackText) > 1800:
+					feedbackText = ''
+					await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
 				feedbackText += f'\n{r.emoji} / '
 				async for u in r.users():
 					feedbackText += f'{u.mention} '
+
 			
 			await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
 		except Exception as ex:
