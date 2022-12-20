@@ -35,10 +35,30 @@ def init_events_member(params):
 			msg = await welcomeMember(params, member, 1, 1, 1)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg.strip())
+
 			data = await invite.get_invite(member)
 			channel = bot.get_channel(textChannels['log-common'])
-			await channel.send(f'<@{member.id}>/{member.id} was invited by <@{data.inviter.id}>/{data.inviter.id}')
+			inviter = 'None'
+			msg = f'<@{member.id}>/{member.id} was invited'
+			if hasattr(data, 'inviter') and data.inviter: 
+				inviter = f'<@{data.inviter.id}> / {data.inviter.id}'
+			msg += f'\n\tInviter : {inviter}'
+			if hasattr(data, 'channel'): msg += f'\n\tChannel : <#{data.channel.id}>'
+			if hasattr(data, 'id'): msg += f'\n\tId : {data.id}'
+			if hasattr(data, 'code'): msg += f'\n\tCode : {data.code}'
+			if hasattr(data, 'created_at'):
+				created_at = getTimeUtcPlusOne(data.created_at, "%A, %B %d, %Y - %H:%M")
+				msg += f'\n\tCreated at : {created_at}'
+			expires_at = 'Never'
+			if data.expires_at: 
+				expires_at = getTimeUtcPlusOne(data.expires_at, "%A, %B %d, %Y - %H:%M")
+			msg += f'\n\tExpires at : {expires_at}'
+			if hasattr(data, 'guild_scheduled_event') and data.guild_scheduled_event:
+				msg += f'\n\tEvent : {data.guild_scheduled_event.name}'
+			await channel.send(msg)
+		
 		except Exception as ex:
+			raise ex
 			print('----- on_member_join(evet) -----')
 			print(ex)
 			await log_exception(ex, 'on_member_join(evet)', None, bot)
@@ -51,7 +71,6 @@ def init_events_member(params):
 			if member.bot:
 				channel = bot.get_channel(textChannels['log-server'])
 				await channel.send(f"🤖 kicked a bot (ID: {member.id})")
-				return
 			membersCount = await updateMembersCount(params)
 			channel = bot.get_channel(textChannels['log-server'])
 			_name = replace_str(member.name, {"_": "\_", "*": "\*"})
