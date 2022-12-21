@@ -46,11 +46,11 @@ def init_events_member(params):
 			if hasattr(data, 'channel'): msg += f'\n\tChannel : <#{data.channel.id}>'
 			if hasattr(data, 'id'): msg += f'\n\tId : {data.id}'
 			if hasattr(data, 'code'): msg += f'\n\tCode : {data.code}'
-			if hasattr(data, 'created_at'):
+			if hasattr(data, 'created_at') and data.created_at:
 				created_at = getTimeUtcPlusOne(data.created_at, "%A, %B %d, %Y - %H:%M")
 				msg += f'\n\tCreated at : {created_at}'
 			expires_at = 'Never'
-			if data.expires_at: 
+			if hasattr(data, 'expires_at') and data.expires_at:
 				expires_at = getTimeUtcPlusOne(data.expires_at, "%A, %B %d, %Y - %H:%M")
 			msg += f'\n\tExpires at : {expires_at}'
 			if hasattr(data, 'guild_scheduled_event') and data.guild_scheduled_event:
