@@ -39,7 +39,7 @@ def init_events_member(params):
 			data = await invite.get_invite(member)
 			channel = bot.get_channel(textChannels['log-common'])
 			inviter = 'None'
-			msg = f'<@{member.id}>/{member.id} was invited'
+			msg = f'<@{member.id}> / {member.id} was invited'
 			if hasattr(data, 'inviter') and data.inviter: 
 				inviter = f'<@{data.inviter.id}> / {data.inviter.id}'
 			msg += f'\n\tInviter : {inviter}'
