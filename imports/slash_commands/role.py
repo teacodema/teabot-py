@@ -10,16 +10,16 @@ def init_slash_commands_role(params):
 	
 	
 	@bot.slash_command(name = "roles-fetch")
-	async def tc_roles_fetch(interaction, sortByCount:int = 0):
+	async def tc_roles_fetch(interaction, sort_by_count:int = 0):
 		"""
 		Fetch roles data
 		Parameters
 		----------
-		sortByCount: members count
+		sort_by_count: members count
 		"""
 		try:
 			roles = interaction.guild.roles
-			if sortByCount: roles = sorted(roles, key=lambda role: len(role.members))
+			if sort_by_count: roles = sorted(roles, key=lambda role: len(role.members))
 			list = []
 			for role in roles:
 				object = {"id":role.id, "name":role.name, "position":role.position, "count": len(role.members)}
