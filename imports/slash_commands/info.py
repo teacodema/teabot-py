@@ -104,6 +104,9 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Name", value=role.name, inline=True)
 			embed.add_field(name="Mentionable", value="Yes" if role.mentionable else "No", inline=True)
 			embed.add_field(name="Members", value=len(role.members), inline=True)
+			embed.add_field(name="Position", value=role.position, inline=True)
+			embed.add_field(name="Mention", value=role.mention, inline=True)
+			embed.add_field(name="Color", value=role.color, inline=True)
 			# embed.set_footer(text=f"ID : {role.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 
@@ -146,6 +149,8 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Registred", value=created_at, inline=True)
 			embed.add_field(name="Top Role", value=f'{member.top_role.mention}', inline=True)
 			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
+			embed.add_field(name="Mention", value=member.mention, inline=True)
+			embed.add_field(name="Color", value=member.color, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			await interaction.send(embed=embed, ephemeral=bool(hidden))
