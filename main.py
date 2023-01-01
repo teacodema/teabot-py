@@ -3,7 +3,7 @@ import os
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake.ext.invitetracker import InviteLogger
-from disnake import FFmpegPCMAudio #, PCMVolumeTransformer
+from disnake import FFmpegPCMAudio, PCMVolumeTransformer
 from youtube_dl import YoutubeDL
 # from setup.properties import *
 # from imports.actions import *
@@ -28,7 +28,7 @@ from imports.slash_commands.extra.fun import *
 from imports.slash_commands.channel import *
 from imports.slash_commands.thread import *
 from temporary import *
-# from imports.member.quran import *
+from imports.slash_commands.extra.quran import *
 
 intents = discord.Intents.all()
 bot = commands.InteractionBot(intents = intents)
@@ -42,6 +42,7 @@ params = {
 	'commands': commands,
 	'YoutubeDL': YoutubeDL,
 	'FFmpegPCMAudio': FFmpegPCMAudio,
+	'PCMVolumeTransformer': PCMVolumeTransformer,
 }
 
 def init_events():
@@ -53,7 +54,6 @@ def init_events():
 	init_events_slash_commands(params)
 	init_events_scheduled_event(params)
 	init_events_thread(params)
-# init_quran(params)
 
 def init_slash_commands():
 	init_slash_commands_info(params)
@@ -67,6 +67,7 @@ def init_slash_commands():
 	init_slash_commands_extra(params)
 	init_slash_commands_channel(params)
 	init_slash_commands_thread(params)
+	init_quran(params)
 
 
 init_events()

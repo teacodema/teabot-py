@@ -1,14 +1,12 @@
 from imports.data.params import *
 from imports.data.properties import *
 from imports.actions.common import *
+import asyncio
 
 def init_quran(params):
 	
 	bot = params['bot']
-	get = params['get']
 	discord = params['discord']
-	slash = params['slash']
-	asyncio = params['asyncio']
 	YoutubeDL = params['YoutubeDL']
 	PCMVolumeTransformer = params['PCMVolumeTransformer']
 	ytdl_format_options = {
@@ -45,11 +43,11 @@ def init_quran(params):
 			filename = data['url'] if stream else ytdl.prepare_filename(data)
 			return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 
-	@slash.slash(name = "quran", description = "Live Quran", guild_ids = [guildId])
+	@bot.slash_command(name = "quran", description = "Live Quran")
 	async def quran_live(ctx):
 		
 		if player_params['current_played'] == 'audio':
-			await ctx.send('⚠ A track is currently playing')
+			await ctx.send('⚠ A track is currently playing', ephemeral=True)
 			return
 		player_params['current_played'] = 'quran'
 		
@@ -60,19 +58,19 @@ def init_quran(params):
 		
 		user = ctx.author
 		if user.voice == None:
-			await ctx.send('❌ You need to be connected to a voice channel')
+			await ctx.send('❌ You need to be connected to a voice channel', ephemeral=True)
 			return
 
-		voice = get(bot.voice_clients, guild = ctx.guild)
+		voice = ctx.guild.voice_client
 		if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
-			await ctx.send('⚠ A track is currently playing')
+			await ctx.send('⚠ A track is currently playing', ephemeral=True)
 			return
 
 		vc = user.voice.channel
 		if not voice or not voice.is_connected():
 			await vc.connect()
 		
-		voice = get(bot.voice_clients, guild = ctx.guild)
+		voice = ctx.guild.voice_client
 		voice.play(player)
 		# ctx.voice_client.play(player)
-		await ctx.send("Now playing Live **mp3quran.net radio**")
+		await ctx.send("Now playing Live **mp3quran.net radio**", ephemeral=True)
