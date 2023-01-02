@@ -151,24 +151,6 @@ https://teacode.ma/assets/shared/img/extra/markdown_code.gif
 ]
 
 reactions = {
-	'796732247470112769': { #polls
-		'982778577877614643': {
-			'🇾': 'Learn Blender'
-		},
-		'938141030673428550': {
-			'🟤': 'Play Chess',
-			'🟡': 'Coding Challenges'
-		},
-		'952311197594701895': {
-			'🇾': 'Q/A Session'
-		},
-		'942529169223462923': {
-			'🇾': 'Learn French'
-		},
-		'929867978969845770': {
-			'🇾': 'Learn German'
-		}
-	},
 	'783813544520712213': { #rules channel
 		'881792967386480690': {
 			'<:teacode_icon_dark:972803589145776189>': '🌱 Members',
