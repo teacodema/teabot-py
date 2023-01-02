@@ -8,12 +8,9 @@ def init_slash_commands_info(params):
 
 	######################## SERVER INFO ########################
 	@bot.slash_command(name = "server-info")
-	async def server_info(interaction, hidden: int = 1):
+	async def server_info(interaction):
 		"""
 		Display server info
-		Parameters
-		----------
-		hidden: Ephemeral message - values 0/1
 		"""
 		try:
 			# excludedCategories = [
@@ -71,7 +68,7 @@ def init_slash_commands_info(params):
 			# embed.add_field(name="me", value=guild.me, inline=True)
 			# embed.set_footer(text=f"ID : {guild.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await interaction.send(embed=embed, ephemeral=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=True)
 
 		except Exception as ex:
 			print('----- /server-info() -----')
@@ -80,13 +77,12 @@ def init_slash_commands_info(params):
 
 	######################## ROLE INFO ########################
 	@bot.slash_command(name = "role-info")
-	async def role_info(interaction, role: discord.Role = None, hidden: int = 1):
+	async def role_info(interaction, role: discord.Role = None):
 		"""
 		Get role info/stats
 		Parameters
 		----------
 		role: Server existing role
-		hidden: Ephemeral message - values 0/1
 		"""
 		try:
 			if role == None:
@@ -110,7 +106,7 @@ def init_slash_commands_info(params):
 			# embed.set_footer(text=f"ID : {role.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 
-			await interaction.send(embed=embed, ephemeral=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=True)
 
 		except Exception as ex:
 			print('----- /role-info() -----')
@@ -119,13 +115,12 @@ def init_slash_commands_info(params):
 
 	######################## MEMBER INFO ########################
 	@bot.slash_command(name = "member-info")
-	async def member_info(interaction, member: discord.Member = None, hidden : int = 1):
+	async def member_info(interaction, member: discord.Member = None):
 		"""
 		Get member info/stats
 		Parameters
 		----------
 		member: Server existing member
-		hidden: Ephemeral message - values 0/1
 		"""
 		try:
 			if member == None or member == interaction.author:
@@ -153,20 +148,19 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Color", value=member.color, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await interaction.send(embed=embed, ephemeral=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
 			print('----- /member-info() -----')
 			print(ex)
 			await log_exception(ex, '/member-info', interaction)
 
 	@bot.slash_command(name = "channel-info")
-	async def channel_info(interaction, channel: discord.abc.GuildChannel, hidden : int = 1):
+	async def channel_info(interaction, channel: discord.abc.GuildChannel):
 		"""
 		Get channel info/stats
 		Parameters
 		----------
 		channel: Server existing channel
-		hidden: Ephemeral message - values 0/1
 		"""
 		try:
 			created_at = getTimeUtcPlusOne(channel.created_at, "%A, %B %d, %Y - %H:%M")
@@ -187,9 +181,8 @@ def init_slash_commands_info(params):
 
 			# embed.set_footer(text=f"ID : {member.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await interaction.send(embed=embed, ephemeral=bool(hidden))
+			await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
-			raise ex
 			print('----- /channel-info() -----')
 			print(ex)
 			await log_exception(ex, '/channel-info', interaction)
