@@ -64,7 +64,7 @@ def init_slash_commands_reaction(params):
 
 			
 	@bot.slash_command(name = "get-msg-reactions")
-	async def tc_get_message_reactions(interaction, msg_id):
+	async def tc_get_message_reactions(interaction, msg_id, role: discord.Role = None):
 		"""
 		Get users who reacted to a message
 		Parameters
@@ -80,10 +80,13 @@ def init_slash_commands_reaction(params):
 					feedbackText = ''
 				feedbackText += f'\n{r.emoji} / '
 				async for u in r.users():
-					feedbackText += f'{u.mention} '
-
-			
+					try:
+						await u.add_roles(role)
+						feedbackText += f'{u.mention} '
+					except Exception as ex:
+						pass
 			await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
+			if role: await interaction.send(f'Role : {role.mention}', ephemeral=True)
 		except Exception as ex:
 			print('---------- /tc_get_message_reactions() --------')
 			print(ex)
