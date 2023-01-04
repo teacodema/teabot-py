@@ -325,8 +325,6 @@ reactions = {
 			'🍅': 'Backend Developer',
 			'🫐': 'Mobile Developer',
 			'🍍': 'Game Developer',
-		},
-		'904512821285503036': {
 			'🖊️': 'Data Scientist',
 			# '✒️': 'Data Architect',
 			# '🖌️': 'Data Analyst',
@@ -340,8 +338,6 @@ reactions = {
 			# '✈️': 'DevOps Software Developer',
 			'🧪': 'Software Tester',
 			# '🌡':	'Quality Assurance',
-		},
-		'904515671080198164': {
 			# '🌁': 'Designer',
 			'💾': 'Graphic Designer',
 			'📷': 'UI/UX Designer',
