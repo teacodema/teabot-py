@@ -256,7 +256,7 @@ reactions = {
 			# '🏯': 'RethinkDB',
 			# '🏛': 'Neo4j',
 		},
-		'904495036916449362': {
+		'904499785426432001': {
 			'🇽': 'Xamarin Forms',
 			'🇳': 'Xamarin Native',
 			'🇰': 'Kotlin',
@@ -266,8 +266,6 @@ reactions = {
 			'🇨': 'Ionic',
 			'🇦': 'Android',
 			'🇮': 'iOS',
-		},
-		'904499785426432001': {
 			'📷': 'Adobe Photoshop',
 			'⌨️': 'Adobe Illustrator',
 			'📹': 'Adobe After Effects',
