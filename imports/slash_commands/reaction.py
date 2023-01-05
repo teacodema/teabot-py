@@ -23,10 +23,15 @@ def init_slash_commands_reaction(params):
 			msg = await interaction.channel.fetch_message(msg_id)
 			emojis = split_str(emojis)
 			for e in emojis:
-				if remove:
-					if member: await msg.remove_reaction(e, member)
-					else: await msg.clear_reaction(e)
-				else: await msg.add_reaction(e)
+				try:
+					if remove:
+						if member: await msg.remove_reaction(e, member)
+						else: await msg.clear_reaction(e)
+					else: await msg.add_reaction(e)
+				except Exception as ex:
+					print('---------- /tc_bot_react()/loop --------')
+					print(ex)
+					pass
 		except Exception as ex:
 			print('---------- /tc_bot_react() --------')
 			print(ex)
