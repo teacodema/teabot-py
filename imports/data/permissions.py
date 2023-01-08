@@ -27,5 +27,6 @@ functions_roles = {
         'tc_bot_react', 'tc_update_roles_reactions', 'tc_get_message_reactions',
         'tc_members_has_role', 'tc_update_roles_position', 'tc_roles_fetch',
         'event_delete_between_dates',
+        'tc_bot_activity',
     ],
 }
