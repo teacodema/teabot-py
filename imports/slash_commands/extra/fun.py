@@ -2,7 +2,7 @@ import random
 from imports.data.properties import *
 from imports.actions.common import *
 
-def init_slash_commands_extra(params):
+def init_slash_commands_fun(params):
 
 	# client = params['client']
 	bot = params['bot']

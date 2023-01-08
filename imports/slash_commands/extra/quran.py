@@ -3,7 +3,7 @@ from imports.data.properties import *
 from imports.actions.common import *
 import asyncio
 
-def init_quran(params):
+def init_slash_commands_quran(params):
 	
 	bot = params['bot']
 	discord = params['discord']
