@@ -9,6 +9,7 @@ def init_slash_commands_scheduled_event(params):
 	
 	bot = params['bot']
 	discord = params['discord']
+	commands = params['commands']
 
 
 	@bot.slash_command(name = "event-fetch")
@@ -24,9 +25,9 @@ def init_slash_commands_scheduled_event(params):
 			if len(events) == 0:
 				msg = f'No event found with name : {name}'
 			else:
-				msg = f'Events found {len(events)} :'
+				msg = f'Events found {len(events)} for {name}:'
 				for e in events:
-					msg += f'\n{e.name} / {e.scheduled_start_time} ➜ {e.scheduled_end_time}'
+					msg += f'\n{e.id} / {e.scheduled_start_time} ➜ {e.scheduled_end_time}'
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
 			print('----- /get_events_by_name() -----')
@@ -68,26 +69,37 @@ def init_slash_commands_scheduled_event(params):
 			await log_exception(ex, '/event_subscribers', interaction)
 	
 	
+	flags = ["canceled", "completed", "active"]
 	@bot.slash_command(name = "event-edit-status")
-	async def event_edit_status(interaction, event_id, flag):
+	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags)):
 		"""
 		Edit the even status
 		Parameters
 		----------
 		event_id: Event ID
-		flag: values -1:canceled / 1:completed / 0:active
+		flag: values canceled / completed / active
 		"""
 		try:
+			if flag not in flags: 
+				await interaction.send(f'⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
 			_status = {
-				"-1": discord.GuildScheduledEventStatus.canceled,
-				"1": discord.GuildScheduledEventStatus.completed,
-				"0": discord.GuildScheduledEventStatus.active,
+				"canceled": discord.GuildScheduledEventStatus.canceled,
+				"completed": discord.GuildScheduledEventStatus.completed,
+				"active": discord.GuildScheduledEventStatus.active,
+				"scheduled": discord.GuildScheduledEventStatus.scheduled,
 			}
-			if flag not in _status: await interaction.send(f'⚠ flag should have -1, 1 or 0', ephemeral=True)
 			event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
-			if event.status == _status[flag]: 
-				await interaction.send('Status already edited', ephemeral=True)
+
+			if flag == 'completed' and event.status == _status['scheduled']:
+				await interaction.send("⚠ Cannot complete a non-started event", ephemeral=True)
 				return
+			if flag == 'canceled' and (event.status == _status['active'] or event.status == _status['completed']):
+				await interaction.send("⚠ Cannot cancel an active or completed event.", ephemeral=True)
+				return
+			if event.status == _status[flag]: 
+				await interaction.send('⚠ Status already edited', ephemeral=True)
+				return
+			
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
 		except Exception as ex:
