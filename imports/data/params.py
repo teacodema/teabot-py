@@ -75,7 +75,7 @@ rules = [
     },
     {
         "key": "6 - Contribute | Report",
-        "value": f"If you see something against the rules or something that makes you feel unsafe, let the <@&{roles['staff']}> know. We want this server to be a welcoming space!",
+        "value": f"If you see something against the rules or something that makes you feel unsafe, let the @Staff know. We want this server to be a welcoming space!",
     },
     {
         "key": "7 - Help Guide | Full",
@@ -101,7 +101,7 @@ rules = [
 	- Put a screenshot of the problem.
 	- Tell us your code or the problematic lines.
 6- If you want to share code, share it directly (check <https://teacode.ma/how-to-post-code> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
-7- Members who can/want to help regularly visit the Help rooms, so when you ask for help, **DO NOT mention someone or everyone** , instead 👉 mention the role tags (ex: in <#{textChannels['python']}> use <@&{roles['python']}> <@&{roles['django']}> ..... , in <#{textChannels['js']}> use <@&{roles['nodejs']}> <@&{roles['reactjs']}> .... etc).
+7- Members who can/want to help regularly visit the Help rooms, so when you ask for help, **DO NOT mention someone or everyone** , instead 👉 mention the role tags (ex: in <#{textChannels['python']}> use @Python @Django ..... , in <#{textChannels['js']}> use @NodeJs @ReactJs .... etc).
 8- Do Not Post the same question in multiple channels.
 9- Get connected to the **__<#{categories['help-voice']}>__** to get this role <@&{roles['help-room']}> which allows you to invite others and see the **__<#{textChannels['help-chat']}>__** channel.
 10- Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>.
@@ -142,7 +142,7 @@ https://teacode.ma/assets/shared/img/extra/markdown_code.gif
     },
     {
         "key": "9 - No Spam / Promo",
-        "value": f"No spam or self-promotion (server invites, advertisements, etc) without permission from a <@&{roles['staff']}>. This includes DMing fellow members",
+        "value": f"No spam or self-promotion (server invites, advertisements, etc) without permission from a @Staff. This includes DMing fellow members",
     },
     {
         "key": "10 - No NSFW",
