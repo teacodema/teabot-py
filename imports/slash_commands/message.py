@@ -21,7 +21,7 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			if query not in keys:
-				await interaction.send('Issue with the input (choose one of the provided options)', ephemeral=True)
+				await interaction.send('⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
 				return
 			rule = next(item for item in rules if item["key"] == query)
 			# rule_index = rules.index(rule) + 1
