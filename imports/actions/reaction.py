@@ -7,6 +7,7 @@ from imports.actions.message import *
 async def log_reacted_msg(params, payload, log, member, adding=True):
 	bot = params['bot']
 	_ch = bot.get_channel(payload.channel_id)
+	if not _ch: _ch = await bot.fetch_channel(payload.channel_id)
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 	operation = f'{"Added" if adding else "Removed"}'
 	user_mention = await toggle_user_mention(bot, member, roles['mods'])
@@ -18,8 +19,6 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 		categories['system-corner'],
 		categories['information'],
 	]
-	if not _ch:
-		_ch = await bot.fetch_channel(payload.channel_id)
 
 	if (_ch == None) or (hasattr(_ch, 'category_id') and _ch.category_id in excludedCategories):
 		return log_thread

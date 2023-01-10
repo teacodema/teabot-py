@@ -7,9 +7,6 @@ def get_message_content(msg):
 
 async def make_thread(channel, headerMsg, threadName=None):
 	threadMsg = await channel.send(headerMsg)
-	print('--------------------')
-	print(len(headerMsg))
-	print('--------------------')
 	log_thread = await threadMsg.create_thread(name=threadName or headerMsg)
 	return log_thread
 
