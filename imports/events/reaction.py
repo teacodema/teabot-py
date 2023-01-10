@@ -23,7 +23,6 @@ def init_events_reaction(params):
 			}
 			await toggleReaction(payload, fct_params)
 		except Exception as ex:
-			raise ex
 			print('---------- on_raw_reaction_add(evt) --------')
 			print(ex)
 			await log_exception(ex, 'on_raw_reaction_add(evt)', None, bot)
@@ -42,7 +41,6 @@ def init_events_reaction(params):
 			}
 			await toggleReaction(payload, fct_params)
 		except Exception as ex:
-			raise ex
 			print('---------- on_raw_reaction_remove(evt) --------')
 			print(ex)
 			await log_exception(ex, 'on_raw_reaction_remove(evt)', None, bot, False, str(payload.user_id))

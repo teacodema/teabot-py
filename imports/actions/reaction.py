@@ -11,7 +11,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 	operation = f'{"Added" if adding else "Removed"}'
 	user_mention = await toggle_user_mention(bot, member, roles['mods'])
-	log_thread = await make_thread(log, f'{payload.emoji} {operation} by  @{member.name} in #{_ch.name}')
+	log_thread = await make_thread(log, f'{payload.emoji} {operation} by  @{member.name} in {toggle_channel_mention(_ch, False)}')
 	thread_first_msg = f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}'
 	await log_thread.send(thread_first_msg)
 	
