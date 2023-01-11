@@ -72,14 +72,14 @@ async def update_msg_reactions(params, guild, channel, msg_id):
 				except Exception as ex:
 					print('---------- /update_msg_reactions()/add role user --------')
 					print(ex)
-					print(role.name)
-					print(u.name)
-					await msg.remove_reaction(r.emoji, u)
+					print(role.id)
+					print(u.id)
+					# await msg.remove_reaction(r.emoji, u)
 					pass
 		return {'roles_assigned': roles_assigned, '_msg': _msg}
 	except Exception as ex:
 		print('---------- /update_msg_reactions()/msg reactions --------')
 		print(ex)
-		print(channel.name)
-		print(role.name)
+		print(channel.id)
+		print(role.id)
 		pass

@@ -9,7 +9,7 @@ def init_events_slash_commands(params):
 	async def check_slash_command(interaction):
 		# print(inter.application_command.name)
 		# print(inter.application_command.callback.__name__)
-		await interaction.send(f"<@{users['teabot']}> is thinking...", ephemeral=True)
+		await interaction.send(f"🔃 @teabot is thinking...", ephemeral=True)
 		action_name = interaction.application_command.callback.__name__
 		if not is_allowed(interaction, action_name):
 			await interaction.send('❌ Missing Permissions', ephemeral=True)
@@ -36,7 +36,7 @@ def init_events_slash_commands(params):
 
 	@bot.listen()
 	async def on_slash_command_completion(interaction):
-		await interaction.send(f"<@{users['teabot']}> is done.", ephemeral=True)
+		await interaction.send(f"✅ @teabot is done.", ephemeral=True)
 		msg = '------- on_slash_command_completion -------'
 		msg += '\nCompleted'
 		channel = bot.get_channel(textChannels['log-cmd'])
@@ -44,6 +44,7 @@ def init_events_slash_commands(params):
 		
 	@bot.listen()
 	async def on_slash_command_error(interaction, exception):
+		await interaction.send(f"⚠ @teabot had an issue.", ephemeral=True)
 		msg = '------- on_slash_command_error -------'
 		msg += '\nError'
 		msg += f'\n{str(exception)}'
