@@ -3,7 +3,7 @@ import os
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake.ext.invitetracker import InviteLogger
-# from disnake import FFmpegPCMAudio #, PCMVolumeTransformer
+from disnake import FFmpegPCMAudio , PCMVolumeTransformer
 from youtube_dl import YoutubeDL
 # from setup.properties import *
 # from imports.actions import *
@@ -42,8 +42,8 @@ params = {
 	'tasks': tasks,
 	'commands': commands,
 	'YoutubeDL': YoutubeDL,
-	# 'FFmpegPCMAudio': FFmpegPCMAudio,
-	# 'PCMVolumeTransformer': PCMVolumeTransformer,
+	'FFmpegPCMAudio': FFmpegPCMAudio,
+	'PCMVolumeTransformer': PCMVolumeTransformer,
 }
 
 def init_events():
