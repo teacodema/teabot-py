@@ -29,7 +29,7 @@ from imports.slash_commands.channel import *
 from imports.slash_commands.thread import *
 from imports.slash_commands.extra.bot import *
 from temporary import *
-# from imports.slash_commands.extra.quran import *
+from imports.slash_commands.extra.quran import *
 
 intents = discord.Intents.all()
 bot = commands.InteractionBot(intents = intents)
@@ -70,7 +70,7 @@ def init_slash_commands():
 
 	init_slash_commands_bot(params)
 	init_slash_commands_fun(params)
-	# init_slash_commands_quran(params)
+	init_slash_commands_quran(params)
 
 
 init_events()
