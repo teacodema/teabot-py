@@ -6,12 +6,12 @@ from imports.actions.common import *
 def start_loop(params):	
 	bot = params['bot']
 	tasks = params['tasks']
-	@tasks.loop(hours=4, count=None, reconnect=False)
+	@tasks.loop(hours=8, count=None, reconnect=False)
 	async def am_alive():
 		channel = bot.get_channel(textChannels['log-bot'])
 		test_activated = ''
 		if os.getenv("testing") == "1":
-			test_activated = ' \ (**Test Mode Activated**)'
+			test_activated = ' | **Test Mode Activated**'
 		msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}{test_activated}'
 		await channel.send(msg.strip())
 	am_alive.start()	
