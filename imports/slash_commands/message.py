@@ -11,7 +11,7 @@ def init_slash_commands_message(params):
 
 	keys = [ rule['key'] for rule in rules ]
 	######### RULES ########
-	@bot.slash_command(name = "tag")
+	@bot.slash_command(name = "tag-rule")
 	async def tag_rules(interaction, query=commands.Param(choices=keys)):
 		"""
 		Reminde with a rule
