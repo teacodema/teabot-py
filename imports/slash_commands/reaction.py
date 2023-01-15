@@ -86,7 +86,7 @@ def init_slash_commands_reaction(params):
 				feedbackText += f'\n{r.emoji} / '
 				async for u in r.users():
 					try:
-						await u.add_roles(role)
+						if role: await u.add_roles(role)
 						feedbackText += f'{u.mention} '
 					except Exception as ex:
 						pass
