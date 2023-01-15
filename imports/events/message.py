@@ -98,7 +98,7 @@ def init_events_message(params):
 				return
 			log = bot.get_channel(textChannels['log-txt'])
 			_user = await toggle_user_mention(bot, before.author, roles["mods"])
-			log_thread = await make_thread(log, f'✏ Message Edited by {_user} in {toggle_channel_mention(before.channel)}')
+			log_thread = await make_thread(log, f'✏ Message Edited by @{before.author.name} in ({toggle_channel_mention(before.channel, False)})')
 			
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
