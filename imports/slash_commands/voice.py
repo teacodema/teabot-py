@@ -6,7 +6,7 @@ def init_slash_commands_voice(params):
 	bot = params['bot']
 	discord = params['discord']
     
-	@bot.slash_command(name = "clone-vc")
+	@bot.slash_command(name = "voice-clone")
 	async def clone_voice_channel(interaction, channel:discord.VoiceChannel, name = None):
 		"""
 		Clone a voice channel
@@ -33,7 +33,7 @@ def init_slash_commands_voice(params):
 			await log_exception(ex, '/clone_voice_channel', interaction)
 
 
-	@bot.slash_command(name = "delete-vc")
+	@bot.slash_command(name = "voice-delete")
 	async def delete_voice_channel(interaction, channel:discord.VoiceChannel):
 		"""
 		Delete a voice channel
