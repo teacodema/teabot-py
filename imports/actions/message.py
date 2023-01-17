@@ -15,7 +15,7 @@ def toggle_channel_mention(channel, mention = True):
 		return channel.id
 	if mention == False: 
 		return channel.name
-	return channel.mention
+	return f'<@{channel.id}>'
 
 async def toggle_user_mention(bot, _member, roleId, append_member_id = False):
 	guild = bot.get_guild(guildId)
