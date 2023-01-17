@@ -34,12 +34,12 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 			else: msg += "\n🔴 initial roles assigned 🎭"
 		if int(send_dm):
 			dm_sent = await send_dm_welcome(params, member)
-			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ **{member.name}#{member.discriminator}** / Member ID : {member.id}'
-			else: msg += f'\n❗ DM/ Welcome Message ➜ **{member.name}#{member.discriminator}** / Member ID : {member.id}'
+			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ {member.id}'
+			else: msg += f'\n❗ DM/ Welcome Message ➜ {member.id}'
 		membersCount = await updateMembersCount(params)
 		_name = replace_str(member.name, {"_": "\_", "*": "\*"})
 		_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
-		msg += f'\n🟩 **{membersCount}** - {member.mention} / [{_name}#{member.discriminator}] / ({_display_name}) / ({member.id}) join **TeaCode**'
+		msg += f'\n🟩 {membersCount} - {member.mention} / {member.id} join'
 		msg += '\n──────────────────────'
 		return msg
 	except Exception as ex:
