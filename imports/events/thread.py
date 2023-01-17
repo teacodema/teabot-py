@@ -12,7 +12,7 @@ def init_events_thread(params):
             thread = payload.thread
             log = bot.get_channel(textChannels['log-txt'])
             user_mention = await toggle_user_mention(bot, thread.owner, roles["mods"])
-            log_thread = await make_thread(log, f'🗑 Thread Deleted by {user_mention} in {toggle_channel_mention(thread.parent)}')
+            log_thread = await make_thread(log, f'🗑 Thread - {user_mention} in {toggle_channel_mention(thread.parent)}')
 
             msg = '──────────────────────'
             msg += f'\n🗑 by {user_mention} in {thread.parent.mention}'
