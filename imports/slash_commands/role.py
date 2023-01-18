@@ -15,7 +15,7 @@ def init_slash_commands_role(params):
 		Fetch roles data
 		Parameters
 		----------
-		sort_by_count: members count
+		sort_by_count: members count - values 0/1 - default 0
 		"""
 		try:
 			roles = interaction.guild.roles
@@ -45,7 +45,7 @@ def init_slash_commands_role(params):
 		role: Role to toggle
 		member: Member the role will be toggled to
 		role2: Role members the role will be toggled to
-		assign: Assign/Unassign - values 0/1
+		assign: Assign/Unassign - values 0/1 - default 1
 		"""
 		try:
 			msg = ''
@@ -78,7 +78,7 @@ def init_slash_commands_role(params):
 		----------
 		roles: Roles to toggle separated by , or space
 		members: Members the roles will be toggled to separated by , or space
-		assign: Assign/Unassign - values 0/1
+		assign: Assign/Unassign - values 0/1 - default 1
 		"""
 		try:
 			guild = bot.get_guild(guildId)
@@ -120,7 +120,7 @@ def init_slash_commands_role(params):
 		Parameters
 		----------
 		role: Role to check
-		has: Check for having/not having - values 0/1
+		has: Check for having/not having - values 0/1 - default 1
 		"""
 		try:
 			guild = interaction.guild

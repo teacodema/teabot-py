@@ -16,7 +16,7 @@ def init_slash_commands_reaction(params):
 		----------
 		msg_id: Message ID
 		emojis: Server existing emojis separated by , or space
-		remove: Remove the reaction - values 0/1
+		remove: Remove the reaction - values 0/1 - default 0
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
 		try:

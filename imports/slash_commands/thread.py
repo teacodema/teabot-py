@@ -33,7 +33,7 @@ def init_slash_commands_thread(params):
 		Parameters
 		----------
 		channel: target channel
-		delete_archived: include archived threads - values 0/1
+		delete_archived: include archived threads - values 0/1 - default 0
 		"""
 		try:
 			if channel.category == None:

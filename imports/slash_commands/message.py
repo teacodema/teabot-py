@@ -148,7 +148,7 @@ def init_slash_commands_message(params):
 		content: New message content - \\n \\t /$
 		msg_id: Message ID to edit
 		channel: Channel where to fetch the message by msg_id
-		pin: Add to pinned channel messages
+		pin: Add to pinned channel messages - values 0/1 - default 0
 		"""
 		try:
 			if channel.category == None:
@@ -200,7 +200,7 @@ def init_slash_commands_message(params):
 		----------
 		msg: Message content - \\n \\t /$
 		channel: Channel where to send the message
-		pin: Add to pinned channel messages
+		pin: Add to pinned channel messages - values 0/1 - default 0
 		"""
 		try:
 			if channel.category == None:
