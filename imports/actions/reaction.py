@@ -10,7 +10,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	if not _ch: _ch = await bot.fetch_channel(payload.channel_id)
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
 	operation = f'{"+" if adding else "-"}'
-	user_mention = await toggle_user_mention(bot, member, roles['mods'])
+	user_mention = await toggle_user_mention(bot, member, roles['root'])
 	log_thread = await make_thread(log, f'{payload.emoji} {operation} {user_mention} in {toggle_channel_mention(_ch)}')
 	thread_first_msg = f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}'
 	await log_thread.send(thread_first_msg)
@@ -26,7 +26,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	m = await _ch.fetch_message(payload.message_id)
 	if m:
 		msgs = []
-		user_mention = await toggle_user_mention(bot, m.author, roles['mods'])
+		user_mention = await toggle_user_mention(bot, m.author, roles['root'])
 		msg = f'\n✉ by {user_mention} in {toggle_channel_mention(m.channel)}'
 		msg += f'\nAuthor ID : {m.author.id}'
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")

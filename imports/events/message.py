@@ -53,7 +53,7 @@ def init_events_message(params):
 				return
 				
 			log = bot.get_channel(textChannels['log-txt'])
-			user_mention = await toggle_user_mention(bot, message.author, roles["mods"])
+			user_mention = await toggle_user_mention(bot, message.author, roles['root'])
 			log_thread = await make_thread(log, f'🗑 {user_mention} in {toggle_channel_mention(message.channel)}')
 			
 			msgs = []
@@ -97,12 +97,12 @@ def init_events_message(params):
 			if (before.content.lower() == after.content.lower()):
 				return
 			log = bot.get_channel(textChannels['log-txt'])
-			_user = await toggle_user_mention(bot, before.author, roles["mods"])
+			_user = await toggle_user_mention(bot, before.author, roles['root'])
 			log_thread = await make_thread(log, f'✏ {_user} in {toggle_channel_mention(before.channel)}')
 			
 			msgs = []
 			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
-			user_mention = await toggle_user_mention(bot, before.author, roles['mods'])
+			user_mention = await toggle_user_mention(bot, before.author, roles['root'])
 			msg += f'\n✏ {user_mention} in {before.channel.mention}'
 			msg += f'\nAuthor ID : {before.author.id}'
 			created_at = getTimeUtcPlusOne(after.created_at, "%d %B %Y - %H:%M")
