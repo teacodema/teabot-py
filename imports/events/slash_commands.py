@@ -10,8 +10,8 @@ def init_events_slash_commands(params):
 		# print(inter.application_command.name)
 		# print(inter.application_command.callback.__name__)
 		await interaction.send(f"🔃 @teabot is thinking...", ephemeral=True)
-		action_name = interaction.application_command.callback.__name__
-		if not is_allowed(interaction, action_name):
+		cmd_name = interaction.application_command.qualified_name
+		if not is_allowed(interaction, cmd_name):
 			await interaction.send('❌ Missing Permissions', ephemeral=True)
 			return False
 		await interaction.channel.trigger_typing()
