@@ -49,7 +49,7 @@ def is_allowed(interaction, action_name):
 	# 	role = interaction.guild.get_role(roles[role_id])
 	# 	if role in interaction.author.roles:
 	# 		return True
-	if action_name in functions_roles['*']:
+	if action_name in functions_roles['members']:
 		return True
 	rootRole = interaction.guild.get_role(roles['root'])
 	if rootRole in interaction.author.roles:

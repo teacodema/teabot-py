@@ -1,5 +1,6 @@
 import json, os
 from imports.actions.common import *
+from imports.data.params import *
 
 def init_temporary(params):
 	
@@ -81,13 +82,13 @@ def init_temporary(params):
 
 
 	########## Fetch Bot Slash Cmmands ##########
-	@bot.slash_command(name = "list-commands")
-	async def fetch_commands(interaction):
-		msg = ''
-		for x in bot.slash_commands:
-			msg += x.name + '\t\t' + x.callback.__name__ + '\n'
-		await interaction.send(msg.strip())
-		print(bot.help_command.cog.qualified_name)
+	# @bot.slash_command(name = "list-commands")
+	# async def fetch_commands(interaction):
+	# 	msg = ''
+	# 	for x in bot.slash_commands:
+	# 		msg += x.name + '\t\t' + x.callback.__name__ + '\n'
+	# 	await interaction.send(msg.strip())
+	# 	print(bot.help_command.cog.qualified_name)
 
 	########## MATCH 2 MEMBERS ############
 	@bot.slash_command(name = "make-pair")
