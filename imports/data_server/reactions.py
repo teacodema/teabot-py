@@ -15,7 +15,7 @@ reactions = {
 			# '🎾': 'Bootstrap',
 			'🏐': 'Javascript / Typescript',
 			# '🏉': 'Typescript',
-			'🎱': 'jQuery',
+			# '🎱': 'jQuery',
 			'🏓': 'Angular',
 			'🏸': 'VueJs',
 			'⛳': 'ReactJs',
