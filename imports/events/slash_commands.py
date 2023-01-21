@@ -1,5 +1,5 @@
 from imports.actions.message import *
-from imports.data.properties import *
+from imports.data.server.config import *
 
 def init_events_slash_commands(params):
 

@@ -1,6 +1,7 @@
-import json, os
+import json, os, random
 from imports.actions.common import *
-from imports.data.params import *
+from imports.data.common.config import *
+from imports.data.server.config import *
 
 def init_temporary(params):
 	

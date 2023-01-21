@@ -1,4 +1,4 @@
-functions_roles = {
+slash_commands_permissions = {
     'members': [
         'server-info', 'role-info', 'member-info',
         'janken',

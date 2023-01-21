@@ -1,4 +1,4 @@
-from imports.data.properties import *
+from imports.data.server.config import *
 from imports.actions.common import *
 from imports.actions.member import *
 

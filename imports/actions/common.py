@@ -1,6 +1,7 @@
 # from database.player import *
-from imports.data.properties import *
-from imports.data.permissions import *
+from imports.data.server.channels_categories import *
+from imports.data.server.members_roles import *
+from imports.data.common.slash_commands_permissions import *
 import pytz, re
 
 
@@ -45,20 +46,20 @@ def is_founders(interaction):
 	return is_authorised(interaction, {'founders'})
 
 def is_allowed(interaction, action_name):
-	# for role_id in functions_roles[action_name]:
+	# for role_id in slash_commands_permissions[action_name]:
 	# 	role = interaction.guild.get_role(roles[role_id])
 	# 	if role in interaction.author.roles:
 	# 		return True
-	if action_name in functions_roles['members']:
+	if action_name in slash_commands_permissions['members']:
 		return True
 	rootRole = interaction.guild.get_role(roles['root'])
 	if rootRole in interaction.author.roles:
 		return True
-	roles_keys = [ role for role in functions_roles ]
+	roles_keys = [ role for role in slash_commands_permissions ]
 	for role_key in roles_keys:
 		if role_key in roles:
 			role = interaction.guild.get_role(roles[role_key])
-			if role in interaction.author.roles and action_name in functions_roles[role_key]:
+			if role in interaction.author.roles and action_name in slash_commands_permissions[role_key]:
 				return True
 	return False
 

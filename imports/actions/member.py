@@ -1,6 +1,6 @@
 from datetime import datetime
-from imports.data.properties import *
-from imports.data.params import *
+from imports.data.server.config import *
+from imports.data.common.config import *
 from imports.actions.common import *
 from imports.actions.role import *
 

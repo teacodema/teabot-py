@@ -1,6 +1,6 @@
 
 from imports.actions.common import *
-from imports.data.permissions import *
+from imports.data.common.slash_commands_permissions import *
 
 def init_slash_commands_bot(params):
 
@@ -29,11 +29,11 @@ def init_slash_commands_bot(params):
 	@bot.slash_command(name = "list-commands", description = "List all / commands")
 	async def tc_list_commands(interaction):
 		member = interaction.author
-		for cmds_list in functions_roles:
+		for cmds_list in slash_commands_permissions:
 			embed = discord.Embed(title=f'Bot Commands / Permission : {cmds_list}', description="", color=member.color)
 			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.display_avatar)
 			embed.set_thumbnail(url=member.display_avatar)
-			for cmd_name in functions_roles[cmds_list]:
+			for cmd_name in slash_commands_permissions[cmds_list]:
 				slash_cmd = bot.get_slash_command(cmd_name)
 				if slash_cmd:
 					embed.add_field(name=slash_cmd.name, value=slash_cmd.body.description, inline=True)

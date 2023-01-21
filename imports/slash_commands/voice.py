@@ -1,6 +1,5 @@
-from imports.data.params import *
 from imports.actions.common import *
-from imports.data.properties import *
+from imports.data.server.config import *
 
 def init_slash_commands_voice(params):
 	bot = params['bot']
