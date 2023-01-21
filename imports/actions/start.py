@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from imports.data.server.config import *
+from imports.data_server.config import *
 from imports.actions.common import *
 	
 def start_loop(params):	

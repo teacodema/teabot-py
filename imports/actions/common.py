@@ -1,7 +1,7 @@
 # from database.player import *
-from imports.data.server.channels_categories import *
-from imports.data.server.members_roles import *
-from imports.data.common.slash_commands_permissions import *
+from imports.data_server.channels_categories import *
+from imports.data_server.members_roles import *
+from imports.data_common.slash_commands_permissions import *
 import pytz, re
 
 

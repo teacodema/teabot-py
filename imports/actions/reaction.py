@@ -1,4 +1,4 @@
-from imports.data.server.reactions import *
+from imports.data_server.reactions import *
 from imports.actions.common import *
 from imports.actions.message import *
 

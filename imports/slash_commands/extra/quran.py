@@ -1,4 +1,4 @@
-from imports.data.common.config import *
+from imports.data_common.config import *
 from imports.actions.common import *
 import asyncio
 

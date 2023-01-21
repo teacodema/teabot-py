@@ -1,7 +1,6 @@
-from imports.data.server.config import *
+from imports.data_common.rules import *
 from imports.actions.common import *
 from imports.actions.message import *
-from imports.data.params import *
 
 def init_slash_commands_message(params):
 

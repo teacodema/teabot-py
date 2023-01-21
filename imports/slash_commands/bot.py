@@ -1,6 +1,6 @@
 
 from imports.actions.common import *
-from imports.data.common.slash_commands_permissions import *
+from imports.data_common.slash_commands_permissions import *
 
 def init_slash_commands_bot(params):
 

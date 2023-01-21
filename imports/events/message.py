@@ -1,4 +1,4 @@
-from imports.data.server.config import *
+from imports.data_server.config import *
 from imports.actions.message import *
 from imports.actions.common import *
 

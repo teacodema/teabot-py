@@ -1,6 +1,6 @@
 import re, datetime, random
 # from database.player import *
-from imports.data.common.config import *
+from imports.data_common.config import *
 from imports.actions.common import *
 
 def init_slash_commands_audio(params):

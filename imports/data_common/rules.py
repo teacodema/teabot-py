@@ -1,4 +1,5 @@
-from imports.data.server.channels_categories import *
+from imports.data_server.channels_categories import *
+from imports.data_server.members_roles import *
 
 rules = [
     {
