@@ -21,13 +21,16 @@ def init_slash_commands_scheduled_event(params):
 		name: Name of the event
 		"""
 		try:
-			events = list(filter(lambda event: (event.name == name), interaction.guild.scheduled_events))
+			events = list(filter(lambda event: (name in event.name), interaction.guild.scheduled_events))
 			if len(events) == 0:
 				msg = f'No event found with name : {name}'
 			else:
-				msg = f'Events found {len(events)} for {name}:'
+				msg = f'Events found {len(events)} for `{name}`:'
 				for e in events:
-					msg += f'\n{e.id} / {e.scheduled_start_time} ➜ {e.scheduled_end_time}'
+					end_time = f'{getTimeUtcPlusOne(e.scheduled_end_time, "%d %B %Y - %H:%M") if e.scheduled_end_time else ""}'
+					user_count = f'{e.user_count if e.user_count else 0}'
+					msg += f'\n{e.id} / `{e.name}` in <#{e.channel.id}> / {getTimeUtcPlusOne(e.scheduled_start_time, "%d %B %Y - %H:%M")} ➜ {end_time} / {user_count} subs / by <@{e.creator_id}>'
+					msg += '\n-------------------'
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
 			print('----- /get_events_by_name() -----')
