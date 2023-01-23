@@ -21,7 +21,8 @@ def init_slash_commands_scheduled_event(params):
 		name: Name of the event
 		"""
 		try:
-			events = list(filter(lambda event: (name in event.name), interaction.guild.scheduled_events))
+			events = await interaction.guild.fetch_scheduled_events(with_user_count = True)
+			events = list(filter(lambda event: (name.lower() in event.name.lower()), events))
 			if len(events) == 0:
 				msg = f'No event found with name : {name}'
 			else:
