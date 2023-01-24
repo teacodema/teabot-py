@@ -103,8 +103,7 @@ async def assign_init_roles(params, member):
 		_roles = [
 			roles['new-members'], roles['members'],
 			roles['__server_activities__'],
-			roles['__techs__'], roles['__tools__'],
-			roles['__jobs__'], roles['__interests__'],
+			roles['__techs_tools_jobs_interests__'],
 		]
 		roles_list = []
 		guild = bot.get_guild(guildId)

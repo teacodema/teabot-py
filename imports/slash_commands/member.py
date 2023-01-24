@@ -49,8 +49,7 @@ def init_slash_commands_member(params):
 			_roles = [
 				roles['new-members'], roles['members'],
 				roles['__server_activities__'],
-				roles['__techs__'], roles['__tools__'],
-				roles['__jobs__'], roles['__interests__'],
+				roles['__techs_tools_jobs_interests__'],
 			]
 			roles_list = []
 			for role_id in _roles:	
