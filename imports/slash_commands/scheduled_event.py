@@ -28,7 +28,7 @@ def init_slash_commands_scheduled_event(params):
 			else:
 				msg = f'Events found {len(events)} for `{name}`:'
 				for e in events:
-					end_time = f'{getTimeUtcPlusOne(e.scheduled_end_time, "%d %B %Y - %H:%M") if e.scheduled_end_time else ""}'
+					end_time = f'{getTimeUtcPlusOne(e.scheduled_end_time, "%d %B %Y - %H:%M") if e.scheduled_end_time else "--"}'
 					user_count = f'{e.user_count if e.user_count else 0}'
 					msg += f'\n{e.id} / `{e.name}` in <#{e.channel.id}> / {getTimeUtcPlusOne(e.scheduled_start_time, "%d %B %Y - %H:%M")} ➜ {end_time} / {user_count} subs / by <@{e.creator_id}>'
 					msg += '\n-------------------'
