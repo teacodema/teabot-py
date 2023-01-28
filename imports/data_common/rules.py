@@ -24,7 +24,7 @@ rules = [
     },
     {
         "key": "6 - Contribute | Suggestions",
-        "value": f"If you have any ideas (for events, activities, rules .... ), Or you want to report a bug, or anything related to **TeaCode** (discord, website, social links),  you can post it here <#{textChannels['suggestions']}>",
+        "value": f"If you have any ideas (for events, activities, rules .... ), Or you want to report a bug, or anything related to **TeaCode** (discord, website, social links),  you can post it here <#{textChannels['ask-staff']}>",
     },
     {
         "key": "6 - Contribute | Report",
