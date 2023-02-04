@@ -215,7 +215,7 @@ reactions = {
 			'🍿': 'Web 3.0',
 		},
 		'930480136166469683': {
-			'☕': 'Talk┊Event',
+			'☕': 'Hangouts',
 			'💭': 'Communication',
 			'🎥': 'Workshops',
 			'💻': 'Coding Challenges',
