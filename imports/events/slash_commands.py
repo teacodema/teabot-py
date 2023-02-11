@@ -10,7 +10,7 @@ def init_events_slash_commands(params):
 		# print(inter.application_command.name)
 		# print(inter.application_command.callback.__name__)
 		cmd_name = interaction.application_command.qualified_name
-		if should_send_ephemeral_msg(interaction, cmd_name):
+		if should_send_ephemeral_msg(cmd_name):
 			await interaction.send(f"🔃 @teabot is thinking...", ephemeral=True)
 		if not is_allowed(interaction, cmd_name):
 			await interaction.send('❌ Missing Permissions', ephemeral=True)
