@@ -63,6 +63,9 @@ def is_allowed(interaction, action_name):
 				return True
 	return False
 
+def should_send_ephemeral_msg(action_name):
+	return action_name not in dontSendEphemeralMsg
+
 def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
 	timeZ_Ma = pytz.timezone('Africa/Casablanca')
 	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)

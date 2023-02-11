@@ -29,3 +29,5 @@ slash_commands_permissions = {
         'activity', 'list-commands',
     ],
 }
+
+dontSendEphemeralMsg = ['tag-rule']
