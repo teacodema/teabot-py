@@ -38,7 +38,7 @@ rules = [
         "key": "7 - Help Guide | How to Help",
         "value": f"""1- If someone contacts you by private message, tell them to post their question inside the group to get a faster answer and everyone can benefit.
 2- If you want to share code, share it directly (check <https://teacode.ma/how-to-post-code> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
-3- Get connected to the `<#{categories['help-voice']}>` to get this role <@&{roles['help-room']}> which allows you to invite others and see the `<#{textChannels['help-chat']}>` channel 
+3- Get connected to the `🔉・Help Corner - Voice` to get this role <@&{roles['help-room']}> which allows you to invite others and see the `🧹・help-chat` channel 
 4- When there is more than one helper helping the same person, respect each other and **DO NOT** try to show that you're more skilled or better than the others, the main goal is to help the person asking to achieve the solution on his own, not competing against each other.
 5- Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>.
 6- If you help someone, try to guide the person asking for help, providing the final solution is prohibited.""",
@@ -48,15 +48,15 @@ rules = [
         "value": f"""1- Do not contact members by private message, the questions you have and the answers given can benefit everyone and you will be more likely to have a quick answer.
 2- If you have a problem or question, make sure to do a minimum of research before. This server is dedicated to mutual aid, but our role is not to do Google searches for you!
 3- Do not ask for solutions.
-4- Ask for help in the `<#{categories['help-text']}>` category and no where else. (*Otherwise the question will be deleted*)
-5- When you ask a question in the `<#{categories['help-text']}>`, include as many things as possible so that we can help you :
+4- Ask for help in the `💡・Help Corner - Text` category and no where else. (*Otherwise the question will be deleted*)
+5- When you ask a question in the `💡・Help Corner - Text`, include as many things as possible so that we can help you :
 	- Explain the error message (or lack of errors!) You get.
 	- Put a screenshot of the problem.
 	- Tell us your code or the problematic lines.
 6- If you want to share code, share it directly (check <https://teacode.ma/how-to-post-code> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
 7- Members who can/want to help regularly visit the Help rooms, so when you ask for help, **DO NOT mention someone or everyone** , instead 👉 mention the role tags (ex: in <#{textChannels['python']}> use `@Python` `@Django` ..... , in <#{textChannels['js']}> use `@NodeJs` `@ReactJs` .... etc).
 8- Do Not Post the same question in multiple channels.
-9- Get connected to the `<#{categories['help-voice']}>` to get this role <@&{roles['help-room']}> which allows you to invite others and see the `<#{textChannels['help-chat']}>` channel.
+9- Get connected to the `🔉・Help Corner - Voice` to get this role <@&{roles['help-room']}> which allows you to invite others and see the `🧹・help-chat` channel.
 10- Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>.
 11- Before asking your question visit these websites <https://dontasktoask.com/>, <https://xyproblem.info/>, <https://nohello.net/>.""",
     },
