@@ -7,20 +7,6 @@ def init_temporary(params):
 	
 	bot = params['bot']
 	discord = params['discord']
-	
-	@bot.slash_command(name = "roles-file")
-	async def roles_file(interaction):
-		json_filtered_members = []
-		for role in interaction.guild.roles:
-			object = {"role_name":role.id, "name":role.name, "position":role.position}
-			json_filtered_members.append(object)
-		json_filtered_members = sorted(json_filtered_members, key=lambda obj: obj['position'])
-		json_data = json.dumps(json_filtered_members)
-		with open("file.json", "w") as outfile:
-			outfile.write(json_data)
-		file = discord.File("file.json")
-		await interaction.send(file=file, ephemeral=True)
-		os.remove("file.json")
 
 
 	# tags_roles = {
@@ -81,16 +67,6 @@ def init_temporary(params):
 	# 		print(fch.name, len(tags_to_add))
 	# 		await fch.edit(available_tags=tags_to_add)
 
-
-	########## Fetch Bot Slash Cmmands ##########
-	# @bot.slash_command(name = "list-commands")
-	# async def fetch_commands(interaction):
-	# 	msg = ''
-	# 	for x in bot.slash_commands:
-	# 		msg += x.name + '\t\t' + x.callback.__name__ + '\n'
-	# 	await interaction.send(msg.strip())
-	# 	print(bot.help_command.cog.qualified_name)
-
 	########## MATCH 2 MEMBERS ############
 	@bot.slash_command(name = "make-pair")
 	async def make_pair(interaction, role: discord.Role = None):
@@ -113,27 +89,63 @@ def init_temporary(params):
 			print(ex)
 			await log_exception(ex, '/make_pair', interaction)
 
-	@bot.event
-	async def on_guild_scheduled_event_update(before, after):
-		try:
-			invite = await after.channel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=100, reason=f'Event Started Title : {after.name}')
-			event_invite_link = f'{invite}?event={after.id}'
-			if before.status != after.status:
-				channel = bot.get_channel(textChannels['general'])
-				guild = bot.get_guild(guildId)
-				if after.channel_id in voice_roles:
-					role = guild.get_role(voice_roles[after.channel_id])
-				else:
-					role = guild.get_role(roles['members'])
-				if after.status == discord.GuildScheduledEventStatus.active:
-					msg = f'🟢 Live : **{after.name}** / {role.mention}\nFeel free to join\n{event_invite_link}'
-					await channel.send(msg.strip())
-				elif after.status == discord.GuildScheduledEventStatus.completed:
-					msg = f'🟥 Event ended / {after.name}\nThank you for attending\nsee you soon 👋'
-					await channel.send(msg.strip())
-		except Exception as ex:
-			print('----- on_guild_scheduled_event_update(evt) -----')
-			print(ex)
-			await log_exception(ex, 'on_guild_scheduled_event_update(evt)', None, bot)
+	# @bot.event
+	# async def on_guild_scheduled_event_update(before, after):
+	# 	try:
+	# 		invite = await after.channel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=100, reason=f'Event Started Title : {after.name}')
+	# 		event_invite_link = f'{invite}?event={after.id}'
+	# 		if before.status != after.status:
+	# 			channel = bot.get_channel(textChannels['general'])
+	# 			guild = bot.get_guild(guildId)
+	# 			if after.channel_id in voice_roles:
+	# 				role = guild.get_role(voice_roles[after.channel_id])
+	# 			else:
+	# 				role = guild.get_role(roles['members'])
+	# 			if after.status == discord.GuildScheduledEventStatus.active:
+	# 				msg = f'🟢 Live : **{after.name}** / {role.mention}\nFeel free to join\n{event_invite_link}'
+	# 				await channel.send(msg.strip())
+	# 			elif after.status == discord.GuildScheduledEventStatus.completed:
+	# 				msg = f'🟥 Event ended / {after.name}\nThank you for attending\nsee you soon 👋'
+	# 				await channel.send(msg.strip())
+	# 	except Exception as ex:
+	# 		print('----- on_guild_scheduled_event_update(evt) -----')
+	# 		print(ex)
+	# 		await log_exception(ex, 'on_guild_scheduled_event_update(evt)', None, bot)
 
 
+	@bot.slash_command(name = "category-channels-delete")
+	async def category_channels_delete(interaction, category: discord.CategoryChannel, delete_channels:int = 0):
+		msg_r = ''
+		if delete_channels:
+			msg_r = await remove_channels(category.channels);
+		await category.delete()
+		msg_r = f"Category deleted\n{msg_r}"
+		await interaction.send(msg_r, ephemeral=True)
+		
+	
+	@bot.slash_command(name = "channel-bulk-delete")
+	async def channel_bulk_delete(interaction, channels):
+		msg_r = await remove_channels(channels);
+		await interaction.send(msg_r, ephemeral=True)
+
+
+	async def remove_channels(channels):
+		msg_r = 'Channels deleted'
+		if isinstance(channels, str):
+			channels = split_str(channels)
+		msg_err = None
+		for channel in channels:
+			channel_name = '-----'
+			try:
+				if isinstance(channel, str):			
+					channel = channel.replace('<#', '').replace('>', '')
+					channel = bot.get_channel(int(channel))
+				if channel:
+					channel_name = channel.name
+					await channel.delete()
+				else: msg_err += f'\nChannel do not exist'
+			except Exception as ex:
+				print(str(ex))
+				msg_err += f'\n{channel_name} Not deleted'
+		if msg_err: msg_r += f'\nExcept : \n{msg_err}'
+		return msg_r
