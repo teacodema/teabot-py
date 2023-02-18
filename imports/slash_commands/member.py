@@ -7,6 +7,7 @@ def init_slash_commands_member(params):
 	
 	bot = params['bot']
 	discord = params['discord']	
+	commands = params['commands']
 
 	@bot.slash_command(name="member")
 	async def member(inter):
@@ -33,9 +34,10 @@ def init_slash_commands_member(params):
 			print(ex)
 			await log_exception(ex, '/tc_welcome', interaction)
 
+	operators = ["less than", "more than"]
 	######################## CHECK UNASSIGNED MEMBERS ########################
 	@member.sub_command(name = "check-new-members")
-	async def tc_check_new_members(interaction, nr:int=1, do:int=0):
+	async def tc_check_new_members(interaction, operator = commands.Param(choices=operators), nr:int=1, do:int=0):
 		"""
 		Check new membership period
 		Parameters
@@ -47,7 +49,8 @@ def init_slash_commands_member(params):
 			guild = interaction.guild
 			if nr <= 0: nr = 1
 			def count_roles(member):
-				return (len(member.roles) <= nr + 1)
+				if operator == "less than": return (len(member.roles) < nr + 1)
+				if operator == "more than": return (len(member.roles) > nr + 1)
 			users = list(filter(count_roles, guild.members))
 
 			_roles = [
