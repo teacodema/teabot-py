@@ -230,7 +230,7 @@ def init_slash_commands_message(params):
 				target_members += role.members
 
 			if len(target_members):
-				log_thread = send_bulk_dm(interaction, target_members, log_thread, msg)
+				log_thread = await send_bulk_dm(interaction, target_members, log_thread, msg)
 
 				notifyMe = f'\n__Content__\n'
 				await log_thread.send(notifyMe)
