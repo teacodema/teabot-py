@@ -86,6 +86,7 @@ def init_slash_commands_scheduled_event(params):
 		----------
 		event_id: Event ID
 		flag: values canceled / completed / active
+		send_message: send dm to subscribers when event is Live
 		"""
 		try:
 			if flag not in flags: 
