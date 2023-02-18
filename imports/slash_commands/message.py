@@ -8,9 +8,13 @@ def init_slash_commands_message(params):
 	discord = params['discord']
 	commands = params['commands']
 
+	@bot.slash_command(name="message")
+	async def message(inter):
+		pass
+
 	keys = [ rule['key'] for rule in rules ]
 	######### RULES ########
-	@bot.slash_command(name = "tag-rule")
+	@message.sub_command(name = "tag-rule")
 	async def tag_rules(interaction, query=commands.Param(choices=keys)):
 		"""
 		Reminde with a rule
@@ -31,7 +35,7 @@ def init_slash_commands_message(params):
 			print(ex)
 			await log_exception(ex, '/tag_rules', interaction)
 
-	@bot.slash_command(name = "poll")
+	@message.sub_command(name = "poll")
 	async def poll(interaction, header, options, emojis, channel:discord.TextChannel = None):
 		"""
 		Make a poll
@@ -61,7 +65,7 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/poll', interaction)
 
 	######################## PURGE ########################
-	@bot.slash_command(name = "purge")
+	@message.sub_command(name = "purge")
 	async def purge(interaction, limit: int=None):
 		"""
 		Clear all messages
@@ -108,37 +112,8 @@ def init_slash_commands_message(params):
 			print(ex)
 			await log_exception(ex, '/purge', interaction)
 
-	####################### MAKE A WEBHOOK #######################
-	@bot.slash_command(name = "make-webhook")
-	async def tc_make_webhook(interaction, member: discord.Member, channel: discord.abc.GuildChannel, msg, name=None):
-		"""
-		Make a webhook - \\n \\t /$
-		Parameters
-		----------
-		member: Server existing member
-		msg: Message to send by the webhook - \\n \\t /$
-		channel: Channel where to send the msg
-		name: Webhook name
-		"""
-		try:
-			if channel.category == None:
-				await interaction.send('This is probably a category ⚠', ephemeral=True)
-				return
-			if name == None:
-				name = member.display_name
-			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
-			webhook = await channel.create_webhook(name=name)
-			await webhook.send(f'{msg}', username=name, avatar_url=member.display_avatar.url)
-			await webhook.delete()
-			await interaction.send('✅ Webhook made', ephemeral=True)
-		except Exception as ex:
-			await interaction.send('❌ Webhook not made', ephemeral=True)
-			print('----- /tc_make_webhook() -----')
-			print(ex)
-			await log_exception(ex, '/tc_make_webhook', interaction)
-	
 	######################## REPLY TO MSG ########################
-	@bot.slash_command(name = "edit-msg-channel")
+	@message.sub_command(name = "edit")
 	async def tc_edit_msg_channel(interaction, content, msg_id, channel: discord.abc.GuildChannel, pin: int=0):
 		"""
 		Edit message channel - \\n \\t /$
@@ -166,7 +141,7 @@ def init_slash_commands_message(params):
 
 
 	######################## REPLY TO MSG ########################
-	@bot.slash_command(name = "reply-channel")
+	@message.sub_command(name = "reply")
 	async def tc_reply_channel(interaction, reply, msg_id, channel: discord.abc.GuildChannel):
 		"""
 		Reply to msg channel - \\n \\t /$
@@ -191,7 +166,7 @@ def init_slash_commands_message(params):
 
 
 	######################## SEND MSG TO CHANNEL ########################
-	@bot.slash_command(name = "msg-channel")
+	@message.sub_command(name = "channel")
 	async def tc_msg_channel(interaction, msg, channel: discord.abc.GuildChannel, pin: int=0):
 		"""
 		Send msg to channel - \\n \\t /$
@@ -217,7 +192,7 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/tc_msg_channel', interaction)
 
 	######################## SEND MSG TO MEMBER ########################
-	@bot.slash_command(name = "msg-member")
+	@message.sub_command(name = "member")
 	async def tc_msg_member(interaction, msg, member: discord.Member = None, role: discord.Role = None, members = None):
 		"""
 		Send msg to member/role - \\n \\t /$
@@ -255,21 +230,7 @@ def init_slash_commands_message(params):
 				target_members += role.members
 
 			if len(target_members):
-				for m in target_members:
-					try:
-						_sentMsg = await send_dm_msg(interaction, msg, m)
-						notifyMe = '─────────────────'
-						if _sentMsg:
-							notifyMe += f'\nmessage ID : {_sentMsg.id}'
-							notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-							notifyMe += f'\nMember: {m.mention} / {m.name}#{m.discriminator}'
-						else: notifyMe += f'\nIssue with this member {m.mention} / {m.name}#{m.discriminator}'
-						notifyMe += '\n--------------'
-						await log_thread.send(notifyMe)
-					except Exception as ex:
-						print('----- /msg_member() -----')
-						print(ex)
-						pass
+				log_thread = send_bulk_dm(interaction, target_members, log_thread, msg)
 
 				notifyMe = f'\n__Content__\n'
 				await log_thread.send(notifyMe)
@@ -282,7 +243,7 @@ def init_slash_commands_message(params):
 			await log_exception(ex, '/tc_msg_member', interaction)
 
 	######################## DELETE A MSG ########################
-	@bot.slash_command(name = "remove-msg")
+	@message.sub_command(name = "remove")
 	async def tc_remove_msg(interaction, msg_ids, channel_id):
 		"""
 		Delete msg from public/private - ,

@@ -2,6 +2,24 @@ from datetime import datetime
 from imports.data_server.config import *
 from imports.actions.common import *
 
+async def send_bulk_dm(interaction, members, log_thread, msg):
+	for m in members:
+		try:
+			_sentMsg = await send_dm(interaction, msg, m)
+			notifyMe = '─────────────────'
+			if _sentMsg:
+				notifyMe += f'\nmessage ID : {_sentMsg.id}'
+				notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+				notifyMe += f'\nMember: {m.mention} / {m.name}#{m.discriminator}'
+			else: notifyMe += f'\nIssue with this member {m.mention} / {m.name}#{m.discriminator}'
+			notifyMe += '\n--------------'
+			await log_thread.send(notifyMe)
+		except Exception as ex:
+			print('----- /msg_member() -----')
+			print(ex)
+			pass
+	return log_thread
+
 def get_message_content(msg):
 	return f'{"--Sticker | Empty--" if (msg.content == "") else msg.content}'
 
@@ -108,17 +126,17 @@ async def check_spam(params, message):
 	return spam
 
 
-async def send_dm_msg(interaction, message, member):
+async def send_dm(interaction, message, member):
 	try:
 		channel = member.dm_channel
 		if channel == None:
 			channel = await member.create_dm()
 		return await channel.send(message)
 	except Exception as ex:
-		print('----- send_dm_msg() -----')
+		print('----- send_dm() -----')
 		print(ex)
 		msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
-		await log_exception(ex, 'send_dm_msg()', interaction, None, True, msg)
+		await log_exception(ex, 'send_dm()', interaction, None, True, msg)
 		return None
 
 def isNotPinned(msg):

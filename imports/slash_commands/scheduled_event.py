@@ -4,6 +4,7 @@ import dateutil.relativedelta as drel
 from datetime import timedelta, timezone
 from imports.data_common.config import *
 from imports.actions.common import *
+from imports.actions.message import *
 
 def init_slash_commands_scheduled_event(params):
 	
@@ -11,8 +12,11 @@ def init_slash_commands_scheduled_event(params):
 	discord = params['discord']
 	commands = params['commands']
 
+	@bot.slash_command(name="event")
+	async def event(inter):
+		pass
 
-	@bot.slash_command(name = "event-fetch")
+	@event.sub_command(name = "fetch")
 	async def get_events_by_name(interaction, name):
 		"""
 		Get event by name
@@ -39,7 +43,7 @@ def init_slash_commands_scheduled_event(params):
 			await log_exception(ex, '/get_events_by_name', interaction)
 
 
-	@bot.slash_command(name = "event-subscribers")
+	@event.sub_command(name = "subscribers")
 	async def event_subscribers(interaction, event_id, role: discord.Role = None):
 		"""
 		Get event subscribers
@@ -74,8 +78,8 @@ def init_slash_commands_scheduled_event(params):
 	
 	
 	flags = ["canceled", "completed", "active"]
-	@bot.slash_command(name = "event-edit-status")
-	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags)):
+	@event.sub_command(name = "edit-status")
+	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0):
 		"""
 		Edit the even status
 		Parameters
@@ -103,6 +107,17 @@ def init_slash_commands_scheduled_event(params):
 			if event.status == _status[flag]: 
 				await interaction.send('⚠ Status already edited', ephemeral=True)
 				return
+				
+			if flag == 'active' and send_message:
+				subscribers = await event.fetch_users().flatten()
+				channel = bot.get_channel(textChannels['log-dms'])
+				log_thread = await make_thread(channel, f"✉ DM/ ==▷ 🎭 / 👤")
+				msg_dm = f"The event you subscribed to is :\n\n🔹 Live Now : **{event.name}**\nClick to join : {event.url}"
+				log_thread = await send_bulk_dm(interaction, subscribers, log_thread, msg_dm)
+				notifyMe = f'\n__Content__\n'
+				await log_thread.send(notifyMe)
+				await log_thread.send(msg_dm.strip())
+				await log_thread.edit(archived=True)
 			
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
@@ -112,7 +127,7 @@ def init_slash_commands_scheduled_event(params):
 			await log_exception(ex, '/event_edit_status', interaction)
 
 	
-	@bot.slash_command(name = "event-delete")
+	@event.sub_command(name = "delete")
 	async def event_delete_between_dates(interaction, name, from_date, to_date):
 		"""
 		Deleting events created with name between 2 dates
@@ -144,7 +159,7 @@ def init_slash_commands_scheduled_event(params):
 			await log_exception(ex, '/event_delete_between_dates', interaction)
 
 
-	@bot.slash_command(name = "event-create")
+	@event.sub_command(name = "create")
 	async def event_create(interaction, name, channel:discord.VoiceChannel, scheduled_start_time, description=None, image_url=None, every_n_weeks:int=None, recurrence:int=None):
 		"""
 		Create scheduled event - \\n \\t /$
