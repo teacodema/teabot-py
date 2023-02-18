@@ -7,8 +7,8 @@ def init_events_slash_commands(params):
 
 	@bot.slash_command_check
 	async def check_slash_command(interaction):
-		# print(inter.application_command.name)
-		# print(inter.application_command.callback.__name__)
+		if interaction.application_command.parent == None:
+			return True
 		cmd_name = interaction.application_command.qualified_name
 		if should_send_ephemeral_msg(cmd_name):
 			await interaction.send(f"🔃 @teabot is thinking...", ephemeral=True)

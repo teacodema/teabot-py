@@ -7,7 +7,12 @@ def init_slash_commands_reaction(params):
 	bot = params['bot']
 	discord = params['discord']
 
-	@bot.slash_command(name = "bot-reacts")
+
+	@bot.slash_command(name="reaction")
+	async def reaction(interaction):
+		pass
+	
+	@reaction.sub_command(name = "bot-reacts")
 	async def tc_bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
 		"""
 		Add/Remove reaction to/from msg - ,
@@ -36,7 +41,7 @@ def init_slash_commands_reaction(params):
 			print(ex)
 			await log_exception(ex, '/tc_bot_react', interaction)
 			
-	@bot.slash_command(name = "update-roles-reactions")
+	@reaction.sub_command(name = "update-roles-reactions")
 	async def tc_update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
 		"""
 		Update existing role-reactions in case the bot was offline
@@ -67,7 +72,7 @@ def init_slash_commands_reaction(params):
 			await log_exception(ex, '/tc_update_roles_reactions', interaction)
 
 			
-	@bot.slash_command(name = "get-msg-reactions")
+	@reaction.sub_command(name = "get-msg-reactions")
 	async def tc_get_message_reactions(interaction, msg_id, role: discord.Role = None):
 		"""
 		Get users who reacted to a message
