@@ -1,4 +1,3 @@
-from imports.data_common.rules import *
 from imports.actions.common import *
 from imports.actions.message import *
 
@@ -11,29 +10,6 @@ def init_slash_commands_message(params):
 	@bot.slash_command(name="message")
 	async def message(inter):
 		pass
-
-	keys = [ rule['key'] for rule in rules ]
-	######### RULES ########
-	@message.sub_command(name = "tag-rule")
-	async def tag_rules(interaction, query=commands.Param(choices=keys)):
-		"""
-		Reminde with a rule
-		Parameters
-		----------
-		query: Choose a predefined rule by key
-		"""
-		try:
-			if query not in keys:
-				await interaction.send('⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
-				return
-			rule = next(item for item in rules if item["key"] == query)
-			# rule_index = rules.index(rule) + 1
-			msg = f'**{query} :**\n{rule["value"]}'
-			await interaction.send(msg.strip())
-		except Exception as ex:
-			print('----- /tag_rules() -----')
-			print(ex)
-			await log_exception(ex, '/tag_rules', interaction)
 
 	@message.sub_command(name = "poll")
 	async def poll(interaction, header, options, emojis, channel:discord.TextChannel = None):

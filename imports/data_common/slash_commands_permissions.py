@@ -1,10 +1,10 @@
 slash_commands_permissions = {
     'members': [
-        'server info', 'role info', 'member info',
+        'info server', 'info role', 'info member',
         'fun janken',
-        'message tag-rule',
-        'play', 'replay', 'pause', 'resume', 'previous', 'next', 'stop',
-        'track', 'queue', 'clear-queue', 'refresh', 'leave',
+        'guide tag-rule',
+        'audio play', 'audio replay', 'audio pause', 'audio resume', 'audio previous', 'audio next', 'audio stop',
+        'audio track', 'audio queue', 'audio clear', 'audio refresh', 'audio leave',
     ],
     'hosts': [
         'member pick-speaker',
@@ -12,16 +12,16 @@ slash_commands_permissions = {
     'staff': [
         'message purge',
         'member pick-speaker', 'message poll',
-        'member check-new-members', 'member update-new-members',
-        'member toggle-role', 'member toggle-roles-members',
+        'member check-new', 'member update-new',
+        'member toggle-role', 'member toggle-roles',
         'event subscribers', 'event create',
         'channel voice-clone',
     ],
 	'root': [
         'member welcome',
-        'channel hide', 'channel lock', 'channel voice-delete', 'channel channel-info',
+        'channel hide', 'channel lock', 'channel voice-delete', 'channel info',
         'thread archive', 'thread delete',
-        'fun make-webhook', 'message member', 'message channel', 'message edit',
+        'member make-webhook', 'message member', 'message channel', 'message edit',
         'message reply', 'message remove',
         'reaction bot-reacts', 'reaction update-roles-reactions', 'reaction get-msg-reactions',
         'member has-role', 'role update-position', 'role fetch',
@@ -30,4 +30,4 @@ slash_commands_permissions = {
     ],
 }
 
-dontSendEphemeralMsg = ['tag-rule']
+dontSendEphemeralMsg = ['guide tag-rule']

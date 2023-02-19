@@ -16,7 +16,8 @@ from imports.events.slash_commands import *
 from imports.events.scheduled_event import *
 from imports.events.thread import *
 
-from imports.slash_commands.server import *
+from imports.slash_commands.info import *
+from imports.slash_commands.guide import *
 from imports.slash_commands.message import *
 from imports.slash_commands.reaction import *
 # from imports.slash_commands.voice import *
@@ -58,6 +59,7 @@ def init_events():
 
 def init_slash_commands():
 	init_slash_commands_info(params)
+	init_slash_commands_guide(params)
 	init_slash_commands_message(params)
 	init_slash_commands_reaction(params)
 	# init_slash_commands_voice(params)

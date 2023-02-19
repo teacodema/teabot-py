@@ -31,8 +31,13 @@ def init_slash_commands_audio(params):
 									'preferredquality': '128',
 							}]}
 
+	
+	@bot.slash_command(name="audio")
+	async def audio(inter):
+		pass
+	
 	######################## PLAY ########################
-	@bot.slash_command(name = "play")
+	@audio.sub_command(name = "play")
 	async def play(ctx, url=None):
 		"""
 		Play a YouTube url / Search term / Existing playlist
@@ -188,7 +193,7 @@ def init_slash_commands_audio(params):
 			print(ex)
 
 	######################## CURRENT ########################
-	@bot.slash_command(name = "track", description = "Show current playing track")
+	@audio.sub_command(name = "track", description = "Show current playing track")
 	async def current_track(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist
@@ -218,7 +223,7 @@ def init_slash_commands_audio(params):
 
 
 	######################## PLAYLIST ########################
-	@bot.slash_command(name = "queue", description = "Show the queue")
+	@audio.sub_command(name = "queue", description = "Show the queue")
 	async def queue(ctx):
 		try:
 			nonlocal playlist
@@ -233,7 +238,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/queue', ctx)
 
 	######################## REPLAY ########################
-	@bot.slash_command(name = "replay", description = "Replay current track")
+	@audio.sub_command(name = "replay", description = "Replay current track")
 	async def replay(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -262,7 +267,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/replay', ctx)
 
 	######################## NEXT ########################
-	@bot.slash_command(name = "next", description = "Play next track")
+	@audio.sub_command(name = "next", description = "Play next track")
 	async def next(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -294,7 +299,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/next', ctx)
 
 	######################## PREVIOUS ########################
-	@bot.slash_command(name = "previous", description = "Play previous track")
+	@audio.sub_command(name = "previous", description = "Play previous track")
 	async def previous(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -326,7 +331,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/previous', ctx)
 
 	######################## PAUSE ########################
-	@bot.slash_command(name = "pause", description = "Pause the player")
+	@audio.sub_command(name = "pause", description = "Pause the player")
 	async def pause(ctx):
 		try:
 			vc = isUserConnected(ctx)
@@ -345,7 +350,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/pause', ctx)
 
 	######################## RESUME ########################
-	@bot.slash_command(name = "resume", description = "Resume the player")
+	@audio.sub_command(name = "resume", description = "Resume the player")
 	async def resume(ctx):
 		try:
 			vc = isUserConnected(ctx)
@@ -364,7 +369,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/resume', ctx)
 
 	######################## STOP ########################
-	@bot.slash_command(name = "stop", description = "Stop the player")
+	@audio.sub_command(name = "stop", description = "Stop the player")
 	async def stop(ctx):
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
@@ -388,7 +393,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/stop', ctx)
 
 	######################## LEAVE ########################
-	@bot.slash_command(name = "leave", description = "Disconnect the bot from the voice room")
+	@audio.sub_command(name = "leave", description = "Disconnect the bot from the voice room")
 	async def leave(ctx):
 		try:
 			# player_params['current_played'] = None
@@ -405,7 +410,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/leave', ctx)
 
 	######################## CLEAR PLAYLIST ########################
-	@bot.slash_command(name = "clear-queue", description = "Flushes the queue")
+	@audio.sub_command(name = "clear-queue", description = "Flushes the queue")
 	async def clear_queue(ctx):
 		try:
 			nonlocal playlist
@@ -421,7 +426,7 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/clear-queue', ctx)
 
 	######################## REFRESH LIST ########################
-	@bot.slash_command(name = "refresh", description = "Refill the queue with some tracks")
+	@audio.sub_command(name = "refresh", description = "Refill the queue with some tracks")
 	async def refresh(ctx):
 		try:
 			nonlocal playlist

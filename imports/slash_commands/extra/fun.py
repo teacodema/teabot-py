@@ -70,34 +70,3 @@ def init_slash_commands_fun(params):
 			print('----- /janken() -----')
 			print(ex)
 			await log_exception(ex, '/janken', interaction)
-
-
-	####################### MAKE A WEBHOOK #######################
-	@fun.sub_command(name = "make-webhook")
-	async def tc_make_webhook(interaction, member: discord.Member, channel: discord.abc.GuildChannel, msg, name=None):
-		"""
-		Make a webhook - \\n \\t /$
-		Parameters
-		----------
-		member: Server existing member
-		msg: Message to send by the webhook - \\n \\t /$
-		channel: Channel where to send the msg
-		name: Webhook name
-		"""
-		try:
-			if channel.category == None:
-				await interaction.send('This is probably a category ⚠', ephemeral=True)
-				return
-			if name == None:
-				name = member.display_name
-			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
-			webhook = await channel.create_webhook(name=name)
-			await webhook.send(f'{msg}', username=name, avatar_url=member.display_avatar.url)
-			await webhook.delete()
-			await interaction.send('✅ Webhook made', ephemeral=True)
-		except Exception as ex:
-			await interaction.send('❌ Webhook not made', ephemeral=True)
-			print('----- /tc_make_webhook() -----')
-			print(ex)
-			await log_exception(ex, '/tc_make_webhook', interaction)
-	

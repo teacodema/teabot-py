@@ -96,7 +96,7 @@ def init_slash_commands_channel(params):
 			print(ex)
 			await log_exception(ex, '/delete_voice_channel', interaction)
 
-	@channel.sub_command(name = "channel-info")
+	@channel.sub_command(name = "info")
 	async def channel_info(interaction, channel: discord.abc.GuildChannel):
 		"""
 		Get channel info/stats
@@ -113,7 +113,6 @@ def init_slash_commands_channel(params):
 			embed.add_field(name="Channel Name", value=channel.name, inline=True)
 			embed.add_field(name="Channel Type", value=channel.type, inline=True)
 			if hasattr(channel, 'category') and channel.category:
-				print(channel.category)
 				embed.add_field(name="Category", value=channel.category.name, inline=True)
 			embed.add_field(name="Created", value=created_at, inline=True)
 			if hasattr(channel, 'members'): 

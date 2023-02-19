@@ -8,6 +8,9 @@ def init_temporary(params):
 	bot = params['bot']
 	discord = params['discord']
 
+	@bot.slash_command(name="temp")
+	async def temp(inter):
+		pass
 
 	# tags_roles = {
 	# 	'frontend': [
@@ -68,7 +71,7 @@ def init_temporary(params):
 	# 		await fch.edit(available_tags=tags_to_add)
 
 	########## MATCH 2 MEMBERS ############
-	@bot.slash_command(name = "make-pair")
+	@temp.sub_command(name = "make-pair")
 	async def make_pair(interaction, role: discord.Role = None):
 		try:
 			voice = interaction.author.voice
@@ -113,7 +116,7 @@ def init_temporary(params):
 	# 		await log_exception(ex, 'on_guild_scheduled_event_update(evt)', None, bot)
 
 
-	@bot.slash_command(name = "category-channels-delete")
+	@temp.sub_command(name = "category-channels-delete")
 	async def category_channels_delete(interaction, category: discord.CategoryChannel, delete_channels:int = 0):
 		msg_r = ''
 		if delete_channels:
@@ -123,7 +126,7 @@ def init_temporary(params):
 		await interaction.send(msg_r, ephemeral=True)
 		
 	
-	@bot.slash_command(name = "channel-bulk-delete")
+	@temp.sub_command(name = "channel-bulk-delete")
 	async def channel_bulk_delete(interaction, channels):
 		msg_r = await remove_channels(channels);
 		await interaction.send(msg_r, ephemeral=True)

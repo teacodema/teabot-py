@@ -36,7 +36,7 @@ def init_slash_commands_member(params):
 
 	operators = ["less than", "more than"]
 	######################## CHECK UNASSIGNED MEMBERS ########################
-	@member.sub_command(name = "check-new-members")
+	@member.sub_command(name = "check-new")
 	async def tc_check_new_members(interaction, operator = commands.Param(choices=operators), nr:int=1, do:int=0):
 		"""
 		Check new membership period
@@ -79,7 +79,7 @@ def init_slash_commands_member(params):
 			await log_exception(ex, '/tc_check_new_members', interaction)
 
 	######################## CHECK NEWMEMBERSHIP PERIODE ########################
-	@member.sub_command(name = "update-new-members")
+	@member.sub_command(name = "update-new")
 	async def tc_update_new_members(interaction, do:int=0):
 		"""
 		Check new-membership period
@@ -134,7 +134,7 @@ def init_slash_commands_member(params):
 			await log_exception(ex, '/tc_toggle_role', interaction)
 
 	######################## ROLE TO MEMBERS ########################
-	@member.sub_command(name = "toggle-roles-members")
+	@member.sub_command(name = "toggle-roles")
 	async def tc_toggle_roles_members(interaction, roles, members, assign: int = 1):
 		"""
 		Toggle multiple roles to multiple members - ,
@@ -225,47 +225,6 @@ def init_slash_commands_member(params):
 			print(ex)
 			await log_exception(ex, '/tc_members_has_role', interaction)
 
-	######################## MEMBER INFO ########################
-	@member.sub_command(name = "info")
-	async def member_info(interaction, member: discord.Member = None):
-		"""
-		Get member info/stats
-		Parameters
-		----------
-		member: Server existing member
-		"""
-		try:
-			if member == None or member == interaction.author:
-				member = interaction.author
-			# else:
-			# 	action_name = inspect.stack()[0][3]
-			# 	if not is_allowed(interaction, action_name):
-			# 		await interaction.send('❌ You can only see your data')
-			# 		member = interaction.author
-
-			created_at = getTimeUtcPlusOne(member.created_at, "%A, %B %d, %Y - %H:%M")
-			joined_at = getTimeUtcPlusOne(member.joined_at, "%A, %B %d, %Y - %H:%M")
-
-			embed = discord.Embed(title=member.display_name, description="", color=member.color)
-			embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.display_avatar)
-			embed.set_thumbnail(url=member.display_avatar)
-			embed.add_field(name="User Name", value=member.name, inline=True)
-			embed.add_field(name="Nick Name", value=member.nick, inline=True)
-			embed.add_field(name="Display Name", value=member.display_name, inline=True)
-			embed.add_field(name="Joined", value=joined_at, inline=True)
-			embed.add_field(name="Registred", value=created_at, inline=True)
-			embed.add_field(name="Top Role", value=f'{member.top_role.mention}', inline=True)
-			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
-			embed.add_field(name="Mention", value=member.mention, inline=True)
-			embed.add_field(name="Color", value=member.color, inline=True)
-			# embed.set_footer(text=f"ID : {member.id}")
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await interaction.send(embed=embed, ephemeral=True)
-		except Exception as ex:
-			print('----- /member-info() -----')
-			print(ex)
-			await log_exception(ex, '/member-info', interaction)
-
 	######### PICK RANDOM USER #######
 	@member.sub_command(name = "pick-speaker", description = "Choose a random speaker - (events only !!)")
 	async def pick_speaker(interaction):
@@ -290,3 +249,34 @@ def init_slash_commands_member(params):
 			print('----- /pick_speaker() -----')
 			print(ex)
 			await log_exception(ex, '/pick_speaker', interaction)
+
+
+	####################### MAKE A WEBHOOK #######################
+	@member.sub_command(name = "make-webhook")
+	async def tc_make_webhook(interaction, member: discord.Member, channel: discord.abc.GuildChannel, msg, name=None):
+		"""
+		Make a webhook - \\n \\t /$
+		Parameters
+		----------
+		member: Server existing member
+		msg: Message to send by the webhook - \\n \\t /$
+		channel: Channel where to send the msg
+		name: Webhook name
+		"""
+		try:
+			if channel.category == None:
+				await interaction.send('This is probably a category ⚠', ephemeral=True)
+				return
+			if name == None:
+				name = member.display_name
+			msg = replace_str(msg, {"\\n": "\n", "\\t": "	", "/$": " "})
+			webhook = await channel.create_webhook(name=name)
+			await webhook.send(f'{msg}', username=name, avatar_url=member.display_avatar.url)
+			await webhook.delete()
+			await interaction.send('✅ Webhook made', ephemeral=True)
+		except Exception as ex:
+			await interaction.send('❌ Webhook not made', ephemeral=True)
+			print('----- /tc_make_webhook() -----')
+			print(ex)
+			await log_exception(ex, '/tc_make_webhook', interaction)
+	
