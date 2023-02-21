@@ -197,28 +197,33 @@ def init_slash_commands_member(params):
 			
 			count = len(filtered_members)
 			msg = f"These members({count}) {verb} this role {role.mention}\n"
-			send_file = False
-			MAX_COUNT = 50
-			if count > MAX_COUNT:
-				send_file = True
-			else:
-				for member in filtered_members:
-					msg += f'{member.mention} , '
-				if len(msg) >= 2000: send_file = True
+			# send_file = False
+			# MAX_COUNT = 50
+			for member in filtered_members:
+				msg += f'{member.mention} , '
+				if len(msg) > 1800:
+					await interaction.send(msg, ephemeral=True)
+					msg = ''
+			# if count > MAX_COUNT:
+			# 	send_file = True
+			# else:
+			# 	for member in filtered_members:
+			# 		msg += f'{member.mention} , '
+			# 	if len(msg) >= 2000: send_file = True
 			
-			if not send_file:
-				await interaction.send(msg.strip(), ephemeral=True)
-			else:
-				json_filtered_members = []
-				for member in filtered_members:
-					object = {"id":member.id, "name":member.name , "mention": member.mention, "display_name": member.display_name}
-					json_filtered_members.append(object)
-				json_data = json.dumps(json_filtered_members)
-				with open("file.json", "w") as outfile:
-					outfile.write(json_data)
-				file = discord.File("file.json")
-				await interaction.send(content=msg.strip(), file=file, ephemeral=True)
-				os.remove("file.json")
+			# if not send_file:
+			# 	await interaction.send(msg.strip(), ephemeral=True)
+			# else:
+			# 	json_filtered_members = []
+			# 	for member in filtered_members:
+			# 		object = {"id":member.id, "name":member.name , "mention": member.mention, "display_name": member.display_name}
+			# 		json_filtered_members.append(object)
+			# 	json_data = json.dumps(json_filtered_members)
+			# 	with open("file.json", "w") as outfile:
+			# 		outfile.write(json_data)
+			# 	file = discord.File("file.json")
+			# 	await interaction.send(content=msg.strip(), file=file, ephemeral=True)
+			# 	os.remove("file.json")
 
 		except Exception as ex:
 			print('----- /tc_members_has_role() -----')
