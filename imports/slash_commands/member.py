@@ -196,14 +196,16 @@ def init_slash_commands_member(params):
 			filtered_members = list(filtered_members)
 			
 			count = len(filtered_members)
-			msg = f"These members({count}) {verb} this role {role.mention}\n"
+			msg = ''
 			# send_file = False
 			# MAX_COUNT = 50
 			for member in filtered_members:
 				msg += f'{member.mention} , '
 				if len(msg) > 1800:
-					await interaction.send(msg, ephemeral=True)
+					await interaction.send(msg.strip(), ephemeral=True)
 					msg = ''
+			msg += f"\n\nThese members({count}) {verb} this role {role.mention}\n"
+			await interaction.send(msg.strip(), ephemeral=True)
 			# if count > MAX_COUNT:
 			# 	send_file = True
 			# else:
