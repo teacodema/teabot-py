@@ -40,7 +40,7 @@ def init_slash_commands_scheduled_event(params):
 				for e in events:
 					end_time = f'{getTimeUtcPlusOne(e.scheduled_end_time, "%d %B %Y - %H:%M") if e.scheduled_end_time else "--"}'
 					user_count = f'{e.user_count if e.user_count else 0}'
-					msg += f'\n\tChannel : {e.id} / `{e.name}` in <#{e.channel.name}>'
+					msg += f'\n\tChannel : {e.id} / `{e.name}` in <#{e.channel.id}>'
 					msg += f'\n\tDateTime : {getTimeUtcPlusOne(e.scheduled_start_time, "%d %B %Y - %H:%M")} ➜ {end_time}'
 					msg += f'\n\tSubscribers : {user_count} subs / by <@{e.creator_id}>'
 					event_status = {i for i in _status if _status[i]==e.status}.pop()
