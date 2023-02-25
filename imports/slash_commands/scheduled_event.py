@@ -11,6 +11,12 @@ def init_slash_commands_scheduled_event(params):
 	bot = params['bot']
 	discord = params['discord']
 	commands = params['commands']
+	_status = {
+		"canceled": discord.GuildScheduledEventStatus.canceled,
+		"completed": discord.GuildScheduledEventStatus.completed,
+		"active": discord.GuildScheduledEventStatus.active,
+		"scheduled": discord.GuildScheduledEventStatus.scheduled,
+	}
 
 	@bot.slash_command(name="event")
 	async def event(inter):
@@ -30,11 +36,15 @@ def init_slash_commands_scheduled_event(params):
 			if len(events) == 0:
 				msg = f'No event found with name : {name}'
 			else:
-				msg = f'Events found {len(events)} for `{name}`:'
+				msg = f'Events found for `{name}`: {len(events)}'
 				for e in events:
 					end_time = f'{getTimeUtcPlusOne(e.scheduled_end_time, "%d %B %Y - %H:%M") if e.scheduled_end_time else "--"}'
 					user_count = f'{e.user_count if e.user_count else 0}'
-					msg += f'\n{e.id} / `{e.name}` in <#{e.channel.id}> / {getTimeUtcPlusOne(e.scheduled_start_time, "%d %B %Y - %H:%M")} ➜ {end_time} / {user_count} subs / by <@{e.creator_id}>'
+					msg += f'\n\tChannel : {e.id} / `{e.name}` in <#{e.channel.name}>'
+					msg += f'\n\tDateTime : {getTimeUtcPlusOne(e.scheduled_start_time, "%d %B %Y - %H:%M")} ➜ {end_time}'
+					msg += f'\n\tSubscribers : {user_count} subs / by <@{e.creator_id}>'
+					event_status = {i for i in _status if _status[i]==e.status}.pop()
+					msg += f'\n\tStatus : {event_status}'
 					msg += '\n-------------------'
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
@@ -91,12 +101,6 @@ def init_slash_commands_scheduled_event(params):
 		try:
 			if flag not in flags: 
 				await interaction.send(f'⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
-			_status = {
-				"canceled": discord.GuildScheduledEventStatus.canceled,
-				"completed": discord.GuildScheduledEventStatus.completed,
-				"active": discord.GuildScheduledEventStatus.active,
-				"scheduled": discord.GuildScheduledEventStatus.scheduled,
-			}
 			event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
 
 			if flag == 'completed' and event.status == _status['scheduled']:
