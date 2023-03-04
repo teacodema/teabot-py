@@ -22,7 +22,7 @@ def init_events_slash_commands(params):
 	async def on_slash_command(interaction):
 		msg = '──────────────────────'
 		msg += '\n------- on_slash_command -------'
-		msg += f'\nCommand : {interaction.application_command.name} / {interaction.application_command.callback.__name__}'
+		msg += f'\nCommand : {interaction.application_command.qualified_name} / {interaction.application_command.callback.__name__}'
 		msg += f'\nDescription : {interaction.application_command.body.description}'
 		msg += f'\nChannel : {interaction.channel.mention}'
 		user_mention = await toggle_user_mention(bot, interaction.author, roles['root'], True)
