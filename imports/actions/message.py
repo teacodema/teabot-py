@@ -29,11 +29,9 @@ async def make_thread(channel, headerMsg, threadName=None):
 	return log_thread
 
 def toggle_channel_mention(channel, mention = True):
-	if str(channel.type) == 'private':
-		return channel.id
 	if mention == False: 
 		return channel.name
-	return f'<#{channel.id}>'
+	return f'<#{channel.id}> / {channel.type}'
 
 async def toggle_user_mention(bot, _member, roleId, append_member_id = False):
 	guild = bot.get_guild(guildId)
