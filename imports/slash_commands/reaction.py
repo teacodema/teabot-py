@@ -79,6 +79,7 @@ def init_slash_commands_reaction(params):
 		Parameters
 		----------
 		msg_id: Message ID
+		role: assigned to reacting users
 		"""
 		try:
 			msg = await interaction.channel.fetch_message(msg_id)
