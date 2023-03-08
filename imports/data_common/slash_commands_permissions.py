@@ -23,10 +23,10 @@ slash_commands_permissions = {
         'thread archive', 'thread delete',
         'member make-webhook', 'message member', 'message channel', 'message edit',
         'message reply', 'message remove',
-        'reaction bot-reacts', 'reaction update-roles-reactions', 'reaction get-msg-reactions',
+        'reaction update-roles-reactions', 'reaction get-msg-reactions',
         'member has-role', 'role update-position', 'role fetch',
         'event delete', 'event edit-status', 'event fetch',
-        'teabot activity', 'teabot list-commands',
+        'teabot activity', 'teabot list-commands', 'teabot bot-reacts'
     ],
 }
 

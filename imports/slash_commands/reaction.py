@@ -12,35 +12,6 @@ def init_slash_commands_reaction(params):
 	async def reaction(interaction):
 		pass
 	
-	@reaction.sub_command(name = "bot-reacts")
-	async def tc_bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
-		"""
-		Add/Remove reaction to/from msg - ,
-		Parameters
-		----------
-		msg_id: Message ID
-		emojis: Server existing emojis separated by , or space
-		remove: Remove the reaction - values 0/1 - default 0
-		member: Member to remove reactions for (remove param should be == 1)
-		"""
-		try:
-			msg = await interaction.channel.fetch_message(msg_id)
-			emojis = split_str(emojis)
-			for e in emojis:
-				try:
-					if remove:
-						if member: await msg.remove_reaction(e, member)
-						else: await msg.clear_reaction(e)
-					else: await msg.add_reaction(e)
-				except Exception as ex:
-					print('---------- /tc_bot_react()/loop --------')
-					print(ex)
-					pass
-		except Exception as ex:
-			print('---------- /tc_bot_react() --------')
-			print(ex)
-			await log_exception(ex, '/tc_bot_react', interaction)
-			
 	@reaction.sub_command(name = "update-roles-reactions")
 	async def tc_update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
 		"""
