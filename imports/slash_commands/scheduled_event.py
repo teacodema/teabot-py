@@ -65,21 +65,22 @@ def init_slash_commands_scheduled_event(params):
 		try:
 			guild = interaction.guild
 			event = guild.get_scheduled_event(int(event_id))
-			if event:
-				users = await event.fetch_users().flatten()
-				count = len(users)
-				msg = f"Event : {event.name}\nSubscribers : {count}\n"
-				assignedMembers = 0
-				for member in users:
-					try:
-						msg += f'{member.mention} , '
-						if role and (role not in member.roles):
-							await member.add_roles(role)
-							assignedMembers += 1
-					except:
-						print(member)
-				if role: msg += f"\nAssigned role : {role.mention} / ({assignedMembers})"
-			else: msg = "Event not found !!"
+			if event == None:
+				await interaction.send("⚠ Event not found !!", ephemeral=True)
+				return
+			users = await event.fetch_users().flatten()
+			count = len(users)
+			msg = f"Event : {event.name}\nSubscribers : {count}\n"
+			assignedMembers = 0
+			for member in users:
+				try:
+					msg += f'{member.mention} , '
+					if role and (role not in member.roles):
+						await member.add_roles(role)
+						assignedMembers += 1
+				except:
+					print(member)
+			if role: msg += f"\nAssigned role : {role.mention} / ({assignedMembers})"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /event_subscribers() -----')
@@ -103,6 +104,9 @@ def init_slash_commands_scheduled_event(params):
 				await interaction.send(f'⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
 			event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
 
+			if event == None:
+				await interaction.send("⚠ Event not found !!", ephemeral=True)
+				return
 			if flag == 'completed' and event.status == _status['scheduled']:
 				await interaction.send("⚠ Cannot complete a non-started event", ephemeral=True)
 				return
@@ -165,7 +169,7 @@ def init_slash_commands_scheduled_event(params):
 
 
 	@event.sub_command(name = "create")
-	async def event_create(interaction, name, channel:discord.VoiceChannel, scheduled_start_time, description=None, image_url=None, every_n_weeks:int=None, recurrence:int=None):
+	async def event_create(interaction, name, channel:discord.VoiceChannel, scheduled_start_time, description=None, image_url=None, every_n_weeks:int=None, recurrence:int=None, event_id=None):
 		"""
 		Create scheduled event - \\n \\t /$
 		Parameters
@@ -177,8 +181,15 @@ def init_slash_commands_scheduled_event(params):
 		image_url: Cover image / example - http://teacode.ma/path/image.png
 		every_n_weeks: Every week / 2 weeks -  1 <= every_n_weeks <= 4 (recurrence param should be set)
 		recurrence: Number of (Weekly) events to create - 2 <= recurrence <= 5 (every_n_weeks param should be set)
+		event_id: ID of an exisitng event (duplicate event)
 		"""
 		try:
+			if event_id:
+				event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
+				if event == None:
+					await interaction.send("⚠ Event not found !!", ephemeral=True)
+					return
+
 			if (every_n_weeks and not recurrence) or (recurrence and not every_n_weeks):
 				await interaction.send('*recurrence* and *every_n_weeks* should be set together !!', ephemeral=True)
 				return
@@ -197,6 +208,7 @@ def init_slash_commands_scheduled_event(params):
 			guild = interaction.guild
 			entity_type = discord.GuildScheduledEventEntityType.voice
 			if description: description = replace_str(description, {"\\n": "\n", "\\t": "	", "/$": " "})
+			elif event: description = event.description
 
 			image = None
 			if image_url:
@@ -206,6 +218,7 @@ def init_slash_commands_scheduled_event(params):
 				file = open(file_name, "rb")
 				image = file.read()
 				os.remove(file_name)
+			elif event: image = event.image
 
 			start_time = dp.parse(scheduled_start_time)
 			tzinfo = timezone(timedelta(hours=1))
