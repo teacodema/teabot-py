@@ -184,6 +184,7 @@ def init_slash_commands_scheduled_event(params):
 		event_id: ID of an exisitng event (duplicate event)
 		"""
 		try:
+			event = None
 			if event_id:
 				event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
 				if event == None:
