@@ -39,7 +39,7 @@ async def toggle_user_mention(bot, _member, roleIds = [], append_member_id = Fal
 	if member == None:
 		member = await bot.fetch_user(_member.id)
 	user_mention = f'<@{member.id}>'
-	roleIds += roles['root']
+	roleIds += [roles['root']]
 	for roleId in roleIds:
 		role = guild.get_role(roleId)
 		if not role or not hasattr(member, 'roles'):
