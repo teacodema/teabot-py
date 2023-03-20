@@ -63,7 +63,7 @@ def init_events_reaction(params):
 				if roleName and "toggle_roles" in fct_params:
 					role = next(role for role in guild.roles if role.name == roleName)
 					await fct_params['toggle_roles'](role)
-					user_mention = await toggle_user_mention(bot, member, roles['root'], True)
+					user_mention = await toggle_user_mention(bot, member, roles['viewer'], True)
 					await log_thread.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
 			await log_thread.edit(archived=True)
 		except Exception as ex:

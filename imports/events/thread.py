@@ -11,7 +11,7 @@ def init_events_thread(params):
         try:
             thread = payload.thread
             log = bot.get_channel(textChannels['log-txt'])
-            user_mention = await toggle_user_mention(bot, thread.owner, roles['root'])
+            user_mention = await toggle_user_mention(bot, thread.owner, roles['viewer'])
             log_thread = await make_thread(log, f'🗑 Thread - {user_mention} in {toggle_channel_mention(thread.parent)}')
 
             msg = '──────────────────────'
