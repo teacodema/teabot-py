@@ -33,16 +33,20 @@ def toggle_channel_mention(channel, mention = True):
 		return channel.name
 	return f'<#{channel.id}> / {channel.type}'
 
-async def toggle_user_mention(bot, _member, roleId, append_member_id = False):
+async def toggle_user_mention(bot, _member, roleIds = [], append_member_id = False):
 	guild = bot.get_guild(guildId)
 	member = guild.get_member(_member.id)
 	if member == None:
 		member = await bot.fetch_user(_member.id)
 	user_mention = f'<@{member.id}>'
-	role = guild.get_role(roleId)
-	if (not role) or (hasattr(member, 'roles') and role in member.roles):
-		user_mention = f'{member.display_name}#{member.discriminator}'
-	if append_member_id: user_mention += f' / {member.id}'
+	roleIds += roles['root']
+	for roleId in roleIds:
+		role = guild.get_role(roleId)
+		if not role or not hasattr(member, 'roles'):
+			continue
+		if role in member.roles:
+			user_mention = f'{member.display_name}#{member.discriminator}'
+		if append_member_id: user_mention += f' / {member.id}'
 	return user_mention
 
 def get_attachments(message):
@@ -78,7 +82,7 @@ async def log_member_dms(params, message):
 		]
 	if author.id not in excludedIDs:
 		channel = bot.get_channel(textChannels['log-dms'])
-		user_mention = await toggle_user_mention(bot, author, roles['root'], True)
+		user_mention = await toggle_user_mention(bot, author, append_member_id = True)
 		log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
 			
 		msgs = []
