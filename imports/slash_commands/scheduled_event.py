@@ -3,6 +3,7 @@ import dateutil.parser as dp
 import dateutil.relativedelta as drel
 from datetime import timedelta, timezone
 from imports.data_common.config import *
+from imports.data_server.config import *
 from imports.actions.common import *
 from imports.actions.message import *
 
@@ -98,6 +99,7 @@ def init_slash_commands_scheduled_event(params):
 		event_id: Event ID
 		flag: values canceled / completed / active
 		send_message: send dm to subscribers when event is Live
+		announcement: Announce the event for the community (in #general)
 		"""
 		try:
 			if flag not in flags: 
@@ -132,16 +134,14 @@ def init_slash_commands_scheduled_event(params):
 					channel = bot.get_channel(textChannels['general'])
 					if event.channel_id in voice_roles:
 						role = interaction.guild.get_role(voice_roles[event.channel_id])
-						msg_dm += f'\n<@&{role.id}>'
+						msg_dm += f'\n\n<@&{role.id}>'
 						await channel.send(msg_dm.strip())
 			
-			if flag == 'completed':
-				if announcement:
+			if flag == 'completed' and announcement:
+				if event.channel_id in voice_roles:
+					msg = f'🔸 Event ended : **{event.name}**\nThank you for attending\nsee you soon 👋'
 					channel = bot.get_channel(textChannels['general'])
-					if event.channel_id in voice_roles:
-						role = interaction.guild.get_role(voice_roles[event.channel_id])
-						msg = f'Event ended (**{event.name}**)\nThank you for attending\nsee you soon 👋'
-						await channel.send(msg.strip())
+					await channel.send(msg.strip())
 			
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
