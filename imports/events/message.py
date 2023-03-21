@@ -5,6 +5,7 @@ from imports.actions.common import *
 def init_events_message(params):
 	
 	bot = params['bot']
+	discord = params['discord']
 
 	######################## ON MESSAGE ########################
 	@bot.event
@@ -69,12 +70,13 @@ def init_events_message(params):
 			msgs.append(msg) #await log.send(msg)
 			msg_content = get_message_content(message)
 			msgs.append(msg_content) #await log.send(msg_content)
-			msg = get_attachments(message)
-			if msg: msgs.append(msg) #await log.send(msg)
+			attachments_data = get_attachments(message, discord)
+			if attachments_data: msgs.append(attachments_data['urls']) #await log.send(msg)
 			msg = get_embeds(message)
 			if msg: msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
 				await log_thread.send(msg.strip())
+			if attachments_data: await log_thread.send(files = attachments_data['files'])
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:
@@ -118,14 +120,15 @@ def init_events_message(params):
 			msgs.append(msg) #await log.send(msg)
 			msg_content = get_message_content(after)
 			msgs.append(msg_content) #await log.send(msg_content)
-			msg = get_attachments(before)
-			if msg: msgs.append(msg) #await log.send(msg)
+			attachments_data = get_attachments(before, discord)
+			if attachments_data: msgs.append(attachments_data['urls']) #await log.send(msg)
 			msg = get_embeds(before)
 			if msg: msgs.append(msg) #await log.send(msg)
 			# msg += '\n──────────────────────'
 			# msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
 				await log_thread.send(msg.strip())
+			if attachments_data: await log_thread.send(files = attachments_data['files'])
 			await log_thread.edit(archived=True)
 		except Exception as ex:
 			print('----- on_message_edit(evt) -----')

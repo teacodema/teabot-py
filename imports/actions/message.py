@@ -1,3 +1,4 @@
+import requests, os
 from datetime import datetime
 from imports.data_server.config import *
 from imports.actions.common import *
@@ -49,13 +50,23 @@ async def toggle_user_mention(bot, _member, roleIds = [], append_member_id = Fal
 		if append_member_id: user_mention += f' / {member.id}'
 	return user_mention
 
-def get_attachments(message):
+def get_attachments(message, discord):
+	attachments_data = {'urls': '', 'files': None}
 	if len(message.attachments):
+		attachmentsFiles = []
 		attachmentsUrls = '\n__Attachments__\n'
+		index = 1
 		for attch in message.attachments:
 			attachmentsUrls += f'{attch.url}\n'
-		return attachmentsUrls
-	return ''
+			response = requests.get(attch.url)
+			file_name = f"attch-{index}"
+			open(file_name, "wb").write(response.content)
+			attachmentsFiles.append(discord.File(file_name))
+			os.remove(file_name)
+		attachments_data['urls'] = attachmentsUrls
+		attachments_data['files'] = attachmentsFiles
+		return attachments_data
+	return None
 
 def get_embeds(message):
 	if len(message.embeds):
@@ -70,6 +81,7 @@ def get_embeds(message):
 
 async def log_member_dms(params, message):
 	bot = params['bot']
+	discord = params['discord']
 	author = message.author
 	# Testing
 	if author.id == users['drissboumlik']:
@@ -91,12 +103,13 @@ async def log_member_dms(params, message):
 		msgs.append(msg) #await channel.send(msg)
 		msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
 		msgs.append(msg_content) #await channel.send(msg_content)
-		msg = get_attachments(message)
-		if msg: msgs.append(msg) #await channel.send(msg)
+		attachments_data = get_attachments(message, discord)
+		if attachments_data: msgs.append(attachments_data['urls']) #await channel.send(msg)
 		msg = get_embeds(message)
 		if msg: msgs.append(msg) #await channel.send(msg)
 		for msg in msgs:
 			await log_thread.send(msg.strip())
+		if attachments_data: await log_thread.send(files = attachments_data['files'])
 		await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
@@ -160,6 +173,7 @@ async def deleteMsg(params, interaction, limit):
 
 async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 	bot = params['bot']
+	discord = params['discord']
 	log = bot.get_channel(textChannels['log-msg'])
 	dt = replace_str(getTimeUtcPlusOne(datetime.now()), {":": "."})
 	headerMsg = f"🗑 **purge({count})** | {interaction.channel.mention}"
@@ -184,8 +198,9 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 			msg = ''
 		else:
 			msg += f'{msg_content}'
-		msg += get_attachments(m)
+		attachments_data = get_attachments(m, discord)
+		if attachments_data: msg += attachments_data['urls']
 		msg += get_embeds(m)
-		await log_thread.send(msg.strip())
+		await log_thread.send(msg.strip(), files = attachments_data['files'])
 		msgIndex += 1
 	await log_thread.edit(archived=True)

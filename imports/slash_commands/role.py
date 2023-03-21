@@ -34,9 +34,9 @@ def init_slash_commands_role(params):
 			await interaction.send(file=file, ephemeral=True)
 			os.remove("file.json")
 		except Exception as ex:
-			print('----- /tc_toggle_role() -----')
+			print('----- /tc_roles_fetch() -----')
 			print(ex)
-			await log_exception(ex, '/tc_toggle_role', interaction)
+			await log_exception(ex, '/tc_roles_fetch', interaction)
 	
 	################## UPDATE ROLE ####################
 	@role.sub_command(name = "update-position")

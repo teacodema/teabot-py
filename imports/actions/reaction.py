@@ -5,6 +5,7 @@ from imports.actions.message import *
 
 async def log_reacted_msg(params, payload, log, member, adding=True):
 	bot = params['bot']
+	discord = params['discord']
 	_ch = bot.get_channel(payload.channel_id)
 	if not _ch: _ch = await bot.fetch_channel(payload.channel_id)
 	url = f'https://discord.com/channels/{guildId}/{payload.channel_id}/{payload.message_id}'
@@ -37,14 +38,15 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 		msgs.append(msg) # await log.send(f'{msg}')
 		msg_content = get_message_content(m)
 		msgs.append(msg_content) # await log.send(f'{msg_content}')
-		msg = get_attachments(m)
-		if msg: msgs.append(msg) #await log.send(msg)
+		attachments_data = get_attachments(m, discord)
+		if attachments_data: msgs.append(attachments_data['urls']) #await log.send(msg)
 		msg = get_embeds(m)
 		if msg: msgs.append(msg) #await log.send(msg)
 		# msg = f'\n──────────────────────'
 		# await log.send(f'{msg}')
 		for msg in msgs:
 			await log_thread.send(msg.strip())
+		if attachments_data: await log_thread.send(files = attachments_data['files'])
 	return log_thread
 	# await log_thread.edit(archived=True)
 
