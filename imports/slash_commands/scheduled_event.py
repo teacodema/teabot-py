@@ -90,7 +90,7 @@ def init_slash_commands_scheduled_event(params):
 	
 	flags = ["canceled", "completed", "active"]
 	@event.sub_command(name = "edit-status")
-	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0):
+	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0, announcement : int = 0):
 		"""
 		Edit the even status
 		Parameters
@@ -117,16 +117,31 @@ def init_slash_commands_scheduled_event(params):
 				await interaction.send('⚠ Status already edited', ephemeral=True)
 				return
 				
-			if flag == 'active' and send_message:
-				subscribers = await event.fetch_users().flatten()
-				channel = bot.get_channel(textChannels['log-dms'])
-				log_thread = await make_thread(channel, f"✉ DM/ ==▷ 🎭 / 👤")
-				msg_dm = f"The event you subscribed to is :\n\n🔹 Live Now : **{event.name}**\nClick to join : {event.url}"
-				log_thread = await send_bulk_dm(interaction, subscribers, log_thread, msg_dm)
-				notifyMe = f'\n__Content__\n'
-				await log_thread.send(notifyMe)
-				await log_thread.send(msg_dm.strip())
-				await log_thread.edit(archived=True)
+			if flag == 'active':
+				msg_dm = f"🔹 Live Now : **{event.name}**\nClick to join : {event.url}"
+				if send_message:
+					subscribers = await event.fetch_users().flatten()
+					channel = bot.get_channel(textChannels['log-dms'])
+					log_thread = await make_thread(channel, f"✉ DM/ ==▷ 🎭 / 👤")
+					log_thread = await send_bulk_dm(interaction, subscribers, log_thread, msg_dm)
+					notifyMe = f'\n__Content__\n'
+					await log_thread.send(notifyMe)
+					await log_thread.send(msg_dm.strip())
+					await log_thread.edit(archived=True)
+				if announcement:
+					channel = bot.get_channel(textChannels['general'])
+					if event.channel_id in voice_roles:
+						role = interaction.guild.get_role(voice_roles[event.channel_id])
+						msg_dm += f'\n<@&{role.id}>'
+						await channel.send(msg_dm.strip())
+			
+			if flag == 'completed':
+				if announcement:
+					channel = bot.get_channel(textChannels['general'])
+					if event.channel_id in voice_roles:
+						role = interaction.guild.get_role(voice_roles[event.channel_id])
+						msg = f'Event ended (**{event.name}**)\nThank you for attending\nsee you soon 👋'
+						await channel.send(msg.strip())
 			
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
