@@ -52,7 +52,7 @@ async def toggle_user_mention(bot, _member, roleIds = [], append_member_id = Fal
 	return user_mention
 
 def get_attachments(message, discord):
-	attachments_data = {'urls': '', 'files': None}
+	attachments_data = {'urls': None, 'files': None}
 	if len(message.attachments):
 		attachmentsFiles = []
 		attachmentsUrls = '\n__Attachments__\n'
@@ -67,8 +67,7 @@ def get_attachments(message, discord):
 			os.remove(file_name)
 		attachments_data['urls'] = attachmentsUrls
 		attachments_data['files'] = attachmentsFiles
-		return attachments_data
-	return None
+	return attachments_data
 
 def get_embeds(message):
 	if len(message.embeds):
@@ -106,12 +105,12 @@ async def log_member_dms(params, message):
 		msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
 		msgs.append(msg_content) #await channel.send(msg_content)
 		attachments_data = get_attachments(message, discord)
-		if attachments_data: msgs.append(attachments_data['urls']) #await channel.send(msg)
+		if attachments_data['urls']: msgs.append(attachments_data['urls']) #await channel.send(msg)
 		msg = get_embeds(message)
 		if msg: msgs.append(msg) #await channel.send(msg)
 		for msg in msgs:
 			await log_thread.send(msg.strip())
-		if attachments_data: await log_thread.send(files = attachments_data['files'])
+		await log_thread.send(files = attachments_data['files'])
 		await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
@@ -201,7 +200,7 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 		else:
 			msg += f'{msg_content}'
 		attachments_data = get_attachments(m, discord)
-		if attachments_data: msg += attachments_data['urls']
+		if  attachments_data['urls']: msg += attachments_data['urls']
 		msg += get_embeds(m)
 		await log_thread.send(msg.strip(), files = attachments_data['files'])
 		msgIndex += 1
