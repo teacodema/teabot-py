@@ -46,7 +46,7 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 		# await log.send(f'{msg}')
 		for msg in msgs:
 			await log_thread.send(msg.strip())
-		await log_thread.send(files = attachments_data['files'])
+		if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
 	return log_thread
 	# await log_thread.edit(archived=True)
 

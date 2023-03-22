@@ -18,7 +18,7 @@ def init_slash_commands_role(params):
 		Fetch roles data
 		Parameters
 		----------
-		sort_by_count: members count - values 0/1 - default 0
+		sort_by_count: members count - enter 1 to activate (default 0)
 		"""
 		try:
 			roles = interaction.guild.roles

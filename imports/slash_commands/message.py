@@ -42,12 +42,13 @@ def init_slash_commands_message(params):
 
 	######################## PURGE ########################
 	@message.sub_command(name = "purge")
-	async def purge(interaction, limit: int=None):
+	async def purge(interaction, limit: int=None, include_pin:int=None):
 		"""
 		Clear all messages
 		Parameters
 		----------
 		limit: Optional for specific channels / limit <= 500
+		include_pin: Include pinned messages
 		"""
 		try:
 			channelsToClear = [
@@ -64,7 +65,8 @@ def init_slash_commands_message(params):
 					return
 				else:
 					await interaction.send('Clearing messages ...', ephemeral=True)
-					deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
+					if include_pin: deletedMsgs = await interaction.channel.purge(limit = limit, bulk = True)
+					else: deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
 					await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
 					count = len(deletedMsgs)
 					deletedMsgs.reverse()
@@ -75,7 +77,7 @@ def init_slash_commands_message(params):
 			MAX_TO_DELETE = 500
 			await interaction.send('Clearing everything ...', ephemeral=True)
 			#await deleteMsg(params, purgedMsgs, interaction, MAX_TO_DELETE)
-			deletedMsgs = await deleteMsg(params, interaction, MAX_TO_DELETE)
+			deletedMsgs = await deleteMsg(params, interaction, MAX_TO_DELETE, include_pin)
 			await interaction.send(f'{len(deletedMsgs)} message(s) cleared', ephemeral=True)
 			count = len(deletedMsgs)
 			# deletedMsgs.reverse()
@@ -98,7 +100,7 @@ def init_slash_commands_message(params):
 		content: New message content - \\n \\t /$
 		msg_id: Message ID to edit
 		channel: Channel where to fetch the message by msg_id
-		pin: Add to pinned channel messages - values 0/1 - default 0
+		pin: Add to pinned channel messages - enter 1 to activate (default 0)
 		"""
 		try:
 			if channel.category == None:
@@ -150,7 +152,7 @@ def init_slash_commands_message(params):
 		----------
 		msg: Message content - \\n \\t /$
 		channel: Channel where to send the message
-		pin: Add to pinned channel messages - values 0/1 - default 0
+		pin: Add to pinned channel messages - enter 1 to activate (default 0)
 		"""
 		try:
 			if channel.category == None:

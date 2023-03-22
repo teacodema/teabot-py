@@ -76,7 +76,7 @@ def init_events_message(params):
 			if msg: msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
 				await log_thread.send(msg.strip())
-			await log_thread.send(files = attachments_data['files'])
+			if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:
@@ -128,7 +128,7 @@ def init_events_message(params):
 			# msgs.append(msg) #await log.send(msg)
 			for msg in msgs:
 				await log_thread.send(msg.strip())
-			await log_thread.send(files = attachments_data['files'])
+			if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
 			await log_thread.edit(archived=True)
 		except Exception as ex:
 			print('----- on_message_edit(evt) -----')

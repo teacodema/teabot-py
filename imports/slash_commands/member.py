@@ -21,9 +21,9 @@ def init_slash_commands_member(params):
 		Parameters
 		----------
 		member: Server existing member
-		assign_role: Assign initial roles - values 0/1 - default 0
-		send_dm: Send a dm - values 0/1 - default 0
-		use_webhook: Make a webhook for the new member - values 0/1 - default 0
+		assign_role: Assign initial roles - enter 1 to activate (default 0)
+		send_dm: Send a dm - enter 1 to activate (default 0)
+		use_webhook: Make a webhook for the new member - enter 1 to activate (default 0)
 		"""
 		try:
 			msg = await welcomeMember(params, member, assign_role, send_dm, use_webhook)
@@ -43,7 +43,7 @@ def init_slash_commands_member(params):
 		Parameters
 		----------
 		nr: Number of min roles - values 0 < nr - default 1
-		do: Apply the update - values 0/1 - default 0
+		do: Apply the update - enter 1 to activate (default 0)
 		"""
 		try:
 			guild = interaction.guild
@@ -85,7 +85,7 @@ def init_slash_commands_member(params):
 		Check new-membership period
 		Parameters
 		----------
-		do: Apply the update - values 0/1 - default 0
+		do: Apply the update - enter 1 to activate (default 0)
 		"""
 		try:
 			updatedMembers = await checkNewMemberRole(interaction.guild, do)

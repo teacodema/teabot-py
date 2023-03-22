@@ -21,7 +21,7 @@ def init_slash_commands_channel(params):
 		----------
 		channel: target channel/category
 		role: role to be affected by the change
-		unhide: display the channel/category for the role - values 0/1 - default 0
+		unhide: display the channel/category for the role - enter 1 to activate (default 0)
 		"""
 		try:
 			await toggle_hide_channel(channel, role, bool(unhide))
@@ -38,7 +38,7 @@ def init_slash_commands_channel(params):
 		----------
 		channel: target channel
 		role: role to be affected by the change
-		unlock: unlock the channel/category for the role - values 0/1 - default 0
+		unlock: unlock the channel/category for the role - enter 1 to activate (default 0)
 		"""
 		try:
 			await toggle_lock_channel(channel, role, bool(unlock))

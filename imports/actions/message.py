@@ -110,7 +110,7 @@ async def log_member_dms(params, message):
 		if msg: msgs.append(msg) #await channel.send(msg)
 		for msg in msgs:
 			await log_thread.send(msg.strip())
-		await log_thread.send(files = attachments_data['files'])
+		if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
 		await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
@@ -158,12 +158,13 @@ async def send_dm(interaction, message, member):
 def isNotPinned(msg):
 	return not msg.pinned
 
-async def deleteMsg(params, interaction, limit):
+async def deleteMsg(params, interaction, limit, include_pin = None):
 	try:
 		deletedMsgs = []
-		deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
+		if include_pin: deletedMsgs = await interaction.channel.purge(limit = limit, bulk = True)
+		else: deletedMsgs = await interaction.channel.purge(limit = limit, check = isNotPinned, bulk = True)
 		if (len(deletedMsgs) > 0):
-			return list(set(deletedMsgs + await deleteMsg(params, interaction, limit)))
+			return list(set(deletedMsgs + await deleteMsg(params, interaction, limit, include_pin)))
 		else:
 			return []
 	except Exception as ex:

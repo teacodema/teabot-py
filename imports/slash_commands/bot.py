@@ -73,7 +73,7 @@ def init_slash_commands_bot(params):
 		----------
 		msg_id: Message ID
 		emojis: Server existing emojis separated by , or space
-		remove: Remove the reaction - values 0/1 - default 0
+		remove: Remove the reaction - enter 1 to activate (default 0)
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
 		try:
