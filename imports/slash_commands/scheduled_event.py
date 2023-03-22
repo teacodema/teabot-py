@@ -91,7 +91,7 @@ def init_slash_commands_scheduled_event(params):
 	
 	flags = ["canceled", "completed", "active"]
 	@event.sub_command(name = "edit-status")
-	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0, announcement : int = 0):
+	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0, announcement_channel : discord.abc.GuildChannel = None):
 		"""
 		Edit the even status
 		Parameters
@@ -99,7 +99,7 @@ def init_slash_commands_scheduled_event(params):
 		event_id: Event ID
 		flag: values canceled / completed / active
 		send_message: send dm to subscribers when event is Live
-		announcement: Announce the event for the community (in #general)
+		announcement_channel: Channel where to Notify the community
 		"""
 		try:
 			if flag not in flags: 
@@ -130,18 +130,16 @@ def init_slash_commands_scheduled_event(params):
 					await log_thread.send(notifyMe)
 					await log_thread.send(msg_dm.strip())
 					await log_thread.edit(archived=True)
-				if announcement:
-					channel = bot.get_channel(textChannels['general'])
+				if announcement_channel:
 					if event.channel_id in voice_roles:
 						role = interaction.guild.get_role(voice_roles[event.channel_id])
 						msg_dm += f'\n\n<@&{role.id}>'
-						await channel.send(msg_dm.strip())
+						await announcement_channel.send(msg_dm.strip())
 			
-			if flag == 'completed' and announcement:
+			if flag == 'completed' and announcement_channel:
 				if event.channel_id in voice_roles:
 					msg = f'🔸 Event ended : **{event.name}**\nThank you for attending\nsee you soon 👋'
-					channel = bot.get_channel(textChannels['general'])
-					await channel.send(msg.strip())
+					await announcement_channel.send(msg.strip())
 			
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
