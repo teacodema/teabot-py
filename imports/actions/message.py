@@ -61,7 +61,7 @@ def get_attachments(message, discord):
 			attachmentsUrls += f'{attch.url}\n'
 			file_name, file_extension = os.path.splitext(attch.url)
 			response = requests.get(attch.url)
-			file_name = f"attch-{index}.{file_extension}"
+			file_name = f"attch-{index}{file_extension}"
 			open(file_name, "wb").write(response.content)
 			attachmentsFiles.append(discord.File(file_name))
 			os.remove(file_name)
