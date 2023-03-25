@@ -68,7 +68,7 @@ def init_slash_commands_role(params):
 			await log_exception(ex, '/tc_update_roles_position', interaction)
 
 	
-	@role.sub_command(name = "toggle-role")
+	@role.sub_command(name = "toggle")
 	async def tc_toggle_role(interaction, role: discord.Role, member: discord.Member = None, role2: discord.Role = None, assign:int = 1):
 		"""
 		Toggle role to member/role
