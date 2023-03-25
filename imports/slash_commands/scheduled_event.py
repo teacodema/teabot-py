@@ -90,7 +90,7 @@ def init_slash_commands_scheduled_event(params):
 	
 	
 	flags = ["canceled", "completed", "active"]
-	@event.sub_command(name = "edit-status")
+	@event.sub_command(name = "update-status")
 	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0, announcement_channel : discord.abc.GuildChannel = None):
 		"""
 		Edit the even status

@@ -51,9 +51,10 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	# await log_thread.edit(archived=True)
 
 
-async def update_msg_reactions(params, guild, channel, msg_id):
+async def update_msg_reactions(params, interaction, channel, msg_id):
 	try:
 		discord = params['discord']
+		guild = interaction.guild
 		msg = await channel.fetch_message(int(msg_id))
 		roles_assigned = 0
 		_msg = ''
@@ -76,6 +77,7 @@ async def update_msg_reactions(params, guild, channel, msg_id):
 					print(role.id)
 					print(u.id)
 					# await msg.remove_reaction(r.emoji, u)
+					await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / rold {role.mention}')
 					pass
 		return {'roles_assigned': roles_assigned, '_msg': _msg}
 	except Exception as ex:

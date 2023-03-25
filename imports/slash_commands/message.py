@@ -244,3 +244,33 @@ def init_slash_commands_message(params):
 			print('----- /tc_remove_msg_member() -----')
 			print(ex)
 			await log_exception(ex, '/tc_remove_msg_member', interaction)
+
+	@message.sub_command(name = "reactions")
+	async def tc_get_message_reactions(interaction, msg_id, role: discord.Role = None):
+		"""
+		Get users who reacted to a message
+		Parameters
+		----------
+		msg_id: Message ID
+		role: assigned to reacting users
+		"""
+		try:
+			msg = await interaction.channel.fetch_message(msg_id)
+			feedbackText = f'https://discord.com/channels/{guildId}/{msg.channel.id}/{msg_id}\n'
+			for r in msg.reactions:
+				if len(feedbackText) > 1800:
+					await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
+					feedbackText = ''
+				feedbackText += f'\n{r.emoji} / '
+				async for u in r.users():
+					try:
+						if role: await u.add_roles(role)
+						feedbackText += f'{u.mention} '
+					except Exception as ex:
+						pass
+			await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
+			if role: await interaction.send(f'Role : {role.mention}', ephemeral=True)
+		except Exception as ex:
+			print('---------- /tc_get_message_reactions() --------')
+			print(ex)
+			await log_exception(ex, '/tc_get_message_reactions', interaction)

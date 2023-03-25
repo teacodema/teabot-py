@@ -13,7 +13,7 @@ slash_commands_permissions = {
         'message purge',
         'member pick-speaker', 'message poll',
         'member check-new', 'member update-new',
-        'member toggle-role', 'member toggle-roles',
+        'role toggle', 'role toggle-multiple',
         'event subscribers', 'event create',
         'channel voice-clone',
     ],
@@ -23,10 +23,10 @@ slash_commands_permissions = {
         'thread archive', 'thread delete',
         'member make-webhook', 'message member', 'message channel', 'message edit',
         'message reply', 'message remove',
-        'reaction update-roles-reactions', 'reaction get-msg-reactions',
-        'member has-role', 'role update-position', 'role fetch',
-        'event delete', 'event edit-status', 'event fetch',
-        'teabot activity', 'teabot list-commands', 'teabot bot-reacts'
+        'reaction toggle-roles', 'message reactions',
+        'role has', 'role update-position', 'role fetch',
+        'event delete', 'event update-status', 'event fetch',
+        'teacode activity', 'teacode commands', 'reaction toggle'
     ],
 }
 

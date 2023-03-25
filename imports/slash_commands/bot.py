@@ -8,8 +8,8 @@ def init_slash_commands_bot(params):
 	discord = params['discord']
 	commands = params['commands']
 
-	@bot.slash_command(name="teabot")
-	async def teabot(inter):
+	@bot.slash_command(name="teacode")
+	async def teacode(inter):
 		pass
 
 	states = ["online", "dnd", "idle", "offline", "streaming"]
@@ -17,7 +17,7 @@ def init_slash_commands_bot(params):
 	activity_types = ["watching", "listening", "playing", "streaming", "competing"]
 	discord_activity_types = [discord.ActivityType.watching, discord.ActivityType.listening, discord.ActivityType.playing, discord.ActivityType.streaming, discord.ActivityType.competing]
 
-	@teabot.sub_command(name = "activity")
+	@teacode.sub_command(name = "activity")
 	async def tc_bot_activity(interaction, status=commands.Param(choices=states), activity_type=commands.Param(choices=activity_types), name = None):
 		"""
 		Update bot activity & status
@@ -38,7 +38,7 @@ def init_slash_commands_bot(params):
 			print(ex)
 			await log_exception(ex, '/tc_bot_activity', interaction)
 
-	@teabot.sub_command(name = "list-commands")
+	@teacode.sub_command(name = "commands")
 	async def tc_list_commands(interaction):
 		"""
 		List all / commands
@@ -64,33 +64,3 @@ def init_slash_commands_bot(params):
 			print('----- /tc_list_commands() -----')
 			print(ex)
 			await log_exception(ex, '/tc_list_commands', interaction)
-
-	@teabot.sub_command(name = "bot-reacts")
-	async def tc_bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
-		"""
-		Add/Remove reaction to/from msg - ,
-		Parameters
-		----------
-		msg_id: Message ID
-		emojis: Server existing emojis separated by , or space
-		remove: Remove the reaction - enter 1 to activate (default 0)
-		member: Member to remove reactions for (remove param should be == 1)
-		"""
-		try:
-			msg = await interaction.channel.fetch_message(msg_id)
-			emojis = split_str(emojis)
-			for e in emojis:
-				try:
-					if remove:
-						if member: await msg.remove_reaction(e, member)
-						else: await msg.clear_reaction(e)
-					else: await msg.add_reaction(e)
-				except Exception as ex:
-					print('---------- /tc_bot_react()/loop --------')
-					print(ex)
-					pass
-		except Exception as ex:
-			print('---------- /tc_bot_react() --------')
-			print(ex)
-			await log_exception(ex, '/tc_bot_react', interaction)
-			
