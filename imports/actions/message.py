@@ -184,8 +184,9 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 
 	msgIndex = 1
 	for m in _purgedMsgs:
+		user_mention = await toggle_user_mention(bot, m.author, [roles['viewer']])
 		msg = f'───────────\t**{msgIndex}**\t───────────'
-		msg += f'\n🗑 by {m.author.display_name}#{m.author.discriminator} in {m.channel.mention}'
+		msg += f'\n🗑 by {user_mention} in {m.channel.mention}'
 		msg += f'\nAuthor ID : {m.author.id}'
 		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
 		edited_at = None
