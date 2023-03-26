@@ -77,7 +77,7 @@ async def update_msg_reactions(params, interaction, channel, msg_id):
 					print(role.id)
 					print(u.id)
 					# await msg.remove_reaction(r.emoji, u)
-					await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / rold {role.mention}')
+					await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / role {role.mention}')
 					pass
 		return {'roles_assigned': roles_assigned, '_msg': _msg}
 	except Exception as ex:
