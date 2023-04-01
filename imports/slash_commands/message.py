@@ -216,6 +216,7 @@ def init_slash_commands_message(params):
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 			print('----- /tc_msg_member() -----')
 			print(ex)
 			await log_exception(ex, '/tc_msg_member', interaction)

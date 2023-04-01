@@ -67,4 +67,5 @@ def init_events_reaction(params):
 					await log_thread.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
 			await log_thread.edit(archived=True)
 		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 			raise ex

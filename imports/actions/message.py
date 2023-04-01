@@ -94,24 +94,27 @@ async def log_member_dms(params, message):
 			users['teabot'],
 		]
 	if author.id not in excludedIDs:
-		channel = bot.get_channel(textChannels['log-dms'])
-		user_mention = await toggle_user_mention(bot, author, append_member_id = True)
-		log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
-			
-		msgs = []
-		msg = f'\n__From__\n{user_mention}'
-		msg += f'\n__Content__\n'
-		msgs.append(msg) #await channel.send(msg)
-		msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
-		msgs.append(msg_content) #await channel.send(msg_content)
-		attachments_data = get_attachments(message, discord)
-		if attachments_data['urls']: msgs.append(attachments_data['urls']) #await channel.send(msg)
-		msg = get_embeds(message)
-		if msg: msgs.append(msg) #await channel.send(msg)
-		for msg in msgs:
-			await log_thread.send(msg.strip())
-		if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
-		await log_thread.edit(archived=True)
+		try:
+			channel = bot.get_channel(textChannels['log-dms'])
+			user_mention = await toggle_user_mention(bot, author, append_member_id = True)
+			log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
+				
+			msgs = []
+			msg = f'\n__From__\n{user_mention}'
+			msg += f'\n__Content__\n'
+			msgs.append(msg) #await channel.send(msg)
+			msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
+			msgs.append(msg_content) #await channel.send(msg_content)
+			attachments_data = get_attachments(message, discord)
+			if attachments_data['urls']: msgs.append(attachments_data['urls']) #await channel.send(msg)
+			msg = get_embeds(message)
+			if msg: msgs.append(msg) #await channel.send(msg)
+			for msg in msgs:
+				await log_thread.send(msg.strip())
+			if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
+			await log_thread.edit(archived=True)
+		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
 	content = message.content
@@ -184,26 +187,29 @@ async def logPurgedMessages(params, interaction, count, _purgedMsgs):
 
 	msgIndex = 1
 	for m in _purgedMsgs:
-		user_mention = await toggle_user_mention(bot, m.author, [roles['viewer']])
-		msg = f'───────────\t**{msgIndex}**\t───────────'
-		msg += f'\n🗑 by {user_mention} in {m.channel.mention}'
-		msg += f'\nAuthor ID : {m.author.id}'
-		created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
-		edited_at = None
-		if m.edited_at:
-			edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
-		msg += f'\n📅 {created_at} ➜ {edited_at}'
-		msg += "\n__Content__\n"
-		msg_content = get_message_content(m)
-		if len(msg_content) >= 1800: 
-			await log_thread.send(msg.strip())
-			await log_thread.send(msg_content.strip())
-			msg = ''
-		else:
-			msg += f'{msg_content}'
-		attachments_data = get_attachments(m, discord)
-		if  attachments_data['urls']: msg += attachments_data['urls']
-		msg += get_embeds(m)
-		await log_thread.send(msg.strip(), files = attachments_data['files'])
-		msgIndex += 1
+		try:
+			user_mention = await toggle_user_mention(bot, m.author, [roles['viewer']])
+			msg = f'───────────\t**{msgIndex}**\t───────────'
+			msg += f'\n🗑 by {user_mention} in {m.channel.mention}'
+			msg += f'\nAuthor ID : {m.author.id}'
+			created_at = getTimeUtcPlusOne(m.created_at, "%d %B %Y - %H:%M")
+			edited_at = None
+			if m.edited_at:
+				edited_at = getTimeUtcPlusOne(m.edited_at, "%d %B %Y - %H:%M")
+			msg += f'\n📅 {created_at} ➜ {edited_at}'
+			msg += "\n__Content__\n"
+			msg_content = get_message_content(m)
+			if len(msg_content) >= 1800: 
+				await log_thread.send(msg.strip())
+				await log_thread.send(msg_content.strip())
+				msg = ''
+			else:
+				msg += f'{msg_content}'
+			attachments_data = get_attachments(m, discord)
+			if  attachments_data['urls']: msg += attachments_data['urls']
+			msg += get_embeds(m)
+			await log_thread.send(msg.strip(), files = attachments_data['files'])
+			msgIndex += 1
+		except Exception as ex:
+			pass
 	await log_thread.edit(archived=True)

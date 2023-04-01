@@ -23,6 +23,7 @@ def init_events_thread(params):
             await log_thread.send(msg.strip())
             await log_thread.edit(archived=True)
         except Exception as ex:
+            if log_thread: await log_thread.edit(archived=True)
             print('----- on_raw_thread_delete(evt) -----')
             print(ex)
             await log_exception(ex, 'on_raw_thread_delete(evt)', None, bot)

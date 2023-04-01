@@ -80,6 +80,7 @@ def init_events_message(params):
 			await log_thread.edit(archived=True)
 
 		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 			print('----- on_message_delete(evt) -----')
 			print(ex)
 			await log_exception(ex, 'on_message_delete(evt)', None, bot)
@@ -131,6 +132,7 @@ def init_events_message(params):
 			if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
 			await log_thread.edit(archived=True)
 		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 			print('----- on_message_edit(evt) -----')
 			print(ex)
 			await log_exception(ex, 'on_message_edit(evt)', None, bot)

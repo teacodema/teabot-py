@@ -144,6 +144,7 @@ def init_slash_commands_scheduled_event(params):
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
 		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 			print('----- /event_edit_status() -----')
 			print(ex)
 			await log_exception(ex, '/event_edit_status', interaction)
