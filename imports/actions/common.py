@@ -100,6 +100,6 @@ def task_update_activity(params, activity_name = None):
 		if activity_name:
 			activity = discord.Activity(type = discord.ActivityType.playing, name = activity_name)
 		else:
-			activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
+			activity = discord.Activity(type=discord.ActivityType.watching, name="Ramadan Karim 🌒")
 		await bot.change_presence(activity = activity)
 	update_activity.start()
