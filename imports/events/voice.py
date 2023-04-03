@@ -10,7 +10,7 @@ def init_events_voice(params):
 	async def on_voice_state_update(member, voice1, voice2):
 		try:
 			if voice2.channel == None:
-				task_update_activity(params)
+				await task_update_activity(params)
 			await check_deafen(params, member, voice1, voice2)
 			if (voice1 and voice2) and (voice1.channel and voice2.channel) and (voice1.channel.id == voice2.channel.id):
 				return

@@ -2,7 +2,8 @@
 from imports.data_server.channels_categories import *
 from imports.data_server.members_roles import *
 from imports.data_common.slash_commands_permissions import *
-import pytz, re
+from imports.data_common.config import *
+import pytz, re, random
 
 
 def is_not_host_or_bot(member):
@@ -91,15 +92,10 @@ def split_str(str, spliters=None):
 		print(ex)
 
 
-def task_update_activity(params, activity_name = None):
+async def task_update_activity(params, activity_name = None, activity_type = None):
 	bot = params['bot']
 	discord = params['discord']
-	tasks = params['tasks']
-	@tasks.loop(count=1, reconnect=False)
-	async def update_activity():
-		if activity_name:
-			activity = discord.Activity(type = discord.ActivityType.playing, name = activity_name)
-		else:
-			activity = discord.Activity(type=discord.ActivityType.watching, name="Ramadan Karim 🌒")
-		await bot.change_presence(activity = activity)
-	update_activity.start()
+	if activity_type == None: activity_type = discord.ActivityType.watching
+	if activity_name == None: activity_name = random.choice(activity_names)
+	activity = discord.Activity(type = activity_type, name = activity_name )
+	await bot.change_presence(activity = activity)

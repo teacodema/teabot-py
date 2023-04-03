@@ -15,3 +15,4 @@ appParams = {
 	'notifyOffset': 15
 }
 
+activity_names = ["members", "🌐 teacode.ma ☕", "Ramadan Karim 🌒"]

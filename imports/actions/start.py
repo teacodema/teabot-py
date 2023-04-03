@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from imports.data_server.config import *
 from imports.actions.common import *
+from imports.data_common.config import *
 	
 def start_loop(params):	
 	bot = params['bot']
@@ -14,21 +15,15 @@ def start_loop(params):
 			test_activated = ' | **Test Mode Activated**'
 		msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}{test_activated}'
 		await channel.send(msg.strip())
+		await task_update_activity(params)
 	am_alive.start()	
 
 ######################## BOT READY ########################
 async def startBot(params):
 	try:
 		bot = params['bot']
-		discord = params['discord']
 		print("We have logged in as {0.user}".format(bot))
-		status = discord.Status.online
-		activity = discord.Activity(type=discord.ActivityType.watching, name="🌐 teacode.ma ☕")
-		await bot.change_presence(status=status, activity=activity)
-		# # activity = discord.Activity(type=discord.ActivityType.watching, name="teacode.ma")
-		# # activity = discord.Game(name="https://teacode.ma", type=3)
-		# # class discord.CustomActivity(name, *, emoji=None, **extra)
-		task_update_activity(params)
+		await task_update_activity(params)
 	except Exception as ex:
 		print('----- startBot() -----')
 		print(ex)
