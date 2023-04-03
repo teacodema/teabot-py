@@ -13,7 +13,7 @@ def init_slash_commands_reaction(params):
 		pass
 	
 	@reaction.sub_command(name = "toggle-roles")
-	async def tc_update_roles_reactions(interaction, channel:discord.TextChannel = None, msg_id = None):
+	async def tc_update_roles_reactions(interaction, channel:discord.TextChannel, msg_id):
 		"""
 		Update existing role-reactions in case the bot was offline
 		Parameters
@@ -22,20 +22,29 @@ def init_slash_commands_reaction(params):
 		msg_id: Message target ID
 		"""
 		try:
-			if channel and msg_id:
-				returnedDict = await update_msg_reactions(params, interaction, channel, msg_id)
-				roles_assigned = returnedDict['roles_assigned']
-				_msg = returnedDict['_msg']
-			else:
-				roles_assigned = 0
-				_msg = ''
-				for channel_id in reactions:
-					channel = bot.get_channel(int(channel_id))
-					for msg_id in reactions[str(channel_id)]:
-						await interaction.send(f'https://discord.com/channels/{guildId}/{channel_id}/{msg_id}', ephemeral=True)
-						returnedDict = await update_msg_reactions(params, interaction, channel, msg_id)
-						roles_assigned += returnedDict['roles_assigned']
-						_msg += returnedDict['_msg']
+			msg = await channel.fetch_message(int(msg_id))
+			roles_assigned = 0
+			_msg = ''
+			for r in msg.reactions:
+				roleName = reactions[str(channel.id)][str(msg_id)][str(r.emoji)]
+				role = discord.utils.get(interaction.guild.roles, name = roleName)
+				reacted_users = await r.users().flatten()
+				for u in reacted_users:
+					try:
+						if u.id != users['teabot']:
+							member = await interaction.guild.fetch_member(u.id)
+							if role not in member.roles:
+								await member.add_roles(role)
+								_msg += f'{member.display_name}#{member.discriminator} got {role.mention}\n'
+								_msg += f'Member ID : {member.id} / {member.mention}\n'
+								roles_assigned += 1
+					except Exception as ex:
+						print('---------- /update_msg_reactions()/add role user --------')
+						print(ex)
+						# await msg.remove_reaction(r.emoji, u)
+						await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / role : {role.mention}')
+						pass
+			
 			await interaction.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', ephemeral=True)
 		except Exception as ex:
 			print('---------- /tc_update_roles_reactions() --------')

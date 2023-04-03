@@ -50,39 +50,3 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	return log_thread
 	# await log_thread.edit(archived=True)
 
-
-async def update_msg_reactions(params, interaction, channel, msg_id):
-	try:
-		discord = params['discord']
-		guild = interaction.guild
-		msg = await channel.fetch_message(int(msg_id))
-		roles_assigned = 0
-		_msg = ''
-		for r in msg.reactions:
-			roleName = reactions[str(channel.id)][str(msg_id)][str(r.emoji)]
-			role = discord.utils.get(guild.roles, name = roleName)
-			reacted_users = await r.users().flatten()
-			for u in reacted_users:
-				try:
-					if u.id != users['teabot']:
-						member = await guild.fetch_member(u.id)
-						if role not in member.roles:
-							await member.add_roles(role)
-							_msg += f'{member.display_name}#{member.discriminator} got {role.mention}\n'
-							_msg += f'Member ID : {member.id} / {member.mention}\n'
-							roles_assigned += 1
-				except Exception as ex:
-					print('---------- /update_msg_reactions()/add role user --------')
-					print(ex)
-					print(role.id)
-					print(u.id)
-					# await msg.remove_reaction(r.emoji, u)
-					await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / role : {role.mention}')
-					pass
-		return {'roles_assigned': roles_assigned, '_msg': _msg}
-	except Exception as ex:
-		print('---------- /update_msg_reactions()/msg reactions --------')
-		print(ex)
-		print(channel.id)
-		print(role.id)
-		pass
