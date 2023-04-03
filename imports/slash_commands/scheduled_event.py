@@ -134,12 +134,11 @@ def init_slash_commands_scheduled_event(params):
 					if event.channel_id in voice_roles:
 						role = interaction.guild.get_role(voice_roles[event.channel_id])
 						msg_dm += f'\n<@&{role.id}>'
-						await announcement_channel.send(msg_dm.strip())
+					await announcement_channel.send(msg_dm.strip())
 			
 			if flag == 'completed' and announcement_channel:
-				if event.channel_id in voice_roles:
-					msg = f'🔴 Event ended : **{event.name}**\nThank you for attending\nsee you soon 👋'
-					await announcement_channel.send(msg.strip())
+				msg = f'🔴 Event ended : **{event.name}**\nThank you for attending\nsee you soon 👋'
+				await announcement_channel.send(msg.strip())
 			
 			await event.edit(status = _status[flag])
 			await interaction.send('Status Updated', ephemeral=True)
