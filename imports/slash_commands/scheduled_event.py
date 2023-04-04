@@ -120,7 +120,7 @@ def init_slash_commands_scheduled_event(params):
 				return
 				
 			if flag == 'active':
-				msg_dm = f"🟢 Live Now : **{event.name}**\nClick to join : {event.url}"
+				msg_dm = f"🔹 Live Now : **{event.name}**\nClick to join : {event.url}"
 				if send_message:
 					subscribers = await event.fetch_users().flatten()
 					channel = bot.get_channel(textChannels['log-dms'])
@@ -137,7 +137,7 @@ def init_slash_commands_scheduled_event(params):
 					await announcement_channel.send(msg_dm.strip())
 			
 			if flag == 'completed' and announcement_channel:
-				msg = f'🔴 Event ended : **{event.name}**\nThank you for attending\nsee you soon 👋'
+				msg = f'🔸 Event ended : **{event.name}**\nThank you for attending\nsee you soon 👋'
 				await announcement_channel.send(msg.strip())
 			
 			await event.edit(status = _status[flag])
