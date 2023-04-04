@@ -182,7 +182,7 @@ def init_slash_commands_scheduled_event(params):
 
 
 	@event.sub_command(name = "create")
-	async def event_create(interaction, name, channel:discord.VoiceChannel, scheduled_start_time, description=None, image_url=None, every_n_weeks:int=None, recurrence:int=None, event_id=None):
+	async def event_create(interaction, name, channel:discord.VoiceChannel, scheduled_start_time, description=None, image_url=None, recurrence=commands.Param(choices=recurrence_values), recurrence_number:int=None, how_many:int=None, event_id=None):
 		"""
 		Create scheduled event - \\n \\t /$
 		Parameters
@@ -192,8 +192,9 @@ def init_slash_commands_scheduled_event(params):
 		scheduled_start_time: Event's starting time / example - 7/23/2022 21:15
 		description: Event's description - \\n \\t /$
 		image_url: Cover image / example - http://teacode.ma/path/image.png
-		every_n_weeks: Every week / 2 weeks -  1 <= every_n_weeks <= 4 (recurrence param should be set)
-		recurrence: Number of (Weekly) events to create - 2 <= recurrence <= 5 (every_n_weeks param should be set)
+		recurrence: Every week/day -  1 <= recurrence <= 4 (how_many param should be set)
+		recurrence_number: Example : Every 2 or 3 days/weeks
+		how_many: Number of (weekly/daily) events to create - 2 <= how_many <= 5 (recurrence param should be set)
 		event_id: ID of an exisitng event (duplicate event)
 		"""
 		try:
@@ -204,19 +205,20 @@ def init_slash_commands_scheduled_event(params):
 					await interaction.send("⚠ Event not found !!", ephemeral=True)
 					return
 
-			if (every_n_weeks and not recurrence) or (recurrence and not every_n_weeks):
-				await interaction.send('*recurrence* and *every_n_weeks* should be set together !!', ephemeral=True)
-				return
-			
-			if recurrence and (recurrence < appParams['recurrence_min'] or recurrence > appParams['recurrence_max']):
-				await interaction.send(f"{appParams['recurrence_min']} <= *recurrence* <= {appParams['recurrence_max']} !!", ephemeral=True)
-				return
-			
-			if every_n_weeks and (every_n_weeks < appParams['every_n_weeks_min'] or every_n_weeks > appParams['every_n_weeks_max']):
-				await interaction.send(f"{appParams['every_n_weeks_min']} <= *every_n_weeks* <= {appParams['every_n_weeks_max']} !!", ephemeral=True)
+			if (how_many and not (recurrence and recurrence_number)) or ((recurrence and recurrence_number) and not how_many):
+				await interaction.send('*recurrence*, *recurrence_number* and *how_many* should be set together !!', ephemeral=True)
 				return
 
-			count =  recurrence if recurrence else 1
+			if recurrence != "None":
+				if recurrence_number and (recurrence_number < appParams['recurrence_min'] or recurrence_number > appParams['recurrence_max']):
+					await interaction.send(f"{appParams['recurrence_min']} <= *recurrence_number* <= {appParams['recurrence_max']} !!", ephemeral=True)
+					return
+			
+			if how_many and (how_many < appParams['how_many_min'] or how_many > appParams['how_many_max']):
+				await interaction.send(f"{appParams['how_many_min']} <= *how_many* <= {appParams['how_many_max']} !!", ephemeral=True)
+				return
+
+			count =  how_many if how_many else 1
 			await interaction.send(f'Creating {count} event(s) in progress ...', ephemeral=True)
 			
 			guild = interaction.guild
@@ -234,20 +236,24 @@ def init_slash_commands_scheduled_event(params):
 				os.remove(file_name)
 			elif event: image = event.image
 
+			tzinfo = timezone(timedelta(hours=0))
 			start_time = dp.parse(scheduled_start_time)
-			tzinfo = timezone(timedelta(hours=1))
 
-			if recurrence and every_n_weeks:
-				for i in range(recurrence):
+			if how_many and recurrence != "None":
+				for i in range(how_many):
 					start_time = start_time.replace(tzinfo=tzinfo)
 					await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel=channel, description=description, image=image)
-					start_time = start_time + drel.relativedelta(weeks=every_n_weeks)
+					if recurrence == "weekly":
+						start_time = start_time + drel.relativedelta(weeks=recurrence_number)
+					elif recurrence == "daily":
+						start_time = start_time + drel.relativedelta(days=recurrence_number)
 			else:
 				start_time = start_time.replace(tzinfo=tzinfo)
 				await guild.create_scheduled_event(name=name, scheduled_start_time=start_time, entity_type=entity_type, channel=channel, description=description, image=image)
 
 			await interaction.send(f'Created events : {count}', ephemeral=True)
 		except Exception as ex:
+			raise ex
 			print('----- /event_create() -----')
 			print(ex)
 			await log_exception(ex, '/event_create', interaction)
