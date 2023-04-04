@@ -47,13 +47,9 @@ def init_events_reaction(params):
 	async def toggleReaction(payload, fct_params):
 		try:
 			log = bot.get_channel(textChannels['log-reaction'])
-			
-				
 			guild = bot.get_guild(guildId)
 			member = fct_params['member']
-
 			log_thread = await log_reacted_msg(params, payload, log, member, fct_params['adding'])
-
 			if member.bot != True:
 				roleName = None
 				if str(payload.channel_id) in reactions:

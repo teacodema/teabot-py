@@ -253,7 +253,6 @@ def init_slash_commands_scheduled_event(params):
 
 			await interaction.send(f'Created events : {count}', ephemeral=True)
 		except Exception as ex:
-			raise ex
 			print('----- /event_create() -----')
 			print(ex)
 			await log_exception(ex, '/event_create', interaction)
