@@ -89,9 +89,7 @@ async def updateMembersCount(params):
 	try:
 		bot = params['bot']
 		guild = bot.get_guild(guildId)
-		memberList = guild.members
-		membersCount = len(memberList)
-		return membersCount
+		return len(guild.members)
 	except Exception as ex:
 		print('----- updateMembersCount() -----')
 		print(ex)
