@@ -41,7 +41,7 @@ def init_slash_commands_reaction(params):
 					except Exception as ex:
 						print('---------- /update_msg_reactions()/add role user --------')
 						print(ex)
-						# await msg.remove_reaction(r.emoji, u)
+						await msg.remove_reaction(r.emoji, u)
 						await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / role : {role.mention}')
 						pass
 			
