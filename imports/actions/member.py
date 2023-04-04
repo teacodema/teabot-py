@@ -37,8 +37,6 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ {member.id}'
 			else: msg += f'\n❗ DM/ Welcome Message ➜ {member.id}'
 		membersCount = await updateMembersCount(params)
-		_name = replace_str(member.name, {"_": "\_", "*": "\*"})
-		_display_name = replace_str(member.display_name, {"_": "\_", "*": "\*"})
 		msg += f'\n🟩 {membersCount} - {member.mention} / {member.id} join'
 		msg += '\n──────────────────────'
 		return msg
