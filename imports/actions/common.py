@@ -4,6 +4,7 @@ from imports.data_server.members_roles import *
 from imports.data_common.slash_commands_permissions import *
 from imports.data_common.config import *
 from imports.data_server.config import *
+from imports.actions.member import updateMembersCount
 import pytz, re, random
 
 
@@ -100,7 +101,7 @@ async def task_update_activity(params, activity_name = None, activity_type = Non
 	bot = params['bot']
 	discord = params['discord']
 	guild = bot.get_guild(guildId)
-	activity_names = [f"{len(guild.members)} members", "🌐 teacode.ma ☕", "Ramadan Karim 🌒"]
+	activity_names = [f"{updateMembersCount(params)} members", "🌐 teacode.ma ☕", "Ramadan Karim 🌒"]
 	if activity_type == None: activity_type = discord.ActivityType.watching
 	if activity_name == None: activity_name = random.choice(activity_names)
 	activity = discord.Activity(type = activity_type, name = activity_name )
