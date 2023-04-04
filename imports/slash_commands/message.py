@@ -257,7 +257,7 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			msg = await interaction.channel.fetch_message(msg_id)
-			feedbackText = f'https://discord.com/channels/{guildId}/{msg.channel.id}/{msg_id}\n'
+			feedbackText = f'{get_message_link(msg.channel.id, msg_id)}\n'
 			for r in msg.reactions:
 				if len(feedbackText) > 1800:
 					await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)

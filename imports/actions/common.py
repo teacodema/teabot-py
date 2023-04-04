@@ -3,8 +3,12 @@ from imports.data_server.channels_categories import *
 from imports.data_server.members_roles import *
 from imports.data_common.slash_commands_permissions import *
 from imports.data_common.config import *
+from imports.data_server.config import *
 import pytz, re, random
 
+
+def get_message_link(channel_id, message_id):
+	return f'https://discord.com/channels/{guildId}/{channel_id}/{message_id}'
 
 def is_not_host_or_bot(member):
 	roleIds = [role.id for role in member.roles]

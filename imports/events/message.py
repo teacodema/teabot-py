@@ -104,7 +104,7 @@ def init_events_message(params):
 			log_thread = await make_thread(log, f'✏ {user_mention} in {toggle_channel_mention(before.channel)}')
 			
 			msgs = []
-			msg = f'\n\nhttps://discord.com/channels/{guildId}/{after.channel.id}/{after.id}'
+			msg = f'\n\n{get_message_link(after.channel.id, after.id)}'
 			user_mention = await toggle_user_mention(bot, before.author, [roles['viewer']])
 			msg += f'\n✏ {user_mention} in {before.channel.mention}'
 			msg += f'\nAuthor ID : {before.author.id}'
