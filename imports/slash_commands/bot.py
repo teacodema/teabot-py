@@ -1,5 +1,6 @@
 
 from imports.actions.common import *
+from imports.actions.bot import *
 from imports.data_common.slash_commands_permissions import *
 
 def init_slash_commands_bot(params):
@@ -12,10 +13,11 @@ def init_slash_commands_bot(params):
 	async def teacode(inter):
 		pass
 
-	states = ["online", "dnd", "idle", "offline", "streaming"]
-	discord_states = [ discord.Status.online, discord.Status.dnd, discord.Status.idle, discord.Status.offline, discord.Status.streaming]
-	activity_types = ["watching", "listening", "playing", "streaming", "competing"]
-	discord_activity_types = [discord.ActivityType.watching, discord.ActivityType.listening, discord.ActivityType.playing, discord.ActivityType.streaming, discord.ActivityType.competing]
+	_activity_states_data = activity_states_data(params)
+	discord_states = _activity_states_data["discord_states"]
+	states = _activity_states_data["states"]
+	discord_activity_types = _activity_states_data["discord_activity_types"]
+	activity_types = _activity_states_data["activity_types"]
 
 	@teacode.sub_command(name = "activity")
 	async def tc_bot_activity(interaction, status=commands.Param(choices=states), activity_type=commands.Param(choices=activity_types), name = None):
@@ -29,10 +31,8 @@ def init_slash_commands_bot(params):
 		"""
 		try:
 			status = discord_states[states.index(status)]
-			if name == None:
-				name = "🌐 teacode.ma ☕"
-			activity = discord.Activity(type = discord_activity_types[activity_types.index(activity_type)], name=name)
-			await bot.change_presence(status=status, activity=activity)
+			activity = discord_activity_types[activity_types.index(activity_type)]
+			await task_update_activity(params, activity_name=name, activity_type=activity, status=status)
 		except Exception as ex:
 			print('----- /tc_bot_activity() -----')
 			print(ex)

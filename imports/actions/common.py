@@ -97,11 +97,12 @@ def split_str(str, spliters=None):
 		print(ex)
 
 
-async def task_update_activity(params, activity_name = None, activity_type = None):
+async def task_update_activity(params, activity_name = None, activity_type = None, status = None):
 	bot = params['bot']
 	discord = params['discord']
 	activity_names = ["🌐 teacode.ma ☕", "Ramadan Karim 🌒"]
+	if status == None: status = discord.Status.online
 	if activity_type == None: activity_type = discord.ActivityType.watching
 	if activity_name == None: activity_name = random.choice(activity_names)
 	activity = discord.Activity(type = activity_type, name = activity_name )
-	await bot.change_presence(activity = activity)
+	await bot.change_presence(status=status, activity = activity)
