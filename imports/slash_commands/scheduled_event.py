@@ -256,3 +256,64 @@ def init_slash_commands_scheduled_event(params):
 			print('----- /event_create() -----')
 			print(ex)
 			await log_exception(ex, '/event_create', interaction)
+
+
+	@event.sub_command(name = "update")
+	async def event_update(interaction, name, new_name=None, channel:discord.VoiceChannel=None, description=None, image_url=None):
+		"""
+		Create scheduled event - \\n \\t /$
+		Parameters
+		----------
+		name: Search term / Event name
+		new_name: New name for event(s)
+		channel: Voice channel
+		description: Event's description - \\n \\t /$
+		image_url: Cover image / example - http://teacode.ma/path/image.png
+		"""
+		try:
+			await interaction.send('Updating ...')
+			params = interaction.filled_options
+			new_data_exists = False
+			for p in params:
+				if p != "name" and params[p] != None:
+					new_data_exists = True
+					break;
+			if not new_data_exists:
+				await interaction.send("No new data provided to update !!")
+				return
+			guild = interaction.guild
+			events_to_update = list(filter(lambda event: event.name == name, guild.scheduled_events))
+			if len(events_to_update) == 0:
+				await interaction.send(f"No event(s) found with name `{name}` !!")
+				return
+			image = None
+			if image_url:
+				response = requests.get(image_url)
+				file_name = "event-cover.png"
+				open(file_name, "wb").write(response.content)
+				file = open(file_name, "rb")
+				image = file.read()
+				os.remove(file_name)
+
+			count = 0
+			for event in events_to_update:
+				try:
+					if new_name == None: new_name = event.name
+					if description:
+						description = replace_str(description, {"\\n": "\n", "\\t": "	", "/$": " "})
+					else:
+						description = event.description
+					if image == None: image = event.image
+					if channel == None: channel = event.channel
+					await event.edit(name=new_name, description=description, image=image, channel=channel)
+					count += 1
+				except Exception as ex:
+					print(ex, event.id)
+					await interaction.send(f"Issue with event ID : {event.id}\n", ephemeral=True)
+					pass
+			
+			await interaction.send(f'Updated events : {count}', ephemeral=True)
+		except Exception as ex:
+			print('----- /event_update() -----')
+			print(ex)
+			await log_exception(ex, '/event_update', interaction)

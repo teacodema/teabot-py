@@ -25,7 +25,7 @@ slash_commands_permissions = {
         'message reply', 'message remove',
         'reaction toggle-roles', 'message reactions',
         'role has', 'role update-position', 'role fetch',
-        'event delete', 'event update-status', 'event fetch',
+        'event delete', 'event update-status', 'event fetch', 'event update',
         'teacode activity', 'teacode commands', 'reaction toggle'
     ],
 }
