@@ -58,9 +58,9 @@ def init_events_member(params):
 			await channel.send(msg)
 		
 		except Exception as ex:
-			print('----- on_member_join(evet) -----')
+			print('----- on_member_join(evt) -----')
 			print(ex)
-			await log_exception(ex, 'on_member_join(evet)', None, bot)
+			await log_exception(ex, 'on_member_join(evt)', None, bot)
 		
 
 	######################## REMOVE MEMBER ########################
