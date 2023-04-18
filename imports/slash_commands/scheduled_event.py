@@ -271,7 +271,6 @@ def init_slash_commands_scheduled_event(params):
 		image_url: Cover image / example - http://teacode.ma/path/image.png
 		"""
 		try:
-			await interaction.send('Updating ...')
 			params = interaction.filled_options
 			new_data_exists = False
 			for p in params:
