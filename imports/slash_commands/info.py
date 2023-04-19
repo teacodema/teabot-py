@@ -48,7 +48,7 @@ def init_slash_commands_info(params):
 			total_voice_channels = len(guild.voice_channels)
 			total_stage_channels = len(guild.stage_channels)
 
-			if is_root(guild): total_channels = total_text_channels + total_voice_channels + total_stage_channels
+			if is_root(guild, interaction.author): total_channels = total_text_channels + total_voice_channels + total_stage_channels
 			else:
 				total_channels = 0
 				for catId in excludedCategories:
