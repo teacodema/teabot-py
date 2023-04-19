@@ -55,9 +55,9 @@ categories = {
 	'help-text':				796125709423738921,
 	'study-group':				909513881842515990,
 
-	'staff-corner':	810187882153115648,
+	'committee-corner':	810187882153115648,
 
-	'private-corner': 		891123068964077608,
+	'log-corner': 		1010661787005358210,
 	'lab-corner': 				885273061941706802,
 	'system-corner': 			794057030180405270,
 }

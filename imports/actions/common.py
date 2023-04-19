@@ -47,6 +47,9 @@ def is_authorised(interaction, authorizedRolesIds):
 	roleExists = [value for value in authorizedRoles if value in roleIds]
 	return len(roleExists) > 0
 
+def is_root(guild, member):
+	rootRole = guild.get_role(roles['root'])
+	return (rootRole in member.roles)
 
 def is_founders(interaction):
 	return is_authorised(interaction, {'founders'})

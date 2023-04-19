@@ -17,12 +17,12 @@ def init_slash_commands_info(params):
 		Display server info
 		"""
 		try:
-			# excludedCategories = [
-			# 	categories['staff-corner'],
-			# 	categories['private-corner'],
-			# 	categories['lab-corner'],
-			# 	categories['system-corner'],
-			# ]
+			excludedCategories = [
+				categories['committee-corner'],
+				categories['log-corner'],
+				categories['lab-corner'],
+				categories['system-corner'],
+			]
 			# isNotAllowed = not is_founders(interaction)
 			guild = interaction.guild
 			created_at = getTimeUtcPlusOne(guild.created_at, "%A, %B %d, %Y - %H:%M")
@@ -36,10 +36,8 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Members", value=len(guild.members), inline=True)
 			# embed.add_field(name="Channels", value=len(guild.channels), inline=True)
 			
-			# if (isNotAllowed):
-			# 	total_categories = len(guild.categories) - len(excludedCategories)
-			# else:
-			total_categories = len(guild.categories)
+			if is_root(guild, interaction.author): total_categories = len(guild.categories)
+			else: total_categories = len(guild.categories) - len(excludedCategories)
 			
 			embed.add_field(name="Categories", value=total_categories, inline=True)
 			# embed.add_field(name="Text Channels", value=len(guild.text_channels), inline=True)
@@ -50,16 +48,15 @@ def init_slash_commands_info(params):
 			total_voice_channels = len(guild.voice_channels)
 			total_stage_channels = len(guild.stage_channels)
 
-			# if (isNotAllowed):
-			# 	total_channels = 0
-			# 	for catId in excludedCategories:
-			# 		category = get(guild.categories, id = catId)
-			# 		total_text_channels -= len(category.text_channels)
-			# 		total_voice_channels -= len(category.voice_channels)
-			# 		total_stage_channels -= len(category.stage_channels)
-			# 		total_channels = total_text_channels + total_voice_channels + total_stage_channels
-			# else:
-			total_channels = total_text_channels + total_voice_channels + total_stage_channels
+			if is_root(guild): total_channels = total_text_channels + total_voice_channels + total_stage_channels
+			else:
+				total_channels = 0
+				for catId in excludedCategories:
+					category = guild.get_channel(catId)
+					total_text_channels -= len(category.text_channels)
+					total_voice_channels -= len(category.voice_channels)
+					total_stage_channels -= len(category.stage_channels)
+				total_channels = total_text_channels + total_voice_channels + total_stage_channels
 
 			value = f'Total : {total_channels}'
 			value += f'\nText : {total_text_channels}'
