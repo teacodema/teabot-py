@@ -103,7 +103,7 @@ def split_str(str, spliters=None):
 async def task_update_activity(params, activity_name = None, activity_type = None, status = None):
 	bot = params['bot']
 	discord = params['discord']
-	activity_names = ["teacode.ma ☕", "3id Moubarak 🎉"]
+	activity_names = ["teacode.ma ☕", "🎉 عيد مبارك سعيد "]
 	if status == None: status = discord.Status.online
 	if activity_type == None: activity_type = discord.ActivityType.watching
 	if activity_name == None: activity_name = random.choice(activity_names)
