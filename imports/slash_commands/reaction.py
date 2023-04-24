@@ -52,29 +52,31 @@ def init_slash_commands_reaction(params):
 			await log_exception(ex, '/tc_update_roles_reactions', interaction)
 
 	@reaction.sub_command(name = "toggle")
-	async def tc_bot_react(interaction, msg_id, emojis, remove:int=0, member: discord.Member = None):
+	async def tc_bot_react(interaction, msg_ids, emojis, remove:int=0, member: discord.Member = None):
 		"""
 		Add/Remove reaction to/from msg - ,
 		Parameters
 		----------
-		msg_id: Message ID
+		msg_ids: Message IDs (of the current channel) separated by , or space
 		emojis: Server existing emojis separated by , or space
 		remove: Remove the reaction - enter 1 to activate (default 0)
 		member: Member to remove reactions for (remove param should be == 1)
 		"""
 		try:
-			msg = await interaction.channel.fetch_message(msg_id)
-			emojis = split_str(emojis)
-			for e in emojis:
-				try:
-					if remove:
-						if member: await msg.remove_reaction(e, member)
-						else: await msg.clear_reaction(e)
-					else: await msg.add_reaction(e)
-				except Exception as ex:
-					print('---------- /tc_bot_react()/loop --------')
-					print(ex)
-					pass
+			msg_ids = split_str(msg_ids)
+			for msg_id in msg_ids:
+				msg = await interaction.channel.fetch_message(msg_id)
+				emojis = split_str(emojis)
+				for e in emojis:
+					try:
+						if remove:
+							if member: await msg.remove_reaction(e, member)
+							else: await msg.clear_reaction(e)
+						else: await msg.add_reaction(e)
+					except Exception as ex:
+						print('---------- /tc_bot_react()/loop --------')
+						print(ex)
+						pass
 		except Exception as ex:
 			print('---------- /tc_bot_react() --------')
 			print(ex)
