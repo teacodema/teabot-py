@@ -259,13 +259,14 @@ def init_slash_commands_scheduled_event(params):
 
 
 	@event.sub_command(name = "update")
-	async def event_update(interaction, name, new_name=None, channel:discord.VoiceChannel=None, description=None, image_url=None):
+	async def event_update(interaction, name, new_name=None, new_start_time=None, channel:discord.VoiceChannel=None, description=None, image_url=None):
 		"""
 		Create scheduled event - \\n \\t /$
 		Parameters
 		----------
 		name: Search term / Event name
 		new_name: New name for event(s)
+		new_start_time: Event's new starting time / example - 15:15
 		channel: Voice channel
 		description: Event's description - \\n \\t /$
 		image_url: Cover image / example - http://teacode.ma/path/image.png
@@ -295,6 +296,7 @@ def init_slash_commands_scheduled_event(params):
 				os.remove(file_name)
 
 			count = 0
+			tzinfo = timezone(timedelta(hours=0))
 			for event in events_to_update:
 				try:
 					if new_name == None: new_name = event.name
@@ -304,7 +306,9 @@ def init_slash_commands_scheduled_event(params):
 						description = event.description
 					if image == None: image = event.image
 					if channel == None: channel = event.channel
-					await event.edit(name=new_name, description=description, image=image, channel=channel)
+					start_time = dp.parse(f'{event.scheduled_start_time.date()} {new_start_time}')
+					start_time = start_time.replace(tzinfo=tzinfo)
+					await event.edit(name=new_name, scheduled_start_time=start_time, description=description, image=image, channel=channel)
 					count += 1
 				except Exception as ex:
 					print(ex, event.id)
