@@ -68,6 +68,7 @@ def init_slash_commands_info(params):
 			# embed.add_field(name="max mem", value=guild.max_members, inline=True)
 			# embed.add_field(name="me", value=guild.me, inline=True)
 			# embed.set_footer(text=f"ID : {guild.id}")
+			if is_root(guild, interaction.author): embed.add_field(name="Server ID", value=guild.id, inline=True)
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			await interaction.send(embed=embed, ephemeral=True)
 
@@ -87,14 +88,6 @@ def init_slash_commands_info(params):
 		role: Server existing role
 		"""
 		try:
-			# else:
-			# 	guild = interaction.guild
-			# 	_role = guild.get_role(roles['helpers']) # Helpers
-			# 	action_name = inspect.stack()[0][3]
-			# 	if not is_allowed(interaction, action_name) and role not in interaction.author.roles and role.position > _role.position:
-			# 		await interaction.send('❌ You cannot see this data')
-			# 		return
-
 			embed = discord.Embed(title=role.name, description="", color=role.color)
 			# embed.set_thumbnail(url=member.avatar_url)
 			embed.add_field(name="Name", value=role.name, inline=True)
@@ -103,6 +96,7 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Position", value=role.position, inline=True)
 			embed.add_field(name="Mention", value=role.mention, inline=True)
 			embed.add_field(name="Color", value=role.color, inline=True)
+			if is_root(interaction.guild, interaction.author): embed.add_field(name="Role ID", value=role.id, inline=True)
 			# embed.set_footer(text=f"ID : {role.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 
@@ -123,12 +117,6 @@ def init_slash_commands_info(params):
 		member: Server existing member
 		"""
 		try:
-			# else:
-			# 	action_name = inspect.stack()[0][3]
-			# 	if not is_allowed(interaction, action_name):
-			# 		await interaction.send('❌ You can only see your data')
-			# 		member = interaction.author
-
 			created_at = getTimeUtcPlusOne(member.created_at, "%A, %B %d, %Y - %H:%M")
 			joined_at = getTimeUtcPlusOne(member.joined_at, "%A, %B %d, %Y - %H:%M")
 
@@ -138,12 +126,13 @@ def init_slash_commands_info(params):
 			embed.add_field(name="User Name", value=member.name, inline=True)
 			embed.add_field(name="Nick Name", value=member.nick, inline=True)
 			embed.add_field(name="Display Name", value=member.display_name, inline=True)
-			embed.add_field(name="Joined", value=joined_at, inline=True)
 			embed.add_field(name="Registred", value=created_at, inline=True)
+			embed.add_field(name="Joined", value=joined_at, inline=True)
 			embed.add_field(name="Top Role", value=f'{member.top_role.mention}', inline=True)
 			embed.add_field(name="Roles", value=len(member.roles) - 1, inline=True)
 			embed.add_field(name="Mention", value=member.mention, inline=True)
 			embed.add_field(name="Color", value=member.color, inline=True)
+			if is_root(interaction.guild, interaction.author): embed.add_field(name="Member ID", value=member.id, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
 			embed.set_footer(text=f"🌐 Visit teacode.ma")
 			await interaction.send(embed=embed, ephemeral=True)
