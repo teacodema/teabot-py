@@ -107,6 +107,7 @@ def init_slash_commands_message(params):
 				await interaction.send('This is probably a category ⚠', ephemeral=True)
 				return
 			msg = await channel.fetch_message(int(msg_id))
+			content = content.replace('`<id:customize>`', '<id:customize>')
 			content = replace_str(content, {"\\n": "\n", "\\t": "	", "/$": " "})
 			await msg.edit(content=content)
 			if pin:

@@ -13,7 +13,7 @@ def start_loop(params):
 		test_activated = ''
 		if os.getenv("testing") == "1":
 			test_activated = ' | **Test Mode Activated**'
-		msg = f'From {os.getenv("platform")} - Ping at {getTimeUtcPlusOne(datetime.now())}{test_activated}'
+		msg = f'From {os.getenv("platform")} - Ping @ {getTimeUtcPlusOne(datetime.now())}{test_activated}'
 		await channel.send(msg.strip())
 		await task_update_activity(params)
 	am_alive.start()	
