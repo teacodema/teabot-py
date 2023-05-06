@@ -140,3 +140,53 @@ def init_slash_commands_info(params):
 			print('----- /member-info() -----')
 			print(ex)
 			await log_exception(ex, '/member-info', interaction)
+
+	######################## CHANNEL INFO ########################
+	@info.sub_command(name = "channel")
+	async def channel_info(interaction, channel: discord.abc.GuildChannel):
+		"""
+		Get channel info/stats
+		Parameters
+		----------
+		channel: Server existing channel
+		"""
+		try:
+			created_at = getTimeUtcPlusOne(channel.created_at, "%A, %B %d, %Y - %H:%M")
+			member = interaction.author
+			embed = discord.Embed(title=channel.name, description="", color=member.color)
+			embed.set_author(name=f'{channel.name}', icon_url=interaction.guild.icon.url)
+			embed.set_thumbnail(url=interaction.guild.icon.url)
+			embed.add_field(name="Name", value=channel.name, inline=True)
+			embed.add_field(name="Type", value=channel.type, inline=True)
+			if hasattr(channel, 'category') and channel.category:
+				embed.add_field(name="Category", value=channel.category.name, inline=True)
+			embed.add_field(name="Created", value=created_at, inline=True)
+			if hasattr(channel, 'members'): 
+				embed.add_field(name="Members", value=len(channel.members), inline=True)
+			if hasattr(channel, 'threads') and channel.threads:
+				embed.add_field(name="Threads", value=len(channel.threads), inline=True)
+			
+			if hasattr(channel, 'topic') and channel.topic:
+				embed.add_field(name="Topic", value=channel.topic, inline=True)
+			if hasattr(channel, 'threads') and channel.threads:
+				embed.add_field(name="Threads", value=len(channel.threads), inline=True)
+			if hasattr(channel, 'moderators') and channel.moderators:
+				embed.add_field(name="Moderators", value=len(channel.moderators), inline=True)
+				
+			if not hasattr(channel, 'category'):
+				embed.add_field(name="Channels", value=len(channel.channels), inline=True)
+				embed.add_field(name="Forum Channels", value=len(channel.forum_channels), inline=True)
+		
+			if hasattr(channel, 'position') and channel.position:
+				embed.add_field(name="Position", value=channel.position, inline=True)
+			embed.add_field(name="Url", value=channel.jump_url, inline=True)
+			embed.add_field(name="Mention", value=channel.mention, inline=True)
+
+			if is_root(interaction.guild, interaction.author): embed.add_field(name="Channel ID", value=channel.id, inline=True)
+			# embed.set_footer(text=f"ID : {member.id}")
+			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			await interaction.send(embed=embed, ephemeral=True)
+		except Exception as ex:
+			print('----- /channel-info() -----')
+			print(ex)
+			await log_exception(ex, '/channel-info', interaction)

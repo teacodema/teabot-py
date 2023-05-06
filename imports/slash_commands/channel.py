@@ -95,35 +95,3 @@ def init_slash_commands_channel(params):
 			print('----- /delete_voice_channel() -----')
 			print(ex)
 			await log_exception(ex, '/delete_voice_channel', interaction)
-
-	@channel.sub_command(name = "info")
-	async def channel_info(interaction, channel: discord.abc.GuildChannel):
-		"""
-		Get channel info/stats
-		Parameters
-		----------
-		channel: Server existing channel
-		"""
-		try:
-			created_at = getTimeUtcPlusOne(channel.created_at, "%A, %B %d, %Y - %H:%M")
-			member = interaction.author
-			embed = discord.Embed(title=channel.name, description="", color=member.color)
-			embed.set_author(name=f'{channel.name}', icon_url=interaction.guild.icon.url)
-			embed.set_thumbnail(url=interaction.guild.icon.url)
-			embed.add_field(name="Channel Name", value=channel.name, inline=True)
-			embed.add_field(name="Channel Type", value=channel.type, inline=True)
-			if hasattr(channel, 'category') and channel.category:
-				embed.add_field(name="Category", value=channel.category.name, inline=True)
-			embed.add_field(name="Created", value=created_at, inline=True)
-			if hasattr(channel, 'members'): 
-				embed.add_field(name="Members", value=len(channel.members), inline=True)
-			if hasattr(channel, 'threads'): 
-				embed.add_field(name="Threads", value=len(channel.threads), inline=True)
-
-			# embed.set_footer(text=f"ID : {member.id}")
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
-			await interaction.send(embed=embed, ephemeral=True)
-		except Exception as ex:
-			print('----- /channel-info() -----')
-			print(ex)
-			await log_exception(ex, '/channel-info', interaction)

@@ -19,7 +19,7 @@ slash_commands_permissions = {
     ],
 	'root': [
         'member welcome',
-        'channel hide', 'channel lock', 'channel voice-delete', 'channel info',
+        'channel hide', 'channel lock', 'channel voice-delete', 'info channel',
         'thread archive', 'thread delete',
         'member make-webhook', 'message member', 'message channel', 'message edit',
         'message reply', 'message remove',
