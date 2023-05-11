@@ -12,7 +12,7 @@ async def log_reacted_msg(params, payload, member, adding=True):
 	url = get_message_link(payload.channel_id, payload.message_id)
 	operation = f'{"+" if adding else "-"}'
 	user_mention = await toggle_user_mention(bot, member, [roles['viewer']])
-	if _ch.type == 'private': log = bot.get_channel(textChannels['log-reaction-dms'])
+	if str(_ch.type) == 'private': log = bot.get_channel(textChannels['log-reaction-dms'])
 	else: log = bot.get_channel(textChannels['log-reaction'])
 	
 	log_thread = await make_thread(log, f'{payload.emoji} {operation} {user_mention} in {toggle_channel_mention(_ch)}')
