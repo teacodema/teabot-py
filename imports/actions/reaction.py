@@ -1,9 +1,10 @@
 from imports.data_server.reactions import *
+from imports.data_server.channels_categories import *
 from imports.actions.common import *
 from imports.actions.message import *
 
 
-async def log_reacted_msg(params, payload, log, member, adding=True):
+async def log_reacted_msg(params, payload, member, adding=True):
 	bot = params['bot']
 	discord = params['discord']
 	_ch = bot.get_channel(payload.channel_id)
@@ -11,6 +12,9 @@ async def log_reacted_msg(params, payload, log, member, adding=True):
 	url = get_message_link(payload.channel_id, payload.message_id)
 	operation = f'{"+" if adding else "-"}'
 	user_mention = await toggle_user_mention(bot, member, [roles['viewer']])
+	if _ch.type == 'private': log = bot.get_channel(textChannels['log-reaction-dms'])
+	else: log = bot.get_channel(textChannels['log-reaction'])
+	
 	log_thread = await make_thread(log, f'{payload.emoji} {operation} {user_mention} in {toggle_channel_mention(_ch)}')
 	thread_first_msg = f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}'
 	await log_thread.send(thread_first_msg)
