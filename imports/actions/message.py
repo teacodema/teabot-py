@@ -84,11 +84,7 @@ async def log_member_dms(params, message):
 	bot = params['bot']
 	discord = params['discord']
 	author = message.author
-	# Testing
-	if author.id == users['drissboumlik']:
-		channel = await author.create_dm()
-		await channel.send('am alive')
-		return
+
 	excludedIDs = [
 			users['drissboumlik'],
 			users['teabot'],

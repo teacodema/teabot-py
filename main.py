@@ -1,12 +1,9 @@
-# from setup.keep_alive import keep_alive
 import os
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake.ext.invitetracker import InviteLogger
 # from disnake import FFmpegPCMAudio , PCMVolumeTransformer
 # from youtube_dl import YoutubeDL
-# from setup.properties import *
-# from imports.actions import *
 from imports.events.start import *
 from imports.events.message import *
 from imports.events.reaction import *

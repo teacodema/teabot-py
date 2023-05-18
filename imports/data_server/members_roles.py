@@ -16,8 +16,6 @@ roles = {
 	'members' :			807336730168393768,
 	'everyone':			694956824356585654,
 	
-	'__server_activities__' :			930832400680886363,
-	'__techs_tools_jobs_interests__' :			885170104277553203,
 	
 	'help-room':		818265370665943072,
 	'voice-room':		867871623025262602,
