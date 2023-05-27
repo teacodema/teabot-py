@@ -102,6 +102,7 @@ def init_slash_commands_scheduled_event(params):
 		announcement_channel: Channel where to Notify the community
 		"""
 		try:
+			log_thread = None
 			if flag not in flags: 
 				await interaction.send(f'⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
 			event = await interaction.guild.fetch_scheduled_event(event_id = event_id)
