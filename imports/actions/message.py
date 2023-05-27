@@ -110,6 +110,7 @@ async def log_member_dms(params, message):
 			if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
 			await log_thread.edit(archived=True)
 		except Exception as ex:
+			print(ex)
 			if log_thread: await log_thread.edit(archived=True)
 
 async def prohibited_mentions(message):
