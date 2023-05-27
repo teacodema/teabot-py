@@ -92,28 +92,6 @@ def init_temporary(params):
 			print(ex)
 			await log_exception(ex, '/make_pair', interaction)
 
-	# @bot.event
-	# async def on_guild_scheduled_event_update(before, after):
-	# 	try:
-	# 		invite = await after.channel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=100, reason=f'Event Started Title : {after.name}')
-	# 		event_invite_link = f'{invite}?event={after.id}'
-	# 		if before.status != after.status:
-	# 			channel = bot.get_channel(textChannels['general'])
-	# 			guild = bot.get_guild(guildId)
-	# 			if after.channel_id in voice_roles:
-	# 				role = guild.get_role(voice_roles[after.channel_id])
-	# 			else:
-	# 				role = guild.get_role(roles['members'])
-	# 			if after.status == discord.GuildScheduledEventStatus.active:
-	# 				msg = f'🟢 Live : **{after.name}** / {role.mention}\nFeel free to join\n{event_invite_link}'
-	# 				await channel.send(msg.strip())
-	# 			elif after.status == discord.GuildScheduledEventStatus.completed:
-	# 				msg = f'🟥 Event ended / {after.name}\nThank you for attending\nsee you soon 👋'
-	# 				await channel.send(msg.strip())
-	# 	except Exception as ex:
-	# 		print('----- on_guild_scheduled_event_update(evt) -----')
-	# 		print(ex)
-	# 		await log_exception(ex, 'on_guild_scheduled_event_update(evt)', None, bot)
 
 
 	@temp.sub_command(name = "category-channels-delete")
