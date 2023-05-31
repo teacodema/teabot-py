@@ -4,20 +4,6 @@ from imports.data_common.config import *
 from imports.actions.common import *
 from imports.actions.role import *
 
-async def checkNewMemberRole(guild, do:int=0):
-	try:
-		role = guild.get_role(roles['new-members'])
-		updated = []
-		for member in role.members:
-			diff = datetime.now() - member.joined_at.replace(tzinfo=None)
-			if diff.days >= appParams['newMembershipPeriode']:
-				updated.append(member.mention)
-				if do: await member.remove_roles(role)
-		return updated
-	except Exception as ex:
-		print('----- checkNewMemberRole -----')
-		print(ex)
-		return -1
 
 async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhook = 0):
 	try:
@@ -97,7 +83,7 @@ async def assign_init_roles(params, member):
 	try:
 		bot = params['bot']
 		_roles = [
-			roles['new-members'], roles['members'],
+			roles['members'],
 		]
 		roles_list = []
 		guild = bot.get_guild(guildId)

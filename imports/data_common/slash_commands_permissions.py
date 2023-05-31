@@ -12,7 +12,6 @@ slash_commands_permissions = {
     'staff': [
         'message purge',
         'member pick-speaker', 'message poll',
-        'member check-new', 'member update-new',
         'role toggle', 'role toggle-multiple',
         'event subscribers', 'event create',
         'channel voice-clone',
