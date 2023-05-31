@@ -23,8 +23,14 @@ def init_slash_commands_thread(params):
 			if channel.category == None:
 				await interaction.send('This is probably a category ⚠', ephemeral=True)
 				return
+			thread_archived = 0
 			for thread in channel.threads:
-				await thread.edit(archived=True)
+				try:
+					await thread.edit(archived=True)
+					thread_archived += 1;
+				except:
+					pass
+			await interaction.send(f'Threads Archived : {thread_archived}', ephemeral=True)
 		except Exception as ex:
 			print('----- /tc_thread_archive() -----')
 			print(ex)
@@ -44,11 +50,16 @@ def init_slash_commands_thread(params):
 			if channel.category == None:
 				await interaction.send('This is probably a category ⚠', ephemeral=True)
 				return
-			total_threads = channel.threads
-			if delete_archived:
-				total_threads = total_threads + await channel.archived_threads().flatten()
-			for thread in total_threads:
-				await thread.delete()
+			thread_deleted = 0
+			for thread in channel.threads:
+				try:
+					if thread.archived and not delete_archived:
+						pass
+					await thread.delete()
+					thread_deleted += 1
+				except:
+					pass
+			await interaction.send(f'Threads Deleted : {thread_deleted}', ephemeral=True)
 		except Exception as ex:
 			print('----- /tc_thread_delete() -----')
 			print(ex)
