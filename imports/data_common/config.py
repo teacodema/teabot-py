@@ -11,6 +11,7 @@ appParams = {
 	'how_many_max': 5,		# Max Total events
 	'newMembershipPeriode': 7, # in days
 	'inviteMaxAge': 604800, # in seconds <=> 1 week
+	'inviteForOneDay': 86400, # in seconds <=> 1 day
 	'inviteMaxUses': 10,
 	'blue': 0x1da1f2,
 	'notifyOffset': 15

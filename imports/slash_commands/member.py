@@ -15,7 +15,7 @@ def init_slash_commands_member(params):
 
 	######################## WELCOME MEMBER CMD ########################
 	@member.sub_command(name = "welcome")
-	async def tc_welcome(interaction, member: discord.Member, assign_role: int=0, send_dm: int=0, use_webhook: int=0):
+	async def tc_welcome(interaction, member: discord.Member, assign_role: int=0, send_dm: int=0, append_event_to_dm: int=0, use_webhook: int=0):
 		"""
 		Welcome users manually (dm + assign initial roles)
 		Parameters
@@ -23,10 +23,11 @@ def init_slash_commands_member(params):
 		member: Server existing member
 		assign_role: Assign initial roles - enter 1 to activate (default 0)
 		send_dm: Send a dm - enter 1 to activate (default 0)
+		append_event_to_dm: Add message for next event if exists (default 0)
 		use_webhook: Make a webhook for the new member - enter 1 to activate (default 0)
 		"""
 		try:
-			msg = await welcomeMember(params, member, assign_role, send_dm, use_webhook)
+			msg = await welcomeMember(params, member, assign_role, send_dm, append_event_to_dm, use_webhook)
 			channel = bot.get_channel(textChannels['log-server'])			
 			await channel.send(msg.strip())
 		except Exception as ex:

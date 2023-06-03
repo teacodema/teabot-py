@@ -28,11 +28,10 @@ def init_events_member(params):
 	@bot.event
 	async def on_member_join(member):
 		try:			
-			# print(data.inviter)
 			if member.bot and (os.getenv("kick_bot") == "1"):
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
 				return
-			msg = await welcomeMember(params, member, 1, 1, 1)
+			msg = await welcomeMember(params, member, 1, 1, 1, 1)
 			channel = bot.get_channel(textChannels['log-server'])
 			await channel.send(msg.strip())
 

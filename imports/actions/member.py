@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from imports.data_server.config import *
 from imports.data_common.config import *
 from imports.actions.common import *
 from imports.actions.role import *
 
 
-async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhook = 0):
+async def welcomeMember(params, member, assign_role = 0, send_dm = 0, append_event_to_dm = 0, use_webhook = 0):
 	try:
 		bot = params['bot']
 		channel = bot.get_channel(textChannels['log-server'])
@@ -19,7 +19,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 			if assigned: msg += "\n🟢 initial roles assigned 🎭"
 			else: msg += "\n🔴 initial roles assigned 🎭"
 		if int(send_dm):
-			dm_sent = await send_dm_welcome(params, member)
+			dm_sent = await send_dm_welcome(params, member, append_event_to_dm)
 			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ {member.id}'
 			else: msg += f'\n❗ DM/ Welcome Message ➜ {member.id}'
 		membersCount = await updateMembersCount(params)
@@ -32,7 +32,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, use_webhoo
 		await log_exception(ex, 'welcomeMember()', None, bot)
 		return 0
 
-async def send_dm_welcome(params, member):
+async def send_dm_welcome(params, member, append_event_to_dm = 0):
 	try:
 		bot = params['bot']
 		startHereChannel = bot.get_channel(textChannels['start-here'])
@@ -45,6 +45,21 @@ async def send_dm_welcome(params, member):
 		message += f"\nDon't forget to **invite** your friends who could be interested / Link : {invite}"
 		message += f"\n\n➜ Ila ma3reftich chno dir t9der tsowwel <@{users['drissboumlik']}>"
 		message += f"\n➜ Website : <https://teacode.ma>"
+		
+		if int(append_event_to_dm):
+			tzinfo = timezone(timedelta(hours=1))
+			now = datetime.now().replace(tzinfo=tzinfo)
+			next_week = (now + timedelta(days=7)).replace(tzinfo=tzinfo)
+			print(now)
+			print(next_week)
+			guild = bot.get_guild(guildId)
+			events = sorted(guild.scheduled_events, key=lambda event: event.scheduled_start_time)
+			events = list(filter(lambda event: (now < event.scheduled_start_time.replace(tzinfo=tzinfo) and event.scheduled_start_time.replace(tzinfo=tzinfo) < next_week), events))
+			if len(events):
+				event = events[0]
+				invite = await event.channel.create_invite(max_age=appParams['inviteForOneDay'], max_uses=100, reason=f'Invite member to next event : {event.name}')
+				event_url = f'{invite}?event={event.id}'
+				message += f"\n\n🗓️ Don't forget to join our next event : **{event.name}**\n{event_url}"
 
 		channel = await member.create_dm()
 		await channel.send(message)
