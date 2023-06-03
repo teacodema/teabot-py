@@ -23,7 +23,7 @@ def init_events_scheduled_event(params):
 	@bot.event
 	async def on_guild_scheduled_event_update(before, after):
 		try:
-			# invite = await after.channel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=100, reason=f'Event Started Title : {after.name}')
+			# invite = await after.channel.create_invite(max_age=appParams['inviteForOneWeek'], max_uses=100, reason=f'Event Started Title : {after.name}')
 			# event_invite_link = f'{invite}?event={after.id}'
 			if before.status != after.status:
 				# channel = bot.get_channel(textChannels['general'])

@@ -36,7 +36,7 @@ async def send_dm_welcome(params, member, append_event_to_dm = 0):
 	try:
 		bot = params['bot']
 		startHereChannel = bot.get_channel(textChannels['start-here'])
-		invite = await startHereChannel.create_invite(max_age=appParams['inviteMaxAge'], max_uses=appParams['inviteMaxUses'], reason=f'Welcoming member (ID: {member.id})')
+		invite = await startHereChannel.create_invite(max_age=appParams['inviteForOneWeek'], max_uses=appParams['inviteMaxUses'], reason=f'Welcoming member (ID: {member.id})')
 		message = f"📌 *This is an automated welcoming message (No need to reply)* ‼"
 		message += f'\n\nMerhba bik m3ana {member.mention} f **TeaCode** Community  :flag_ma:  👋'
 
