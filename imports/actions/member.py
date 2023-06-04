@@ -48,8 +48,8 @@ async def send_dm_welcome(params, member, append_event_to_dm = 0):
 		
 		if int(append_event_to_dm):
 			tzinfo = timezone(timedelta(hours=1))
-			now = datetime.now().replace(tzinfo=tzinfo)
-			next_week = (now + timedelta(days=7)).replace(tzinfo=tzinfo)
+			now = datetime.now().replace(tzinfo=tzinfo, hour=0, minute=0, second=0, microsecond=0)
+			next_week = (now + timedelta(days=8)).replace(tzinfo=tzinfo)
 			guild = bot.get_guild(guildId)
 			events = sorted(guild.scheduled_events, key=lambda event: event.scheduled_start_time)
 			events = list(filter(lambda event: (now < event.scheduled_start_time.replace(tzinfo=tzinfo) and event.scheduled_start_time.replace(tzinfo=tzinfo) < next_week), events))
