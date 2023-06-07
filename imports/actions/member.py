@@ -20,7 +20,9 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, append_eve
 			else: msg += "\n🔴 initial roles assigned 🎭"
 		if int(send_dm):
 			dm_sent = await send_dm_welcome(params, member, append_event_to_dm)
-			if dm_sent: msg +=f'\n📨 DM/ Welcome Message ➜ {member.id}'
+			if dm_sent: 
+				msg +=f'\n📨 DM/ Welcome Message ➜ {member.id}'
+				if dm_sent == 2: msg +=f'\n📅 DM/ Next event Notification'
 			else: msg += f'\n❗ DM/ Welcome Message ➜ {member.id}'
 		membersCount = await updateMembersCount(params)
 		msg += f'\n🟩 {membersCount} - {member.mention} / {member.id} join'
@@ -34,6 +36,7 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, append_eve
 
 async def send_dm_welcome(params, member, append_event_to_dm = 0):
 	try:
+		returned_value = 1
 		bot = params['bot']
 		startHereChannel = bot.get_channel(textChannels['start-here'])
 		invite = await startHereChannel.create_invite(max_age=appParams['inviteForOneWeek'], max_uses=appParams['inviteMaxUses'], reason=f'Welcoming member (ID: {member.id})')
@@ -58,10 +61,11 @@ async def send_dm_welcome(params, member, append_event_to_dm = 0):
 				invite = await event.channel.create_invite(max_age=appParams['inviteForOneDay'], max_uses=100, reason=f'Invite member to next event : {event.name}')
 				event_url = f'{invite}?event={event.id}'
 				message += f"\n\n🗓️ Don't forget to join our next event : **{event.name}**\n{event_url}"
+				returned_value = 2
 
 		channel = await member.create_dm()
 		await channel.send(message)
-		return 1
+		return returned_value
 	except Exception as ex:
 		print('----- send_dm_welcome() -----')
 		print(ex)
