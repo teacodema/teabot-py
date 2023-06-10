@@ -121,9 +121,7 @@ def init_slash_commands_scheduled_event(params):
 				return
 				
 			if flag == 'active':
-				invite = await event.channel.create_invite(max_age=appParams['inviteForOneDay'], max_uses=100, reason=f'Announcement event : {event.name}')
-				event_url = f'{invite}?event={event.id}'
-				msg_dm = f"🔹 Live Now : **{event.name}**\nClick to join : {event_url}"
+				msg_dm = f"🔹 Live Now : **{event.name}**\nClick to join : {event.url}"
 				if send_message:
 					subscribers = await event.fetch_users().flatten()
 					channel = bot.get_channel(textChannels['log-dms'])
