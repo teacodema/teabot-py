@@ -7,7 +7,7 @@ from imports.data_common.config import *
 def start_loop(params):	
 	bot = params['bot']
 	tasks = params['tasks']
-	@tasks.loop(hours=12, count=None, reconnect=False)
+	@tasks.loop(hours=24, count=None, reconnect=False)
 	async def am_alive():
 		channel = bot.get_channel(textChannels['log-bot'])
 		test_activated = ''
