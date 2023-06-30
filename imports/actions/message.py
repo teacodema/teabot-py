@@ -80,7 +80,7 @@ def get_embeds(message):
 	return ''
 
 
-async def log_member_dms(params, message):
+async def log_member_dms(params, message, thread_header_msg, prev_message = None):
 	bot = params['bot']
 	discord = params['discord']
 	author = message.author
@@ -93,13 +93,21 @@ async def log_member_dms(params, message):
 		try:
 			channel = bot.get_channel(textChannels['log-dms'])
 			user_mention = await toggle_user_mention(bot, author, append_member_id = True)
-			log_thread = await make_thread(channel, f'✉ DM/ ◁== {user_mention}')
+			thread_header_msg += user_mention
+			log_thread = await make_thread(channel, thread_header_msg)
 				
 			msgs = []
 			msg = f'\n__From__\n{user_mention}'
 			msg += f'\n__Content__\n'
 			msgs.append(msg) #await channel.send(msg)
-			msg_content = f'{"--Sticker--" if (message.content == "") else message.content}'
+
+			if prev_message:
+				msg_content = get_message_content(prev_message)
+				msgs.append(msg_content)
+				msg = '\n──▼▼▼▼▼──\n'
+				msgs.append(msg)
+
+			msg_content = get_message_content(message) #f'{"--Sticker--" if (message.content == "") else message.content}'
 			msgs.append(msg_content) #await channel.send(msg_content)
 			attachments_data = get_attachments(message, discord)
 			if attachments_data['urls']: msgs.append(attachments_data['urls']) #await channel.send(msg)

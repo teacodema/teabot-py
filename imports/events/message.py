@@ -13,7 +13,7 @@ def init_events_message(params):
 		try:
 			if str(message.channel.type) == 'private':
 				try:
-					await log_member_dms(params, message)
+					await log_member_dms(params, message, '✉ DM/ ◁== ')
 				except Exception as ex:
 					print('----- on_message(evt)/log_dms -----')
 					print(ex)
@@ -46,6 +46,12 @@ def init_events_message(params):
 	async def on_message_delete(message):
 		try:
 			if str(message.channel.type) == 'private':
+				try:
+					await log_member_dms(params, message, '🗑 DM/ ◁== ')
+				except Exception as ex:
+					print('----- on_message_delete(evt)/log_dms -----')
+					print(ex)
+					await log_exception(ex, 'on_message_delete(evt)/log_dms', None, bot)
 				return
 			excludedCategories = [
 				categories['system-corner'],
@@ -91,6 +97,12 @@ def init_events_message(params):
 	async def on_message_edit(before, after):
 		try:
 			if str(before.channel.type) == 'private':
+				try:
+					await log_member_dms(params, after, '✏ DM/ ◁== ', before)
+				except Exception as ex:
+					print('----- on_message_edit(evt)/log_dms -----')
+					print(ex)
+					await log_exception(ex, 'on_message_edit(evt)/log_dms', None, bot)
 				return
 			excludedCategories = [
 				categories['system-corner'],
