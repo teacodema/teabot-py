@@ -46,6 +46,13 @@ def init_events_reaction(params):
 
 	async def toggleReaction(payload, fct_params):
 		try:
+			excludedCategories = [
+				categories['system-corner']
+			]
+			channel = bot.get_channel(payload.channel_id)
+			if channel.category_id in excludedCategories:
+				return
+
 			guild = bot.get_guild(guildId)
 			member = fct_params['member']
 			log_thread = await log_reacted_msg(params, payload, member, fct_params['adding'])
