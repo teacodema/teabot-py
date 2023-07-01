@@ -50,7 +50,7 @@ def init_events_reaction(params):
 				categories['system-corner']
 			]
 			channel = bot.get_channel(payload.channel_id)
-			if channel.category_id in excludedCategories:
+			if hasattr(channel, 'category_id') and channel.category_id in excludedCategories:
 				return
 
 			guild = bot.get_guild(guildId)
