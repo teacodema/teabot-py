@@ -9,24 +9,23 @@ def init_events_member(params):
 	invite = params['invite']
 	notify_timeout_release = None
 	
-	@bot.event
-	async def on_user_update(before, after):
-		try:
-			guild = bot.get_guild(guildId)
-			new_name = after.name
-			list_rules = await guild.fetch_automod_rules()
-			for rule in list_rules:
-				if not (str(rule.event_type) == 'AutoModEventType.message_send'):
-					if new_name in rule.trigger_metadata.keyword_filter:
-						print('Rule not respected')
-					# print(rule.name)
-					# print(rule.trigger_metadata.keyword_filter, sep=", ")
-					# print('--------------')
-
-		except Exception as ex:
-			print('----- on_user_update(evt) -----')
-			print(ex)
-			await log_exception(ex, 'on_user_update(evt)', None, bot)
+	# @bot.event
+	# async def on_user_update(before, after):
+	# 	try:
+	# 		guild = bot.get_guild(guildId)
+	# 		new_name = after.name
+	# 		list_rules = await guild.fetch_automod_rules()
+	# 		for rule in list_rules:
+	# 			if not (str(rule.event_type) == 'AutoModEventType.message_send'):
+	# 				if new_name in rule.trigger_metadata.keyword_filter:
+	# 					print('Rule not respected')
+	# 				# print(rule.name)
+	# 				# print(rule.trigger_metadata.keyword_filter, sep=", ")
+	# 				# print('--------------')
+	# 	except Exception as ex:
+	# 		print('----- on_user_update(evt) -----')
+	# 		print(ex)
+	# 		await log_exception(ex, 'on_user_update(evt)', None, bot)
 
 
 	@bot.event
