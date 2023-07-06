@@ -49,7 +49,7 @@ def init_slash_commands_bot(params):
 			member = interaction.author
 			for cmds_list in slash_commands_permissions:
 				embed = discord.Embed(title=f'Bot Commands / Permission : {cmds_list}', description="", color=member.color)
-				embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.display_avatar)
+				embed.set_author(name=f'{member.name}', icon_url=member.display_avatar)
 				embed.set_thumbnail(url=member.display_avatar)
 				for cmd_name in slash_commands_permissions[cmds_list]:
 					slash_cmd = bot.get_slash_command(cmd_name)

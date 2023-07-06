@@ -35,7 +35,7 @@ def init_slash_commands_reaction(params):
 							member = await interaction.guild.fetch_member(u.id)
 							if role not in member.roles:
 								await member.add_roles(role)
-								_msg += f'{member.display_name}#{member.discriminator} got {role.mention}\n'
+								_msg += f'{member.name} got {role.mention}\n'
 								_msg += f'Member ID : {member.id} / {member.mention}\n'
 								roles_assigned += 1
 					except Exception as ex:

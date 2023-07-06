@@ -11,8 +11,8 @@ async def send_bulk_dm(interaction, members, log_thread, msg):
 			if _sentMsg:
 				notifyMe += f'\nmessage ID : {_sentMsg.id}'
 				notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
-				notifyMe += f'\nMember: {m.mention} / {m.name}#{m.discriminator}'
-			else: notifyMe += f'\nIssue with this member {m.mention} / {m.name}#{m.discriminator}'
+				notifyMe += f'\nMember: {m.mention} / {m.name}'
+			else: notifyMe += f'\nIssue with this member {m.mention} / {m.name}'
 			notifyMe += '\n--------------'
 			await log_thread.send(notifyMe)
 		except Exception as ex:
@@ -46,7 +46,7 @@ async def toggle_user_mention(bot, _member, roleIds = [], append_member_id = Fal
 		if not role or not hasattr(member, 'roles'):
 			continue
 		if role in member.roles:
-			user_mention = f'{member.display_name}#{member.discriminator}'
+			user_mention = f'{member.name}'
 			break
 	if append_member_id: user_mention += f' / {member.id}'
 	return user_mention
@@ -159,7 +159,7 @@ async def send_dm(interaction, message, member):
 	except Exception as ex:
 		print('----- send_dm() -----')
 		print(ex)
-		msg = f'Cannot send messages to {member.mention} / {member.name}#{member.discriminator}'
+		msg = f'Cannot send messages to {member.mention} / {member.name}'
 		await log_exception(ex, 'send_dm()', interaction, None, True, msg)
 		return None
 
