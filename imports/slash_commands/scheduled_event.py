@@ -307,8 +307,11 @@ def init_slash_commands_scheduled_event(params):
 						description = event.description
 					if image == None: image = event.image
 					if channel == None: channel = event.channel
-					start_time = dp.parse(f'{event.scheduled_start_time.date()} {new_start_time}')
-					start_time = start_time.replace(tzinfo=tzinfo)
+					if new_start_time == None:
+						start_time = event.scheduled_start_time
+					else:
+						start_time = dp.parse(f'{event.scheduled_start_time.date()} {new_start_time}')
+						start_time = start_time.replace(tzinfo=tzinfo)
 					await event.edit(name=new_name, scheduled_start_time=start_time, description=description, image=image, channel=channel)
 					count += 1
 				except Exception as ex:
