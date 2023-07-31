@@ -69,7 +69,7 @@ async def send_dm_welcome(params, member, append_event_to_dm = 0):
 	except Exception as ex:
 		print('----- send_dm_welcome() -----')
 		print(ex)
-		await log_exception(ex, 'send_dm_welcome()', None, bot)
+		# await log_exception(ex, 'send_dm_welcome()', None, bot)
 		return 0
 			
 async def make_webhook(params, member, channel):
