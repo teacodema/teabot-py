@@ -89,7 +89,8 @@ def init_events_member(params):
 				await channel.send(f"🤖 kicked a bot (ID: {member.id})")
 			membersCount = await updateMembersCount(params)
 			channel = bot.get_channel(textChannels['log-server'])
-			msg = f'🟥 {membersCount} - {member.mention} / {member.name} / {member.id} left'
+			isDeletedUser = "🗑️" if "Deleted User" in member.name else ""
+			msg = f'🟥 {isDeletedUser} {membersCount} - {member.mention} / {member.name} / {member.id} left'
 			msg += '\n──────────────────────'
 			await channel.send(msg.strip())
 		except Exception as ex:
