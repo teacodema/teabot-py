@@ -1,4 +1,5 @@
 import os
+from keep_alive import keep_alive
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake.ext.invitetracker import InviteLogger
@@ -77,4 +78,5 @@ init_slash_commands()
 if os.getenv("testing") == "1":
 	init_temporary(params)
 
+keep_alive()
 bot.run(os.getenv("token"))
