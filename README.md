@@ -4,4 +4,4 @@
 
 This is the bot repo for Discord
 
-Visit: [teacode.ma/join](https://teacode.ma/join)
+Visit: [community.drissboumlik.com/join](https://community.drissboumlik.com/join)

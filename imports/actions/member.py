@@ -47,7 +47,7 @@ async def send_dm_welcome(params, member, append_event_to_dm = 0):
 		message += f"\nSowwel hna ➜ <#{textChannels['ask-staff']}> ila htajiti chi haja f server."
 		message += f"\nDon't forget to **invite** your friends who could be interested / Link : {invite}"
 		message += f"\n\n➜ Ila ma3reftich chno dir t9der tsowwel <@{users['drissboumlik']}>"
-		message += f"\n➜ Website : <https://teacode.ma>"
+		message += f"\n➜ Website : <https://community.drissboumlik.com>"
 		
 		if int(append_event_to_dm):
 			tzinfo = timezone(timedelta(hours=1))

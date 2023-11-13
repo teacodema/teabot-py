@@ -212,7 +212,7 @@ def init_slash_commands_audio(params):
 			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=appParams['blue'])
 			embed.set_thumbnail(url=track['thumbnail'])
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
 			await ctx.send(embed=embed)
@@ -463,7 +463,7 @@ def init_slash_commands_audio(params):
 			# guild = bot.get_guild(ctx.guild_id)
 			embed = discord.Embed(color=appParams['blue'])
 			# embed.set_thumbnail(url=guild.icon_url)
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
 			embed.add_field(name="📋│Playlist", value=f'{len(playlist)} tracks', inline=False)
 			

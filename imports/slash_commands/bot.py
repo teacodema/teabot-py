@@ -58,7 +58,7 @@ def init_slash_commands_bot(params):
 						if slash_cmd.parent:
 							_name = f'{slash_cmd.parent.name} {_name}'
 						embed.add_field(name=_name, value=slash_cmd.body.description, inline=True)
-				embed.set_footer(text=f"🌐 Visit teacode.ma")
+				embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 				await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
 			print('----- /tc_list_commands() -----')

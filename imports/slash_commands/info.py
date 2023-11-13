@@ -69,7 +69,7 @@ def init_slash_commands_info(params):
 			# embed.add_field(name="me", value=guild.me, inline=True)
 			# embed.set_footer(text=f"ID : {guild.id}")
 			if is_root(guild, interaction.author): embed.add_field(name="Server ID", value=guild.id, inline=True)
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			await interaction.send(embed=embed, ephemeral=True)
 
 		except Exception as ex:
@@ -98,7 +98,7 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Color", value=role.color, inline=True)
 			if is_root(interaction.guild, interaction.author): embed.add_field(name="Role ID", value=role.id, inline=True)
 			# embed.set_footer(text=f"ID : {role.id}")
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 
 			await interaction.send(embed=embed, ephemeral=True)
 
@@ -134,7 +134,7 @@ def init_slash_commands_info(params):
 			embed.add_field(name="Color", value=member.color, inline=True)
 			if is_root(interaction.guild, interaction.author): embed.add_field(name="Member ID", value=member.id, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
 			print('----- /member-info() -----')
@@ -184,7 +184,7 @@ def init_slash_commands_info(params):
 
 			if is_root(interaction.guild, interaction.author): embed.add_field(name="Channel ID", value=channel.id, inline=True)
 			# embed.set_footer(text=f"ID : {member.id}")
-			embed.set_footer(text=f"🌐 Visit teacode.ma")
+			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
 			print('----- /channel-info() -----')

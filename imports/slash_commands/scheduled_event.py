@@ -192,7 +192,7 @@ def init_slash_commands_scheduled_event(params):
 		channel: Voice channel
 		scheduled_start_time: Event's starting time / example - 7/23/2022 21:15
 		description: Event's description - \\n \\t /$
-		image_url: Cover image / example - http://teacode.ma/path/image.png
+		image_url: Cover image / example - http://community.drissboumlik.com/path/image.png
 		recurrence: Every week/day -  1 <= recurrence <= 4 (how_many param should be set)
 		recurrence_number: Example : Every 2 or 3 days/weeks
 		how_many: Number of (weekly/daily) events to create - 2 <= how_many <= 5 (recurrence param should be set)
@@ -270,7 +270,7 @@ def init_slash_commands_scheduled_event(params):
 		new_start_time: Event's new starting time / example - 15:15
 		channel: Voice channel
 		description: Event's description - \\n \\t /$
-		image_url: Cover image / example - http://teacode.ma/path/image.png
+		image_url: Cover image / example - http://community.drissboumlik.com/path/image.png
 		"""
 		try:
 			params = interaction.filled_options
