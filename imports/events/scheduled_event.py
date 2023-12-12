@@ -11,7 +11,7 @@ def init_events_scheduled_event(params):
 		try:
 			guild = bot.get_guild(payload.guild_id)
 			event = guild.get_scheduled_event(payload.event_id)
-			msg = f'<@{payload.user_id}> subscribed to {event.name} / {event.id}'
+			msg = f'🔹 <@{payload.user_id}> subscribed to **{event.name}** / {event.id}'
 			channel = bot.get_channel(textChannels['log-event'])
 			await channel.send(msg)
 			# if event.channel_id in voice_roles:
@@ -22,6 +22,19 @@ def init_events_scheduled_event(params):
 			print('----- on_raw_guild_scheduled_event_subscribe(evt) -----')
 			print(ex)
 			await log_exception(ex, 'on_raw_guild_scheduled_event_subscribe(evt)', None, bot)
+
+	@bot.event
+	async def on_raw_guild_scheduled_event_unsubscribe(payload):
+		try:
+			guild = bot.get_guild(payload.guild_id)
+			event = guild.get_scheduled_event(payload.event_id)
+			msg = f'🔸 <@{payload.user_id}> unsubscribed from **{event.name}** / {event.id}'
+			channel = bot.get_channel(textChannels['log-event'])
+			await channel.send(msg)
+		except Exception as ex:
+			print('----- on_raw_guild_scheduled_event_unsubscribe(evt) -----')
+			print(ex)
+			await log_exception(ex, 'on_raw_guild_scheduled_event_unsubscribe(evt)', None, bot)
 			
 	@bot.event
 	async def on_guild_scheduled_event_update(before, after):
