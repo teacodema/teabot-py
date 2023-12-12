@@ -10,6 +10,7 @@ textChannels = {
 	'general': 						694956824356585657,
 	'jobs-internship':			  794498304867958844,
 	'suggestions':					805057778665390121,
+    'planning':					805056904795389992,
 	'voice-chat': 				795629763363864606,
 	'help-chat': 					802892768011223045,
 	'study-group-discussion':	909572107271278673,
@@ -21,6 +22,7 @@ textChannels = {
 
 	'playground':					885234699860049960,
 	'log-bot':						897855382599393290,
+    'log-event':			1184196616102608906,
 	'log-txt':				832968854967025716,
 	'log-dms':				970794907482607656,
 	'log-reaction-dms':				1106214004264800346,
