@@ -135,7 +135,8 @@ async def check_timeout(params, before, after, notify_timeout_release):
 	if before.current_timeout != after.current_timeout:
 		channel = bot.get_channel(textChannels['log-server'])
 		if after.current_timeout:
-			msg = f'⏱🔴 {after.mention} is timedout & will be untimedout on {getTimeUtcPlusOne(after.current_timeout)}'
+			timeoutEndTime = getTimeUtcPlusOne(after.current_timeout, "%d %B %Y - %H:%M")
+			msg = f'⏱🔴 {after.mention} is timedout & will be untimedout on {timeoutEndTime}'
 			if notify_timeout_release:
 				end_task(notify_timeout_release)
 			@tasks.loop(time=after.current_timeout.time(), reconnect=False)
