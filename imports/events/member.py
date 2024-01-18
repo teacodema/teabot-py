@@ -41,6 +41,7 @@ def init_events_member(params):
 			print('----- on_member_update(evt) -----')
 			print(ex)
 			await log_exception(ex, 'on_member_update(evt)', None, bot)
+			raise ex
 
 	######################## JOIN MEMBER ########################
 	@bot.event
