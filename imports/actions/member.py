@@ -135,6 +135,12 @@ def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
 	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)
 	return dt_Ma
 
+def start_task(task):
+	try:
+		task.start()
+	except:
+		pass
+
 async def check_timeout(params, before, after, notify_timeout_release):
 	bot = params['bot']
 	tasks = params['tasks']
