@@ -128,6 +128,10 @@ async def check_nickname(before, after):
 				await after.edit(nick = old)
 			else:
 				await after.edit(nick = "STOP THAT")
+def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
+	timeZ_Ma = pytz.timezone('Africa/Casablanca')
+	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)
+	return dt_Ma
 
 async def check_timeout(params, before, after, notify_timeout_release):
 	bot = params['bot']
