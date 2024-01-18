@@ -3,6 +3,7 @@ from imports.data_server.config import *
 from imports.data_common.config import *
 from imports.actions.common import *
 from imports.actions.role import *
+import pytz
 
 
 async def welcomeMember(params, member, assign_role = 0, send_dm = 0, append_event_to_dm = 0, use_webhook = 0):
@@ -128,6 +129,7 @@ async def check_nickname(before, after):
 				await after.edit(nick = old)
 			else:
 				await after.edit(nick = "STOP THAT")
+
 def getTimeUtcPlusOne(dt, format = "%d %B %Y - %H:%M"):
 	timeZ_Ma = pytz.timezone('Africa/Casablanca')
 	dt_Ma = dt.astimezone(timeZ_Ma).strftime(format)
