@@ -32,6 +32,7 @@ def init_slash_commands_info(params):
 			embed.set_thumbnail(url=guild.icon.url)
 			embed.add_field(name="Guild Name", value=guild.name, inline=True)
 			embed.add_field(name="Created", value=created_at, inline=True)
+			embed.add_field(name="Creator", value=guild.owner.mention, inline=True)
 			embed.add_field(name="Roles", value=len(guild.roles), inline=True)
 			embed.add_field(name="Members", value=len(guild.members), inline=True)
 			# embed.add_field(name="Channels", value=len(guild.channels), inline=True)
