@@ -23,7 +23,8 @@ def init_slash_commands_community(params):
 			channel = bot.get_channel(textChannels['log-community'])
 			msg = "======== Suggestions ========"
 			msg += f'\n{interaction.author.mention} sent a suggestion:'
-			msg += f'\n{content}'
+			msg += f'\nType: {type}'
+			msg += f'\nContent: {content}'
 			msg += "\n==============================="
 			await channel.send(msg.strip())
 			
