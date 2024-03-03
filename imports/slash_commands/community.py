@@ -14,7 +14,7 @@ def init_slash_commands_community(params):
 		Parameters
 		----------
 		conent: Your suggestion
-		type: values Topic for technical session / New activity / Topic for a hangout / Topic for the english session
+		type: Choose a category your suggestion
 		"""
 		try:
 			if type not in types: 
