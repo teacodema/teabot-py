@@ -60,9 +60,9 @@ def init_slash_commands_community(params):
 			msg += f'\nResume file : {resume.url}'
 			if email: msg += f'\nEmail : {email}'
 			msg += "\n==============================="
-			await channel.send(content=msg.stripe(), file=resume_file)
+			await channel.send(content=msg.strip(), file=resume_file)
 			feedback = "You will get a response in a few days.\nThank you"
-			await interaction.send(feedback.stripe(), ephemeral=True)
+			await interaction.send(feedback.strip(), ephemeral=True)
 		except Exception as ex:
 			print('----- /interview() -----')
 			print(ex)
