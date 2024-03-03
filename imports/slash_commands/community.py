@@ -4,6 +4,33 @@ def init_slash_commands_community(params):
 
 	bot = params['bot']
 	discord = params['discord']
+	commands = params['commands']
+	
+	types = ["Topic for technical session", "Topic for a hangout", "Topic for the english session", "New activity"]
+	@bot.slash_command(name="suggest")
+	async def suggest(interaction, content, type=commands.Param(choices=types)):
+		"""
+		Send a suggestion to the community staff
+		Parameters
+		----------
+		conent: Your suggestion
+		type: values Topic for technical session / New activity / Topic for a hangout / Topic for the english session
+		"""
+		try:
+			if type not in types: 
+				await interaction.send(f'⚠ Issue with the input (choose one of the provided options)', ephemeral=True)
+
+			channel = bot.get_channel(textChannels['log-community'])
+			msg = "======== Suggestions ========"
+			msg += f'\n{interaction.author.mention} sent a suggestion:'
+			msg += f'\n{content}'
+			await channel.send(msg.strip())
+			
+		except Exception as ex:
+			print('----- /suggest() -----')
+			print(ex)
+			await log_exception(ex, '/suggest', interaction)
+			
 
 	@bot.slash_command(name="interview")
 	async def interview(interaction, resume: discord.Attachment, email = None):
@@ -33,9 +60,9 @@ def init_slash_commands_community(params):
 			msg += f'\nResume file : {resume.url}'
 			if email: msg += f'\nEmail : {email}'
 			msg += "\n==============================="
-			await channel.send(content=msg, file=resume_file)
+			await channel.send(content=msg.stripe(), file=resume_file)
 			feedback = "You will get a response in a few days.\nThank you"
-			await interaction.send(feedback, ephemeral=True)
+			await interaction.send(feedback.stripe(), ephemeral=True)
 		except Exception as ex:
 			print('----- /interview() -----')
 			print(ex)
