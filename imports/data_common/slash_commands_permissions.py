@@ -1,31 +1,33 @@
 slash_commands_permissions = {
     'members': [
-        'info server', 'info role', 'info member',
-        'fun janken',
-        'guide tag-rule',
-        'audio play', 'audio replay', 'audio pause', 'audio resume', 'audio previous', 'audio next', 'audio stop',
+        'info', 'info server', 'info role', 'info member',
+        'fun', 'fun janken',
+        'guide', 'guide tag-rule',
+        'audio', 'audio play', 'audio replay', 'audio pause', 'audio resume', 'audio previous', 'audio next', 'audio stop',
         'audio track', 'audio queue', 'audio clear', 'audio refresh', 'audio leave',
+        'interview',
     ],
     'hosts': [
-        'member pick-speaker',
+        'member', 'member pick-speaker',
     ],
     'staff': [
-        'message purge',
-        'member pick-speaker', 'message poll',
-        'role toggle', 'role toggle-multiple',
-        'event subscribers', 'event create',
-        'channel voice-clone',
+        'message', 'message purge', 'message poll',
+        'member', 'member pick-speaker',
+        'role', 'role toggle', 'role toggle-multiple',
+        'event' 'event subscribers', 'event create',
+        'channel', 'channel voice-clone',
     ],
 	'root': [
-        'member welcome',
-        'channel hide', 'channel lock', 'channel voice-delete', 'info channel',
-        'thread archive', 'thread delete',
-        'member make-webhook', 'message member', 'message channel', 'message edit',
-        'message reply', 'message remove',
-        'reaction toggle-roles', 'message reactions',
-        'role has', 'role update-position', 'role fetch',
-        'event delete', 'event update-status', 'event fetch', 'event update',
-        'teacode activity', 'teacode commands', 'reaction toggle'
+        'member', 'member welcome', 'member make-webhook'
+        'channel', 'channel hide', 'channel lock', 'channel voice-delete',
+        'info', 'info channel',
+        'thread', 'thread archive', 'thread delete',
+        'message', 'message member', 'message channel', 'message edit',
+        'message reply', 'message remove', 'message reactions',
+        'reaction', 'reaction toggle-roles', 'reaction toggle',
+        'role', 'role has', 'role update-position', 'role fetch',
+        'event', 'event delete', 'event update-status', 'event fetch', 'event update',
+        'teacode', 'teacode activity', 'teacode commands',
     ],
 }
 
