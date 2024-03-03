@@ -24,6 +24,7 @@ def init_slash_commands_community(params):
 			msg = "======== Suggestions ========"
 			msg += f'\n{interaction.author.mention} sent a suggestion:'
 			msg += f'\n{content}'
+			msg += "\n==============================="
 			await channel.send(msg.strip())
 			
 		except Exception as ex:
@@ -43,15 +44,15 @@ def init_slash_commands_community(params):
 		"""
 		try:
 			if (resume.content_type != 'application/pdf' 
-							or not resume.filename.endswith('.pdf')):
-					await interaction.send('Resume should be a pdf file !!!', ephemeral=True)
-					return
+				or not resume.filename.endswith('.pdf')):
+				await interaction.send('Resume should be a pdf file !!!', ephemeral=True)
+				return
 			if resume.size > 1_000_000:
-					await interaction.send('Resume file size should be less than 1 MB !!!', ephemeral=True)
-					return
+				await interaction.send('Resume file size should be less than 1 MB !!!', ephemeral=True)
+				return
 			if len(resume.filename) > 100:
-					await interaction.send('Resume file name is too long !!!', ephemeral=True)
-					return
+				await interaction.send('Resume file name is too long !!!', ephemeral=True)
+				return
 
 			channel = bot.get_channel(textChannels['log-community'])
 			resume_file = await resume.to_file()
