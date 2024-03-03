@@ -33,6 +33,7 @@ textChannels = {
 	'log-server': 				803951244624265238,
 	'log-exception': 				970795527203614760,
     'log-common':               1053382531208192150,
+    'log-community': 1213923391875055677
 }
 
 voiceChannels = {}

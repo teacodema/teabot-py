@@ -27,6 +27,7 @@ from imports.slash_commands.extra.fun import *
 from imports.slash_commands.channel import *
 from imports.slash_commands.thread import *
 from imports.slash_commands.bot import *
+from imports.slash_commands.community import *
 from temporary import *
 # from imports.slash_commands.extra.quran import *
 
@@ -69,6 +70,7 @@ def init_slash_commands():
 	init_slash_commands_thread(params)
 
 	init_slash_commands_bot(params)
+	init_slash_commands_community(params)
 	init_slash_commands_fun(params)
 	# init_slash_commands_quran(params)
 
