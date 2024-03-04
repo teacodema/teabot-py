@@ -11,7 +11,7 @@ from imports.events.reaction import *
 from imports.events.voice import *
 from imports.events.member import *
 from imports.events.slash_commands import *
-from imports.events.scheduled_event import *
+# from imports.events.scheduled_event import *
 from imports.events.thread import *
 
 from imports.slash_commands.info import *
@@ -53,7 +53,7 @@ def init_events():
 	init_events_voice(params)
 	init_events_member(params)
 	init_events_slash_commands(params)
-	init_events_scheduled_event(params)
+	# init_events_scheduled_event(params)
 	init_events_thread(params)
 
 def init_slash_commands():
