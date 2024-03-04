@@ -6,8 +6,12 @@ def init_slash_commands_community(params):
 	discord = params['discord']
 	commands = params['commands']
 	
+	@bot.slash_command(name="community")
+	async def community(inter):
+		pass
+
 	types = ["Topic for technical session", "Topic for a hangout", "Topic for the english session", "New activity"]
-	@bot.slash_command(name="suggest")
+	@community.sub_command(name="suggest")
 	async def suggest(interaction, content, type=commands.Param(choices=types)):
 		"""
 		Send a suggestion to the community staff
@@ -34,7 +38,7 @@ def init_slash_commands_community(params):
 			await log_exception(ex, '/suggest', interaction)
 			
 
-	@bot.slash_command(name="interview")
+	@community.sub_command(name="interview")
 	async def interview(interaction, resume: discord.Attachment, email = None):
 		"""
 		Send your resume to apply for a mock interview

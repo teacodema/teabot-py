@@ -5,7 +5,7 @@ slash_commands_permissions = {
         'guide', 'guide tag-rule',
         'audio', 'audio play', 'audio replay', 'audio pause', 'audio resume', 'audio previous', 'audio next', 'audio stop',
         'audio track', 'audio queue', 'audio clear', 'audio refresh', 'audio leave',
-        'interview', 'suggest',
+        'community', 'community interview', 'community suggest',
     ],
     'hosts': [
         'member', 'member pick-speaker',
