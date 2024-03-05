@@ -14,18 +14,17 @@ async def log_reacted_msg(params, payload, member, operation="++"):
 	if str(_ch.type) == 'private': log = bot.get_channel(textChannels['log-reaction-dms'])
 	else: log = bot.get_channel(textChannels['log-reaction'])
 	
+	log_thread = await make_thread(log, f'{payload.emoji} {operation} {user_mention} in {toggle_channel_mention(_ch)}')
+	thread_first_msg = f'{url}\n{user_mention} {operation} {payload.emoji} - ({payload.emoji.id})\nMember ID : {member.id}'
+	await log_thread.send(thread_first_msg)
+	
 	excludedCategories = [
 		categories['system-corner'],
 		categories['information'],
 	]
 
 	if (_ch == None) or (hasattr(_ch, 'category_id') and _ch.category_id in excludedCategories):
-		return log
-
-	log_thread = await make_thread(log, f'{payload.emoji} {operation} {user_mention} in {toggle_channel_mention(_ch)}')
-	thread_first_msg = f'Message : {url}'
-	thread_first_msg += f'\nMember ID : {member.id}'
-	await log_thread.send(thread_first_msg)
+		return log_thread
 
 	m = await _ch.fetch_message(payload.message_id)
 	if m:
@@ -51,5 +50,6 @@ async def log_reacted_msg(params, payload, member, operation="++"):
 		for msg in msgs:
 			await log_thread.send(msg.strip())
 		if attachments_data['files']: await log_thread.send(files = attachments_data['files'])
-	await log_thread.edit(archived=True)
-	return None
+	return log_thread
+	# await log_thread.edit(archived=True)
+

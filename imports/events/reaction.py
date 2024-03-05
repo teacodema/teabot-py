@@ -55,7 +55,7 @@ def init_events_reaction(params):
 
 			guild = bot.get_guild(guildId)
 			member = fct_params['member']
-			log = await log_reacted_msg(params, payload, member, fct_params['operation'])
+			log_thread = await log_reacted_msg(params, payload, member, fct_params['operation'])
 			if member.bot != True:
 				roleName = None
 				if str(payload.channel_id) in reactions:
@@ -66,6 +66,8 @@ def init_events_reaction(params):
 					role = next(role for role in guild.roles if role.name == roleName)
 					await fct_params['toggle_roles'](role)
 					user_mention = await toggle_user_mention(bot, member, [roles['viewer']], True)
-					await log.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
+					await log_thread.send(f'{user_mention} {fct_params["action"]} a role {role.mention}')
+			await log_thread.edit(archived=True)
 		except Exception as ex:
+			if log_thread: await log_thread.edit(archived=True)
 			raise ex
