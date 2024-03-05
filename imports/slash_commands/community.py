@@ -17,8 +17,8 @@ def init_slash_commands_community(params):
 		Send a suggestion to the community staff
 		Parameters
 		----------
-		conent: Your suggestion
-		type: Choose a category your suggestion
+		content: Your suggestion text
+		type: Choose a category from the list
 		"""
 		try:
 			if type not in types: 
@@ -39,13 +39,13 @@ def init_slash_commands_community(params):
 			
 
 	@community.sub_command(name="interview")
-	async def interview(interaction, resume: discord.Attachment, email = None):
+	async def interview(interaction, resume: discord.Attachment, email):
 		"""
 		Send your resume to apply for a mock interview
 		Parameters
 		----------
 		resume: PDF file <= 1MB with a short name
-		email: If you like to get the answer via your email
+		email: Get the answer via your email
 		"""
 		try:
 			if (resume.content_type != 'application/pdf' 
@@ -64,7 +64,7 @@ def init_slash_commands_community(params):
 			msg = "======== Mock Interview ========"
 			msg += f'\n{interaction.author.mention} requested a mock interview:'
 			msg += f'\nResume file : {resume.url}'
-			if email: msg += f'\nEmail : {email}'
+			msg += f'\nEmail : {email}'
 			msg += "\n==============================="
 			await channel.send(content=msg.strip(), file=resume_file)
 			feedback = "You will get a response in a few days.\nThank you"

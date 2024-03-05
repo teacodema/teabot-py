@@ -25,8 +25,8 @@ def init_slash_commands_bot(params):
 		Update bot activity & status
 		Parameters
 		----------
-		status: status options list
-		activity_type: activity options list
+		status: Choose an status from the list
+		activity_type: Choose an activity from the list
 		name: value of the activity
 		"""
 		try:

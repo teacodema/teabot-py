@@ -18,7 +18,7 @@ def init_slash_commands_guide(params):
 		Reminde with a rule
 		Parameters
 		----------
-		query: Choose a predefined rule by key
+		query: Choose a rule from the list
 		"""
 		try:
 			if query not in keys:

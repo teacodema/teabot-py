@@ -97,7 +97,7 @@ def init_slash_commands_scheduled_event(params):
 		Parameters
 		----------
 		event_id: Event ID
-		flag: values canceled / completed / active
+		flag: Choose an value from the list
 		send_message: send dm to subscribers when event is Live
 		announcement_channel: Channel where to Notify the community
 		"""
@@ -193,9 +193,9 @@ def init_slash_commands_scheduled_event(params):
 		scheduled_start_time: Event's starting time / example - 7/23/2022 21:15
 		description: Event's description - \\n \\t /$
 		image_url: Cover image / example - http://community.drissboumlik.com/path/image.png
-		recurrence: Every week/day -  1 <= recurrence <= 4 (how_many param should be set)
-		recurrence_number: Example : Every 2 or 3 days/weeks
-		how_many: Number of (weekly/daily) events to create - 2 <= how_many <= 5 (recurrence param should be set)
+		recurrence: Every week/day -  1 <= recurrence <= 4 (how_many & recurrence_number params should be set)
+		recurrence_number: Example : Every 2 or 3 days/weeks (how_many & recurrence params should be set)
+		how_many: Number of (weekly/daily) events to create - 2 <= how_many <= 5 (recurrence & recurrence_number params should be set)
 		event_id: ID of an exisitng event (duplicate event)
 		"""
 		try:
