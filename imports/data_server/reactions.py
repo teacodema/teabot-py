@@ -191,6 +191,7 @@ reactions = {
 			# '🦅': 'Security Specialist',
 			# '🐪': 'Security Systems Administrator',
 			'🐿️': 'Security Engineer',
+            '🥦': 'Business Intelligence',
 		},
 		'904518697383759903': {
 			'🥗': 'Artificial Intelligence',
@@ -211,8 +212,9 @@ reactions = {
 			'🍘': 'Computer Sciences',
 			'🍨': 'Start-Ups / Entrepreneurship',
 			'🥧': 'Project Management (Agile/Scrum)',
-			'🥘': 'Business Intelligence',
+            # '🥘': 'Business Intelligence',
 			'🍿': 'Web 3.0',
+			'🥘': 'Open Source Software (OSS)',
 		},
 		'930480136166469683': {
 			'☕': 'Hangouts',
