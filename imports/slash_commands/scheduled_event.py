@@ -118,6 +118,8 @@ def init_slash_commands_scheduled_event(params):
 				return
 			if event.status == _status[flag]: 
 				await interaction.send('⚠ Status already edited', ephemeral=True)
+				if flag != 'active':
+					return
 				
 			if flag == 'active':
 				msg_dm = f"🟢 Live Now : **{event.name}**\nClick to join : {event.url}"
