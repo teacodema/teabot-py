@@ -12,18 +12,21 @@ def init_slash_commands_message(params):
 		pass
 
 	@message.sub_command(name = "poll")
-	async def poll(interaction, header, options, emojis, channel:discord.TextChannel = None):
+	async def poll(interaction, header, options, emojis, footer = None, channel:discord.TextChannel = None):
 		"""
 		Make a poll
 		Parameters
 		----------
-		header: Header message (part I)
+		header: Header message (part I) - \\n \\t /$
 		options: Options of the poll separated by $$ (part II)
 		emojis: Emojis for the users
 		channel: Target channel
 		"""
 		try:
 			if channel == None: channel = interaction.channel
+			
+			header = header.replace('`<id:customize>`', '<id:customize>')
+          	header = replace_str(header, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = f'{header}\n'
 			emojis = split_str(emojis)
 			options = split_str(options, '\$\$')
@@ -32,6 +35,10 @@ def init_slash_commands_message(params):
 				msg += f'\n{emojis[index]} - {o.strip()}'
 				index += 1
 			msg += '\n\n─────────────────────────'
+			if footer:
+				footer = footer.replace('`<id:customize>`', '<id:customize>')
+				footer = replace_str(footer, {"\\n": "\n", "\\t": "	", "/$": " "})
+				msg = f'\n{footer}'
 			msg = await channel.send(msg.strip())
 			for e in emojis:
 				await msg.add_reaction(e)
