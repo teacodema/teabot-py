@@ -38,7 +38,7 @@ def init_slash_commands_message(params):
 			if footer:
 				footer = footer.replace('`<id:customize>`', '<id:customize>')
 				footer = replace_str(footer, {"\\n": "\n", "\\t": "	", "/$": " "})
-				msg = f'\n{footer}'
+				msg += f'\n{footer}'
 			msg = await channel.send(msg.strip())
 			for e in emojis:
 				await msg.add_reaction(e)
