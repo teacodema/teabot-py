@@ -26,7 +26,7 @@ def init_slash_commands_message(params):
 			if channel == None: channel = interaction.channel
 			
 			header = header.replace('`<id:customize>`', '<id:customize>')
-          	header = replace_str(header, {"\\n": "\n", "\\t": "	", "/$": " "})
+			header = replace_str(header, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = f'{header}\n'
 			emojis = split_str(emojis)
 			options = split_str(options, '\$\$')
@@ -34,7 +34,7 @@ def init_slash_commands_message(params):
 			for o in options:
 				msg += f'\n{emojis[index]} - {o.strip()}'
 				index += 1
-			msg += '\n\n─────────────────────────'
+			msg += '\n\n─────────────────────────\n'
 			if footer:
 				footer = footer.replace('`<id:customize>`', '<id:customize>')
 				footer = replace_str(footer, {"\\n": "\n", "\\t": "	", "/$": " "})
