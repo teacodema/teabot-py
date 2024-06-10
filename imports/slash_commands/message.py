@@ -19,7 +19,7 @@ def init_slash_commands_message(params):
 		----------
 		header: Header message (part I) - \\n \\t /$
 		options: Options of the poll separated by $$ (part II)
-		emojis: Emojis for the users
+		emojis: Emojis for the users - separated by , or space
 		channel: Target channel
 		"""
 		try:
@@ -34,7 +34,7 @@ def init_slash_commands_message(params):
 			for o in options:
 				msg += f'\n{emojis[index]} - {o.strip()}'
 				index += 1
-			msg += '\n\n─────────────────────────\n'
+			msg += '\n\n─────────────────────────'
 			if footer:
 				footer = footer.replace('`<id:customize>`', '<id:customize>')
 				footer = replace_str(footer, {"\\n": "\n", "\\t": "	", "/$": " "})
@@ -233,7 +233,7 @@ def init_slash_commands_message(params):
 	@message.sub_command(name = "remove")
 	async def tc_remove_msg(interaction, msg_ids, channel_id):
 		"""
-		Delete msg from public/private - ,
+		Delete msg from public/private - separated by , or space
 		Parameters
 		----------
 		msg_ids: Messages IDs separated by , or space
