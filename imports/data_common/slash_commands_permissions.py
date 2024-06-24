@@ -9,6 +9,7 @@ slash_commands_permissions = {
     ],
     'hosts': [
         'member', 'member pick-speaker',
+        'event', 'event create', 'event update-status'
     ],
     'staff': [
         'message', 'message purge', 'message poll',
