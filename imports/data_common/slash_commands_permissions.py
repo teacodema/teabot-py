@@ -18,18 +18,19 @@ slash_commands_permissions = {
         'event' 'event subscribers', 'event create',
         'channel', 'channel voice-clone',
     ],
-	'root': [
-        'member', 'member welcome', 'member make-webhook'
-        'channel', 'channel hide', 'channel lock', 'channel voice-delete',
-        'info', 'info channel',
-        'thread', 'thread archive', 'thread delete',
-        'message', 'message member', 'message channel', 'message edit',
-        'message reply', 'message remove', 'message reactions',
-        'reaction', 'reaction toggle-roles', 'reaction toggle',
-        'role', 'role has', 'role update-position', 'role fetch',
-        'event', 'event delete', 'event update-status', 'event fetch', 'event update',
-        'teacode', 'teacode activity', 'teacode commands',
-    ],
+    'root': [ '*' ],
+	# 'root': [
+    #     'member', 'member welcome', 'member make-webhook'
+    #     'channel', 'channel hide', 'channel lock', 'channel voice-delete',
+    #     'info', 'info channel',
+    #     'thread', 'thread archive', 'thread delete',
+    #     'message', 'message member', 'message channel', 'message edit',
+    #     'message reply', 'message remove', 'message reactions',
+    #     'reaction', 'reaction toggle-roles', 'reaction toggle',
+    #     'role', 'role has', 'role update-position', 'role fetch',
+    #     'event', 'event delete', 'event update-status', 'event fetch', 'event update',
+    #     'teacode', 'teacode activity', 'teacode commands',
+    # ],
 }
 
 dontSendEphemeralMsg = ['guide tag-rule']
