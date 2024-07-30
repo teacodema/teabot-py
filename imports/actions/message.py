@@ -9,8 +9,8 @@ async def send_bulk_dm(interaction, members, log_thread, msg):
 			_sentMsg = await send_dm(interaction, msg, m)
 			notifyMe = '─────────────────'
 			if _sentMsg:
-				notifyMe += f'\nmessage ID : {_sentMsg.id}'
-				notifyMe += f'\nchannel ID : {_sentMsg.channel.id}'
+				notifyMe += f'\nMessage ID : {_sentMsg.id}'
+				notifyMe += f'\nChannel ID : {_sentMsg.channel.id}'
 				notifyMe += f'\nMember: {m.mention} / {m.name}'
 			else: notifyMe += f'\nIssue with this member {m.mention} / {m.name}'
 			notifyMe += '\n--------------'
