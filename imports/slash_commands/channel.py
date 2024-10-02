@@ -115,7 +115,7 @@ def init_slash_commands_channel(params):
 				return
 			if category == None :
 				category = await interaction.guild.create_category(category_name)
-				memberRole = interaction.guild.get_role(roles['members'])
+				memberRole = interaction.guild.get_role(roles['everyone'])
 				await category.set_permissions(memberRole, view_channel=False,
 											send_messages=True,
 											create_public_threads=True,
@@ -143,7 +143,7 @@ def init_slash_commands_channel(params):
 			await create_type_channel(channel_name)
 			
 			if count > 1:
-				for i in range(2, count):
+				for i in range(1, count):
 					await create_type_channel(f"{channel_name} #{i}")
 				
 			await interaction.send(f"{count} channel(s) were created successfully !", ephemeral=True)
