@@ -99,7 +99,7 @@ def init_slash_commands_channel(params):
 
 	channel_types = ["text", "voice", "forum", "stage"]
 	@channel.sub_command(name = "create")
-	async def create_channel(interaction, category: discord.CategoryChannel, category_name:str, channel_name: str, channel_type: discord.ChannelType, count: int = 1):
+	async def create_channel(interaction, category_name:str, channel_name: str, channel_type: discord.ChannelType, category: discord.CategoryChannel = None, count: int = 1):
 		"""
 		Create a new channel with the given category
 		Parameters
@@ -111,18 +111,31 @@ def init_slash_commands_channel(params):
 		count : the number of channels to create (default 1)
 		"""
 		if count < 1:
-			await interaction.send("Number of channels to create should be > 0")
+			await interaction.send("Number of channels to create should be > 0 !")
 			return
 		if category == None :
 			category = await interaction.guild.create_category(category_name)
 		
-		await interaction.send(channel_type)
+		create_type_channel = None
+		if channel_type == 0:
+			create_type_channel = category.create_text_channel
+		if channel_type ==  2:
+			create_type_channel = category.create_voice_channel
+		if channel_type == 15:
+			create_type_channel = category.create_forum_channel
+		if channel_type == 13:
+			create_type_channel = category.create_stage_channel
 		
-		# if count == 1:
-		# 	if channel_type == "text":
-		# 		category.create_text_channel(name)
-		# 	create_forum_channel
-		# 	create_stage_channel
-		# 	create_voice_channel
+		if create_type_channel == None:
+			await interaction.send("No proper type was specified !")
+			return
+
+		create_type_channel(channel_name)
+		
+		if count > 1:
+			for i in range(2, count):
+				create_type_channel(f"{channel_name} #{i}")
+			 
+		await interaction.send(f"{count} channel(s) were created successfully !")
 		
 		
