@@ -8,7 +8,6 @@ def init_slash_commands_channel(params):
 	
 	bot = params['bot']
 	discord = params['discord']
-	# commands = params['commands']
 	
 	@bot.slash_command(name="channel")
 	async def channel(inter):
@@ -116,6 +115,16 @@ def init_slash_commands_channel(params):
 				return
 			if category == None :
 				category = await interaction.guild.create_category(category_name)
+				memberRole = interaction.guild.get_role(roles['members'])
+				await category.set_permissions(memberRole, view_channel=False,
+											send_messages=True,
+											create_public_threads=True,
+											create_private_threads=True,
+											send_messages_in_threads=True,
+											connect=True,
+											speak=True,
+											use_voice_activation=True
+                                        )
 			
 			create_type_channel = None
 			if channel_type == 0:
