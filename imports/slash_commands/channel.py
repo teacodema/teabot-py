@@ -110,32 +110,36 @@ def init_slash_commands_channel(params):
 		channel_type : the type of channel to create ("text", "voice", "forum", "stage")
 		count : the number of channels to create (default 1)
 		"""
-		if count < 1:
-			await interaction.send("Number of channels to create should be > 0 !")
-			return
-		if category == None :
-			category = await interaction.guild.create_category(category_name)
-		
-		create_type_channel = None
-		if channel_type == 0:
-			create_type_channel = category.create_text_channel
-		if channel_type ==  2:
-			create_type_channel = category.create_voice_channel
-		if channel_type == 15:
-			create_type_channel = category.create_forum_channel
-		if channel_type == 13:
-			create_type_channel = category.create_stage_channel
-		
-		if create_type_channel == None:
-			await interaction.send("No proper type was specified !")
-			return
+		try:
+			if count < 1:
+				await interaction.send("Number of channels to create should be > 0 !", ephemeral=True)
+				return
+			if category == None :
+				category = await interaction.guild.create_category(category_name)
+			
+			create_type_channel = None
+			if channel_type == 0:
+				create_type_channel = category.create_text_channel
+			if channel_type ==  2:
+				create_type_channel = category.create_voice_channel
+			if channel_type == 15:
+				create_type_channel = category.create_forum_channel
+			if channel_type == 13:
+				create_type_channel = category.create_stage_channel
+			
+			if create_type_channel == None:
+				await interaction.send("No proper type was specified !", ephemeral=True)
+				return
 
-		create_type_channel(channel_name)
-		
-		if count > 1:
-			for i in range(2, count):
-				create_type_channel(f"{channel_name} #{i}")
-			 
-		await interaction.send(f"{count} channel(s) were created successfully !")
-		
+			create_type_channel(channel_name)
+			
+			if count > 1:
+				for i in range(2, count):
+					await create_type_channel(f"{channel_name} #{i}")
+				
+			await interaction.send(f"{count} channel(s) were created successfully !", ephemeral=True)
+		except Exception as ex:
+			print('----- /create_channel() -----')
+			print(ex)
+			await log_exception(ex, '/create_channel', interaction)
 		
