@@ -169,10 +169,9 @@ def init_slash_commands_channel(params):
 					await c.delete()
 				for c in channel.voice_channels:
 					await c.delete()
-			else:
-				await channel.delete()
+			await channel.delete()
 				
-			await interaction.send("Channel / Category is deleted successfully !")
+			await interaction.send(f"{channel} is deleted successfully !")
 			
 		except Exception as ex:
 			print('----- /create_channel() -----')
