@@ -143,7 +143,7 @@ def init_slash_commands_channel(params):
 			
 			if count > 1:
 				for i in range(1, count):
-					await create_type_channel(f"{channel_name} #{i}")
+					await create_type_channel(f"{channel_name} #{i + 1}")
 				
 			await interaction.send(f"{count} channel(s) were created successfully !", ephemeral=True)
 		except Exception as ex:
@@ -171,7 +171,7 @@ def init_slash_commands_channel(params):
 					await c.delete()
 			await channel.delete()
 				
-			await interaction.send(f"{channel} is deleted successfully !")
+			await interaction.send(f"{channel} is deleted successfully !", ephemeral=True)
 			
 		except Exception as ex:
 			print('----- /create_channel() -----')
