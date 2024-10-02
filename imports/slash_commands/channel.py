@@ -96,7 +96,6 @@ def init_slash_commands_channel(params):
 			print(ex)
 			await log_exception(ex, '/delete_voice_channel', interaction)
 
-	channel_types = ["text", "voice", "forum", "stage"]
 	@channel.sub_command(name = "create")
 	async def create_channel(interaction, category_name:str, channel_name: str, channel_type: discord.ChannelType, category: discord.CategoryChannel = None, count: int = 1):
 		"""
@@ -147,6 +146,23 @@ def init_slash_commands_channel(params):
 					await create_type_channel(f"{channel_name} #{i}")
 				
 			await interaction.send(f"{count} channel(s) were created successfully !", ephemeral=True)
+		except Exception as ex:
+			print('----- /create_channel() -----')
+			print(ex)
+			await log_exception(ex, '/create_channel', interaction)
+
+	@channel.sub_command(name = "delete")
+	async def delete_channel(interaction, channel: discord.CategoryChannel):
+		"""
+		Create a new channel with the given category
+		Parameters
+		----------
+		channel: channel/category to be deleted
+		"""
+		try:
+			
+			await interaction.send(f"{channel.type} {type(channel.type)}")
+			
 		except Exception as ex:
 			print('----- /create_channel() -----')
 			print(ex)
