@@ -136,13 +136,11 @@ def init_slash_commands_channel(params):
 			if channel_type == 13:
 				create_type_channel = category.create_stage_channel
 			
-			await interaction.send(create_type_channel, ephemeral=True)
-			
 			if create_type_channel == None:
 				await interaction.send("No proper type was specified !", ephemeral=True)
 				return
 
-			create_type_channel(channel_name)
+			await create_type_channel(channel_name)
 			
 			if count > 1:
 				for i in range(2, count):
