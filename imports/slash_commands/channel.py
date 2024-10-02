@@ -8,6 +8,7 @@ def init_slash_commands_channel(params):
 	
 	bot = params['bot']
 	discord = params['discord']
+	# commands = params['commands']
 	
 	@bot.slash_command(name="channel")
 	async def channel(inter):
@@ -95,3 +96,33 @@ def init_slash_commands_channel(params):
 			print('----- /delete_voice_channel() -----')
 			print(ex)
 			await log_exception(ex, '/delete_voice_channel', interaction)
+
+	channel_types = ["text", "voice", "forum", "stage"]
+	@channel.sub_command(name = "create")
+	async def create_channel(interaction, category: discord.CategoryChannel, category_name:str, channel_name: str, channel_type: discord.ChannelType, count: int = 1):
+		"""
+		Create a new channel with the given category
+		Parameters
+		----------
+		category : the category to create
+		category_name : the name of the category to create
+		channel_name : the name of the channel to create
+		channel_type : the type of channel to create ("text", "voice", "forum", "stage")
+		count : the number of channels to create (default 1)
+		"""
+		if count < 1:
+			await interaction.send("Number of channels to create should be > 0")
+			return
+		if category == None :
+			category = await interaction.guild.create_category(category_name)
+		
+		await interaction.send(channel_type)
+		
+		# if count == 1:
+		# 	if channel_type == "text":
+		# 		category.create_text_channel(name)
+		# 	create_forum_channel
+		# 	create_stage_channel
+		# 	create_voice_channel
+		
+		
