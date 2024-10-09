@@ -25,6 +25,7 @@ from imports.slash_commands.role import *
 from imports.slash_commands.scheduled_event import *
 from imports.slash_commands.extra.fun import *
 from imports.slash_commands.channel import *
+from imports.slash_commands.category import *
 from imports.slash_commands.thread import *
 from imports.slash_commands.bot import *
 from imports.slash_commands.community import *
@@ -67,6 +68,7 @@ def init_slash_commands():
 	init_slash_commands_role(params)
 	init_slash_commands_scheduled_event(params)
 	init_slash_commands_channel(params)
+	init_slash_commands_category(params)
 	init_slash_commands_thread(params)
 
 	init_slash_commands_bot(params)
