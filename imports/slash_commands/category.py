@@ -53,7 +53,7 @@ def init_slash_commands_category(params):
                 
 				for i in range(0, count_channel):
 					create_type_channel = getattr(category, channel_type)
-					await create_type_channel(f"{channel_name} #{i + 1}")
+					await create_type_channel(f"{channel_name} #{j + 1}-{i + 1}")
 
 			await interaction.send(f"{count_category} cat x {count_channel} ch = {count_category * count_channel} channels were created successfully !", ephemeral=True)
 		except Exception as ex:
