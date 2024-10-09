@@ -36,27 +36,26 @@ def init_slash_commands_category(params):
 				return
             
 			if channel_type == 0:
-				create_type_channel = "create_text_channel"
+				channel_type = "create_text_channel"
 			if channel_type == 2:
-				create_type_channel = "create_voice_channel"
+				channel_type = "create_voice_channel"
 			if channel_type == 15:
-				create_type_channel = "create_forum_channel"
+				channel_type = "create_forum_channel"
 			if channel_type == 13:
-				create_type_channel = "create_stage_channel"
+				channel_type = "create_stage_channel"
 			
-			for j in range(1, count_category):
-				defaultRole = interaction.guild.get_role(roles['everyone'])
+			defaultRole = interaction.guild.get_role(roles['everyone'])
+			for j in range(0, count_category):
 				category = await interaction.guild.create_category(f"{category_name} #{j + 1}")
 				await category.set_permissions(defaultRole, view_channel=False, send_messages=True,
 											create_public_threads=True, create_private_threads=True,
 											send_messages_in_threads=True, connect=True, speak=True, use_voice_activation=True)
                 
 				for i in range(0, count_channel):
-					create_type_channel = getattr(category, create_type_channel)
+					create_type_channel = getattr(category, channel_type)
 					await create_type_channel(f"{channel_name} #{i + 1}")
 
 			await interaction.send(f"{count_category} cat x {count_channel} ch = {count_category * count_channel} channels were created successfully !", ephemeral=True)
-        
 		except Exception as ex:
 			print('----- /create_category() -----')
 			print(ex)
