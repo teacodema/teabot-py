@@ -54,7 +54,7 @@ def init_slash_commands_scheduled_event(params):
 			await log_exception(ex, '/get_events_by_name', interaction)
 
 
-	@event.sub_command(name = "subscribers")
+	@event.sub_command(name = "subscribers", description = "Get event subscribers")
 	async def event_subscribers(interaction, event_id, role: discord.Role = None):
 		"""
 		Get event subscribers
@@ -93,7 +93,7 @@ def init_slash_commands_scheduled_event(params):
 	@event.sub_command(name = "update-status")
 	async def event_edit_status(interaction, event_id, flag=commands.Param(choices=flags), send_message : int = 0, announcement_channel : discord.abc.GuildChannel = None):
 		"""
-		Edit the even status
+		Edit the event status
 		Parameters
 		----------
 		event_id: Event ID

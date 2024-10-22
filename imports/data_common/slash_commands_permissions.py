@@ -3,8 +3,6 @@ slash_commands_permissions = {
         'info', 'info server', 'info role', 'info member',
         'fun', 'fun janken',
         'guide', 'guide tag-rule',
-        'audio', 'audio play', 'audio replay', 'audio pause', 'audio resume', 'audio previous', 'audio next', 'audio stop',
-        'audio track', 'audio queue', 'audio clear', 'audio refresh', 'audio leave',
         'community', 'community interview', 'community suggest',
     ],
     'hosts': [
@@ -18,7 +16,7 @@ slash_commands_permissions = {
         'event' 'event subscribers', 'event create',
         'channel', 'channel voice-clone',
     ],
-    'root': [ '*' ],
+    'root': [ 'All' ],
 	# 'root': [
     #     'member', 'member welcome', 'member make-webhook'
     #     'channel', 'channel hide', 'channel lock', 'channel voice-delete',

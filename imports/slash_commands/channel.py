@@ -114,8 +114,8 @@ def init_slash_commands_channel(params):
 				return
 			if category == None :
 				category = await interaction.guild.create_category(category_name)
-				memberRole = interaction.guild.get_role(roles['everyone'])
-				await category.set_permissions(memberRole, view_channel=False,
+				defaultRole = interaction.guild.get_role(roles['everyone'])
+				await category.set_permissions(defaultRole, view_channel=False,
 											send_messages=True,
 											create_public_threads=True,
 											create_private_threads=True,
