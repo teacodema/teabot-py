@@ -13,7 +13,7 @@ slash_commands_permissions = {
         'message', 'message purge', 'message poll',
         'member', 'member pick-speaker',
         'role', 'role toggle', 'role toggle-multiple',
-        'event' 'event subscribers', 'event create',
+        'event', 'event subscribers', 'event create',
         'channel', 'channel voice-clone',
     ],
     'root': [ 'All' ],
