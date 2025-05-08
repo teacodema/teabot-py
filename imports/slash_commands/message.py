@@ -244,12 +244,11 @@ def init_slash_commands_message(params):
 			for channel in channels:
 				if hasattr(channel, 'last_message'):
 					message = channel.last_message
-					print(f'Checking {channel.name} ...')
+					if message:
+						await interaction.send(f'{message.author.id} - {member.id}', ephemeral=True)
 					if message and (message.author.id == member.id):
-						print(f'{message.content}')
-						print(f'{message.author.id} == {member.id}')
+						await interaction.send(f'Deleting message in {channel.name} ...', ephemeral=True)
 						await message.delete()
-					print('----------------')
 
 			await member.timeout(duration=timedelta(days=7), reason="Spam")
 		except Exception as ex:
