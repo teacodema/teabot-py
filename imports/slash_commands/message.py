@@ -244,9 +244,9 @@ def init_slash_commands_message(params):
 			for channel in channels:
 				if hasattr(channel, 'last_message'):
 					message = channel.last_message
-					print(f'Checking {channel.name} ...', ephemeral=True)
-					print(f'{message.content}', ephemeral=True)
-					print(f'{message.author.id} == {member.id}', ephemeral=True)
+					print(f'Checking {channel.name} ...')
+					print(f'{message.content}')
+					print(f'{message.author.id} == {member.id}')
 					print('----------------', ephemeral=True)
 					if message and (message.author.id == member.id):
 						await message.delete()
