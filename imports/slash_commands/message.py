@@ -249,7 +249,7 @@ def init_slash_commands_message(params):
 						print(f'{message.content}')
 						print(f'{message.author.id} == {member.id}')
 						await message.delete()
-					print('----------------', ephemeral=True)
+					print('----------------')
 
 			await member.timeout(duration=timedelta(days=7), reason="Spam")
 		except Exception as ex:
