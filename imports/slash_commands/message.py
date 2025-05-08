@@ -241,7 +241,7 @@ def init_slash_commands_message(params):
 		try:
 			channels = await interaction.guild.fetch_channels()
 			for channel in channels:
-				if hasattr(channel, last_message):
+				if hasattr(channel, 'last_message'):
 					message = channel.last_message
 					if message and message.author == member:
 						await message.delete()
