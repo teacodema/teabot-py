@@ -86,7 +86,7 @@ async def log_member_dms(params, message, thread_header_msg, prev_message = None
 	author = message.author
 
 	excludedIDs = [
-			users['drissboumlik'],
+			users['owner'],
 			users['teabot'],
 		]
 	if author.id not in excludedIDs:

@@ -32,7 +32,7 @@ def init_events_member(params):
 	async def on_member_update(before, after):
 		try:
 			nonlocal notify_timeout_release
-			if (after.id == users['drissboumlik']):
+			if (after.id == users['owner']):
 				return
 			else:
 				await check_nickname(before, after)
