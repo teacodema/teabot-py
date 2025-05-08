@@ -246,7 +246,7 @@ def init_slash_commands_message(params):
 					if message and message.author == member:
 						await message.delete()
 
-			await member.timeout(3600 * 24 * 7, reason="Spam")
+			await member.timeout(duration=(3600 * 24 * 7), reason="Spam")
 		except Exception as ex:
 			print('----- /tc_spam_msg() -----')
 			print(ex)
