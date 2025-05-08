@@ -242,12 +242,9 @@ def init_slash_commands_message(params):
 		try:
 			channels = await interaction.guild.fetch_channels()
 			for channel in channels:
-				if hasattr(channel, 'last_message'):
-					message = channel.last_message
-					if message:
-						await interaction.send(f'{message.author.id} - {member.id}', ephemeral=True)
+				if hasattr(channel, 'last_message_id'):
+					message = await channel.fetch_message(int(channel.last_message_id))
 					if message and (message.author.id == member.id):
-						await interaction.send(f'Deleting message in {channel.name} ...', ephemeral=True)
 						await message.delete()
 
 			await member.timeout(duration=timedelta(days=7), reason="Spam")
@@ -255,7 +252,6 @@ def init_slash_commands_message(params):
 			print('----- /tc_spam_msg() -----')
 			print(ex)
 			await log_exception(ex, '/tc_spam_msg', interaction)
-		
 	
 	
 	######################## DELETE A MSG ########################
