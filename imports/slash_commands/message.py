@@ -229,6 +229,30 @@ def init_slash_commands_message(params):
 			print(ex)
 			await log_exception(ex, '/tc_msg_member', interaction)
 
+	################### DELETE MEMBER MESSAGE (SPAM) ###################
+	@message.sub_command(name = "spam")
+	async def tc_spam_msg(interaction, member: discord.Member):
+		"""
+		Delete msg from spammer in all channels
+		Parameters
+		----------
+		member: target member
+		"""
+		try:
+			channels = await interaction.guild.fetch_channels()
+			for channel in channels:
+				message = channel.last_message
+				if message and message.author == member:
+					await message.delete()
+
+			await member.timeout(3600 * 24 * 7, reason="Spam")
+		except Exception as ex:
+			print('----- /tc_spam_msg() -----')
+			print(ex)
+			await log_exception(ex, '/tc_spam_msg', interaction)
+		
+	
+	
 	######################## DELETE A MSG ########################
 	@message.sub_command(name = "remove")
 	async def tc_remove_msg(interaction, msg_ids, channel_id):
