@@ -242,10 +242,14 @@ def init_slash_commands_message(params):
 		try:
 			channels = await interaction.guild.fetch_channels()
 			for channel in channels:
-				if hasattr(channel, 'last_message_id'):
-					message = await channel.fetch_message(int(channel.last_message_id))
+				try:
+					if hasattr(channel, 'last_message_id'):
+						message = await channel.fetch_message(int(channel.last_message_id))
 					if message and (message.author.id == member.id):
 						await message.delete()
+				except Exception as ex:
+					print(ex)
+					pass
 
 			await member.timeout(duration=timedelta(days=7), reason="Spam")
 		except Exception as ex:
