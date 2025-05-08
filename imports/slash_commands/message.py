@@ -1,3 +1,4 @@
+from datetime import timedelta
 from imports.actions.common import *
 from imports.actions.message import *
 
@@ -246,7 +247,7 @@ def init_slash_commands_message(params):
 					if message and message.author == member:
 						await message.delete()
 
-			await member.timeout(duration=(3600 * 24 * 7), reason="Spam")
+			await member.timeout(duration=timedelta(days=7), reason="Spam")
 		except Exception as ex:
 			print('----- /tc_spam_msg() -----')
 			print(ex)
