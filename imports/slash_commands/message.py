@@ -241,12 +241,19 @@ def init_slash_commands_message(params):
 		"""
 		try:
 			channels = await interaction.guild.fetch_channels()
+			excludedCategories = [
+				categories['committee-corner'],
+				categories['log-corner'],
+				categories['lab-corner'],
+				categories['system-corner'],
+			]
 			for channel in channels:
 				try:
-					if hasattr(channel, 'last_message_id'):
-						message = await channel.fetch_message(int(channel.last_message_id))
-					if message and (message.author.id == member.id):
-						await message.delete()
+					if hasattr(channel, 'category_id') and channel.category_id not in excludedCategories:
+						if hasattr(channel, 'last_message_id'):
+							message = await channel.fetch_message(int(channel.last_message_id))
+						if message and (message.author.id == member.id):
+							await message.delete()
 				except Exception as ex:
 					print(ex)
 					pass
