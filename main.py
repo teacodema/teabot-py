@@ -79,8 +79,8 @@ def init_slash_commands():
 
 init_events()
 init_slash_commands()
-if os.getenv("testing") == "1":
+if os.environ.get("testing") == "1":
 	init_temporary(params)
 
 keep_alive()
-bot.run(os.getenv("token"))
+bot.run(os.environ.get("token"))
