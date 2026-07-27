@@ -47,7 +47,7 @@ def init_events_member(params):
 	@bot.event
 	async def on_member_join(member):
 		try:			
-			if member.bot and (os.environ.get("kick_bot") == "1"):
+			if member.bot and (os.getenv("kick_bot") == "1"):
 				await member.kick(reason=f"Kicked a bot (ID: {member.id})")
 				return
 			msg = await welcomeMember(params, member, 1, 1, 1, 1)
