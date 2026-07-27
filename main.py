@@ -81,11 +81,11 @@ def init_slash_commands():
 
 init_events()
 init_slash_commands()
-if os.getenv("testing") == "1":
+if os.environ.get("testing") == "1":
 	init_temporary(params)
 
 # keep_alive()
-token = os.getenv("token")
+token = os.environ.get("token")
 if not token:
     raise ValueError("Token environment variable not set. Please set 'token' in your hosting platform's environment variables.")
 bot.run(token)
