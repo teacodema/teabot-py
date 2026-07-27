@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 # from keep_alive import keep_alive
 import disnake as discord
 from disnake.ext import tasks, commands
@@ -32,6 +33,7 @@ from imports.slash_commands.community import *
 from temporary import *
 # from imports.slash_commands.extra.quran import *
 
+load_dotenv()
 intents = discord.Intents.all()
 bot = commands.InteractionBot(intents = intents)
 invite = InviteLogger(bot)
@@ -83,4 +85,7 @@ if os.getenv("testing") == "1":
 	init_temporary(params)
 
 # keep_alive()
-bot.run(os.getenv("token"))
+token = os.getenv("token")
+if not token:
+    raise ValueError("Token environment variable not set. Please set 'token' in your hosting platform's environment variables.")
+bot.run(token)
