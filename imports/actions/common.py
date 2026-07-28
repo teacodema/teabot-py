@@ -104,7 +104,7 @@ async def task_update_activity(params, activity_name = None, activity_type = Non
 	bot = params['bot']
 	discord = params['discord']
 	activity_names = ["Teacode ☕", "Server activity 🪔", "interview@drissboumlik.com", "community@drissboumlik.com"]
-	if status == None: status = discord.Status.online
+	if status == None: status = discord.Status.dnd
 	if activity_type == None: activity_type = discord.ActivityType.watching
 	if activity_name == None: activity_name = random.choice(activity_names)
 	activity = discord.Activity(type = activity_type, name = activity_name )
