@@ -14,22 +14,22 @@ def init_slash_commands_audio(params):
 	_ctxPlay = None,
 	voice = None
 	btn_pressed = False
-
 	ydl_opts = {
-							'noplaylist': True,
-			        'nocheckcertificate': True,
-							'max-downloads': 1,
-        			'outtmpl': 'music',
-							'format': 'bestaudio/best',
-			        'audioformat': 'mp3',
-							# 'ignoreerrors': True,
-							'no_warnings': True,
-							'quiet': True,
-							'postprocessors': [{
-									'key': 'FFmpegExtractAudio',
-									'preferredcodec': 'mp3',
-									'preferredquality': '128',
-							}]}
+		'noplaylist': True,
+		'nocheckcertificate': True,
+		'max-downloads': 1,
+        'outtmpl': 'music',
+		'format': 'bestaudio/best',
+		'audioformat': 'mp3',
+		# 'ignoreerrors': True,
+		'no_warnings': True,
+		'quiet': True,
+		'postprocessors': [{
+			'key': 'FFmpegExtractAudio',
+			'preferredcodec': 'mp3',
+			'preferredquality': '128',
+		}]
+	}
 
 	
 	@bot.slash_command(name="audio")

@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 import disnake as discord
 from disnake.ext import tasks, commands
 from disnake.ext.invitetracker import InviteLogger
-# from disnake import FFmpegPCMAudio , PCMVolumeTransformer
-# from youtube_dl import YoutubeDL
+from disnake import FFmpegPCMAudio , PCMVolumeTransformer
+from youtube_dl import YoutubeDL
 from imports.events.start import *
 from imports.events.message import *
 from imports.events.reaction import *
@@ -20,7 +20,8 @@ from imports.slash_commands.guide import *
 from imports.slash_commands.message import *
 from imports.slash_commands.reaction import *
 # from imports.slash_commands.voice import *
-# from imports.slash_commands.audio import *
+from imports.slash_commands.extra.audio import *
+from imports.slash_commands.extra.quran import *
 from imports.slash_commands.member import *
 from imports.slash_commands.role import *
 from imports.slash_commands.scheduled_event import *
@@ -44,9 +45,9 @@ params = {
 	'discord': discord,
 	'tasks': tasks,
 	'commands': commands,
-	# 'YoutubeDL': YoutubeDL,
-	# 'FFmpegPCMAudio': FFmpegPCMAudio,
-	# 'PCMVolumeTransformer': PCMVolumeTransformer,
+	'YoutubeDL': YoutubeDL,
+	'FFmpegPCMAudio': FFmpegPCMAudio,
+	'PCMVolumeTransformer': PCMVolumeTransformer,
 }
 
 def init_events():
@@ -65,7 +66,8 @@ def init_slash_commands():
 	init_slash_commands_message(params)
 	init_slash_commands_reaction(params)
 	# init_slash_commands_voice(params)
-	# init_slash_commands_audio(params)
+	init_slash_commands_audio(params)
+	init_slash_commands_quran(params)
 	init_slash_commands_member(params)
 	init_slash_commands_role(params)
 	init_slash_commands_scheduled_event(params)
