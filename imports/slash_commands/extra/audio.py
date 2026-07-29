@@ -31,9 +31,6 @@ def init_slash_commands_audio(params):
 		'audioformat': 'mp3',
 		'no_warnings': True,
 		'quiet': True,
-		'extractor_args': {
-			'youtube': {'player_client': ['ios', 'web', 'android']}
-		},
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
 			'preferredcodec': 'mp3',
