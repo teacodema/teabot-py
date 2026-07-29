@@ -18,7 +18,7 @@ def init_slash_commands_audio(params):
 	ydl_opts = {
 		'noplaylist': True,
 		'nocheckcertificate': True,
-		'cookiefile': 'cookies.txt',
+		# 'cookiefile': 'cookies.txt',
 		'extractor_args': {
 			'youtube': {'player_client': ['android', 'web']}
 		},
@@ -26,7 +26,7 @@ def init_slash_commands_audio(params):
         'outtmpl': 'music',
 		'format': 'bestaudio/best',
 		'audioformat': 'mp3',
-		# 'ignoreerrors': True,
+		'ignoreerrors': True,
 		'no_warnings': True,
 		'quiet': True,
 		'postprocessors': [{
