@@ -5,7 +5,7 @@ import disnake as discord
 from disnake.ext import tasks, commands
 from disnake.ext.invitetracker import InviteLogger
 from disnake import FFmpegPCMAudio , PCMVolumeTransformer
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 from imports.events.start import *
 from imports.events.message import *
 from imports.events.reaction import *
