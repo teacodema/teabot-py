@@ -1,3 +1,4 @@
+import os
 import asyncio
 import re, datetime, random
 # from database.player import *
@@ -14,21 +15,25 @@ def init_slash_commands_audio(params):
 	currentTrackIndex = 0
 	_ctxPlay = None,
 	voice = None
-	btn_pressed = False
+	btn_pressed = False	
+	_cookie_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cookies.txt')
+	if os.path.exists(_cookie_path):
+		print(f'✅ cookies.txt found at {_cookie_path} ({os.path.getsize(_cookie_path)} bytes)')
+	else:
+		print(f'❌ cookies.txt NOT found at {_cookie_path}')
 	ydl_opts = {
 		'noplaylist': True,
 		'nocheckcertificate': True,
-		# 'cookiefile': 'cookies.txt',
-		'extractor_args': {
-			'youtube': {'player_client': ['android', 'web']}
-		},
+		'cookiefile': _cookie_path,
 		'max-downloads': 1,
         'outtmpl': 'music',
 		'format': 'bestaudio/best',
 		'audioformat': 'mp3',
-		'ignoreerrors': True,
 		'no_warnings': True,
 		'quiet': True,
+		'extractor_args': {
+			'youtube': {'player_client': ['android', 'web']}
+		},
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
 			'preferredcodec': 'mp3',
