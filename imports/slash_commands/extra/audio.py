@@ -26,13 +26,13 @@ def init_slash_commands_audio(params):
 		'nocheckcertificate': True,
 		'cookiefile': _cookie_path,
 		'max-downloads': 1,
-        'outtmpl': 'music',
+		'outtmpl': 'music',
 		'format': 'bestaudio/best',
 		'audioformat': 'mp3',
 		'no_warnings': True,
 		'quiet': True,
 		'extractor_args': {
-			'youtube': {'player_client': ['android', 'web']}
+			'youtube': {'player_client': ['ios', 'web', 'android']}
 		},
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
