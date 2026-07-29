@@ -49,6 +49,9 @@ def init_slash_commands_quran(params):
 		if player_params['current_played'] == 'audio':
 			await ctx.send('⚠ A track is currently playing', ephemeral=True)
 			return
+		
+		await ctx.send("Processing...", ephemeral=True)
+
 		player_params['current_played'] = 'quran'
 		
 		# link = link.lower()
