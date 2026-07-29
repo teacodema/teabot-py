@@ -3,7 +3,7 @@ disnake-ext-invitetracker==0.0.2
 python-dotenv==1.0.0
 # discord.py==1.6.0
 # PyNaCl==1.5.0
-yt-dlp==2024.1.1
+yt-dlp==2024.7.16
 pytz==2022.1
 # Flask==2.1.1
 # ffmpeg==1.4
