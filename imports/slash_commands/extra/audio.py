@@ -19,6 +19,9 @@ def init_slash_commands_audio(params):
 		'noplaylist': True,
 		'nocheckcertificate': True,
 		'cookiefile': 'cookies.txt',
+		'extractor_args': {
+			'youtube': {'player_client': ['android', 'web']}
+		},
 		'max-downloads': 1,
         'outtmpl': 'music',
 		'format': 'bestaudio/best',
@@ -89,6 +92,9 @@ def init_slash_commands_audio(params):
 					if (voice.is_playing() or voice.is_paused()):
 						await ctx.send("⬆ Track is queued")
 						track = await extractUrlData(url, ctx)
+						if track is None:
+							await ctx.send('❌ Could not load that track')
+							return
 						playlist.append(track)
 					else:
 						await Player(ctx, "▶ Playing ...", url)
@@ -139,6 +145,9 @@ def init_slash_commands_audio(params):
 			if url:
 				# playlist = []
 				track = await extractUrlData(url, ctx)
+				if track is None:
+					await ctx.send('❌ Could not load that track')
+					return
 				playlist.append(track)
 				currentTrackIndex = len(playlist) - 1 #0
 			else:
@@ -514,6 +523,9 @@ def init_slash_commands_audio(params):
 			for track_url in defaultList:
 				try:
 					track = await extractUrlData(track_url, ctx)
+					if track is None:
+						await ctx.send('❌ Could not load that track')
+						return
 					playlist.append(track)
 				except Exception as ex:
 					print(track_url)
