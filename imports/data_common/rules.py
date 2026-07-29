@@ -63,13 +63,13 @@ rules = [
 	{
 		"key": "7 - Help Guide | How to post code",
 		"value": """You can post a block of code and enable syntax highlighting using 3 back quotes followed by the language name, for example for Python (copy this code :point_down: and change py to css, js, .... etc): 
-\`\`\`py
+```py
   // python code
-\`\`\`
+```
 or 
-\`\`\`css
+```css
   // css code
-\`\`\`
+```
 
 You can find more informations on message formatting here :
 <https://support.discord.com/hc/en-us/articles/210298617-Bases-de-la-mise-en-forme-de-texte-Markdown-mise-en-forme-du-chat-gras-italique-soulign%C3%A9->

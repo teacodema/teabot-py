@@ -30,7 +30,7 @@ def init_slash_commands_message(params):
 			header = replace_str(header, {"\\n": "\n", "\\t": "	", "/$": " "})
 			msg = f'{header}\n'
 			emojis = split_str(emojis)
-			options = split_str(options, '\$\$')
+			options = split_str(options, '$$')
 			index = 0
 			for o in options:
 				msg += f'\n{emojis[index]} - {o.strip()}'

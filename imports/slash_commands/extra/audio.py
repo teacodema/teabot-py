@@ -75,8 +75,8 @@ def init_slash_commands_audio(params):
 			else:
 				youtube_regex = (
 					r'(https?://)?(www\.)?'
-					'(youtube|youtu|youtube-nocookie)\.(com|be)/'
-					'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+					r'(youtube|youtu|youtube-nocookie)\.(com|be)/'
+					r'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
 				youtube_regex_match = re.match(youtube_regex, url)
 				if not youtube_regex_match:
 					await ctx.send('❌ You need to provide a valide youtube video url')
