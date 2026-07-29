@@ -88,7 +88,7 @@ def init_slash_commands_audio(params):
 				if (voice.is_connected()):
 					if (voice.is_playing() or voice.is_paused()):
 						await ctx.send("⬆ Track is queued")
-						track = extractUrlData(url, ctx)
+						track = await extractUrlData(url, ctx)
 						playlist.append(track)
 					else:
 						await Player(ctx, "▶ Playing ...", url)
@@ -138,7 +138,7 @@ def init_slash_commands_audio(params):
 				await ctx.send(msg.strip())
 			if url:
 				# playlist = []
-				track = extractUrlData(url, ctx)
+				track = await extractUrlData(url, ctx)
 				playlist.append(track)
 				currentTrackIndex = len(playlist) - 1 #0
 			else:
@@ -442,7 +442,7 @@ def init_slash_commands_audio(params):
 				return
 			playlist = []
 			await ctx.send('📋 Processing ... just a moment')
-			initPlaylist(ctx)
+			await initPlaylist(ctx)
 			await displayPlaylist(ctx)
 		except Exception as ex:
 			print('----- /refresh() -----')
@@ -495,7 +495,7 @@ def init_slash_commands_audio(params):
 			print('----- displayPlaylist() -----')
 			print(ex)
 
-	def initPlaylist(ctx = None):
+	async def initPlaylist(ctx = None):
 		try:
 			nonlocal playlist
 			defaultList = [
@@ -513,7 +513,7 @@ def init_slash_commands_audio(params):
 
 			for track_url in defaultList:
 				try:
-					track = extractUrlData(track_url, ctx)
+					track = await extractUrlData(track_url, ctx)
 					playlist.append(track)
 				except Exception as ex:
 					print(track_url)
