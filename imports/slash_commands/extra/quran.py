@@ -31,6 +31,7 @@ def init_slash_commands_quran(params):
 	class YTDLSource(PCMVolumeTransformer):
 		def __init__(self, source, *, data, volume=0.5):
 			super().__init__(source, volume)
+			self.original = source
 			self.data = data
 			self.title = data.get('title')
 			self.url = data.get('url')
