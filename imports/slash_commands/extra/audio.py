@@ -1,3 +1,4 @@
+import asyncio
 import re, datetime, random
 # from database.player import *
 from imports.data_common.config import *
@@ -17,6 +18,7 @@ def init_slash_commands_audio(params):
 	ydl_opts = {
 		'noplaylist': True,
 		'nocheckcertificate': True,
+		'cookiefile': 'cookies.txt',
 		'max-downloads': 1,
         'outtmpl': 'music',
 		'format': 'bestaudio/best',
@@ -47,7 +49,7 @@ def init_slash_commands_audio(params):
 		"""
 		try:
 			nonlocal currentTrackIndex, playlist, ydl_opts
-			await ctx.send('Loading ...')
+			await ctx.edit_original_response(content='Loading ...')
 			# if player_params['current_played'] == 'quran':
 			# 	await ctx.send('⚠ Quran is currently played')
 			# 	return
@@ -99,12 +101,16 @@ def init_slash_commands_audio(params):
 			print(ex)
 			await log_exception(ex, '/play', ctx)
 
-	def extractUrlData(url, ctx = None):
+	async def extractUrlData(url, ctx = None):
 		try:
 			nonlocal ydl_opts
-			with YoutubeDL(ydl_opts) as ydl:
-				info = {'start_time': 0}
-				info.update(ydl.extract_info(url, download = False))
+			loop = asyncio.get_event_loop()
+			def _extract():
+				with YoutubeDL(ydl_opts) as ydl:
+					info = {'start_time': 0}
+					info.update(ydl.extract_info(url, download=False))
+				return info
+			info = await loop.run_in_executor(None, _extract)
 
 			URL = info['formats'][0]['url']
 			title = info['title']
