@@ -414,7 +414,7 @@ def init_slash_commands_audio(params):
 			if voice and (voice.is_playing() or voice.is_paused()):
 				await ctx.send('⏹ Stopping ...')
 				voice.stop()
-				task_update_activity(params)
+				await task_update_activity(params)
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
@@ -431,7 +431,7 @@ def init_slash_commands_audio(params):
 			if voice != None:
 				await ctx.send('🚪 Leaving ...')
 				await voice.disconnect()
-				task_update_activity(params)
+				await task_update_activity(params)
 			else:
 				await ctx.send('❌ Not connected ...')
 		except Exception as ex:
