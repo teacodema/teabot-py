@@ -45,70 +45,70 @@ def init_slash_commands_audio(params):
 		pass
 	
 	######################## PLAY ########################
-	@audio.sub_command(name = "play")
-	async def play(ctx, url=None):
-		"""
-		Play a YouTube url / Search term / Existing playlist
-		Parameters
-		----------
-		url: youtube_url or youtube_url&t=361
-		"""
-		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
-			await ctx.edit_original_response(content='Loading ...')
-			# if player_params['current_played'] == 'quran':
-			# 	await ctx.send('⚠ Quran is currently played')
-			# 	return
-			# player_params['current_played'] = 'audio'
+	# @audio.sub_command(name = "play")
+	# async def play(ctx, url=None):
+	# 	"""
+	# 	Play a YouTube url / Search term / Existing playlist
+	# 	Parameters
+	# 	----------
+	# 	url: youtube_url or youtube_url&t=361
+	# 	"""
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, ydl_opts
+	# 		await ctx.edit_original_response(content='Loading ...')
+	# 		# if player_params['current_played'] == 'quran':
+	# 		# 	await ctx.send('⚠ Quran is currently played')
+	# 		# 	return
+	# 		# player_params['current_played'] = 'audio'
 
-			vc = isUserConnected(ctx)
-			if vc == False:
-				await ctx.send('❌ You need to be connected to a voice channel')
-				return
+	# 		vc = isUserConnected(ctx)
+	# 		if vc == False:
+	# 			await ctx.send('❌ You need to be connected to a voice channel')
+	# 			return
 
-			voice = ctx.guild.voice_client
-			if not url:
-				if len(playlist) == 0:
-					await ctx.send('⚠ The queue is empty')
-					return
-				if voice == None:
-					await Player(ctx, "▶ Playing ...", None, vc)
-				elif voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
-					await ctx.send('⚠ A track is currently playing')
-					return
-				else:
-					await ctx.send("▶ Playing ...")
-					playTrack(ctx)
-				return
-			else:
-				youtube_regex = (
-					r'(https?://)?(www\.)?'
-					r'(youtube|youtu|youtube-nocookie)\.(com|be)/'
-					r'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
-				youtube_regex_match = re.match(youtube_regex, url)
-				if not youtube_regex_match:
-					await ctx.send('❌ You need to provide a valide youtube video url')
-					return
+	# 		voice = ctx.guild.voice_client
+	# 		if not url:
+	# 			if len(playlist) == 0:
+	# 				await ctx.send('⚠ The queue is empty')
+	# 				return
+	# 			if voice == None:
+	# 				await Player(ctx, "▶ Playing ...", None, vc)
+	# 			elif voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
+	# 				await ctx.send('⚠ A track is currently playing')
+	# 				return
+	# 			else:
+	# 				await ctx.send("▶ Playing ...")
+	# 				playTrack(ctx)
+	# 			return
+	# 		else:
+	# 			youtube_regex = (
+	# 				r'(https?://)?(www\.)?'
+	# 				r'(youtube|youtu|youtube-nocookie)\.(com|be)/'
+	# 				r'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+	# 			youtube_regex_match = re.match(youtube_regex, url)
+	# 			if not youtube_regex_match:
+	# 				await ctx.send('❌ You need to provide a valide youtube video url')
+	# 				return
 
-			if (voice):
-				if (voice.is_connected()):
-					if (voice.is_playing() or voice.is_paused()):
-						await ctx.send("⬆ Track is queued")
-						track = await extractUrlData(url, ctx)
-						if track is None:
-							await ctx.send('❌ Could not load that track')
-							return
-						playlist.append(track)
-					else:
-						await Player(ctx, "▶ Playing ...", url)
-				else:
-					await Player(ctx, "▶ Playing ...", url, vc)
-			else:
-				await Player(ctx, "▶ Playing ...", url, vc)
-		except Exception as ex:
-			print('----- /play() -----')
-			print(ex)
-			await log_exception(ex, '/play', ctx)
+	# 		if (voice):
+	# 			if (voice.is_connected()):
+	# 				if (voice.is_playing() or voice.is_paused()):
+	# 					await ctx.send("⬆ Track is queued")
+	# 					track = await extractUrlData(url, ctx)
+	# 					if track is None:
+	# 						await ctx.send('❌ Could not load that track')
+	# 						return
+	# 					playlist.append(track)
+	# 				else:
+	# 					await Player(ctx, "▶ Playing ...", url)
+	# 			else:
+	# 				await Player(ctx, "▶ Playing ...", url, vc)
+	# 		else:
+	# 			await Player(ctx, "▶ Playing ...", url, vc)
+	# 	except Exception as ex:
+	# 		print('----- /play() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/play', ctx)
 
 	async def extractUrlData(url, ctx = None):
 		try:
@@ -251,112 +251,112 @@ def init_slash_commands_audio(params):
 
 
 	######################## PLAYLIST ########################
-	@audio.sub_command(name = "queue", description = "Show the queue")
-	async def queue(ctx):
-		try:
-			nonlocal playlist
-			if len(playlist) == 0:
-				await ctx.send('⚠ The queue is empty')
-				return
+	# @audio.sub_command(name = "queue", description = "Show the queue")
+	# async def queue(ctx):
+	# 	try:
+	# 		nonlocal playlist
+	# 		if len(playlist) == 0:
+	# 			await ctx.send('⚠ The queue is empty')
+	# 			return
 
-			await displayPlaylist(ctx)
-		except Exception as ex:
-			print('----- /queue() -----')
-			print(ex)
-			await log_exception(ex, '/queue', ctx)
+	# 		await displayPlaylist(ctx)
+	# 	except Exception as ex:
+	# 		print('----- /queue() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/queue', ctx)
 
 	######################## REPLAY ########################
-	@audio.sub_command(name = "replay", description = "Replay current track")
-	async def replay(ctx):
-		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
-			btn_pressed = True
+	# @audio.sub_command(name = "replay", description = "Replay current track")
+	# async def replay(ctx):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+	# 		btn_pressed = True
 			
-			# if player_params['current_played'] == 'quran':
-			# 	await ctx.send('⚠ Quran is currently played')
-			# 	return
+	# 		# if player_params['current_played'] == 'quran':
+	# 		# 	await ctx.send('⚠ Quran is currently played')
+	# 		# 	return
 
-			vc = isUserConnected(ctx)
-			if vc == False:
-				await ctx.send('❌ You need to be connected to a voice channel')
-				return
-			if len(playlist) == 0:
-				await ctx.send('⚠ The queue is empty')
-				return
-			await ctx.send('▶ Replay ...')
+	# 		vc = isUserConnected(ctx)
+	# 		if vc == False:
+	# 			await ctx.send('❌ You need to be connected to a voice channel')
+	# 			return
+	# 		if len(playlist) == 0:
+	# 			await ctx.send('⚠ The queue is empty')
+	# 			return
+	# 		await ctx.send('▶ Replay ...')
 
-			voice = ctx.guild.voice_client
-			if not voice or not voice.is_connected():
-				await vc.connect()
-			playTrack(ctx)
-		except Exception as ex:
-			print('----- /replay() -----')
-			print(ex)
-			await log_exception(ex, '/replay', ctx)
+	# 		voice = ctx.guild.voice_client
+	# 		if not voice or not voice.is_connected():
+	# 			await vc.connect()
+	# 		playTrack(ctx)
+	# 	except Exception as ex:
+	# 		print('----- /replay() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/replay', ctx)
 
 	######################## NEXT ########################
-	@audio.sub_command(name = "next", description = "Play next track")
-	async def next(ctx):
-		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
-			btn_pressed = True
+	# @audio.sub_command(name = "next", description = "Play next track")
+	# async def next(ctx):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+	# 		btn_pressed = True
 			
-			# if player_params['current_played'] == 'quran':
-			# 	await ctx.send('⚠ Quran is currently played')
-			# 	return
+	# 		# if player_params['current_played'] == 'quran':
+	# 		# 	await ctx.send('⚠ Quran is currently played')
+	# 		# 	return
 				
-			vc = isUserConnected(ctx)
-			if vc == False:
-				await ctx.send('❌ You need to be connected to a voice channel')
-				return
-			if len(playlist) == 0:
-				await ctx.send('⚠ The queue is empty')
-				return
-			await ctx.send('⏭ Next ...')
-			currentTrackIndex = currentTrackIndex + 1
-			if currentTrackIndex >= len(playlist):
-				currentTrackIndex = 0
+	# 		vc = isUserConnected(ctx)
+	# 		if vc == False:
+	# 			await ctx.send('❌ You need to be connected to a voice channel')
+	# 			return
+	# 		if len(playlist) == 0:
+	# 			await ctx.send('⚠ The queue is empty')
+	# 			return
+	# 		await ctx.send('⏭ Next ...')
+	# 		currentTrackIndex = currentTrackIndex + 1
+	# 		if currentTrackIndex >= len(playlist):
+	# 			currentTrackIndex = 0
 
-			voice = ctx.guild.voice_client
-			if not voice or not voice.is_connected():
-				await vc.connect()
-			playTrack(ctx)
-		except Exception as ex:
-			print('----- /next() -----')
-			print(ex)
-			await log_exception(ex, '/next', ctx)
+	# 		voice = ctx.guild.voice_client
+	# 		if not voice or not voice.is_connected():
+	# 			await vc.connect()
+	# 		playTrack(ctx)
+	# 	except Exception as ex:
+	# 		print('----- /next() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/next', ctx)
 
 	######################## PREVIOUS ########################
-	@audio.sub_command(name = "previous", description = "Play previous track")
-	async def previous(ctx):
-		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
-			btn_pressed = True
+	# @audio.sub_command(name = "previous", description = "Play previous track")
+	# async def previous(ctx):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, ydl_opts, btn_pressed
+	# 		btn_pressed = True
 			
-			# if player_params['current_played'] == 'quran':
-			# 	await ctx.send('⚠ Quran is currently played')
-			# 	return
+	# 		# if player_params['current_played'] == 'quran':
+	# 		# 	await ctx.send('⚠ Quran is currently played')
+	# 		# 	return
 				
-			vc = isUserConnected(ctx)
-			if vc == False:
-				await ctx.send('❌ You need to be connected to a voice channel')
-				return
-			if len(playlist) == 0:
-				await ctx.send('⚠ The queue is empty')
-				return
-			await ctx.send('⏮ Previous ...')
-			currentTrackIndex = currentTrackIndex - 1
-			if currentTrackIndex < 0:
-				currentTrackIndex = len(playlist) - 1
+	# 		vc = isUserConnected(ctx)
+	# 		if vc == False:
+	# 			await ctx.send('❌ You need to be connected to a voice channel')
+	# 			return
+	# 		if len(playlist) == 0:
+	# 			await ctx.send('⚠ The queue is empty')
+	# 			return
+	# 		await ctx.send('⏮ Previous ...')
+	# 		currentTrackIndex = currentTrackIndex - 1
+	# 		if currentTrackIndex < 0:
+	# 			currentTrackIndex = len(playlist) - 1
 
-			voice = ctx.guild.voice_client
-			if not voice or not voice.is_connected():
-				await vc.connect()
-			playTrack(ctx)
-		except Exception as ex:
-			print('----- /previous() -----')
-			print(ex)
-			await log_exception(ex, '/previous', ctx)
+	# 		voice = ctx.guild.voice_client
+	# 		if not voice or not voice.is_connected():
+	# 			await vc.connect()
+	# 		playTrack(ctx)
+	# 	except Exception as ex:
+	# 		print('----- /previous() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/previous', ctx)
 
 	######################## PAUSE ########################
 	@audio.sub_command(name = "pause", description = "Pause the player")
@@ -454,22 +454,22 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/clear-queue', ctx)
 
 	######################## REFRESH LIST ########################
-	@audio.sub_command(name = "refresh", description = "Refill the queue with some tracks")
-	async def refresh(ctx):
-		try:
-			nonlocal playlist
-			voice = ctx.guild.voice_client
-			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
-				await ctx.send('⚠ A track is currently playing')
-				return
-			playlist = []
-			await ctx.send('📋 Processing ... just a moment')
-			await initPlaylist(ctx)
-			await displayPlaylist(ctx)
-		except Exception as ex:
-			print('----- /refresh() -----')
-			print(ex)
-			await log_exception(ex, '/refresh', ctx)
+	# @audio.sub_command(name = "refresh", description = "Refill the queue with some tracks")
+	# async def refresh(ctx):
+	# 	try:
+	# 		nonlocal playlist
+	# 		voice = ctx.guild.voice_client
+	# 		if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
+	# 			await ctx.send('⚠ A track is currently playing')
+	# 			return
+	# 		playlist = []
+	# 		await ctx.send('📋 Processing ... just a moment')
+	# 		await initPlaylist(ctx)
+	# 		await displayPlaylist(ctx)
+	# 	except Exception as ex:
+	# 		print('----- /refresh() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/refresh', ctx)
 	
 	def isUserConnected(ctx):
 		try:
