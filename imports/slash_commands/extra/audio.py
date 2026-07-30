@@ -119,12 +119,10 @@ def init_slash_commands_audio(params):
 			loop = asyncio.get_event_loop()
 			def _extract():
 				opts = dict(ydl_opts)
-				opts["listformats"] = True
+				opts["verbose"] = True
 
-				# with YoutubeDL(opts) as ydl:
-				# 	return ydl.extract_info(url, download=False)
-				with YoutubeDL({"verbose": True}) as ydl:
-					ydl.extract_info("https://www.youtube.com/watch?v=oGmAxUyrDoE", download=False)
+				with YoutubeDL(opts) as ydl:
+					return ydl.extract_info(url, download=False)
 			info = await loop.run_in_executor(None, _extract)
 			
 			for f in info["formats"]:
