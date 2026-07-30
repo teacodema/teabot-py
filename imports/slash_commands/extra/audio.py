@@ -5,9 +5,6 @@ import re, datetime, random
 from imports.data_common.config import *
 from imports.actions.common import *
 
-import yt_dlp
-print(yt_dlp.version.__version__)
-
 def init_slash_commands_audio(params):
 
 	bot = params['bot']
