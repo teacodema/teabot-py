@@ -5,6 +5,9 @@ import re, datetime, random
 from imports.data_common.config import *
 from imports.actions.common import *
 
+import yt_dlp
+print(yt_dlp.version.__version__)
+
 def init_slash_commands_audio(params):
 
 	bot = params['bot']
@@ -27,7 +30,7 @@ def init_slash_commands_audio(params):
 		'cookiefile': _cookie_path,
 		'max-downloads': 1,
 		'outtmpl': 'music',
-		'format': 'bestaudio/best',
+		'format': 'bestaudio',
 		'audioformat': 'mp3',
 		'no_warnings': True,
 		'quiet': True,
@@ -114,13 +117,23 @@ def init_slash_commands_audio(params):
 			nonlocal ydl_opts
 			loop = asyncio.get_event_loop()
 			def _extract():
-				with YoutubeDL(ydl_opts) as ydl:
-					info = {'start_time': 0}
-					info.update(ydl.extract_info(url, download=False))
-				return info
-			info = await loop.run_in_executor(None, _extract)
+				opts = dict(ydl_opts)
+				opts["listformats"] = True
 
-			URL = info['formats'][0]['url']
+				with YoutubeDL(opts) as ydl:
+					return ydl.extract_info(url, download=False)
+			info = await loop.run_in_executor(None, _extract)
+			
+			for f in info["formats"]:
+				print(
+					f["format_id"],
+					f.get("acodec"),
+					f.get("vcodec"),
+					f.get("ext")
+				)
+			
+			requested = info["requested_downloads"][0]
+			URL = requested["url"]
 			title = info['title']
 			duration = info['duration']
 			thumbnail = info['thumbnail']
