@@ -27,6 +27,7 @@ def init_slash_commands_audio(params):
 	ydl_opts = {
 		'noplaylist': True,
 		'nocheckcertificate': True,
+		'verbose': True,
 		'cookiefile': _cookie_path,
 		'max-downloads': 1,
 		'outtmpl': 'music',
@@ -120,8 +121,10 @@ def init_slash_commands_audio(params):
 				opts = dict(ydl_opts)
 				opts["listformats"] = True
 
-				with YoutubeDL(opts) as ydl:
-					return ydl.extract_info(url, download=False)
+				# with YoutubeDL(opts) as ydl:
+				# 	return ydl.extract_info(url, download=False)
+				with YoutubeDL({"verbose": True}) as ydl:
+					ydl.extract_info("https://www.youtube.com/watch?v=oGmAxUyrDoE", download=False)
 			info = await loop.run_in_executor(None, _extract)
 			
 			for f in info["formats"]:
