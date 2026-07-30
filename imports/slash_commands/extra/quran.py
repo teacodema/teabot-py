@@ -77,3 +77,4 @@ def init_slash_commands_quran(params):
 		voice.play(player)
 		# ctx.voice_client.play(player)
 		await ctx.send("Now playing Live **mp3quran.net radio**", ephemeral=True)
+		await task_update_activity(params, activity_name = 'Quran', activity_type = discord.ActivityType.streaming, status = discord.Status.dnd)
