@@ -16,16 +16,10 @@ def init_slash_commands_audio(params):
 	_ctxPlay = None,
 	voice = None
 	btn_pressed = False	
-	_cookie_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cookies.txt')
-	if os.path.exists(_cookie_path):
-		print(f'✅ cookies.txt found at {_cookie_path} ({os.path.getsize(_cookie_path)} bytes)')
-	else:
-		print(f'❌ cookies.txt NOT found at {_cookie_path}')
 	ydl_opts = {
 		'noplaylist': True,
 		'nocheckcertificate': True,
 		'verbose': True,
-		'cookiefile': _cookie_path,
 		'max-downloads': 1,
 		'outtmpl': 'music',
 		'format': 'bestaudio',
