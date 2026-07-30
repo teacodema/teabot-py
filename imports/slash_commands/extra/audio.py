@@ -215,33 +215,33 @@ def init_slash_commands_audio(params):
 			print(ex)
 
 	######################## CURRENT ########################
-	@audio.sub_command(name = "track", description = "Show current playing track")
-	async def current_track(ctx):
-		try:
-			nonlocal currentTrackIndex, playlist
-			if len(playlist) == 0:
-				await ctx.send('⚠ The queue is empty')
-				return
-			track = playlist[currentTrackIndex]
-			title = track['title'][0:40]
-			ar_regex = (r'[a-zA-Z]+')
-			ar_regex_match = not re.match(ar_regex, title)
-			if ar_regex_match:
-				value = f"{track['duration']} - ...{title}**・{currentTrackIndex+1}**"
-			else:
-				value = f"**{currentTrackIndex+1}・**{title}... - {track['duration']}"
-			value += f"\n➜ Added by {track['member']}\n{track['url']}"
-			# guild = bot.get_guild(ctx.guild_id)
-			embed = discord.Embed(color=appParams['blue'])
-			embed.set_thumbnail(url=track['thumbnail'])
-			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
-			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-			embed.add_field(name="⏳│Playing Now", value=value, inline=True)
-			await ctx.send(embed=embed)
-		except Exception as ex:
-			print('----- /current_track() -----')
-			print(ex)
-			await log_exception(ex, '/current_track', ctx)
+	# @audio.sub_command(name = "track", description = "Show current playing track")
+	# async def current_track(ctx):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist
+	# 		if len(playlist) == 0:
+	# 			await ctx.send('⚠ The queue is empty')
+	# 			return
+	# 		track = playlist[currentTrackIndex]
+	# 		title = track['title'][0:40]
+	# 		ar_regex = (r'[a-zA-Z]+')
+	# 		ar_regex_match = not re.match(ar_regex, title)
+	# 		if ar_regex_match:
+	# 			value = f"{track['duration']} - ...{title}**・{currentTrackIndex+1}**"
+	# 		else:
+	# 			value = f"**{currentTrackIndex+1}・**{title}... - {track['duration']}"
+	# 		value += f"\n➜ Added by {track['member']}\n{track['url']}"
+	# 		# guild = bot.get_guild(ctx.guild_id)
+	# 		embed = discord.Embed(color=appParams['blue'])
+	# 		embed.set_thumbnail(url=track['thumbnail'])
+	# 		embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
+	# 		# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+	# 		embed.add_field(name="⏳│Playing Now", value=value, inline=True)
+	# 		await ctx.send(embed=embed)
+	# 	except Exception as ex:
+	# 		print('----- /current_track() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/current_track', ctx)
 
 
 	######################## PLAYLIST ########################
@@ -432,20 +432,20 @@ def init_slash_commands_audio(params):
 			await log_exception(ex, '/leave', ctx)
 
 	######################## CLEAR PLAYLIST ########################
-	@audio.sub_command(name = "clear-queue", description = "Flushes the queue")
-	async def clear_queue(ctx):
-		try:
-			nonlocal playlist
-			voice = ctx.guild.voice_client
-			if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
-				await ctx.send('⚠ A track is currently playing')
-				return
-			playlist = []
-			await ctx.send('🗑 Queue is clear')
-		except Exception as ex:
-			print('----- /clear_queue() -----')
-			print(ex)
-			await log_exception(ex, '/clear-queue', ctx)
+	# @audio.sub_command(name = "clear-queue", description = "Flushes the queue")
+	# async def clear_queue(ctx):
+	# 	try:
+	# 		nonlocal playlist
+	# 		voice = ctx.guild.voice_client
+	# 		if voice and voice.is_connected() and (voice.is_playing() or voice.is_paused()):
+	# 			await ctx.send('⚠ A track is currently playing')
+	# 			return
+	# 		playlist = []
+	# 		await ctx.send('🗑 Queue is clear')
+	# 	except Exception as ex:
+	# 		print('----- /clear_queue() -----')
+	# 		print(ex)
+	# 		await log_exception(ex, '/clear-queue', ctx)
 
 	######################## REFRESH LIST ########################
 	# @audio.sub_command(name = "refresh", description = "Refill the queue with some tracks")
