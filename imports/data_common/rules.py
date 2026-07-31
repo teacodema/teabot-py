@@ -40,7 +40,7 @@ rules = [
     {
         "key": "7 - Help Guide | How to Help",
         "value": f"""1- If someone contacts you by private message, tell them to post their question inside the group to get a faster answer and everyone can benefit.
-2- If you want to share code, share it directly (check <{howToPostCodeMessageUrl}> to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
+2- If you want to share code, share it directly (check {howToPostCodeMessageUrl} to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ...
 3- Get connected to the `🔉・Help Corner - Voice` to get this role <@&{roles['help-room']}> which allows you to invite others and see the `🧹・help-chat` channel 
 4- When there is more than one helper helping the same person, respect each other and **DO NOT** try to show that you're more skilled or better than the others, the main goal is to help the person asking to achieve the solution on his own, not competing against each other.
 5- Do Not Ask for help in exchange for money or Ask for money in exchange for help, otherwise post in <#{textChannels['jobs-internship']}>.
@@ -82,7 +82,7 @@ https://ws.drissboumlik.com/storage/extra/markdown_code.gif
 	},
 	{
 		"key": "7 - Help Guide | Share Code",
-		"value": """If you want to share code, share it directly (check {howToPostCodeMessageUrl} to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ..."""
+		"value": f"""If you want to share code, share it directly (check {howToPostCodeMessageUrl} to know how), don't upload a file. If the code is too long or there are too many files, give us a link to a GitHub/GitLab/Bitbucket repository or Github Gists (<https://gist.github.com/>), Hastebin (<https://www.toptal.com/developers/hastebin>) ..."""
 	},
 	{
 		"key": "7 - Help Guide | No Money asked",
