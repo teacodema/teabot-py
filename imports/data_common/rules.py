@@ -65,11 +65,11 @@ rules = [
     },
 	{
 		"key": "7 - Help Guide | How to post code",
-		"value": """You can post a block of code and enable syntax highlighting using 3 back quotes followed by the language name, for example for Python (copy this code :point_down: and change py to css, js, .... etc): 
+		"value": r"""You can post a block of code and enable syntax highlighting using 3 back quotes followed by the language name, for example for Python (copy this code :point_down: and change py to css, js, .... etc):
 \`\`\`py
   // python code
 \`\`\`
-or 
+or
 \`\`\`css
   // css code
 \`\`\`
