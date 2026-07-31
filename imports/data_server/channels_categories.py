@@ -65,3 +65,7 @@ categories = {
 	'lab-corner': 				885273061941706802,
 	'system-corner': 			794057030180405270,
 }
+
+messages = {
+    'how-to-post-code': '939519696233967626'
+}
