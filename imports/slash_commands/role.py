@@ -86,11 +86,11 @@ def init_slash_commands_role(params):
 				members = role2.members
 				for memberTo in members:
 					await toggleRole(memberTo, [role], assign, interaction)
-			if member == None and role2 == None:
+			if member == None:
 				member = interaction.author
 				await toggleRole(member, [role], assign, interaction)
 				msg += f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
-			if member:
+			else:
 				await toggleRole(member, [role], assign, interaction)
 				msg += f'{member.mention} {"got" if assign else "lost"} a role : {role.mention}\n'
 
