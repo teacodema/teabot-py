@@ -231,6 +231,7 @@ reactions = {
 			'💼': 'Employee',
 			'🎒': 'Freelancer',
 			'👔': 'Entrepreneur',
+			'🔎': 'Looking for a job',
 		},
 	},
 }
