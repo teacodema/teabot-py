@@ -22,7 +22,7 @@ def start_loop(params):
 async def startBot(params):
 	try:
 		bot = params['bot']
-		print("We have logged in as {0.user}".format(bot))
+		print("We have logged in as {0.user} at {1}".format(bot, getTimeUtcPlusOne(datetime.now())))
 		await task_update_activity(params)
 	except Exception as ex:
 		print('----- startBot() -----')
