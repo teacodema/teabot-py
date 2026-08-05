@@ -5,6 +5,8 @@ player_params = {
 
 recurrence_values = ["None", "daily", "weekly"]
 appParams = {
+    'max_file_size': 1_000_000, # 1MB
+    'max_filename_length': 100, # 100 characters
 	'recurrence_min': 1,	# Every day/week
 	'recurrence_max': 4,	# Every 4 days/weeks
 	'how_many_min': 2,		# Min Total events 

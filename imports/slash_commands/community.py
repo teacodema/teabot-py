@@ -1,4 +1,5 @@
 from imports.actions.common import *
+from imports.data_common.config import *
 from email.utils import parseaddr
 
 def is_valid_email(email: str) -> bool:
@@ -64,10 +65,10 @@ def init_slash_commands_community(params):
 				or not resume.filename.endswith('.pdf')):
 				await interaction.send('Resume should be a pdf file !!!', ephemeral=True)
 				return
-			if resume.size > 1_000_000:
+			if resume.size > appParams['max_file_size']:
 				await interaction.send('Resume file size should be less than 1 MB !!!', ephemeral=True)
 				return
-			if len(resume.filename) > 100:
+			if len(resume.filename) > appParams['max_filename_length']:
 				await interaction.send('Resume file name is too long !!!', ephemeral=True)
 				return
 
