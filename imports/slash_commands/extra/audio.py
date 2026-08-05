@@ -104,113 +104,112 @@ def init_slash_commands_audio(params):
 	# 		print(ex)
 	# 		await log_exception(ex, '/play', ctx)
 
-	async def extractUrlData(url, ctx = None):
-		try:
-			nonlocal ydl_opts
-			loop = asyncio.get_event_loop()
-			def _extract():
-				opts = dict(ydl_opts)
-				opts["verbose"] = True
+	# async def extractUrlData(url, ctx = None):
+	# 	try:
+	# 		nonlocal ydl_opts
+	# 		loop = asyncio.get_event_loop()
+	# 		def _extract():
+	# 			opts = dict(ydl_opts)
+	# 			opts["verbose"] = True
 
-				with YoutubeDL(opts) as ydl:
-					return ydl.extract_info(url, download=False)
-			info = await loop.run_in_executor(None, _extract)
+	# 			with YoutubeDL(opts) as ydl:
+	# 				return ydl.extract_info(url, download=False)
+	# 		info = await loop.run_in_executor(None, _extract)
 			
-			for f in info["formats"]:
-				print(
-					f["format_id"],
-					f.get("acodec"),
-					f.get("vcodec"),
-					f.get("ext")
-				)
+	# 		for f in info["formats"]:
+	# 			print(
+	# 				f["format_id"],
+	# 				f.get("acodec"),
+	# 				f.get("vcodec"),
+	# 				f.get("ext")
+	# 			)
 			
-			requested = info["requested_downloads"][0]
-			URL = requested["url"]
-			title = info['title']
-			duration = info['duration']
-			thumbnail = info['thumbnail']
-			id = info['id']
-			track = {
-				"start_time": info['start_time'],
-				"member": ctx.author.display_name,
-				"_url": URL, "url": url,
-				"id": id, "title": title,
-				"_duration": duration, "duration": str(datetime.timedelta(seconds=duration)).lstrip("0:"),
-				"thumbnail": thumbnail
-			}
-			return track
-		except Exception as ex:
-			print('----- extractUrlData() -----')
-			print(ex)
+	# 		requested = info["requested_downloads"][0]
+	# 		URL = requested["url"]
+	# 		title = info['title']
+	# 		duration = info['duration']
+	# 		thumbnail = info['thumbnail']
+	# 		id = info['id']
+	# 		track = {
+	# 			"start_time": info['start_time'],
+	# 			"member": ctx.author.display_name,
+	# 			"_url": URL, "url": url,
+	# 			"id": id, "title": title,
+	# 			"_duration": duration, "duration": str(datetime.timedelta(seconds=duration)).lstrip("0:"),
+	# 			"thumbnail": thumbnail
+	# 		}
+	# 		return track
+	# 	except Exception as ex:
+	# 		print_exception(ex, 'extractUrlData()')
 
 
-	async def Player(ctx, msg = None, url=None, vc=None):
-		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts
-			if msg:
-				await ctx.send(msg.strip())
-			if url:
-				# playlist = []
-				track = await extractUrlData(url, ctx)
-				if track is None:
-					await ctx.send('❌ Could not load that track')
-					return
-				playlist.append(track)
-				currentTrackIndex = len(playlist) - 1 #0
-			else:
-				currentTrackIndex = 0
-				track = playlist[currentTrackIndex]
+	# async def Player(ctx, msg = None, url=None, vc=None):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, ydl_opts
+	# 		if msg:
+	# 			await ctx.send(msg.strip())
+	# 		if url:
+	# 			# playlist = []
+	# 			track = await extractUrlData(url, ctx)
+	# 			if track is None:
+	# 				await ctx.send('❌ Could not load that track')
+	# 				return
+	# 			playlist.append(track)
+	# 			currentTrackIndex = len(playlist) - 1 #0
+	# 		else:
+	# 			currentTrackIndex = 0
+	# 			track = playlist[currentTrackIndex]
 
-			voice = ctx.guild.voice_client
-			if vc and (not voice or not voice.is_connected()):
-				await vc.connect()
-			playTrack(ctx)
-		except Exception as ex:
-			await log_exception(ex, 'Player()', ctx)
+	# 		voice = ctx.guild.voice_client
+	# 		if vc and (not voice or not voice.is_connected()):
+	# 			await vc.connect()
+	# 		playTrack(ctx)
+	# 	except Exception as ex:
+	# 		await log_exception(ex, 'Player()', ctx)
 	
-	def playNext(err):
-		try:
-			nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
-			print(err)
-			if btn_pressed:
-				btn_pressed = False
-				return
+	# def playNext(err):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, voice, _ctxPlay, btn_pressed
+	# 		print(err)
+	# 		if btn_pressed:
+	# 			btn_pressed = False
+	# 			return
 		
-			if len(playlist) == 0:
-				# await ctx.send('⚠ The playlist is empty')
-				return
-			voice = _ctxPlay.guild.voice_client
-			if not voice or not voice.is_connected():
-				# await ctx.send('❌ The bot is not connected')
-				return
+	# 		if len(playlist) == 0:
+	# 			# await ctx.send('⚠ The playlist is empty')
+	# 			return
+	# 		voice = _ctxPlay.guild.voice_client
+	# 		if not voice or not voice.is_connected():
+	# 			# await ctx.send('❌ The bot is not connected')
+	# 			return
 
-			currentTrackIndex = currentTrackIndex + 1
-			if currentTrackIndex > len(playlist) - 1:
-				currentTrackIndex = 0
+	# 		currentTrackIndex = currentTrackIndex + 1
+	# 		if currentTrackIndex > len(playlist) - 1:
+	# 			currentTrackIndex = 0
 			
-			# voice.stop()
-			playTrack(_ctxPlay)
-		except Exception as ex:
-			print('----- playNext() -----')
-			print(ex)
+	# 		# voice.stop()
+	# 		playTrack(_ctxPlay)
+	# 	except Exception as ex:
+	# 		print('----- playNext() -----')
+	# 		print(ex)
 
-	def playTrack(ctx):
-		try:
-			nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
-			btn_pressed = True
+	# def playTrack(ctx):
+	# 	try:
+	# 		nonlocal currentTrackIndex, playlist, ydl_opts, _ctxPlay, btn_pressed
+	# 		btn_pressed = True
 
-			track = playlist[currentTrackIndex]
-			FFMPEG_OPTIONS = {
-				'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-				'options': f'-vn -ss {track["start_time"]}'}
-			_ctxPlay = ctx
-			voice = ctx.guild.voice_client
-			voice.stop()
-			voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
-			task_update_activity(params, activity_name = track['title'])
-		except Exception as ex:
-			print('----- playTrack() -----')
-			print(ex)
+	# 		track = playlist[currentTrackIndex]
+	# 		FFMPEG_OPTIONS = {
+	# 			'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+	# 			'options': f'-vn -ss {track["start_time"]}'}
+	# 		_ctxPlay = ctx
+	# 		voice = ctx.guild.voice_client
+	# 		voice.stop()
+	# 		voice.play(FFmpegPCMAudio(track['_url'], **FFMPEG_OPTIONS), after=playNext)
+	# 		task_update_activity(params, activity_name = track['title'])
+	# 	except Exception as ex:
+	# 		print('----- playTrack() -----')
+	# 		print(ex)
 
 	######################## CURRENT ########################
 	# @audio.sub_command(name = "track", description = "Show current playing track")
@@ -465,70 +464,69 @@ def init_slash_commands_audio(params):
 			vc = user.voice.channel
 			return vc
 		except Exception as ex:
-			print('----- isUserConnected() -----')
-			print(ex)
+			print_exception(ex, 'isUserConnected()')
 			return False
 	
-	async def displayPlaylist(ctx):
-		try:
-			nonlocal playlist, currentTrackIndex
-			# guild = bot.get_guild(ctx.guild_id)
-			embed = discord.Embed(color=appParams['blue'])
-			# embed.set_thumbnail(url=guild.icon_url)
-			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
-			# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
-			embed.add_field(name="📋│Playlist", value=f'{len(playlist)} tracks', inline=False)
+	# async def displayPlaylist(ctx):
+	# 	try:
+	# 		nonlocal playlist, currentTrackIndex
+	# 		# guild = bot.get_guild(ctx.guild_id)
+	# 		embed = discord.Embed(color=appParams['blue'])
+	# 		# embed.set_thumbnail(url=guild.icon_url)
+	# 		embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
+	# 		# embed.set_author(name=f'{guild.name}', icon_url=guild.icon_url)
+	# 		embed.add_field(name="📋│Playlist", value=f'{len(playlist)} tracks', inline=False)
 			
-			for i in range(len(playlist)):
-				value = ""
-				track = playlist[i]
-				if (currentTrackIndex == i):
-					index = '▷ Now Playing' #'►'
-				else:
-					index = f'✧ Track {i+1}'
-				title = track['title'][0:40]
-				ar_regex = (r'[a-zA-Z]+')
-				ar_regex_match = not re.match(ar_regex, title)
-				if ar_regex_match:
-					value += f"{track['duration']} - ...{title}"
-				else:
-					value += f"{title}... - {track['duration']}"
-				value += f"\n➜ Added by {track['member']}\n{track['url']}\n"
-				embed.add_field(name=f'{index}', value=value, inline=False)
+	# 		for i in range(len(playlist)):
+	# 			value = ""
+	# 			track = playlist[i]
+	# 			if (currentTrackIndex == i):
+	# 				index = '▷ Now Playing' #'►'
+	# 			else:
+	# 				index = f'✧ Track {i+1}'
+	# 			title = track['title'][0:40]
+	# 			ar_regex = (r'[a-zA-Z]+')
+	# 			ar_regex_match = not re.match(ar_regex, title)
+	# 			if ar_regex_match:
+	# 				value += f"{track['duration']} - ...{title}"
+	# 			else:
+	# 				value += f"{title}... - {track['duration']}"
+	# 			value += f"\n➜ Added by {track['member']}\n{track['url']}\n"
+	# 			embed.add_field(name=f'{index}', value=value, inline=False)
 
-			await ctx.send(embed=embed)
-		except Exception as ex:
-			print('----- displayPlaylist() -----')
-			print(ex)
+	# 		await ctx.send(embed=embed)
+	# 	except Exception as ex:
+	# 		print('----- displayPlaylist() -----')
+	# 		print(ex)
 
-	async def initPlaylist(ctx = None):
-		try:
-			nonlocal playlist
-			defaultList = [
-				'https://www.youtube.com/watch?v=5XiqmLYwsN8', #Beautiful recitation By Abbadi Houssem Eddine I Surah Yusuf
-				'https://www.youtube.com/watch?v=cvV_CQo_xIk', #سورة يس الرحمن الملك الواقعة الصافات بصوت القارئ إسلام صبحي رابط بدون اعلانات
-				'https://www.youtube.com/watch?v=KzG21buIJPg', #Surah Al Baqarah - Sheikh Mansour As Salimi الشيخ منصور السالمي
-				'https://www.youtube.com/watch?v=S4ERCYFR28U', #سورة الملك - تبارك - كامله تلاوة هادئة قبل النوم💚تريح الاعصاب😴القرآن الكريم راحة لقلبك Surat Al Mulk
-				'https://www.youtube.com/watch?v=hwB938b9ifw', #Beautiful 10 Hours of Quran Recitation by Hazaa Al Belushi
-				'https://www.youtube.com/watch?v=9CN-31h_wK4', #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
-				'https://www.youtube.com/watch?v=4TK0UrGlLyo', #Sherif Mostafa | the most Beautiful recitation
-				# 'https://www.youtube.com/watch?v=Axu2l8yX-aQ', #أحمد خضر سورة طه
-			]
-			random.shuffle(defaultList)
-			defaultList = defaultList[0:3]
+	# async def initPlaylist(ctx = None):
+	# 	try:
+	# 		nonlocal playlist
+	# 		defaultList = [
+	# 			'https://www.youtube.com/watch?v=5XiqmLYwsN8', #Beautiful recitation By Abbadi Houssem Eddine I Surah Yusuf
+	# 			'https://www.youtube.com/watch?v=cvV_CQo_xIk', #سورة يس الرحمن الملك الواقعة الصافات بصوت القارئ إسلام صبحي رابط بدون اعلانات
+	# 			'https://www.youtube.com/watch?v=KzG21buIJPg', #Surah Al Baqarah - Sheikh Mansour As Salimi الشيخ منصور السالمي
+	# 			'https://www.youtube.com/watch?v=S4ERCYFR28U', #سورة الملك - تبارك - كامله تلاوة هادئة قبل النوم💚تريح الاعصاب😴القرآن الكريم راحة لقلبك Surat Al Mulk
+	# 			'https://www.youtube.com/watch?v=hwB938b9ifw', #Beautiful 10 Hours of Quran Recitation by Hazaa Al Belushi
+	# 			'https://www.youtube.com/watch?v=9CN-31h_wK4', #ترتيل جميل للقارئ رعد محمد الکردي - سورة المؤمنون كاملة HD 1080
+	# 			'https://www.youtube.com/watch?v=4TK0UrGlLyo', #Sherif Mostafa | the most Beautiful recitation
+	# 			# 'https://www.youtube.com/watch?v=Axu2l8yX-aQ', #أحمد خضر سورة طه
+	# 		]
+	# 		random.shuffle(defaultList)
+	# 		defaultList = defaultList[0:3]
 
-			for track_url in defaultList:
-				try:
-					track = await extractUrlData(track_url, ctx)
-					if track is None:
-						await ctx.send('❌ Could not load that track')
-						return
-					playlist.append(track)
-				except Exception as ex:
-					print(track_url)
-					print(ex)
-		except Exception as ex:
-			print('----- initPlaylist() -----')
-			print(ex)
+	# 		for track_url in defaultList:
+	# 			try:
+	# 				track = await extractUrlData(track_url, ctx)
+	# 				if track is None:
+	# 					await ctx.send('❌ Could not load that track')
+	# 					return
+	# 				playlist.append(track)
+	# 			except Exception as ex:
+	# 				print(track_url)
+	# 				print(ex)
+	# 	except Exception as ex:
+	# 		print('----- initPlaylist() -----')
+	# 		print(ex)
 				
 	# initPlaylist()
