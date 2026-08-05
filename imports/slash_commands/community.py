@@ -1,4 +1,13 @@
 from imports.actions.common import *
+from email.utils import parseaddr
+
+def is_valid_email(email: str) -> bool:
+    _, addr = parseaddr(email)
+    return (
+        addr == email
+        and "@" in addr
+        and "." in addr.rsplit("@", 1)[1]
+    )
 
 def init_slash_commands_community(params):
 
@@ -48,6 +57,9 @@ def init_slash_commands_community(params):
 		email: Get the answer via your email
 		"""
 		try:
+			if not is_valid_email(email):
+				await interaction.send("Please provide a valid email address.", ephemeral=True)
+				return
 			if (resume.content_type != 'application/pdf' 
 				or not resume.filename.endswith('.pdf')):
 				await interaction.send('Resume should be a pdf file !!!', ephemeral=True)
