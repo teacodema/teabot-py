@@ -13,6 +13,4 @@ def init_events_start(params):
 			await startBot(params)
 			start_loop(params)
 		except Exception as ex:
-			print('----- on_ready(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_ready(evt)', None, bot)

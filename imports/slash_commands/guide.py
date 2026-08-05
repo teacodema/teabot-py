@@ -29,6 +29,4 @@ def init_slash_commands_guide(params):
 			msg = f'**{query} :**\n{rule["value"]}'
 			await interaction.send(msg.strip())
 		except Exception as ex:
-			print('----- /tag_rules() -----')
-			print(ex)
-			await log_exception(ex, '/tag_rules', interaction)
+			await log_exception(ex, '/tag_rules()', interaction)

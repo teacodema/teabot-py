@@ -34,9 +34,7 @@ def init_slash_commands_bot(params):
 			activity = discord_activity_types[activity_types.index(activity_type)]
 			await task_update_activity(params, activity_name=name, activity_type=activity, status=status)
 		except Exception as ex:
-			print('----- /tc_bot_activity() -----')
-			print(ex)
-			await log_exception(ex, '/tc_bot_activity', interaction)
+			await log_exception(ex, '/tc_bot_activity()', interaction)
 
 	@teacode.sub_command(name = "commands")
 	async def tc_list_commands(interaction):
@@ -62,6 +60,4 @@ def init_slash_commands_bot(params):
 				embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 				await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_list_commands() -----')
-			print(ex)
-			await log_exception(ex, '/tc_list_commands', interaction)
+			await log_exception(ex, '/tc_list_commands()', interaction)

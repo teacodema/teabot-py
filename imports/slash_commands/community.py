@@ -43,9 +43,7 @@ def init_slash_commands_community(params):
 			await channel.send(msg.strip())
 			
 		except Exception as ex:
-			print('----- /suggest() -----')
-			print(ex)
-			await log_exception(ex, '/suggest', interaction)
+			await log_exception(ex, '/suggest()', interaction)
 			
 
 	@community.sub_command(name="interview")
@@ -83,6 +81,4 @@ def init_slash_commands_community(params):
 			feedback = "You will get a response in a few days.\nThank you"
 			await interaction.send(feedback.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /interview() -----')
-			print(ex)
-			await log_exception(ex, '/interview', interaction)
+			await log_exception(ex, '/interview()', interaction)

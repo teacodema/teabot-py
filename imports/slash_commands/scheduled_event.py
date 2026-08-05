@@ -49,9 +49,7 @@ def init_slash_commands_scheduled_event(params):
 					msg += '\n-------------------'
 			await interaction.send(msg, ephemeral=True)
 		except Exception as ex:
-			print('----- /get_events_by_name() -----')
-			print(ex)
-			await log_exception(ex, '/get_events_by_name', interaction)
+			await log_exception(ex, '/get_events_by_name()', interaction)
 
 
 	@event.sub_command(name = "subscribers", description = "Get event subscribers")
@@ -84,9 +82,7 @@ def init_slash_commands_scheduled_event(params):
 			if role: msg += f"\nAssigned role : {role.mention} / ({assignedMembers})"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /event_subscribers() -----')
-			print(ex)
-			await log_exception(ex, '/event_subscribers', interaction)
+			await log_exception(ex, '/event_subscribers()', interaction)
 	
 	
 	flags = ["canceled", "completed", "active"]
@@ -146,9 +142,7 @@ def init_slash_commands_scheduled_event(params):
 			await interaction.send('Status Updated', ephemeral=True)
 		except Exception as ex:
 			if log_thread: await log_thread.edit(archived=True)
-			print('----- /event_edit_status() -----')
-			print(ex)
-			await log_exception(ex, '/event_edit_status', interaction)
+			await log_exception(ex, '/event_edit_status()', interaction)
 
 	
 	@event.sub_command(name = "delete")
@@ -178,9 +172,7 @@ def init_slash_commands_scheduled_event(params):
 				await event.delete()
 			await interaction.send(f'Event(s) deleted : {len(events_to_delete)}', ephemeral=True)
 		except Exception as ex:
-			print('----- /event_delete_between_dates() -----')
-			print(ex)
-			await log_exception(ex, '/event_delete_between_dates', interaction)
+			await log_exception(ex, '/event_delete_between_dates()', interaction)
 
 
 	@event.sub_command(name = "create")
@@ -255,9 +247,7 @@ def init_slash_commands_scheduled_event(params):
 
 			await interaction.send(f'Created events : {count}', ephemeral=True)
 		except Exception as ex:
-			print('----- /event_create() -----')
-			print(ex)
-			await log_exception(ex, '/event_create', interaction)
+			await log_exception(ex, '/event_create()', interaction)
 
 
 	@event.sub_command(name = "update")
@@ -322,6 +312,4 @@ def init_slash_commands_scheduled_event(params):
 			
 			await interaction.send(f'Updated events : {count}', ephemeral=True)
 		except Exception as ex:
-			print('----- /event_update() -----')
-			print(ex)
-			await log_exception(ex, '/event_update', interaction)
+			await log_exception(ex, '/event_update()', interaction)

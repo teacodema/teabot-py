@@ -166,8 +166,6 @@ def init_slash_commands_audio(params):
 				await vc.connect()
 			playTrack(ctx)
 		except Exception as ex:
-			print('----- Player() -----')
-			print(ex)
 			await log_exception(ex, 'Player()', ctx)
 	
 	def playNext(err):
@@ -367,9 +365,7 @@ def init_slash_commands_audio(params):
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
-			print('----- /pause() -----')
-			print(ex)
-			await log_exception(ex, '/pause', ctx)
+			await log_exception(ex, '/pause()', ctx)
 
 	######################## RESUME ########################
 	@audio.sub_command(name = "resume", description = "Resume the player")
@@ -386,9 +382,7 @@ def init_slash_commands_audio(params):
 			else:
 				await ctx.send('❌ The bot is already (or not) playing something before this')
 		except Exception as ex:
-			print('----- /resume() -----')
-			print(ex)
-			await log_exception(ex, '/resume', ctx)
+			await log_exception(ex, '/resume()', ctx)
 
 	######################## STOP ########################
 	@audio.sub_command(name = "stop", description = "Stop the player")
@@ -410,9 +404,7 @@ def init_slash_commands_audio(params):
 			else:
 				await ctx.send('❌ The bot is not playing anything at the moment')
 		except Exception as ex:
-			print('----- /stop() -----')
-			print(ex)
-			await log_exception(ex, '/stop', ctx)
+			await log_exception(ex, '/stop()', ctx)
 
 	######################## LEAVE ########################
 	@audio.sub_command(name = "leave", description = "Disconnect the bot from the voice room")
@@ -427,9 +419,7 @@ def init_slash_commands_audio(params):
 			else:
 				await ctx.send('❌ Not connected ...')
 		except Exception as ex:
-			print('----- /leave() -----')
-			print(ex)
-			await log_exception(ex, '/leave', ctx)
+			await log_exception(ex, '/leave()', ctx)
 
 	######################## CLEAR PLAYLIST ########################
 	# @audio.sub_command(name = "clear-queue", description = "Flushes the queue")

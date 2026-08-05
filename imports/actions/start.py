@@ -25,6 +25,4 @@ async def startBot(params):
 		print("We have logged in as {0.user} at {1}".format(bot, getTimeUtcPlusOne(datetime.now())))
 		await task_update_activity(params)
 	except Exception as ex:
-		print('----- startBot() -----')
-		print(ex)
 		await log_exception(ex, 'startBot()', None, bot)

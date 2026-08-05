@@ -16,8 +16,7 @@ async def send_bulk_dm(interaction, members, log_thread, msg):
 			notifyMe += '\n--------------'
 			await log_thread.send(notifyMe)
 		except Exception as ex:
-			print('----- /msg_member() -----')
-			print(ex)
+			print_exception(ex, 'msg_member()')
 			pass
 	return log_thread
 
@@ -157,8 +156,6 @@ async def send_dm(interaction, message, member):
 			channel = await member.create_dm()
 		return await channel.send(message)
 	except Exception as ex:
-		print('----- send_dm() -----')
-		print(ex)
 		msg = f'Cannot send messages to {member.mention} / {member.name}'
 		await log_exception(ex, 'send_dm()', interaction, None, True, msg)
 		return None
@@ -176,8 +173,6 @@ async def deleteMsg(params, interaction, limit, include_pin = None):
 		else:
 			return []
 	except Exception as ex:
-		print('----- deleteMsg() -----')
-		print(ex)
 		await log_exception(ex, 'deleteMsg()', interaction)
 		return deletedMsgs
 

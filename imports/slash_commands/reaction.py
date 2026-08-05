@@ -39,17 +39,13 @@ def init_slash_commands_reaction(params):
 								_msg += f'Member ID : {member.id} / {member.mention}\n'
 								roles_assigned += 1
 					except Exception as ex:
-						print('---------- /update_msg_reactions()/add role user --------')
-						print(ex)
 						await msg.remove_reaction(r.emoji, u)
 						await log_exception(ex, '/update_msg_reactions()/add role user', interaction, msg=f'user : {u.mention} / role : {role.mention}')
 						pass
 			
 			await interaction.send(f'Done Updating members roles / {roles_assigned} updated.\n{_msg}', ephemeral=True)
 		except Exception as ex:
-			print('---------- /tc_update_roles_reactions() --------')
-			print(ex)
-			await log_exception(ex, '/tc_update_roles_reactions', interaction)
+			await log_exception(ex, '/tc_update_roles_reactions()', interaction)
 
 	@reaction.sub_command(name = "toggle")
 	async def tc_bot_react(interaction, msg_ids, emojis, remove:int=0, member: discord.Member = None):
@@ -74,11 +70,8 @@ def init_slash_commands_reaction(params):
 							else: await msg.clear_reaction(e)
 						else: await msg.add_reaction(e)
 					except Exception as ex:
-						print('---------- /tc_bot_react()/loop --------')
-						print(ex)
+						print_exception(ex, '/tc_bot_react()/loop')
 						pass
 		except Exception as ex:
-			print('---------- /tc_bot_react() --------')
-			print(ex)
-			await log_exception(ex, '/tc_bot_react', interaction)
+			await log_exception(ex, '/tc_bot_react()', interaction)
 			

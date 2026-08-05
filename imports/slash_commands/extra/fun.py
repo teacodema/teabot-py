@@ -67,6 +67,4 @@ def init_slash_commands_fun(params):
 
 			await interaction.send(f'{msg} | {result}')
 		except Exception as ex:
-			print('----- /janken() -----')
-			print(ex)
-			await log_exception(ex, '/janken', interaction)
+			await log_exception(ex, '/janken()', interaction)

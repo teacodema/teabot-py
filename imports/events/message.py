@@ -15,8 +15,6 @@ def init_events_message(params):
 				try:
 					await log_member_dms(params, message, '✉ DM/ ◁== ')
 				except Exception as ex:
-					print('----- on_message(evt)/log_dms -----')
-					print(ex)
 					await log_exception(ex, 'on_message(evt)/log_dms', None, bot)
 				return
 			excludedCategories = [
@@ -37,8 +35,6 @@ def init_events_message(params):
 			
 			# await bot.process_commands(message)
 		except Exception as ex:
-			print('----- on_message(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_message(evt)', None, bot)
 
 	######################## ON MESSAGE DELETE ########################
@@ -49,8 +45,6 @@ def init_events_message(params):
 				try:
 					await log_member_dms(params, message, '🗑 DM/ ◁== ')
 				except Exception as ex:
-					print('----- on_message_delete(evt)/log_dms -----')
-					print(ex)
 					await log_exception(ex, 'on_message_delete(evt)/log_dms', None, bot)
 				return
 			excludedCategories = [
@@ -87,8 +81,6 @@ def init_events_message(params):
 
 		except Exception as ex:
 			if log_thread: await log_thread.edit(archived=True)
-			print('----- on_message_delete(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_message_delete(evt)', None, bot)
 
 
@@ -100,8 +92,6 @@ def init_events_message(params):
 				try:
 					await log_member_dms(params, after, '✏ DM/ ◁== ', before)
 				except Exception as ex:
-					print('----- on_message_edit(evt)/log_dms -----')
-					print(ex)
 					await log_exception(ex, 'on_message_edit(evt)/log_dms', None, bot)
 				return
 			excludedCategories = [
@@ -145,6 +135,4 @@ def init_events_message(params):
 			await log_thread.edit(archived=True)
 		except Exception as ex:
 			if log_thread: await log_thread.edit(archived=True)
-			print('----- on_message_edit(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_message_edit(evt)', None, bot)

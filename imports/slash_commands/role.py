@@ -34,9 +34,7 @@ def init_slash_commands_role(params):
 			await interaction.send(file=file, ephemeral=True)
 			os.remove("file.json")
 		except Exception as ex:
-			print('----- /tc_roles_fetch() -----')
-			print(ex)
-			await log_exception(ex, '/tc_roles_fetch', interaction)
+			await log_exception(ex, '/tc_roles_fetch()', interaction)
 	
 	################## UPDATE ROLE ####################
 	@role.sub_command(name = "update-position")
@@ -63,9 +61,7 @@ def init_slash_commands_role(params):
 			msg = f"Roles position updated {msg_r} under {role.mention}"
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_update_roles_position() -----')
-			print(ex)
-			await log_exception(ex, '/tc_update_roles_position', interaction)
+			await log_exception(ex, '/tc_update_roles_position()', interaction)
 
 	
 	@role.sub_command(name = "toggle")
@@ -96,9 +92,7 @@ def init_slash_commands_role(params):
 
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_toggle_role() -----')
-			print(ex)
-			await log_exception(ex, '/tc_toggle_role', interaction)
+			await log_exception(ex, '/tc_toggle_role()', interaction)
 
 	######################## ROLE TO MEMBERS ########################
 	@role.sub_command(name = "toggle-multiple")
@@ -132,16 +126,13 @@ def init_slash_commands_role(params):
 					msg_m += f'{m.mention}, '
 					await toggleRole(m, roles_list, assign, interaction)
 				except Exception as ex:
-					print('----- /toggle_role_members()/toggle member -----')
-					print(ex)
+					print_exception(ex, 'toggle_role_members()/toggle member')
 					pass
 
 			msg = f'{msg_m} {"got" if assign else "lost"} roles : {msg_r}'
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_toggle_roles_members() -----')
-			print(ex)
-			await log_exception(ex, '/tc_toggle_roles_members', interaction)
+			await log_exception(ex, '/tc_toggle_roles_members()', interaction)
 
 	@role.sub_command(name = "has")
 	async def tc_members_has_role(interaction, role: discord.Role, has: int=1):
@@ -195,6 +186,4 @@ def init_slash_commands_role(params):
 			# 	os.remove("file.json")
 
 		except Exception as ex:
-			print('----- /tc_members_has_role() -----')
-			print(ex)
-			await log_exception(ex, '/tc_members_has_role', interaction)
+			await log_exception(ex, '/tc_members_has_role()', interaction)

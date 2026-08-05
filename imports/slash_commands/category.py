@@ -57,6 +57,4 @@ def init_slash_commands_category(params):
 
 			await interaction.send(f"{count_category} cat x {count_channel} ch = {count_category * count_channel} channels were created successfully !", ephemeral=True)
 		except Exception as ex:
-			print('----- /create_category() -----')
-			print(ex)
-			await log_exception(ex, '/create_category', interaction)
+			await log_exception(ex, '/create_category()', interaction)

@@ -26,6 +26,4 @@ def init_events_voice(params):
 			# if voice_state and len(voice_state.channel.members) == 1:
 			# 	await voice_state.disconnect()
 		except Exception as ex:
-			print('----- on_voice_state_update(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_voice_state_update(evt)', None, bot)

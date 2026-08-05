@@ -44,9 +44,7 @@ def init_slash_commands_message(params):
 			for e in emojis:
 				await msg.add_reaction(e)
 		except Exception as ex:
-			print('----- /poll() -----')
-			print(ex)
-			await log_exception(ex, '/poll', interaction)
+			await log_exception(ex, '/poll()', interaction)
 
 	######################## PURGE ########################
 	@message.sub_command(name = "purge")
@@ -94,9 +92,7 @@ def init_slash_commands_message(params):
 				await logPurgedMessages(params, interaction, count, deletedMsgs)
 			
 		except Exception as ex:
-			print('----- /purge() -----')
-			print(ex)
-			await log_exception(ex, '/purge', interaction)
+			await log_exception(ex, '/purge()', interaction)
 
 	######################## REPLY TO MSG ########################
 	@message.sub_command(name = "edit")
@@ -122,9 +118,7 @@ def init_slash_commands_message(params):
 				await msg.pin()
 			await interaction.send('Edit done', ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_edit_msg_channel() -----')
-			print(ex)
-			await log_exception(ex, '/tc_edit_msg_channel', interaction)
+			await log_exception(ex, '/tc_edit_msg_channel()', interaction)
 
 
 	######################## REPLY TO MSG ########################
@@ -147,9 +141,7 @@ def init_slash_commands_message(params):
 			await msg.reply(reply)
 			await interaction.send('Reply sent', ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_reply_channel() -----')
-			print(ex)
-			await log_exception(ex, '/tc_reply_channel', interaction)
+			await log_exception(ex, '/tc_reply_channel()', interaction)
 
 
 	######################## SEND MSG TO CHANNEL ########################
@@ -174,9 +166,7 @@ def init_slash_commands_message(params):
 			await interaction.send('Msg sent', ephemeral=True)
 		
 		except Exception as ex:
-			print('----- /tc_msg_channel() -----')
-			print(ex)
-			await log_exception(ex, '/tc_msg_channel', interaction)
+			await log_exception(ex, '/tc_msg_channel()', interaction)
 
 	######################## SEND MSG TO MEMBER ########################
 	@message.sub_command(name = "member")
@@ -226,9 +216,7 @@ def init_slash_commands_message(params):
 
 		except Exception as ex:
 			if log_thread: await log_thread.edit(archived=True)
-			print('----- /tc_msg_member() -----')
-			print(ex)
-			await log_exception(ex, '/tc_msg_member', interaction)
+			await log_exception(ex, '/tc_msg_member()', interaction)
 
 	################### DELETE MEMBER MESSAGE (SPAM) ###################
 	@message.sub_command(name = "spam")
@@ -260,9 +248,7 @@ def init_slash_commands_message(params):
 
 			await member.timeout(duration=timedelta(days=7), reason="Spam")
 		except Exception as ex:
-			print('----- /tc_spam_msg() -----')
-			print(ex)
-			await log_exception(ex, '/tc_spam_msg', interaction)
+			await log_exception(ex, '/tc_spam_msg()', interaction)
 	
 	
 	######################## DELETE A MSG ########################
@@ -286,9 +272,7 @@ def init_slash_commands_message(params):
 					print(msg_id)
 					pass
 		except Exception as ex:
-			print('----- /tc_remove_msg_member() -----')
-			print(ex)
-			await log_exception(ex, '/tc_remove_msg_member', interaction)
+			await log_exception(ex, '/tc_remove_msg_member()', interaction)
 
 	@message.sub_command(name = "reactions")
 	async def tc_get_message_reactions(interaction, msg_id, role: discord.Role = None):
@@ -316,6 +300,4 @@ def init_slash_commands_message(params):
 			await interaction.send(f'Results : \n{feedbackText}', ephemeral=True)
 			if role: await interaction.send(f'Role : {role.mention}', ephemeral=True)
 		except Exception as ex:
-			print('---------- /tc_get_message_reactions() --------')
-			print(ex)
-			await log_exception(ex, '/tc_get_message_reactions', interaction)
+			await log_exception(ex, '/tc_get_message_reactions()', interaction)

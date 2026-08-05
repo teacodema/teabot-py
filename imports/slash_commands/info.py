@@ -74,9 +74,7 @@ def init_slash_commands_info(params):
 			await interaction.send(embed=embed, ephemeral=True)
 
 		except Exception as ex:
-			print('----- /server-info() -----')
-			print(ex)
-			await log_exception(ex, '/server-info', interaction)
+			await log_exception(ex, '/server-info()', interaction)
 
 
 	######################## ROLE INFO ########################
@@ -104,9 +102,7 @@ def init_slash_commands_info(params):
 			await interaction.send(embed=embed, ephemeral=True)
 
 		except Exception as ex:
-			print('----- /role-info() -----')
-			print(ex)
-			await log_exception(ex, '/role-info', interaction)
+			await log_exception(ex, '/role-info()', interaction)
 
 	######################## MEMBER INFO ########################
 	@info.sub_command(name = "member")
@@ -138,9 +134,7 @@ def init_slash_commands_info(params):
 			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
-			print('----- /member-info() -----')
-			print(ex)
-			await log_exception(ex, '/member-info', interaction)
+			await log_exception(ex, '/member-info()', interaction)
 
 	######################## CHANNEL INFO ########################
 	@info.sub_command(name = "channel")
@@ -188,6 +182,4 @@ def init_slash_commands_info(params):
 			embed.set_footer(text=f"🌐 Visit community.drissboumlik.com")
 			await interaction.send(embed=embed, ephemeral=True)
 		except Exception as ex:
-			print('----- /channel-info() -----')
-			print(ex)
-			await log_exception(ex, '/channel-info', interaction)
+			await log_exception(ex, '/channel-info()', interaction)

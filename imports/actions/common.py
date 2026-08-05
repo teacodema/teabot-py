@@ -27,8 +27,18 @@ def end_task(task):
 	except:
 		pass
 		
+def print_exception(ex, action):
+	try:
+		print(f'*********----- {action} -----*********')
+		print(ex)
+		print(f'*********--------------------*********')
+	except Exception as ex:
+		print('----- print_exception() -----')
+		print(ex)
+
 async def log_exception(ex, action, interaction=None, bot=None, hidden=True, msg=None):
 	try:
+		print_exception(ex, action)
 		if msg: msg += f'\n----\n{action}\n{str(ex)}'
 		else: msg = f'{action}\n{str(ex)}'
 		msg += '\n──────────────────────'
@@ -38,7 +48,7 @@ async def log_exception(ex, action, interaction=None, bot=None, hidden=True, msg
 			logBot = bot.get_channel(textChannels['log-exception'])
 			await logBot.send(msg.strip())
 	except Exception as ex:
-		print('----- log_exception -----')
+		print('----- log_exception() -----')
 		print(ex)
 
 def is_authorised(interaction, authorizedRolesIds):
@@ -87,8 +97,7 @@ def replace_str(str, dict_chars):
 			str = str.replace(key, dict_chars[key])
 		return str
 	except Exception as ex:
-		print('----- replace_str() -----')
-		print(ex)
+		print_exception(ex, 'replace_str()')
 
 def split_str(str, spliters=None):
 	try:
@@ -96,8 +105,7 @@ def split_str(str, spliters=None):
 			return re.split(spliters, str)
 		return re.split(',| |;|-|_', str)
 	except Exception as ex:
-		print('----- split_str() -----')
-		print(ex)
+		print_exception(ex, 'split_str()')
 
 
 async def task_update_activity(params, activity_name = None, activity_type = None, status = None):

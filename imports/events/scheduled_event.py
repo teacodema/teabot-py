@@ -57,7 +57,5 @@ def init_events_scheduled_event(params):
 				# 	msg = f'🟥 Event ended / {after.name}\nThank you for attending\nsee you soon 👋'
 				# 	await channel.send(msg.strip())
 		except Exception as ex:
-			print('----- on_guild_scheduled_event_update(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_guild_scheduled_event_update(evt)', None, bot)
 

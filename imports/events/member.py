@@ -38,8 +38,6 @@ def init_events_member(params):
 				await check_nickname(before, after)
 				await check_timeout(params, before, after, notify_timeout_release)
 		except Exception as ex:
-			print('----- on_member_update(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_member_update(evt)', None, bot)
 			raise ex
 
@@ -76,8 +74,6 @@ def init_events_member(params):
 			await channel.send(msg)
 		
 		except Exception as ex:
-			print('----- on_member_join(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_member_join(evt)', None, bot)
 		
 
@@ -95,8 +91,6 @@ def init_events_member(params):
 			msg += '\n──────────────────────'
 			await channel.send(msg.strip())
 		except Exception as ex:
-			print('----- on_member_remove(evt) -----')
-			print(ex)
 			await log_exception(ex, 'on_member_remove(evt)', None, bot)
 
 	######################## WELCOME MEMBER ########################

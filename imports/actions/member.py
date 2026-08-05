@@ -30,8 +30,6 @@ async def welcomeMember(params, member, assign_role = 0, send_dm = 0, append_eve
 		msg += '\n──────────────────────'
 		return msg
 	except Exception as ex:
-		print('----- welcomeMember() -----')
-		print(ex)
 		await log_exception(ex, 'welcomeMember()', None, bot)
 		return 0
 
@@ -68,9 +66,7 @@ async def send_dm_welcome(params, member, append_event_to_dm = 0):
 		await channel.send(message)
 		return returned_value
 	except Exception as ex:
-		print('----- send_dm_welcome() -----')
-		print(ex)
-		# await log_exception(ex, 'send_dm_welcome()', None, bot)
+		await log_exception(ex, 'send_dm_welcome()', None, bot)
 		return 0
 			
 async def make_webhook(params, member, channel):
@@ -81,8 +77,6 @@ async def make_webhook(params, member, channel):
 		await webhook.delete()
 		return 1
 	except Exception as ex:
-		print('----- make_webhook() -----')
-		print(ex)
 		await log_exception(ex, 'make_webhook()', None, bot)
 		return 0
 
@@ -93,8 +87,6 @@ async def updateMembersCount(params):
 		guild = bot.get_guild(guildId)
 		return len(guild.members)
 	except Exception as ex:
-		print('----- updateMembersCount() -----')
-		print(ex)
 		await log_exception(ex, 'updateMembersCount()', None, bot)
 
 async def assign_init_roles(params, member):
@@ -112,8 +104,6 @@ async def assign_init_roles(params, member):
 		await toggleRole(member, roles_list, True)
 		return 1
 	except Exception as ex:
-		print('----- assign_init_roles() -----')
-		print(ex)
 		await log_exception(ex, 'assign_init_roles()', None, bot)
 		return 0
 

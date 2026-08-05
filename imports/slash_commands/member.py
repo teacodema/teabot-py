@@ -31,9 +31,7 @@ def init_slash_commands_member(params):
 			channel = bot.get_channel(textChannels['log-server'])			
 			await channel.send(msg.strip())
 		except Exception as ex:
-			print('----- /tc_welcome() -----')
-			print(ex)
-			await log_exception(ex, '/tc_welcome', interaction)
+			await log_exception(ex, '/tc_welcome()', interaction)
 
 
 	######### PICK RANDOM USER #######
@@ -57,9 +55,7 @@ def init_slash_commands_member(params):
 				msg = '⚠ No busy voice channel'
 			await interaction.send(msg.strip(), ephemeral=True)
 		except Exception as ex:
-			print('----- /pick_speaker() -----')
-			print(ex)
-			await log_exception(ex, '/pick_speaker', interaction)
+			await log_exception(ex, '/pick_speaker()', interaction)
 
 
 	####################### MAKE A WEBHOOK #######################
@@ -87,7 +83,5 @@ def init_slash_commands_member(params):
 			await interaction.send('✅ Webhook made', ephemeral=True)
 		except Exception as ex:
 			await interaction.send('❌ Webhook not made', ephemeral=True)
-			print('----- /tc_make_webhook() -----')
-			print(ex)
-			await log_exception(ex, '/tc_make_webhook', interaction)
+			await log_exception(ex, '/tc_make_webhook()', interaction)
 	

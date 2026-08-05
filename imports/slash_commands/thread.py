@@ -32,9 +32,7 @@ def init_slash_commands_thread(params):
 					pass
 			await interaction.send(f'Threads Archived : {thread_archived}', ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_thread_archive() -----')
-			print(ex)
-			await log_exception(ex, '/tc_thread_archive', interaction)
+			await log_exception(ex, '/tc_thread_archive()', interaction)
 
 
 	@thread.sub_command(name = "delete")
@@ -61,7 +59,5 @@ def init_slash_commands_thread(params):
 					pass
 			await interaction.send(f'Threads Deleted : {thread_deleted}', ephemeral=True)
 		except Exception as ex:
-			print('----- /tc_thread_delete() -----')
-			print(ex)
-			await log_exception(ex, '/tc_thread_delete', interaction)
+			await log_exception(ex, '/tc_thread_delete()', interaction)
 

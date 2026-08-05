@@ -26,9 +26,7 @@ def init_slash_commands_channel(params):
 		try:
 			await toggle_hide_channel(channel, role, bool(unhide))
 		except Exception as ex:
-			print('----- /tc_hide_channel() -----')
-			print(ex)
-			await log_exception(ex, '/tc_hide_channel', interaction)
+			await log_exception(ex, '/tc_hide_channel()', interaction)
 
 	@channel.sub_command(name = "lock")
 	async def tc_lock_channel(interaction, channel: discord.abc.GuildChannel, role: discord.Role, unlock:int = 0):
@@ -43,9 +41,7 @@ def init_slash_commands_channel(params):
 		try:
 			await toggle_lock_channel(channel, role, bool(unlock))
 		except Exception as ex:
-			print('----- /tc_lock_channel() -----')
-			print(ex)
-			await log_exception(ex, '/tc_lock_channel', interaction)
+			await log_exception(ex, '/tc_lock_channel()', interaction)
 
 	@channel.sub_command(name = "voice-clone")
 	async def clone_voice_channel(interaction, channel:discord.VoiceChannel, name = None):
@@ -69,9 +65,7 @@ def init_slash_commands_channel(params):
 				name = f'{channel.name} / (cloned)'
 			await channel.clone(name = name)
 		except Exception as ex:
-			print('----- /clone_voice_channel() -----')
-			print(ex)
-			await log_exception(ex, '/clone_voice_channel', interaction)
+			await log_exception(ex, '/clone_voice_channel()', interaction)
 
 	@channel.sub_command(name = "voice-delete")
 	async def delete_voice_channel(interaction, channel:discord.VoiceChannel):
@@ -92,9 +86,7 @@ def init_slash_commands_channel(params):
 			await interaction.send(f'Deleting...', ephemeral=True)
 			await channel.delete()
 		except Exception as ex:
-			print('----- /delete_voice_channel() -----')
-			print(ex)
-			await log_exception(ex, '/delete_voice_channel', interaction)
+			await log_exception(ex, '/delete_voice_channel()', interaction)
 
 	@channel.sub_command(name = "create")
 	async def create_channel(interaction, category_name:str, channel_name: str, channel_type: discord.ChannelType, category: discord.CategoryChannel = None, count: int = 1):
@@ -147,9 +139,7 @@ def init_slash_commands_channel(params):
 				
 			await interaction.send(f"{count} channel(s) were created successfully !", ephemeral=True)
 		except Exception as ex:
-			print('----- /create_channel() -----')
-			print(ex)
-			await log_exception(ex, '/create_channel', interaction)
+			await log_exception(ex, '/create_channel()', interaction)
 
 	@channel.sub_command(name = "delete")
 	async def delete_channel(interaction, channel: discord.abc.GuildChannel):
@@ -174,7 +164,5 @@ def init_slash_commands_channel(params):
 			await interaction.send(f"{channel} is deleted successfully !", ephemeral=True)
 			
 		except Exception as ex:
-			print('----- /create_channel() -----')
-			print(ex)
-			await log_exception(ex, '/create_channel', interaction)
+			await log_exception(ex, '/create_channel()', interaction)
 		

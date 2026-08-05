@@ -88,9 +88,7 @@ def init_temporary(params):
 			msg = f'Chosen members : {member1.mention} & {member2.mention}'
 			await interaction.send(msg.strip())
 		except Exception as ex:
-			print('----- /make_pair() -----')
-			print(ex)
-			await log_exception(ex, '/make_pair', interaction)
+			await log_exception(ex, '/make_pair()', interaction)
 
 
 
