@@ -6,6 +6,7 @@ from imports.data_common.config import *
 from imports.data_server.config import *
 from imports.actions.member import updateMembersCount
 import pytz, re, random
+import traceback
 
 
 def get_message_link(channel_id, message_id):
@@ -31,6 +32,16 @@ def print_exception(ex, action):
 	try:
 		print(f'*********----- {action} -----*********')
 		print(ex)
+
+		print('   --------------------   ')
+		traceback_text = ''.join(traceback.format_exception(type(ex), ex, ex.__traceback__))
+		log_message = (
+            f'{action}\n'
+            f'Exception: {type(ex).__name__}: {ex}\n'
+            f'Traceback:\n{traceback_text}'
+        )
+		print(log_message)
+
 		print(f'*********--------------------*********')
 	except Exception as ex:
 		print('----- print_exception() -----')
