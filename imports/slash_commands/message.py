@@ -244,7 +244,7 @@ def init_slash_commands_message(params):
 						if message and (message.author.id == member.id):
 							await message.delete()
 				except Exception as ex:
-					print(ex)
+					print_exception(ex, channel.name)
 					pass
 
 			await member.timeout(duration=timedelta(days=7), reason="Spam")
