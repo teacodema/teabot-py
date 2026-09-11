@@ -238,6 +238,7 @@ def init_slash_commands_message(params):
 			for channel in channels:
 				try:
 					if hasattr(channel, 'category_id') and channel.category_id not in excludedCategories:
+						message = None
 						if hasattr(channel, 'last_message_id'):
 							message = await channel.fetch_message(int(channel.last_message_id))
 						if message and (message.author.id == member.id):
